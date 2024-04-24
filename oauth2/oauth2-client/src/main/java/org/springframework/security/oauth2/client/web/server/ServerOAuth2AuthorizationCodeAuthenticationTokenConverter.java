@@ -73,7 +73,7 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverter implement
 		// @formatter:off
 		return this.authorizationRequestRepository.removeAuthorizationRequest(serverWebExchange)
 				.switchIfEmpty(oauth2AuthorizationException(AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE))
-				.flatMap((authorizationRequest) -> authenticationRequest(serverWebExchange, authorizationRequest));
+				.flatMap(authorizationRequest -> authenticationRequest(serverWebExchange, authorizationRequest));
 		// @formatter:on
 	}
 
@@ -88,7 +88,7 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverter implement
 			OAuth2AuthorizationRequest authorizationRequest) {
 		// @formatter:off
 		return Mono.just(authorizationRequest)
-				.map(OAuth2AuthorizationRequest::getAttributes).flatMap((attributes) -> {
+				.map(OAuth2AuthorizationRequest::getAttributes).flatMap(attributes -> {
 					String id = (String) attributes.get(OAuth2ParameterNames.REGISTRATION_ID);
 					if (id == null) {
 						return oauth2AuthorizationException(CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);
@@ -96,12 +96,11 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverter implement
 					return this.clientRegistrationRepository.findByRegistrationId(id);
 				})
 				.switchIfEmpty(oauth2AuthorizationException(CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE))
-				.map((clientRegistration) -> {
+				.map(clientRegistration -> {
 					OAuth2AuthorizationResponse authorizationResponse = convertResponse(exchange);
-					OAuth2AuthorizationCodeAuthenticationToken authenticationRequest = new OAuth2AuthorizationCodeAuthenticationToken(
+					return new OAuth2AuthorizationCodeAuthenticationToken(
 							clientRegistration,
 							new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse));
-					return authenticationRequest;
 				});
 		// @formatter:on
 	}

@@ -172,7 +172,7 @@ public class GlobalMethodSecurityBeanDefinitionParser implements BeanDefinitionP
 			}
 			else {
 				// The default expression-based system
-				String expressionHandlerRef = (expressionHandlerElt != null) ? expressionHandlerElt.getAttribute("ref")
+				String expressionHandlerRef = expressionHandlerElt != null ? expressionHandlerElt.getAttribute("ref")
 						: null;
 				if (StringUtils.hasText(expressionHandlerRef)) {
 					this.logger.info(LogMessage.format("Using bean '%s' as method ExpressionHandler implementation",

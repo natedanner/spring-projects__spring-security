@@ -22,7 +22,7 @@ package org.springframework.security.config.method;
  */
 public class Contact {
 
-	private String name;
+	private final String name;
 
 	/**
 	 * @param name

@@ -97,7 +97,7 @@ public class OidcAuthorizationCodeAuthenticationProvider implements Authenticati
 
 	private JwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new OidcIdTokenDecoderFactory();
 
-	private GrantedAuthoritiesMapper authoritiesMapper = ((authorities) -> authorities);
+	private GrantedAuthoritiesMapper authoritiesMapper = authorities -> authorities;
 
 	/**
 	 * Constructs an {@code OidcAuthorizationCodeAuthenticationProvider} using the
@@ -236,9 +236,8 @@ public class OidcAuthorizationCodeAuthenticationProvider implements Authenticati
 			OAuth2AccessTokenResponse accessTokenResponse) {
 		JwtDecoder jwtDecoder = this.jwtDecoderFactory.createDecoder(clientRegistration);
 		Jwt jwt = getJwt(accessTokenResponse, jwtDecoder);
-		OidcIdToken idToken = new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(),
+		return new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(),
 				jwt.getClaims());
-		return idToken;
 	}
 
 	private Jwt getJwt(OAuth2AccessTokenResponse accessTokenResponse, JwtDecoder jwtDecoder) {

@@ -238,7 +238,7 @@ public class RememberMeConfigTests {
 		this.spring.configLocations(xml("WithUserDetailsService")).autowire();
 		UserDetailsService userDetailsService = this.spring.getContext().getBean(UserDetailsService.class);
 		given(userDetailsService.loadUserByUsername("user"))
-			.willAnswer((invocation) -> new User("user", "{noop}password", Collections.emptyList()));
+			.willAnswer(invocation -> new User("user", "{noop}password", Collections.emptyList()));
 		MvcResult result = rememberAuthentication("user", "password").andReturn();
 		Cookie cookie = rememberMeCookie(result);
 		// @formatter:off

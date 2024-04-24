@@ -96,7 +96,7 @@ public final class PreFilterAuthorizationReactiveMethodInterceptor
 		}
 		FilterTarget filterTarget = findFilterTarget(attribute.getFilterTarget(), mi);
 		Mono<EvaluationContext> toInvoke = ReactiveAuthenticationUtils.getAuthentication()
-			.map((auth) -> this.registry.getExpressionHandler().createEvaluationContext(auth, mi));
+			.map(auth -> this.registry.getExpressionHandler().createEvaluationContext(auth, mi));
 		Method method = mi.getMethod();
 		Class<?> type = filterTarget.value.getClass();
 		Assert
@@ -108,13 +108,13 @@ public final class PreFilterAuthorizationReactiveMethodInterceptor
 		ReactiveAdapter adapter = ReactiveAdapterRegistry.getSharedInstance().getAdapter(type);
 		if (isMultiValue(type, adapter)) {
 			Flux<?> result = toInvoke
-				.flatMapMany((ctx) -> filterMultiValue(filterTarget.value, attribute.getExpression(), ctx));
-			mi.getArguments()[filterTarget.index] = (adapter != null) ? adapter.fromPublisher(result) : result;
+				.flatMapMany(ctx -> filterMultiValue(filterTarget.value, attribute.getExpression(), ctx));
+			mi.getArguments()[filterTarget.index] = adapter != null ? adapter.fromPublisher(result) : result;
 		}
 		else {
 			Mono<?> result = toInvoke
-				.flatMap((ctx) -> filterSingleValue(filterTarget.value, attribute.getExpression(), ctx));
-			mi.getArguments()[filterTarget.index] = (adapter != null) ? adapter.fromPublisher(result) : result;
+				.flatMap(ctx -> filterSingleValue(filterTarget.value, attribute.getExpression(), ctx));
+			mi.getArguments()[filterTarget.index] = adapter != null ? adapter.fromPublisher(result) : result;
 		}
 		return ReactiveMethodInvocationUtils.proceed(mi);
 	}
@@ -124,7 +124,7 @@ public final class PreFilterAuthorizationReactiveMethodInterceptor
 		int index = 0;
 		if (StringUtils.hasText(name)) {
 			Object target = mi.getThis();
-			Class<?> targetClass = (target != null) ? AopUtils.getTargetClass(target) : null;
+			Class<?> targetClass = target != null ? AopUtils.getTargetClass(target) : null;
 			Method specificMethod = AopUtils.getMostSpecificMethod(mi.getMethod(), targetClass);
 			String[] parameterNames = this.parameterNameDiscoverer.getParameterNames(specificMethod);
 			if (parameterNames != null && parameterNames.length > 0) {
@@ -161,7 +161,7 @@ public final class PreFilterAuthorizationReactiveMethodInterceptor
 	private Mono<?> filterSingleValue(Publisher<?> filterTarget, Expression filterExpression, EvaluationContext ctx) {
 		MethodSecurityExpressionOperations rootObject = (MethodSecurityExpressionOperations) ctx.getRootObject()
 			.getValue();
-		return Mono.from(filterTarget).filterWhen((filterObject) -> {
+		return Mono.from(filterTarget).filterWhen(filterObject -> {
 			rootObject.setFilterObject(filterObject);
 			return ReactiveExpressionUtils.evaluateAsBoolean(filterExpression, ctx);
 		});
@@ -170,7 +170,7 @@ public final class PreFilterAuthorizationReactiveMethodInterceptor
 	private Flux<?> filterMultiValue(Publisher<?> filterTarget, Expression filterExpression, EvaluationContext ctx) {
 		MethodSecurityExpressionOperations rootObject = (MethodSecurityExpressionOperations) ctx.getRootObject()
 			.getValue();
-		return Flux.from(filterTarget).filterWhen((filterObject) -> {
+		return Flux.from(filterTarget).filterWhen(filterObject -> {
 			rootObject.setFilterObject(filterObject);
 			return ReactiveExpressionUtils.evaluateAsBoolean(filterExpression, ctx);
 		});

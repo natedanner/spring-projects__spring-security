@@ -38,7 +38,7 @@ public class BouncyCastleAesBytesEncryptorEquivalencyTests {
 
 	private String salt;
 
-	private SecureRandom secureRandom = new SecureRandom();
+	private final SecureRandom secureRandom = new SecureRandom();
 
 	@BeforeEach
 	public void setup() {

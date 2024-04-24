@@ -33,7 +33,7 @@ class LdapSecurityRuntimeHints implements RuntimeHintsRegistrar {
 	public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
 		hints.reflection()
 			.registerType(TypeReference.of("com.sun.jndi.ldap.LdapCtxFactory"),
-					(builder) -> builder.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS));
+					builder -> builder.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS));
 		hints.resources().registerPattern("*.ldif");
 	}
 

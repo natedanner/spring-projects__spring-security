@@ -257,7 +257,7 @@ public class ServerOAuth2AuthorizedClientExchangeFilterFunctionITests {
 						.clientRegistrationId(clientRegistration1.getRegistrationId()))
 				.retrieve()
 				.bodyToMono(String.class)
-				.flatMap((response) -> this.webClient.get()
+				.flatMap(response -> this.webClient.get()
 						.uri(this.serverUrl)
 						.attributes(ServletOAuth2AuthorizedClientExchangeFilterFunction
 								.clientRegistrationId(clientRegistration2.getRegistrationId()))
@@ -325,7 +325,7 @@ public class ServerOAuth2AuthorizedClientExchangeFilterFunctionITests {
 		// @formatter:off
 		assertThatExceptionOfType(WebClientResponseException.class)
 				.isThrownBy(requestMono::block)
-				.satisfies((ex) -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED));
+				.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED));
 		// @formatter:on
 		assertThat(this.server.getRequestCount()).isEqualTo(1);
 		verify(this.authorizedClientRepository, never()).saveAuthorizedClient(any(), any(), any());

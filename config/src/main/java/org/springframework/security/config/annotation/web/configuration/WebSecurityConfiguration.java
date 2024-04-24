@@ -106,7 +106,7 @@ public class WebSecurityConfiguration implements ImportAware, BeanClassLoaderAwa
 		boolean hasFilterChain = !this.securityFilterChains.isEmpty();
 		if (!hasFilterChain) {
 			this.webSecurity.addSecurityFilterChainBuilder(() -> {
-				this.httpSecurity.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+				this.httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
 				this.httpSecurity.formLogin(Customizer.withDefaults());
 				this.httpSecurity.httpBasic(Customizer.withDefaults());
 				return this.httpSecurity.build();
@@ -223,7 +223,7 @@ public class WebSecurityConfiguration implements ImportAware, BeanClassLoaderAwa
 				return ((Ordered) obj).getOrder();
 			}
 			if (obj != null) {
-				Class<?> clazz = ((obj instanceof Class) ? (Class<?>) obj : obj.getClass());
+				Class<?> clazz = obj instanceof Class ? (Class<?>) obj : obj.getClass();
 				Order order = AnnotationUtils.findAnnotation(clazz, Order.class);
 				if (order != null) {
 					return order.value();

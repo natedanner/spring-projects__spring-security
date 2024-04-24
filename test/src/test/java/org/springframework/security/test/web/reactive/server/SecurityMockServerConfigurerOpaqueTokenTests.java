@@ -51,7 +51,7 @@ public class SecurityMockServerConfigurerOpaqueTokenTests extends AbstractMockSe
 
 	private WebTestClient client = WebTestClient.bindToController(this.securityContextController)
 		.webFilter(new SecurityContextServerWebExchangeWebFilter())
-		.argumentResolvers((resolvers) -> resolvers
+		.argumentResolvers(resolvers -> resolvers
 			.addCustomResolver(new CurrentSecurityContextArgumentResolver(new ReactiveAdapterRegistry())))
 		.apply(SecurityMockServerConfigurers.springSecurity())
 		.configureClient()
@@ -87,7 +87,7 @@ public class SecurityMockServerConfigurerOpaqueTokenTests extends AbstractMockSe
 		String sub = new String("my-subject");
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOpaqueToken()
-				.attributes((attributes) -> attributes.put(OAuth2TokenIntrospectionClaimNames.SUB, sub)))
+				.attributes(attributes -> attributes.put(OAuth2TokenIntrospectionClaimNames.SUB, sub)))
 			.get()
 			.exchange()
 			.expectStatus()
@@ -115,10 +115,10 @@ public class SecurityMockServerConfigurerOpaqueTokenTests extends AbstractMockSe
 	@Test
 	public void mockOpaqueTokenWhenPrincipalSpecifiedThenLastCalledTakesPrecedence() {
 		OAuth2AuthenticatedPrincipal principal = TestOAuth2AuthenticatedPrincipals
-			.active((a) -> a.put("scope", "user"));
+			.active(a -> a.put("scope", "user"));
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOpaqueToken()
-				.attributes((a) -> a.put(OAuth2TokenIntrospectionClaimNames.SUB, "foo"))
+				.attributes(a -> a.put(OAuth2TokenIntrospectionClaimNames.SUB, "foo"))
 				.principal(principal))
 			.get()
 			.exchange()
@@ -133,7 +133,7 @@ public class SecurityMockServerConfigurerOpaqueTokenTests extends AbstractMockSe
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOpaqueToken()
 				.principal(principal)
-				.attributes((a) -> a.put(OAuth2TokenIntrospectionClaimNames.SUB, "bar")))
+				.attributes(a -> a.put(OAuth2TokenIntrospectionClaimNames.SUB, "bar")))
 			.get()
 			.exchange()
 			.expectStatus()

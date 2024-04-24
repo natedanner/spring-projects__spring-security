@@ -316,7 +316,7 @@ class JoseHeader {
 		@SuppressWarnings("unchecked")
 		public B criticalHeader(String name, Object value) {
 			header(name, value);
-			getHeaders().computeIfAbsent(JoseHeaderNames.CRIT, (k) -> new HashSet<String>());
+			getHeaders().computeIfAbsent(JoseHeaderNames.CRIT, k -> new HashSet<String>());
 			((Set<String>) getHeaders().get(JoseHeaderNames.CRIT)).add(name);
 			return getThis();
 		}

@@ -63,7 +63,7 @@ public class DefaultMethodSecurityExpressionHandler extends AbstractSecurityExpr
 
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultSecurityParameterNameDiscoverer();
 
-	private PermissionCacheOptimizer permissionCacheOptimizer = null;
+	private PermissionCacheOptimizer permissionCacheOptimizer;
 
 	private String defaultRolePrefix = "ROLE_";
 
@@ -196,7 +196,7 @@ public class DefaultMethodSecurityExpressionHandler extends AbstractSecurityExpr
 
 	private Object filterStream(final Stream<?> filterTarget, Expression filterExpression, EvaluationContext ctx,
 			MethodSecurityExpressionOperations rootObject) {
-		return filterTarget.filter((filterObject) -> {
+		return filterTarget.filter(filterObject -> {
 			rootObject.setFilterObject(filterObject);
 			return ExpressionUtils.evaluateAsBoolean(filterExpression, ctx);
 		}).onClose(filterTarget::close);

@@ -79,7 +79,7 @@ public class RSocketMessageHandlerITests {
 		// @formatter:off
 		this.server = RSocketServer.create()
 				.payloadDecoder(PayloadDecoder.ZERO_COPY)
-				.interceptors((registry) ->
+				.interceptors(registry ->
 					registry.forSocketAcceptor(this.interceptor)
 				)
 				.acceptor(this.handler.responder())
@@ -265,7 +265,7 @@ public class RSocketMessageHandlerITests {
 		PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
 			// @formatter:off
 			rsocket.authorizePayload(
-				(authorize) -> authorize
+				authorize -> authorize
 					.route("secure.*").authenticated()
 					.anyExchange().permitAll()
 				)
@@ -289,7 +289,7 @@ public class RSocketMessageHandlerITests {
 
 		@MessageMapping({ "secure.retrieve-flux", "retrieve-flux" })
 		Flux<String> retrieveFlux(Flux<String> payload) {
-			return payload.doOnNext(this::add).map((p) -> "hello " + p);
+			return payload.doOnNext(this::add).map(p -> "hello " + p);
 		}
 
 		@MessageMapping({ "secure.send", "send" })

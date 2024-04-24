@@ -55,11 +55,11 @@ public class SpringTestContext implements Closeable {
 
 	private ConfigurableWebApplicationContext context;
 
-	private List<Filter> filters = new ArrayList<>();
+	private final List<Filter> filters = new ArrayList<>();
 
-	private DeferAddFilter deferAddFilter = new DeferAddFilter();
+	private final DeferAddFilter deferAddFilter = new DeferAddFilter();
 
-	private List<Consumer<ConfigurableWebApplicationContext>> postProcessors = new ArrayList<>();
+	private final List<Consumer<ConfigurableWebApplicationContext>> postProcessors = new ArrayList<>();
 
 	public SpringTestContext(Object test) {
 		setTest(test);

@@ -206,7 +206,7 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
 			if (this.allowConfigurersOfSameType) {
 				configs = this.configurers.get(clazz);
 			}
-			configs = (configs != null) ? configs : new ArrayList<>(1);
+			configs = configs != null ? configs : new ArrayList<>(1);
 			configs.add(configurer);
 			this.configurers.put(clazz, configs);
 			if (this.buildState.isInitializing()) {

@@ -81,7 +81,7 @@ public class DefaultServerOAuth2AuthorizationRequestResolverTests {
 		given(this.clientRegistrationRepository.findByRegistrationId(any())).willReturn(Mono.empty());
 		assertThatExceptionOfType(ResponseStatusException.class)
 			.isThrownBy(() -> resolve("/oauth2/authorization/not-found-id"))
-			.satisfies((ex) -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
+			.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
 	}
 
 	@Test
@@ -153,14 +153,13 @@ public class DefaultServerOAuth2AuthorizationRequestResolverTests {
 		given(this.clientRegistrationRepository.findByRegistrationId(eq(registration2.getRegistrationId())))
 			.willReturn(Mono.just(registration2));
 
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> {
-			builder.attributes((attrs) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder ->
+			builder.attributes(attrs -> {
 				String registrationId = (String) attrs.get(OAuth2ParameterNames.REGISTRATION_ID);
 				if (registration1.getRegistrationId().equals(registrationId)) {
 					OAuth2AuthorizationRequestCustomizers.withPkce().accept(builder);
 				}
-			});
-		});
+			}));
 
 		OAuth2AuthorizationRequest request = resolve("/oauth2/authorization/" + registration1.getRegistrationId());
 		assertPkceApplied(request, registration1);
@@ -213,8 +212,8 @@ public class DefaultServerOAuth2AuthorizationRequestResolverTests {
 		given(this.clientRegistrationRepository.findByRegistrationId(any()))
 			.willReturn(Mono.just(TestClientRegistrations.clientRegistration().scope(OidcScopes.OPENID).build()));
 		this.resolver.setAuthorizationRequestCustomizer(
-				(builder) -> builder.additionalParameters((params) -> params.remove(OidcParameterNames.NONCE))
-					.attributes((attrs) -> attrs.remove(OidcParameterNames.NONCE)));
+				builder -> builder.additionalParameters(params -> params.remove(OidcParameterNames.NONCE))
+					.attributes(attrs -> attrs.remove(OidcParameterNames.NONCE)));
 		OAuth2AuthorizationRequest authorizationRequest = resolve("/oauth2/authorization/registration-id");
 		assertThat(authorizationRequest.getAdditionalParameters()).doesNotContainKey(OidcParameterNames.NONCE);
 		assertThat(authorizationRequest.getAttributes()).doesNotContainKey(OidcParameterNames.NONCE);
@@ -228,7 +227,7 @@ public class DefaultServerOAuth2AuthorizationRequestResolverTests {
 	public void resolveWhenAuthorizationRequestCustomizerAddsParameterThenQueryIncludesParameter() {
 		given(this.clientRegistrationRepository.findByRegistrationId(any()))
 			.willReturn(Mono.just(TestClientRegistrations.clientRegistration().scope(OidcScopes.OPENID).build()));
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> builder.authorizationRequestUri((uriBuilder) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder -> builder.authorizationRequestUri(uriBuilder -> {
 			uriBuilder.queryParam("param1", "value1");
 			return uriBuilder.build();
 		}));
@@ -243,7 +242,7 @@ public class DefaultServerOAuth2AuthorizationRequestResolverTests {
 	public void resolveWhenAuthorizationRequestCustomizerOverridesParameterThenQueryIncludesParameter() {
 		given(this.clientRegistrationRepository.findByRegistrationId(any()))
 			.willReturn(Mono.just(TestClientRegistrations.clientRegistration().scope(OidcScopes.OPENID).build()));
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> builder.parameters((params) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder -> builder.parameters(params -> {
 			params.put("appid", params.get("client_id"));
 			params.remove("client_id");
 		}));

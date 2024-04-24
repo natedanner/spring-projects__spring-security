@@ -203,7 +203,7 @@ public class OAuth2AuthorizationRequestTests {
 				.redirectUri(REDIRECT_URI)
 				.scopes(SCOPES)
 				.state(STATE)
-				.authorizationRequestUri((uriBuilder) -> URI.create(AUTHORIZATION_URI))
+				.authorizationRequestUri(uriBuilder -> URI.create(AUTHORIZATION_URI))
 				.build();
 		// @formatter:on
 		assertThat(authorizationRequest.getAuthorizationRequestUri()).isEqualTo(AUTHORIZATION_URI);

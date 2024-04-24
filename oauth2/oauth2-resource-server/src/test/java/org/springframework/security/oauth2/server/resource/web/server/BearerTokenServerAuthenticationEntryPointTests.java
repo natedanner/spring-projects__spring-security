@@ -37,9 +37,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class BearerTokenServerAuthenticationEntryPointTests {
 
-	private BearerTokenServerAuthenticationEntryPoint entryPoint = new BearerTokenServerAuthenticationEntryPoint();
+	private final BearerTokenServerAuthenticationEntryPoint entryPoint = new BearerTokenServerAuthenticationEntryPoint();
 
-	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	@Test
 	public void commenceWhenNotOAuth2AuthenticationExceptionThenBearer() {

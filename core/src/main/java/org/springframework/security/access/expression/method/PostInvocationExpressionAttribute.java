@@ -45,8 +45,8 @@ class PostInvocationExpressionAttribute extends AbstractExpressionBasedMethodCon
 		StringBuilder sb = new StringBuilder();
 		Expression authorize = getAuthorizeExpression();
 		Expression filter = getFilterExpression();
-		sb.append("[authorize: '").append((authorize != null) ? authorize.getExpressionString() : "null");
-		sb.append("', filter: '").append((filter != null) ? filter.getExpressionString() : "null").append("']");
+		sb.append("[authorize: '").append(authorize != null ? authorize.getExpressionString() : "null");
+		sb.append("', filter: '").append(filter != null ? filter.getExpressionString() : "null").append("']");
 		return sb.toString();
 	}
 

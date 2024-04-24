@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 public class SecuredAspectTests {
 
-	private TestingAuthenticationToken anne = new TestingAuthenticationToken("anne", "", "ROLE_A");
+	private final TestingAuthenticationToken anne = new TestingAuthenticationToken("anne", "", "ROLE_A");
 
 	private MethodInterceptor interceptor;
 
-	private SecuredImpl secured = new SecuredImpl();
+	private final SecuredImpl secured = new SecuredImpl();
 
-	private SecuredImplSubclass securedSub = new SecuredImplSubclass();
+	private final SecuredImplSubclass securedSub = new SecuredImplSubclass();
 
 	@BeforeEach
 	public final void setUp() {

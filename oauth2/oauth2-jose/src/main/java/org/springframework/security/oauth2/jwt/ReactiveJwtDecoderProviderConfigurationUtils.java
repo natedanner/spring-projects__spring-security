@@ -49,7 +49,7 @@ final class ReactiveJwtDecoderProviderConfigurationUtils {
 
 	private static final String OAUTH_METADATA_PATH = "/.well-known/oauth-authorization-server";
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
 	static <C extends SecurityContext> Mono<ConfigurableJWTProcessor<C>> addJWSAlgorithms(
@@ -59,8 +59,8 @@ final class ReactiveJwtDecoderProviderConfigurationUtils {
 			return Mono.just(jwtProcessor);
 		}
 		JWKSource<C> delegate = ((JWSVerificationKeySelector<C>) selector).getJWKSource();
-		return getJWSAlgorithms(jwkSource).map((algorithms) -> new JWSVerificationKeySelector<>(algorithms, delegate))
-			.map((replacement) -> {
+		return getJWSAlgorithms(jwkSource).map(algorithms -> new JWSVerificationKeySelector<>(algorithms, delegate))
+			.map(replacement -> {
 				jwtProcessor.setJWSKeySelector(replacement);
 				return jwtProcessor;
 			});
@@ -71,7 +71,7 @@ final class ReactiveJwtDecoderProviderConfigurationUtils {
 			.keyUses(KeyUse.SIGNATURE, null)
 			.keyTypes(KeyType.RSA, KeyType.EC)
 			.build();
-		return jwkSource.get(new JWKSelector(jwkMatcher)).map((jwks) -> {
+		return jwkSource.get(new JWKSelector(jwkMatcher)).map(jwks -> {
 			Set<JWSAlgorithm> jwsAlgorithms = new HashSet<>();
 			for (JWK jwk : jwks) {
 				if (jwk.getAlgorithm() != null) {
@@ -124,18 +124,18 @@ final class ReactiveJwtDecoderProviderConfigurationUtils {
 	private static Mono<Map<String, Object>> getConfiguration(String issuer, WebClient web, URI... uris) {
 		String errorMessage = "Unable to resolve the Configuration with the provided Issuer of " + "\"" + issuer + "\"";
 		return Flux.just(uris)
-			.concatMap((uri) -> web.get().uri(uri).retrieve().bodyToMono(STRING_OBJECT_MAP))
-			.flatMap((configuration) -> {
+			.concatMap(uri -> web.get().uri(uri).retrieve().bodyToMono(STRING_OBJECT_MAP))
+			.flatMap(configuration -> {
 				if (configuration.get("jwks_uri") == null) {
 					return Mono.error(() -> new IllegalArgumentException("The public JWK set URI must not be null"));
 				}
 				return Mono.just(configuration);
 			})
-			.onErrorContinue((ex) -> ex instanceof WebClientResponseException
+			.onErrorContinue(ex -> ex instanceof WebClientResponseException
 					&& ((WebClientResponseException) ex).getStatusCode().is4xxClientError(), (ex, object) -> {
 					})
 			.onErrorMap(RuntimeException.class,
-					(ex) -> (ex instanceof IllegalArgumentException) ? ex
+					ex -> ex instanceof IllegalArgumentException ? ex
 							: new IllegalArgumentException(errorMessage, ex))
 			.next()
 			.switchIfEmpty(Mono.error(() -> new IllegalArgumentException(errorMessage)));

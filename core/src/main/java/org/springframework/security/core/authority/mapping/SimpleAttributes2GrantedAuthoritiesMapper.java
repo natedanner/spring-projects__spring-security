@@ -43,11 +43,11 @@ public class SimpleAttributes2GrantedAuthoritiesMapper
 
 	private String attributePrefix = "ROLE_";
 
-	private boolean convertAttributeToUpperCase = false;
+	private boolean convertAttributeToUpperCase;
 
-	private boolean convertAttributeToLowerCase = false;
+	private boolean convertAttributeToLowerCase;
 
-	private boolean addPrefixIfAlreadyExisting = false;
+	private boolean addPrefixIfAlreadyExisting;
 
 	/**
 	 * Check whether all properties have been set to correct values.
@@ -109,7 +109,7 @@ public class SimpleAttributes2GrantedAuthoritiesMapper
 	}
 
 	private String getAttributePrefix() {
-		return (this.attributePrefix != null) ? this.attributePrefix : "";
+		return this.attributePrefix != null ? this.attributePrefix : "";
 	}
 
 	public void setAttributePrefix(String string) {

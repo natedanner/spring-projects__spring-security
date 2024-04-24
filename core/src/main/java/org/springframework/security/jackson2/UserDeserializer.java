@@ -42,7 +42,7 @@ import org.springframework.security.core.userdetails.User;
  */
 class UserDeserializer extends JsonDeserializer<User> {
 
-	private static final TypeReference<Set<SimpleGrantedAuthority>> SIMPLE_GRANTED_AUTHORITY_SET = new TypeReference<Set<SimpleGrantedAuthority>>() {
+	private static final TypeReference<Set<SimpleGrantedAuthority>> SIMPLE_GRANTED_AUTHORITY_SET = new TypeReference<>() {
 	};
 
 	/**

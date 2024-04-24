@@ -116,19 +116,19 @@ public class StrictHttpFirewall implements HttpFirewall {
 	private static final List<String> FORBIDDEN_PARAGRAPH_SEPARATOR = Collections
 		.unmodifiableList(Arrays.asList("\u2029"));
 
-	private Set<String> encodedUrlBlocklist = new HashSet<>();
+	private final Set<String> encodedUrlBlocklist = new HashSet<>();
 
-	private Set<String> decodedUrlBlocklist = new HashSet<>();
+	private final Set<String> decodedUrlBlocklist = new HashSet<>();
 
 	private Set<String> allowedHttpMethods = createDefaultAllowedHttpMethods();
 
-	private Predicate<String> allowedHostnames = (hostname) -> true;
+	private Predicate<String> allowedHostnames = hostname -> true;
 
 	private static final Pattern ASSIGNED_AND_NOT_ISO_CONTROL_PATTERN = Pattern
 		.compile("[\\p{IsAssigned}&&[^\\p{IsControl}]]*");
 
-	private static final Predicate<String> ASSIGNED_AND_NOT_ISO_CONTROL_PREDICATE = (
-			s) -> ASSIGNED_AND_NOT_ISO_CONTROL_PATTERN.matcher(s).matches();
+	private static final Predicate<String> ASSIGNED_AND_NOT_ISO_CONTROL_PREDICATE = 
+			s -> ASSIGNED_AND_NOT_ISO_CONTROL_PATTERN.matcher(s).matches();
 
 	private Predicate<String> allowedHeaderNames = ASSIGNED_AND_NOT_ISO_CONTROL_PREDICATE;
 
@@ -136,7 +136,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 
 	private Predicate<String> allowedParameterNames = ASSIGNED_AND_NOT_ISO_CONTROL_PREDICATE;
 
-	private Predicate<String> allowedParameterValues = (value) -> true;
+	private Predicate<String> allowedParameterValues = value -> true;
 
 	public StrictHttpFirewall() {
 		urlBlocklistsAddAll(FORBIDDEN_SEMICOLON);
@@ -180,7 +180,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 	 */
 	public void setAllowedHttpMethods(Collection<String> allowedHttpMethods) {
 		Assert.notNull(allowedHttpMethods, "allowedHttpMethods cannot be null");
-		this.allowedHttpMethods = (allowedHttpMethods != ALLOW_ANY_HTTP_METHOD) ? new HashSet<>(allowedHttpMethods)
+		this.allowedHttpMethods = allowedHttpMethods != ALLOW_ANY_HTTP_METHOD ? new HashSet<>(allowedHttpMethods)
 				: ALLOW_ANY_HTTP_METHOD;
 	}
 
@@ -581,10 +581,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 		if (!isNormalized(request.getServletPath())) {
 			return false;
 		}
-		if (!isNormalized(request.getPathInfo())) {
-			return false;
-		}
-		return true;
+		return !!isNormalized(request.getPathInfo());
 	}
 
 	private static boolean encodedUrlContains(HttpServletRequest request, String value) {
@@ -598,10 +595,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 		if (valueContains(request.getServletPath(), value)) {
 			return true;
 		}
-		if (valueContains(request.getPathInfo(), value)) {
-			return true;
-		}
-		return false;
+		return valueContains(request.getPathInfo(), value);
 	}
 
 	private static boolean containsOnlyPrintableAsciiCharacters(String uri) {
@@ -724,7 +718,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 				validateAllowedHeaderName(name);
 			}
 			Enumeration<String> headers = super.getHeaders(name);
-			return new Enumeration<String>() {
+			return new Enumeration<>() {
 
 				@Override
 				public boolean hasMoreElements() {
@@ -744,7 +738,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 		@Override
 		public Enumeration<String> getHeaderNames() {
 			Enumeration<String> names = super.getHeaderNames();
-			return new Enumeration<String>() {
+			return new Enumeration<>() {
 
 				@Override
 				public boolean hasMoreElements() {
@@ -790,7 +784,7 @@ public class StrictHttpFirewall implements HttpFirewall {
 		@Override
 		public Enumeration<String> getParameterNames() {
 			Enumeration<String> paramaterNames = super.getParameterNames();
-			return new Enumeration<String>() {
+			return new Enumeration<>() {
 
 				@Override
 				public boolean hasMoreElements() {

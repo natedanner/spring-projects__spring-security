@@ -63,7 +63,7 @@ final class Jsr250MethodSecurityConfiguration implements ImportAware {
 		RoleHierarchy roleHierarchy = roleHierarchyProvider.getIfAvailable(NullRoleHierarchy::new);
 		authoritiesAuthorizationManager.setRoleHierarchy(roleHierarchy);
 		jsr250.setAuthoritiesAuthorizationManager(authoritiesAuthorizationManager);
-		defaultsProvider.ifAvailable((d) -> jsr250.setRolePrefix(d.getRolePrefix()));
+		defaultsProvider.ifAvailable(d -> jsr250.setRolePrefix(d.getRolePrefix()));
 		SecurityContextHolderStrategy strategy = strategyProvider
 			.getIfAvailable(SecurityContextHolder::getContextHolderStrategy);
 		AuthorizationManager<MethodInvocation> manager = new DeferringObservationAuthorizationManager<>(

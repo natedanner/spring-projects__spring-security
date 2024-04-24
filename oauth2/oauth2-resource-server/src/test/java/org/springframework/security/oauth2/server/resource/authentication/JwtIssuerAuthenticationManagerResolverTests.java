@@ -58,11 +58,11 @@ public class JwtIssuerAuthenticationManagerResolverTests {
 
 	private static final String JWK_SET = "{\"keys\":[{\"kty\":\"RSA\",\"e\":\"AQAB\",\"use\":\"sig\",\"kid\":\"one\",\"n\":\"3FlqJr5TRskIQIgdE3Dd7D9lboWdcTUT8a-fJR7MAvQm7XXNoYkm3v7MQL1NYtDvL2l8CAnc0WdSTINU6IRvc5Kqo2Q4csNX9SHOmEfzoROjQqahEcve1jBXluoCXdYuYpx4_1tfRgG6ii4Uhxh6iI8qNMJQX-fLfqhbfYfxBQVRPywBkAbIP4x1EAsbC6FSNmkhCxiMNqEgxaIpY8C2kJdJ_ZIV-WW4noDdzpKqHcwmB8FsrumlVY_DNVvUSDIipiq9PbP4H99TXN1o746oRaNa07rq1hoCgMSSy-85SagCoxlmyE-D-of9SsMY8Ol9t0rdzpobBuhyJ_o5dfvjKw\"}]}";
 
-	private String jwt = jwt("iss", "trusted");
+	private final String jwt = jwt("iss", "trusted");
 
-	private String evil = jwt("iss", "\"");
+	private final String evil = jwt("iss", "\"");
 
-	private String noIssuer = jwt("sub", "sub");
+	private final String noIssuer = jwt("sub", "sub");
 
 	@Test
 	public void resolveWhenUsingFromTrustedIssuersThenReturnsAuthenticationManager() throws Exception {
@@ -173,7 +173,7 @@ public class JwtIssuerAuthenticationManagerResolverTests {
 				.setHeader("Content-Type", "application/json")
 				.setBody(JWK_SET));
 			TrustedIssuerJwtAuthenticationManagerResolver resolver = new TrustedIssuerJwtAuthenticationManagerResolver(
-					(iss) -> iss.equals(issuer));
+					iss -> iss.equals(issuer));
 			AuthenticationManager authenticationManager = resolver.resolve(issuer);
 			AuthenticationManager cachedAuthenticationManager = resolver.resolve(issuer);
 			assertThat(authenticationManager).isSameAs(cachedAuthenticationManager);
@@ -196,7 +196,7 @@ public class JwtIssuerAuthenticationManagerResolverTests {
 	public void resolveWhenUsingCustomIssuerAuthenticationManagerResolverThenUses() {
 		AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
 		JwtIssuerAuthenticationManagerResolver authenticationManagerResolver = new JwtIssuerAuthenticationManagerResolver(
-				(issuer) -> authenticationManager);
+				issuer -> authenticationManager);
 		Authentication token = withBearerToken(this.jwt);
 		authenticationManagerResolver.resolve(null).authenticate(token);
 		verify(authenticationManager).authenticate(token);

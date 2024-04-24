@@ -195,10 +195,10 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
 				.authorizationCode()
 				.refreshToken(
-						(configurer) -> configurer.accessTokenResponseClient(this.refreshTokenTokenResponseClient))
+						configurer -> configurer.accessTokenResponseClient(this.refreshTokenTokenResponseClient))
 				.clientCredentials(
-						(configurer) -> configurer.accessTokenResponseClient(this.clientCredentialsTokenResponseClient))
-				.password((configurer) -> configurer.accessTokenResponseClient(this.passwordTokenResponseClient))
+						configurer -> configurer.accessTokenResponseClient(this.clientCredentialsTokenResponseClient))
+				.password(configurer -> configurer.accessTokenResponseClient(this.passwordTokenResponseClient))
 				.provider(jwtBearerAuthorizedClientProvider)
 				.build();
 		// @formatter:on
@@ -467,7 +467,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		given(this.clientRegistrationRepository.findByRegistrationId(eq(registration.getRegistrationId())))
 			.willReturn(registration);
 		// Set custom contextAttributesMapper
-		this.authorizedClientManager.setContextAttributesMapper((authorizeRequest) -> {
+		this.authorizedClientManager.setContextAttributesMapper(authorizeRequest -> {
 			Map<String, Object> contextAttributes = new HashMap<>();
 			HttpServletRequest servletRequest = authorizeRequest.getAttribute(HttpServletRequest.class.getName());
 			String username = servletRequest.getParameter(OAuth2ParameterNames.USERNAME);
@@ -637,13 +637,13 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 			.willReturn(authorizedClient);
 		// Default request attributes set
 		final ClientRequest request1 = ClientRequest.create(HttpMethod.GET, URI.create("https://example1.com"))
-			.attributes((attrs) -> attrs.putAll(getDefaultRequestAttributes()))
+			.attributes(attrs -> attrs.putAll(getDefaultRequestAttributes()))
 			.build();
 		// Default request attributes NOT set
 		final ClientRequest request2 = ClientRequest.create(HttpMethod.GET, URI.create("https://example2.com")).build();
 		Context context = context(servletRequest, servletResponse, authentication);
 		this.function.filter(request1, this.exchange)
-			.flatMap((response) -> this.function.filter(request2, this.exchange))
+			.flatMap(response -> this.function.filter(request2, this.exchange))
 			.contextWrite(context)
 			.block();
 		List<ClientRequest> requests = this.exchange.getRequests();
@@ -687,7 +687,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		verify(this.authorizationFailureHandler).onAuthorizationFailure(this.authorizationExceptionCaptor.capture(),
 				this.authenticationCaptor.capture(), this.attributesCaptor.capture());
 		assertThat(this.authorizationExceptionCaptor.getValue())
-			.isInstanceOfSatisfying(ClientAuthorizationException.class, (ex) -> {
+			.isInstanceOfSatisfying(ClientAuthorizationException.class, ex -> {
 				assertThat(ex.getClientRegistrationId()).isEqualTo(this.registration.getRegistrationId());
 				assertThat(ex.getError().getErrorCode()).isEqualTo(expectedErrorCode);
 				assertThat(ex).hasNoCause();
@@ -722,7 +722,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		verify(this.authorizationFailureHandler).onAuthorizationFailure(this.authorizationExceptionCaptor.capture(),
 				this.authenticationCaptor.capture(), this.attributesCaptor.capture());
 		assertThat(this.authorizationExceptionCaptor.getValue())
-			.isInstanceOfSatisfying(ClientAuthorizationException.class, (ex) -> {
+			.isInstanceOfSatisfying(ClientAuthorizationException.class, ex -> {
 				assertThat(ex.getClientRegistrationId()).isEqualTo(this.registration.getRegistrationId());
 				assertThat(ex.getError().getErrorCode()).isEqualTo(OAuth2ErrorCodes.INSUFFICIENT_SCOPE);
 				assertThat(ex.getError().getDescription())
@@ -762,7 +762,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 			.build();
 		WebClientResponseException exception = WebClientResponseException.create(httpStatus.value(),
 				httpStatus.getReasonPhrase(), HttpHeaders.EMPTY, new byte[0], StandardCharsets.UTF_8);
-		ExchangeFunction throwingExchangeFunction = (r) -> Mono.error(exception);
+		ExchangeFunction throwingExchangeFunction = r -> Mono.error(exception);
 		this.function.setAuthorizationFailureHandler(this.authorizationFailureHandler);
 		assertThatExceptionOfType(WebClientResponseException.class)
 			.isThrownBy(() -> this.function.filter(request, throwingExchangeFunction).block())
@@ -770,7 +770,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		verify(this.authorizationFailureHandler).onAuthorizationFailure(this.authorizationExceptionCaptor.capture(),
 				this.authenticationCaptor.capture(), this.attributesCaptor.capture());
 		assertThat(this.authorizationExceptionCaptor.getValue())
-			.isInstanceOfSatisfying(ClientAuthorizationException.class, (ex) -> {
+			.isInstanceOfSatisfying(ClientAuthorizationException.class, ex -> {
 				assertThat(ex.getClientRegistrationId()).isEqualTo(this.registration.getRegistrationId());
 				assertThat(ex.getError().getErrorCode()).isEqualTo(expectedErrorCode);
 				assertThat(ex).hasCause(exception);
@@ -795,7 +795,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 			.build();
 		OAuth2AuthorizationException authorizationException = new OAuth2AuthorizationException(
 				new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN));
-		ExchangeFunction throwingExchangeFunction = (r) -> Mono.error(authorizationException);
+		ExchangeFunction throwingExchangeFunction = r -> Mono.error(authorizationException);
 		this.function.setAuthorizationFailureHandler(this.authorizationFailureHandler);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.function.filter(request, throwingExchangeFunction).block())
@@ -803,7 +803,7 @@ public class ServletOAuth2AuthorizedClientExchangeFilterFunctionTests {
 		verify(this.authorizationFailureHandler).onAuthorizationFailure(this.authorizationExceptionCaptor.capture(),
 				this.authenticationCaptor.capture(), this.attributesCaptor.capture());
 		assertThat(this.authorizationExceptionCaptor.getValue())
-			.isInstanceOfSatisfying(OAuth2AuthorizationException.class, (ex) -> {
+			.isInstanceOfSatisfying(OAuth2AuthorizationException.class, ex -> {
 				assertThat(ex.getError().getErrorCode()).isEqualTo(authorizationException.getError().getErrorCode());
 				assertThat(ex).hasNoCause();
 				assertThat(ex).hasMessageContaining(OAuth2ErrorCodes.INVALID_TOKEN);

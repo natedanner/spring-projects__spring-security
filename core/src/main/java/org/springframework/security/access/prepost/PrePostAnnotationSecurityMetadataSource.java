@@ -77,11 +77,11 @@ public class PrePostAnnotationSecurityMetadataSource extends AbstractMethodSecur
 			// There is no meta-data so return
 			return Collections.emptyList();
 		}
-		String preFilterAttribute = (preFilter != null) ? preFilter.value() : null;
-		String filterObject = (preFilter != null) ? preFilter.filterTarget() : null;
-		String preAuthorizeAttribute = (preAuthorize != null) ? preAuthorize.value() : null;
-		String postFilterAttribute = (postFilter != null) ? postFilter.value() : null;
-		String postAuthorizeAttribute = (postAuthorize != null) ? postAuthorize.value() : null;
+		String preFilterAttribute = preFilter != null ? preFilter.value() : null;
+		String filterObject = preFilter != null ? preFilter.filterTarget() : null;
+		String preAuthorizeAttribute = preAuthorize != null ? preAuthorize.value() : null;
+		String postFilterAttribute = postFilter != null ? postFilter.value() : null;
+		String postAuthorizeAttribute = postAuthorize != null ? postAuthorize.value() : null;
 		ArrayList<ConfigAttribute> attrs = new ArrayList<>(2);
 		PreInvocationAttribute pre = this.attributeFactory.createPreInvocationAttribute(preFilterAttribute,
 				filterObject, preAuthorizeAttribute);

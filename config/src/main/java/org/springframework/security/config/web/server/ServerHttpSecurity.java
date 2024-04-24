@@ -318,7 +318,7 @@ public class ServerHttpSecurity {
 
 	private LogoutSpec logout = new LogoutSpec();
 
-	private LoginPageSpec loginPage = new LoginPageSpec();
+	private final LoginPageSpec loginPage = new LoginPageSpec();
 
 	private SessionManagementSpec sessionManagement;
 
@@ -328,13 +328,13 @@ public class ServerHttpSecurity {
 
 	private ServerAuthenticationEntryPoint authenticationEntryPoint;
 
-	private List<DelegateEntry> defaultEntryPoints = new ArrayList<>();
+	private final List<DelegateEntry> defaultEntryPoints = new ArrayList<>();
 
 	private ServerAccessDeniedHandler accessDeniedHandler;
 
-	private List<ServerWebExchangeDelegatingServerAccessDeniedHandler.DelegateEntry> defaultAccessDeniedHandlers = new ArrayList<>();
+	private final List<ServerWebExchangeDelegatingServerAccessDeniedHandler.DelegateEntry> defaultAccessDeniedHandlers = new ArrayList<>();
 
-	private List<WebFilter> webFilters = new ArrayList<>();
+	private final List<WebFilter> webFilters = new ArrayList<>();
 
 	private ApplicationContext context;
 
@@ -1652,7 +1652,7 @@ public class ServerHttpSecurity {
 		}
 		AnnotationAwareOrderComparator.sort(this.webFilters);
 		List<WebFilter> sortedWebFilters = new ArrayList<>();
-		this.webFilters.forEach((f) -> {
+		this.webFilters.forEach(f -> {
 			if (f instanceof OrderedWebFilter) {
 				f = ((OrderedWebFilter) f).webFilter;
 			}
@@ -1715,7 +1715,7 @@ public class ServerHttpSecurity {
 	}
 
 	private WebFilter securityContextRepositoryWebFilter() {
-		ServerSecurityContextRepository repository = (this.securityContextRepository != null)
+		ServerSecurityContextRepository repository = this.securityContextRepository != null
 				? this.securityContextRepository : new WebSessionServerSecurityContextRepository();
 		WebFilter result = new ReactorContextWebFilter(repository);
 		return new OrderedWebFilter(result, SecurityWebFiltersOrder.REACTOR_CONTEXT.getOrder());
@@ -2099,7 +2099,7 @@ public class ServerHttpSecurity {
 				private SessionRegistryWebExchange(ServerWebExchange delegate) {
 					super(delegate);
 					this.sessionMono = delegate.getSession()
-						.flatMap((session) -> SessionRegistryWebFilter.this.sessionRegistry
+						.flatMap(session -> SessionRegistryWebFilter.this.sessionRegistry
 							.updateLastAccessTime(session.getId())
 							.thenReturn(session))
 						.map(SessionRegistryWebSession::new);
@@ -2144,8 +2144,8 @@ public class ServerHttpSecurity {
 				public Mono<Void> changeSessionId() {
 					String currentId = this.session.getId();
 					return SessionRegistryWebFilter.this.sessionRegistry.removeSessionInformation(currentId)
-						.flatMap((information) -> this.session.changeSessionId().thenReturn(information))
-						.flatMap((information) -> {
+						.flatMap(information -> this.session.changeSessionId().thenReturn(information))
+						.flatMap(information -> {
 							information = information.withSessionId(this.session.getId());
 							return SessionRegistryWebFilter.this.sessionRegistry.saveSessionInformation(information);
 						});
@@ -2155,7 +2155,7 @@ public class ServerHttpSecurity {
 				public Mono<Void> invalidate() {
 					String currentId = this.session.getId();
 					return SessionRegistryWebFilter.this.sessionRegistry.removeSessionInformation(currentId)
-						.flatMap((information) -> this.session.invalidate());
+						.flatMap(information -> this.session.invalidate());
 				}
 
 				@Override
@@ -2228,7 +2228,7 @@ public class ServerHttpSecurity {
 		 * @return the {@link HttpsRedirectSpec} for additional configuration
 		 */
 		public HttpsRedirectSpec httpsRedirectWhen(Function<ServerWebExchange, Boolean> when) {
-			ServerWebExchangeMatcher matcher = (e) -> when.apply(e) ? ServerWebExchangeMatcher.MatchResult.match()
+			ServerWebExchangeMatcher matcher = e -> when.apply(e) ? ServerWebExchangeMatcher.MatchResult.match()
 					: ServerWebExchangeMatcher.MatchResult.notMatch();
 			return httpsRedirectWhen(matcher);
 		}
@@ -2485,9 +2485,9 @@ public class ServerHttpSecurity {
 	 */
 	public final class HttpBasicSpec {
 
-		private final ServerWebExchangeMatcher xhrMatcher = (exchange) -> Mono.just(exchange.getRequest().getHeaders())
-			.filter((h) -> h.getOrEmpty("X-Requested-With").contains("XMLHttpRequest"))
-			.flatMap((h) -> ServerWebExchangeMatcher.MatchResult.match())
+		private final ServerWebExchangeMatcher xhrMatcher = exchange -> Mono.just(exchange.getRequest().getHeaders())
+			.filter(h -> h.getOrEmpty("X-Requested-With").contains("XMLHttpRequest"))
+			.flatMap(h -> ServerWebExchangeMatcher.MatchResult.match())
 			.switchIfEmpty(ServerWebExchangeMatcher.MatchResult.notMatch());
 
 		private ReactiveAuthenticationManager authenticationManager;
@@ -2525,7 +2525,7 @@ public class ServerHttpSecurity {
 		public HttpBasicSpec authenticationSuccessHandler(
 				ServerAuthenticationSuccessHandler authenticationSuccessHandler) {
 			Assert.notNull(authenticationSuccessHandler, "authenticationSuccessHandler cannot be null");
-			authenticationSuccessHandler((handlers) -> {
+			authenticationSuccessHandler(handlers -> {
 				handlers.clear();
 				handlers.add(authenticationSuccessHandler);
 			});
@@ -2758,7 +2758,7 @@ public class ServerHttpSecurity {
 		public FormLoginSpec authenticationSuccessHandler(
 				ServerAuthenticationSuccessHandler authenticationSuccessHandler) {
 			Assert.notNull(authenticationSuccessHandler, "authenticationSuccessHandler cannot be null");
-			authenticationSuccessHandler((handlers) -> {
+			authenticationSuccessHandler(handlers -> {
 				handlers.clear();
 				handlers.add(authenticationSuccessHandler);
 			});
@@ -4161,7 +4161,7 @@ public class ServerHttpSecurity {
 		public OAuth2LoginSpec authenticationSuccessHandler(
 				ServerAuthenticationSuccessHandler authenticationSuccessHandler) {
 			Assert.notNull(authenticationSuccessHandler, "authenticationSuccessHandler cannot be null");
-			authenticationSuccessHandler((handlers) -> {
+			authenticationSuccessHandler(handlers -> {
 				handlers.clear();
 				handlers.add(authenticationSuccessHandler);
 			});
@@ -4256,9 +4256,9 @@ public class ServerHttpSecurity {
 			ServerOAuth2AuthorizationCodeAuthenticationTokenConverter delegate = new ServerOAuth2AuthorizationCodeAuthenticationTokenConverter(
 					clientRegistrationRepository);
 			delegate.setAuthorizationRequestRepository(getAuthorizationRequestRepository());
-			ServerAuthenticationConverter authenticationConverter = (exchange) -> delegate.convert(exchange)
+			ServerAuthenticationConverter authenticationConverter = exchange -> delegate.convert(exchange)
 				.onErrorMap(OAuth2AuthorizationException.class,
-						(e) -> new OAuth2AuthenticationException(e.getError(), e.getError().toString()));
+						e -> new OAuth2AuthenticationException(e.getError(), e.getError().toString()));
 			this.authenticationConverter = authenticationConverter;
 			return authenticationConverter;
 		}
@@ -4389,7 +4389,7 @@ public class ServerHttpSecurity {
 					MediaType.APPLICATION_XHTML_XML, new MediaType("image", "*"), MediaType.TEXT_HTML,
 					MediaType.TEXT_PLAIN);
 			htmlMatcher.setIgnoredMediaTypes(Collections.singleton(MediaType.ALL));
-			ServerWebExchangeMatcher xhrMatcher = (exchange) -> {
+			ServerWebExchangeMatcher xhrMatcher = exchange -> {
 				if (exchange.getRequest().getHeaders().getOrEmpty("X-Requested-With").contains("XMLHttpRequest")) {
 					return ServerWebExchangeMatcher.MatchResult.match();
 				}
@@ -4474,7 +4474,7 @@ public class ServerHttpSecurity {
 				return Collections.emptyMap();
 			}
 			Map<String, String> result = new HashMap<>();
-			registrations.iterator().forEachRemaining((r) -> {
+			registrations.iterator().forEachRemaining(r -> {
 				if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(r.getAuthorizationGrantType())) {
 					result.put("/oauth2/authorization/" + r.getRegistrationId(), r.getClientName());
 				}
@@ -4604,7 +4604,7 @@ public class ServerHttpSecurity {
 						return this.session.changeSessionId()
 							.then(Mono.defer(() -> OidcSessionRegistryWebFilter.this.oidcSessionRegistry
 								.removeSessionInformation(currentId)
-								.flatMap((information) -> {
+								.flatMap(information -> {
 									information = information.withSessionId(this.session.getId());
 									return OidcSessionRegistryWebFilter.this.oidcSessionRegistry
 										.saveSessionInformation(information);
@@ -4676,15 +4676,15 @@ public class ServerHttpSecurity {
 				if (!(authentication.getPrincipal() instanceof OidcUser user)) {
 					return super.onAuthenticationSuccess(authentication, webFilterExchange);
 				}
-				return webFilterExchange.getExchange().getSession().doOnNext((session) -> {
+				return webFilterExchange.getExchange().getSession().doOnNext(session -> {
 					if (this.logger.isTraceEnabled()) {
 						this.logger.trace(String.format("Linking a provider [%s] session to this client's session",
 								user.getIssuer()));
 					}
-				}).flatMap((session) -> {
+				}).flatMap(session -> {
 					Mono<CsrfToken> csrfToken = webFilterExchange.getExchange().getAttribute(CsrfToken.class.getName());
-					return (csrfToken != null)
-							? csrfToken.map((token) -> new OidcSessionInformation(session.getId(),
+					return csrfToken != null
+							? csrfToken.map(token -> new OidcSessionInformation(session.getId(),
 									Map.of(token.getHeaderName(), token.getToken()), user))
 							: Mono.just(new OidcSessionInformation(session.getId(), Map.of(), user));
 				})
@@ -5225,7 +5225,7 @@ public class ServerHttpSecurity {
 			}
 
 			protected ReactiveJwtDecoder getJwtDecoder() {
-				return (this.jwtDecoder != null) ? this.jwtDecoder : getBean(ReactiveJwtDecoder.class);
+				return this.jwtDecoder != null ? this.jwtDecoder : getBean(ReactiveJwtDecoder.class);
 			}
 
 			protected Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> getJwtAuthenticationConverter() {

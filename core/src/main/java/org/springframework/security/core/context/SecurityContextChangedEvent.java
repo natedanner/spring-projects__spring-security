@@ -53,7 +53,7 @@ public class SecurityContextChangedEvent extends ApplicationEvent {
 	 * @param newContext the new security context
 	 */
 	public SecurityContextChangedEvent(SecurityContext oldContext, SecurityContext newContext) {
-		this(() -> oldContext, (newContext != null) ? () -> newContext : NO_CONTEXT);
+		this(() -> oldContext, newContext != null ? () -> newContext : NO_CONTEXT);
 	}
 
 	/**

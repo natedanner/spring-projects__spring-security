@@ -62,7 +62,7 @@ public class SecurityMockServerConfigurersOidcLoginTests extends AbstractMockSer
 	@BeforeEach
 	public void setup() {
 		this.client = WebTestClient.bindToController(this.controller)
-			.argumentResolvers((c) -> c.addCustomResolver(new OAuth2AuthorizedClientArgumentResolver(
+			.argumentResolvers(c -> c.addCustomResolver(new OAuth2AuthorizedClientArgumentResolver(
 					this.clientRegistrationRepository, this.authorizedClientRepository)))
 			.webFilter(new SecurityContextServerWebExchangeWebFilter())
 			.apply(SecurityMockServerConfigurers.springSecurity())
@@ -123,7 +123,7 @@ public class SecurityMockServerConfigurersOidcLoginTests extends AbstractMockSer
 	public void oidcLoginWhenIdTokenSpecifiedThenUserHasClaims() {
 		this.client
 			.mutateWith(
-					SecurityMockServerConfigurers.mockOidcLogin().idToken((i) -> i.issuer("https://idp.example.org")))
+					SecurityMockServerConfigurers.mockOidcLogin().idToken(i -> i.issuer("https://idp.example.org")))
 			.get()
 			.uri("/token")
 			.exchange()
@@ -136,7 +136,7 @@ public class SecurityMockServerConfigurersOidcLoginTests extends AbstractMockSer
 	@Test
 	public void oidcLoginWhenUserInfoSpecifiedThenUserHasClaims() throws Exception {
 		this.client
-			.mutateWith(SecurityMockServerConfigurers.mockOidcLogin().userInfoToken((u) -> u.email("email@email")))
+			.mutateWith(SecurityMockServerConfigurers.mockOidcLogin().userInfoToken(u -> u.email("email@email")))
 			.get()
 			.uri("/token")
 			.exchange()
@@ -176,7 +176,7 @@ public class SecurityMockServerConfigurersOidcLoginTests extends AbstractMockSer
 				TestOidcIdTokens.idToken().build());
 		this.client
 			.mutateWith(
-					SecurityMockServerConfigurers.mockOidcLogin().idToken((i) -> i.subject("foo")).oidcUser(oidcUser))
+					SecurityMockServerConfigurers.mockOidcLogin().idToken(i -> i.subject("foo")).oidcUser(oidcUser))
 			.get()
 			.uri("/token")
 			.exchange()
@@ -186,7 +186,7 @@ public class SecurityMockServerConfigurersOidcLoginTests extends AbstractMockSer
 		assertThat(token.getPrincipal().getAttributes()).containsEntry("sub", "subject");
 		this.client
 			.mutateWith(
-					SecurityMockServerConfigurers.mockOidcLogin().oidcUser(oidcUser).idToken((i) -> i.subject("bar")))
+					SecurityMockServerConfigurers.mockOidcLogin().oidcUser(oidcUser).idToken(i -> i.subject("bar")))
 			.get()
 			.uri("/token")
 			.exchange()

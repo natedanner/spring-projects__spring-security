@@ -38,13 +38,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CsrfRequestDataValueProcessorTests {
 
-	private MockServerWebExchange exchange = exchange(HttpMethod.GET);
+	private final MockServerWebExchange exchange = exchange(HttpMethod.GET);
 
-	private CsrfRequestDataValueProcessor processor = new CsrfRequestDataValueProcessor();
+	private final CsrfRequestDataValueProcessor processor = new CsrfRequestDataValueProcessor();
 
-	private CsrfToken token = new DefaultCsrfToken("1", "a", "b");
+	private final CsrfToken token = new DefaultCsrfToken("1", "a", "b");
 
-	private Map<String, String> expected = new HashMap<>();
+	private final Map<String, String> expected = new HashMap<>();
 
 	@BeforeEach
 	public void setup() {

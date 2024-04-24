@@ -138,7 +138,7 @@ public final class DelegatingSecurityContextCallable<V> implements Callable<V> {
 	 * @return
 	 */
 	public static <V> Callable<V> create(Callable<V> delegate, SecurityContext securityContext) {
-		return (securityContext != null) ? new DelegatingSecurityContextCallable<>(delegate, securityContext)
+		return securityContext != null ? new DelegatingSecurityContextCallable<>(delegate, securityContext)
 				: new DelegatingSecurityContextCallable<>(delegate);
 	}
 
@@ -146,7 +146,7 @@ public final class DelegatingSecurityContextCallable<V> implements Callable<V> {
 			SecurityContextHolderStrategy securityContextHolderStrategy) {
 		Assert.notNull(delegate, "delegate cannot be null");
 		Assert.notNull(securityContextHolderStrategy, "securityContextHolderStrategy cannot be null");
-		DelegatingSecurityContextCallable<V> callable = (securityContext != null)
+		DelegatingSecurityContextCallable<V> callable = securityContext != null
 				? new DelegatingSecurityContextCallable<>(delegate, securityContext)
 				: new DelegatingSecurityContextCallable<>(delegate);
 		callable.setSecurityContextHolderStrategy(securityContextHolderStrategy);

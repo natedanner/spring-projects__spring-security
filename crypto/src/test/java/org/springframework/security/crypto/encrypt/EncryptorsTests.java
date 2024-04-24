@@ -28,7 +28,7 @@ public class EncryptorsTests {
 		BytesEncryptor encryptor = Encryptors.stronger("password", "5c0744940b5c369b");
 		byte[] result = encryptor.encrypt("text".getBytes("UTF-8"));
 		assertThat(result).isNotNull();
-		assertThat(new String(result).equals("text")).isFalse();
+		assertThat("text".equals(new String(result))).isFalse();
 		assertThat(new String(encryptor.decrypt(result))).isEqualTo("text");
 		assertThat(new String(result)).isNotEqualTo(new String(encryptor.encrypt("text".getBytes())));
 	}
@@ -39,7 +39,7 @@ public class EncryptorsTests {
 		BytesEncryptor encryptor = Encryptors.standard("password", "5c0744940b5c369b");
 		byte[] result = encryptor.encrypt("text".getBytes("UTF-8"));
 		assertThat(result).isNotNull();
-		assertThat(new String(result).equals("text")).isFalse();
+		assertThat("text".equals(new String(result))).isFalse();
 		assertThat(new String(encryptor.decrypt(result))).isEqualTo("text");
 		assertThat(new String(result)).isNotEqualTo(new String(encryptor.encrypt("text".getBytes())));
 	}
@@ -50,7 +50,7 @@ public class EncryptorsTests {
 		TextEncryptor encryptor = Encryptors.delux("password", "5c0744940b5c369b");
 		String result = encryptor.encrypt("text");
 		assertThat(result).isNotNull();
-		assertThat(result.equals("text")).isFalse();
+		assertThat("text".equals(result)).isFalse();
 		assertThat(encryptor.decrypt(result)).isEqualTo("text");
 		assertThat(result.equals(encryptor.encrypt("text"))).isFalse();
 	}
@@ -61,7 +61,7 @@ public class EncryptorsTests {
 		TextEncryptor encryptor = Encryptors.text("password", "5c0744940b5c369b");
 		String result = encryptor.encrypt("text");
 		assertThat(result).isNotNull();
-		assertThat(result.equals("text")).isFalse();
+		assertThat("text".equals(result)).isFalse();
 		assertThat(encryptor.decrypt(result)).isEqualTo("text");
 		assertThat(result.equals(encryptor.encrypt("text"))).isFalse();
 	}

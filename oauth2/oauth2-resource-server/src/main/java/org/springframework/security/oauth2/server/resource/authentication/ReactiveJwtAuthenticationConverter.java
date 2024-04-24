@@ -46,7 +46,7 @@ public final class ReactiveJwtAuthenticationConverter implements Converter<Jwt, 
 		// @formatter:off
 		return this.jwtGrantedAuthoritiesConverter.convert(jwt)
 				.collectList()
-				.map((authorities) -> {
+				.map(authorities -> {
 					String principalName = jwt.getClaimAsString(this.principalClaimName);
 					return new JwtAuthenticationToken(jwt, authorities, principalName);
 				});

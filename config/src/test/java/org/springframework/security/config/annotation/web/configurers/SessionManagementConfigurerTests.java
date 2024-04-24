@@ -430,7 +430,7 @@ public class SessionManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize
+				.authorizeHttpRequests(authorize -> authorize
 					.anyRequest().authenticated()
 				)
 				.httpBasic(Customizer.withDefaults())
@@ -553,7 +553,7 @@ public class SessionManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessionManagement) ->
+				.sessionManagement(sessionManagement ->
 					sessionManagement
 						.requireExplicitAuthenticationStrategy(false)
 						.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession)
@@ -603,9 +603,9 @@ public class SessionManagementConfigurerTests {
 			// @formatter:off
 			http
 				.formLogin(withDefaults())
-				.sessionManagement((sessionManagement) ->
+				.sessionManagement(sessionManagement ->
 					sessionManagement
-						.sessionConcurrency((sessionConcurrency) ->
+						.sessionConcurrency(sessionConcurrency ->
 							sessionConcurrency
 								.maximumSessions(1)
 								.maxSessionsPreventsLogin(true)
@@ -630,7 +630,7 @@ public class SessionManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessionManagement) ->
+				.sessionManagement(sessionManagement ->
 					sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				);
@@ -682,7 +682,7 @@ public class SessionManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessions) -> sessions
+				.sessionManagement(sessions -> sessions
 					.requireExplicitAuthenticationStrategy(false)
 				)
 				.setSharedObject(AuthenticationTrustResolver.class, TR);
@@ -767,7 +767,7 @@ public class SessionManagementConfigurerTests {
 
 		@Bean
 		DefaultSecurityFilterChain configure(HttpSecurity http) throws Exception {
-			http.sessionManagement((sessions) -> sessions.enableSessionUrlRewriting(true));
+			http.sessionManagement(sessions -> sessions.enableSessionUrlRewriting(true));
 			return http.build();
 		}
 
@@ -786,7 +786,7 @@ public class SessionManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessionManagement) ->
+				.sessionManagement(sessionManagement ->
 					sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)

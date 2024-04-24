@@ -48,7 +48,7 @@ import org.springframework.web.server.ServerWebExchange;
  */
 public class AuthenticationPrincipalArgumentResolver extends HandlerMethodArgumentResolverSupport {
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	private BeanResolver beanResolver;
 
@@ -75,9 +75,9 @@ public class AuthenticationPrincipalArgumentResolver extends HandlerMethodArgume
 		ReactiveAdapter adapter = getAdapterRegistry().getAdapter(parameter.getParameterType());
 		return ReactiveSecurityContextHolder.getContext()
 			.map(SecurityContext::getAuthentication)
-			.flatMap((authentication) -> {
+			.flatMap(authentication -> {
 				Mono<Object> principal = Mono.justOrEmpty(resolvePrincipal(parameter, authentication.getPrincipal()));
-				return (adapter != null) ? Mono.just(adapter.fromPublisher(principal)) : principal;
+				return adapter != null ? Mono.just(adapter.fromPublisher(principal)) : principal;
 			});
 	}
 

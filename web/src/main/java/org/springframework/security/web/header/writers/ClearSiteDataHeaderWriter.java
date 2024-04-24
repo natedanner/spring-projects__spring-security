@@ -51,7 +51,7 @@ public final class ClearSiteDataHeaderWriter implements HeaderWriter {
 
 	private final RequestMatcher requestMatcher;
 
-	private String headerValue;
+	private final String headerValue;
 
 	/**
 	 * <p>

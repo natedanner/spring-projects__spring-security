@@ -36,7 +36,7 @@ public class ReactiveSessionInformation implements Serializable {
 
 	private final String sessionId;
 
-	private boolean expired = false;
+	private boolean expired;
 
 	public ReactiveSessionInformation(Object principal, String sessionId, Instant lastAccessTime) {
 		Assert.notNull(principal, "principal cannot be null");

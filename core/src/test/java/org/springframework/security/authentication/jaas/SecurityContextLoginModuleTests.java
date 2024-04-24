@@ -44,12 +44,12 @@ import static org.mockito.Mockito.mock;
  */
 public class SecurityContextLoginModuleTests {
 
-	private SecurityContextLoginModule module = null;
+	private SecurityContextLoginModule module;
 
-	private Subject subject = new Subject(false, new HashSet<>(), new HashSet<>(), new HashSet<>());
+	private final Subject subject = new Subject(false, new HashSet<>(), new HashSet<>(), new HashSet<>());
 
-	private UsernamePasswordAuthenticationToken auth = UsernamePasswordAuthenticationToken.unauthenticated("principal",
-			"credentials");
+	private final UsernamePasswordAuthenticationToken auth = UsernamePasswordAuthenticationToken.unauthenticated("principal",
+		"credentials");
 
 	@BeforeEach
 	public void setUp() {

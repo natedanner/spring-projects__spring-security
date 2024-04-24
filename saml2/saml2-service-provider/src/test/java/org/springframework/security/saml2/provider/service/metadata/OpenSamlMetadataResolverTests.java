@@ -52,8 +52,8 @@ public class OpenSamlMetadataResolverTests {
 	@Test
 	public void resolveWhenRelyingPartyNoCredentialsThenMetadataMatches() {
 		RelyingPartyRegistration relyingPartyRegistration = TestRelyingPartyRegistrations.noCredentials()
-			.assertingPartyDetails((party) -> party
-				.verificationX509Credentials((c) -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
+			.assertingPartyDetails(party -> party
+				.verificationX509Credentials(c -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
 			.build();
 		OpenSamlMetadataResolver openSamlMetadataResolver = new OpenSamlMetadataResolver();
 		String metadata = openSamlMetadataResolver.resolve(relyingPartyRegistration);
@@ -94,7 +94,7 @@ public class OpenSamlMetadataResolverTests {
 			.build();
 		OpenSamlMetadataResolver openSamlMetadataResolver = new OpenSamlMetadataResolver();
 		openSamlMetadataResolver.setEntityDescriptorCustomizer(
-				(parameters) -> parameters.getEntityDescriptor().setEntityID("overriddenEntityId"));
+				parameters -> parameters.getEntityDescriptor().setEntityID("overriddenEntityId"));
 		String metadata = openSamlMetadataResolver.resolve(relyingPartyRegistration);
 		assertThat(metadata).contains("<md:EntityDescriptor").contains("entityID=\"overriddenEntityId\"");
 	}

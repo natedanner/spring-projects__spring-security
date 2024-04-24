@@ -415,7 +415,7 @@ public class FormLoginConfigurerTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
-			return (web) -> web.ignoring().requestMatchers("/resources/**");
+			return web -> web.ignoring().requestMatchers("/resources/**");
 		}
 
 		@Bean
@@ -446,7 +446,7 @@ public class FormLoginConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
@@ -512,11 +512,11 @@ public class FormLoginConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.formLogin((formLogin) ->
+				.formLogin(formLogin ->
 					formLogin
 						.loginPage("/authenticate")
 						.permitAll()
@@ -570,18 +570,18 @@ public class FormLoginConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().authenticated()
 				)
-				.formLogin((formLogin) ->
+				.formLogin(formLogin ->
 					formLogin
 						.loginProcessingUrl("/loginCheck")
 						.loginPage("/login")
 						.defaultSuccessUrl("/", true)
 						.permitAll()
 				)
-				.logout((logout) ->
+				.logout(logout ->
 					logout
 						.logoutSuccessUrl("/login")
 						.logoutUrl("/logout")

@@ -87,7 +87,7 @@ public final class DefaultMapOAuth2AccessTokenResponseConverter
 
 	private static String getParameterValue(Map<String, Object> tokenResponseParameters, String parameterName) {
 		Object obj = tokenResponseParameters.get(parameterName);
-		return (obj != null) ? obj.toString() : null;
+		return obj != null ? obj.toString() : null;
 	}
 
 	private static long getParameterValue(Map<String, Object> tokenResponseParameters, String parameterName,

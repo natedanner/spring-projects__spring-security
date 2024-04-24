@@ -42,7 +42,7 @@ public class InMemoryUserDetailsManagerTests {
 
 	private final UserDetails user = PasswordEncodedUser.user();
 
-	private InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(this.user);
+	private final InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(this.user);
 
 	@Test
 	public void changePassword() {

@@ -142,7 +142,7 @@ final class PrePostMethodSecurityConfiguration implements ImportAware {
 		DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
 		RoleHierarchy roleHierarchy = roleHierarchyProvider.getIfAvailable(NullRoleHierarchy::new);
 		handler.setRoleHierarchy(roleHierarchy);
-		defaultsProvider.ifAvailable((d) -> handler.setDefaultRolePrefix(d.getRolePrefix()));
+		defaultsProvider.ifAvailable(d -> handler.setDefaultRolePrefix(d.getRolePrefix()));
 		handler.setApplicationContext(context);
 		return handler;
 	}

@@ -76,10 +76,10 @@ public class DefaultSpringSecurityContextSource extends LdapContextSource {
 			this.logger.info(LogMessage.format("Configure with URL %s and root DN %s", url, urlRootDn));
 			Assert.isTrue(rootDn == null || rootDn.equals(urlRootDn),
 					"Root DNs must be the same when using multiple URLs");
-			rootDn = (rootDn != null) ? rootDn : urlRootDn;
+			rootDn = rootDn != null ? rootDn : urlRootDn;
 		}
 		setUrls(urls.toArray(new String[0]));
-		setBase((rootDn != null) ? decodeUrl(rootDn) : null);
+		setBase(rootDn != null ? decodeUrl(rootDn) : null);
 		setPooled(true);
 		setAuthenticationStrategy(new SimpleDirContextAuthenticationStrategy() {
 

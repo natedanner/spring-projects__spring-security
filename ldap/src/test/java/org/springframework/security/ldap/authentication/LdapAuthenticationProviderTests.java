@@ -164,12 +164,12 @@ public class LdapAuthenticationProviderTests {
 			ctx.setAttributeValue("ou", "FROM_ENTRY");
 			String username = authentication.getName();
 			String password = (String) authentication.getCredentials();
-			if (username.equals("ben") && password.equals("benspassword")) {
+			if ("ben".equals(username) && "benspassword".equals(password)) {
 				ctx.setDn(new DistinguishedName("cn=ben,ou=people,dc=springframework,dc=org"));
 				ctx.setAttributeValue("userPassword", "{SHA}nFCebWjxfaLbHHG1Qk5UU4trbvQ=");
 				return ctx;
 			}
-			else if (username.equals("jen") && password.equals("")) {
+			else if ("jen".equals(username) && "".equals(password)) {
 				ctx.setDn(new DistinguishedName("cn=jen,ou=people,dc=springframework,dc=org"));
 				return ctx;
 			}

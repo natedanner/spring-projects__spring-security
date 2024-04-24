@@ -65,7 +65,7 @@ final class PreFilterExpressionAttributeRegistry
 
 	private PreFilter findPreFilterAnnotation(Method method) {
 		PreFilter preFilter = AuthorizationAnnotationUtils.findUniqueAnnotation(method, PreFilter.class);
-		return (preFilter != null) ? preFilter
+		return preFilter != null ? preFilter
 				: AuthorizationAnnotationUtils.findUniqueAnnotation(method.getDeclaringClass(), PreFilter.class);
 	}
 

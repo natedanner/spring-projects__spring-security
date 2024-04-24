@@ -44,7 +44,7 @@ abstract class AbstractOAuth2AuthorizationGrantRequestEntityConverter<T extends 
 
 	// @formatter:off
 	private Converter<T, HttpHeaders> headersConverter =
-			(authorizationGrantRequest) -> OAuth2AuthorizationGrantRequestEntityUtils
+			authorizationGrantRequest -> OAuth2AuthorizationGrantRequestEntityUtils
 					.getTokenRequestHeaders(authorizationGrantRequest.getClientRegistration());
 	// @formatter:on
 
@@ -105,7 +105,7 @@ abstract class AbstractOAuth2AuthorizationGrantRequestEntityConverter<T extends 
 	public final void addHeadersConverter(Converter<T, HttpHeaders> headersConverter) {
 		Assert.notNull(headersConverter, "headersConverter cannot be null");
 		Converter<T, HttpHeaders> currentHeadersConverter = this.headersConverter;
-		this.headersConverter = (authorizationGrantRequest) -> {
+		this.headersConverter = authorizationGrantRequest -> {
 			// Append headers using a Composite Converter
 			HttpHeaders headers = currentHeadersConverter.convert(authorizationGrantRequest);
 			if (headers == null) {
@@ -157,7 +157,7 @@ abstract class AbstractOAuth2AuthorizationGrantRequestEntityConverter<T extends 
 	public final void addParametersConverter(Converter<T, MultiValueMap<String, String>> parametersConverter) {
 		Assert.notNull(parametersConverter, "parametersConverter cannot be null");
 		Converter<T, MultiValueMap<String, String>> currentParametersConverter = this.parametersConverter;
-		this.parametersConverter = (authorizationGrantRequest) -> {
+		this.parametersConverter = authorizationGrantRequest -> {
 			// Append parameters using a Composite Converter
 			MultiValueMap<String, String> parameters = currentParametersConverter.convert(authorizationGrantRequest);
 			if (parameters == null) {

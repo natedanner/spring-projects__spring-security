@@ -37,7 +37,7 @@ public class HttpBasicServerAuthenticationEntryPoint implements ServerAuthentica
 
 	private static final String DEFAULT_REALM = "Realm";
 
-	private static String WWW_AUTHENTICATE_FORMAT = "Basic realm=\"%s\"";
+	private static final String WWW_AUTHENTICATE_FORMAT = "Basic realm=\"%s\"";
 
 	private String headerValue = createHeaderValue(DEFAULT_REALM);
 

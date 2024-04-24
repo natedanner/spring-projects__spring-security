@@ -161,7 +161,7 @@ public class CsrfConfigTests {
 		// @formatter:off
 		MockMvc traceEnabled = MockMvcBuilders.webAppContextSetup(this.spring.getContext())
 				.apply(springSecurity())
-				.addDispatcherServletCustomizer((dispatcherServlet) -> dispatcherServlet.setDispatchTraceRequest(true))
+				.addDispatcherServletCustomizer(dispatcherServlet -> dispatcherServlet.setDispatchTraceRequest(true))
 				.build();
 		traceEnabled.perform(request(HttpMethod.TRACE, "/csrf-in-header"))
 				.andExpect(csrfInHeader());
@@ -261,7 +261,7 @@ public class CsrfConfigTests {
 		// @formatter:off
 		MockMvc traceEnabled = MockMvcBuilders.webAppContextSetup(this.spring.getContext())
 				.apply(springSecurity())
-				.addDispatcherServletCustomizer((dispatcherServlet) -> dispatcherServlet.setDispatchTraceRequest(true))
+				.addDispatcherServletCustomizer(dispatcherServlet -> dispatcherServlet.setDispatchTraceRequest(true))
 				.build();
 		// @formatter:on
 		traceEnabled.perform(request(HttpMethod.TRACE, "/csrf-in-header")).andExpect(csrfInHeader());
@@ -508,7 +508,7 @@ public class CsrfConfigTests {
 	}
 
 	ResultMatcher csrfChanged(MvcResult first) {
-		return (second) -> {
+		return second -> {
 			assertThat(first).isNotNull();
 			assertThat(second).isNotNull();
 			assertThat(first.getResponse().getContentAsString())
@@ -521,11 +521,11 @@ public class CsrfConfigTests {
 	}
 
 	ResultMatcher csrfInHeader() {
-		return new CsrfReturnedResultMatcher((result) -> result.getResponse().getHeader("X-CSRF-TOKEN"));
+		return new CsrfReturnedResultMatcher(result -> result.getResponse().getHeader("X-CSRF-TOKEN"));
 	}
 
 	ResultMatcher csrfInBody() {
-		return new CsrfReturnedResultMatcher((result) -> result.getResponse().getContentAsString());
+		return new CsrfReturnedResultMatcher(result -> result.getResponse().getContentAsString());
 	}
 
 	@Controller

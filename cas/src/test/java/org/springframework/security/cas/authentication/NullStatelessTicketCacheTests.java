@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class NullStatelessTicketCacheTests extends AbstractStatelessTicketCacheTests {
 
-	private StatelessTicketCache cache = new NullStatelessTicketCache();
+	private final StatelessTicketCache cache = new NullStatelessTicketCache();
 
 	@Test
 	public void testGetter() {

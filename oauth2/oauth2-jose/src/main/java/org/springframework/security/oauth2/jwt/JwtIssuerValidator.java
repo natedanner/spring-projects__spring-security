@@ -39,7 +39,7 @@ public final class JwtIssuerValidator implements OAuth2TokenValidator<Jwt> {
 	public JwtIssuerValidator(String issuer) {
 		Assert.notNull(issuer, "issuer cannot be null");
 
-		Predicate<Object> testClaimValue = (claimValue) -> (claimValue != null) && issuer.equals(claimValue.toString());
+		Predicate<Object> testClaimValue = claimValue -> (claimValue != null) && issuer.equals(claimValue.toString());
 		this.validator = new JwtClaimValidator<>(JwtClaimNames.ISS, testClaimValue);
 	}
 

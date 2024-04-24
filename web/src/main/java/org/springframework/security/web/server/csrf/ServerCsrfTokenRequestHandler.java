@@ -47,7 +47,7 @@ public interface ServerCsrfTokenRequestHandler extends ServerCsrfTokenRequestRes
 		Assert.notNull(exchange, "exchange cannot be null");
 		Assert.notNull(csrfToken, "csrfToken cannot be null");
 		return exchange.getFormData()
-			.flatMap((data) -> Mono.justOrEmpty(data.getFirst(csrfToken.getParameterName())))
+			.flatMap(data -> Mono.justOrEmpty(data.getFirst(csrfToken.getParameterName())))
 			.switchIfEmpty(Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst(csrfToken.getHeaderName())));
 	}
 

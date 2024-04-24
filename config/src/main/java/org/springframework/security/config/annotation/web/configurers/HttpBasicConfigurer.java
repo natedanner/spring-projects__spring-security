@@ -92,7 +92,7 @@ public final class HttpBasicConfigurer<B extends HttpSecurityBuilder<B>>
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;
 
-	private BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
+	private final BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
 
 	private SecurityContextRepository securityContextRepository;
 

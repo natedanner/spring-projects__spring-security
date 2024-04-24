@@ -28,9 +28,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PasswordEncoderFactoriesTests {
 
-	private PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	private final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-	private String rawPassword = "password";
+	private final String rawPassword = "password";
 
 	@Test
 	public void encodeWhenDefaultThenBCryptUsed() {

@@ -98,7 +98,7 @@ public class OpaqueTokenReactiveAuthenticationManager implements ReactiveAuthent
 	private Mono<Authentication> authenticate(String token) {
 		// @formatter:off
 		return this.introspector.introspect(token)
-				.flatMap((principal) -> this.authenticationConverter.convert(token, principal))
+				.flatMap(principal -> this.authenticationConverter.convert(token, principal))
 				.onErrorMap(OAuth2IntrospectionException.class, this::onError);
 		// @formatter:on
 	}

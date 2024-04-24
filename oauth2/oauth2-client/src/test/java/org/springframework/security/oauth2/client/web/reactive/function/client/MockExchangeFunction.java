@@ -33,9 +33,9 @@ import static org.mockito.Mockito.mock;
  */
 public class MockExchangeFunction implements ExchangeFunction {
 
-	private List<ClientRequest> requests = new ArrayList<>();
+	private final List<ClientRequest> requests = new ArrayList<>();
 
-	private ClientResponse response = mock(ClientResponse.class);
+	private final ClientResponse response = mock(ClientResponse.class);
 
 	public ClientRequest getRequest() {
 		return this.requests.get(this.requests.size() - 1);

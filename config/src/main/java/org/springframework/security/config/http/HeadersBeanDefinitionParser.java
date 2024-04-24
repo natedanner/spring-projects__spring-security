@@ -179,7 +179,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseCacheControlElement(boolean addIfNotPresent, Element element) {
-		Element cacheControlElement = (element != null)
+		Element cacheControlElement = element != null
 				? DomUtils.getChildElementByTagName(element, CACHE_CONTROL_ELEMENT) : null;
 		boolean disabled = "true".equals(getAttribute(cacheControlElement, ATT_DISABLED, "false"));
 		if (disabled) {
@@ -197,7 +197,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseHstsElement(boolean addIfNotPresent, Element element, ParserContext context) {
-		Element hstsElement = (element != null) ? DomUtils.getChildElementByTagName(element, HSTS_ELEMENT) : null;
+		Element hstsElement = element != null ? DomUtils.getChildElementByTagName(element, HSTS_ELEMENT) : null;
 		if (addIfNotPresent || hstsElement != null) {
 			addHsts(addIfNotPresent, hstsElement, context);
 		}
@@ -245,7 +245,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseHpkpElement(boolean addIfNotPresent, Element element, ParserContext context) {
-		Element hpkpElement = (element != null) ? DomUtils.getChildElementByTagName(element, HPKP_ELEMENT) : null;
+		Element hpkpElement = element != null ? DomUtils.getChildElementByTagName(element, HPKP_ELEMENT) : null;
 		if (addIfNotPresent || hpkpElement != null) {
 			addHpkp(addIfNotPresent, hpkpElement, context);
 		}
@@ -300,7 +300,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseContentSecurityPolicyElement(boolean elementDisabled, Element element, ParserContext context) {
-		Element contentSecurityPolicyElement = (elementDisabled || element == null) ? null
+		Element contentSecurityPolicyElement = elementDisabled || element == null ? null
 				: DomUtils.getChildElementByTagName(element, CONTENT_SECURITY_POLICY_ELEMENT);
 		if (contentSecurityPolicyElement != null) {
 			addContentSecurityPolicy(contentSecurityPolicyElement, context);
@@ -326,7 +326,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseReferrerPolicyElement(Element element, ParserContext context) {
-		Element referrerPolicyElement = (element != null)
+		Element referrerPolicyElement = element != null
 				? DomUtils.getChildElementByTagName(element, REFERRER_POLICY_ELEMENT) : null;
 		if (referrerPolicyElement != null) {
 			addReferrerPolicy(referrerPolicyElement, context);
@@ -344,7 +344,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseFeaturePolicyElement(Element element, ParserContext context) {
-		Element featurePolicyElement = (element != null)
+		Element featurePolicyElement = element != null
 				? DomUtils.getChildElementByTagName(element, FEATURE_POLICY_ELEMENT) : null;
 		if (featurePolicyElement != null) {
 			addFeaturePolicy(featurePolicyElement, context);
@@ -366,7 +366,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parsePermissionsPolicyElement(Element element, ParserContext context) {
-		Element permissionsPolicyElement = (element != null)
+		Element permissionsPolicyElement = element != null
 				? DomUtils.getChildElementByTagName(element, PERMISSIONS_POLICY_ELEMENT) : null;
 		if (permissionsPolicyElement != null) {
 			addPermissionsPolicy(permissionsPolicyElement, context);
@@ -461,7 +461,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseHeaderElements(Element element) {
-		List<Element> headerElts = (element != null)
+		List<Element> headerElts = element != null
 				? DomUtils.getChildElementsByTagName(element, GENERIC_HEADER_ELEMENT) : Collections.emptyList();
 		for (Element headerElt : headerElts) {
 			String headerFactoryRef = headerElt.getAttribute(ATT_REF);
@@ -478,7 +478,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseContentTypeOptionsElement(boolean addIfNotPresent, Element element) {
-		Element contentTypeElt = (element != null) ? DomUtils.getChildElementByTagName(element, CONTENT_TYPE_ELEMENT)
+		Element contentTypeElt = element != null ? DomUtils.getChildElementByTagName(element, CONTENT_TYPE_ELEMENT)
 				: null;
 		boolean disabled = "true".equals(getAttribute(contentTypeElt, ATT_DISABLED, "false"));
 		if (disabled) {
@@ -497,7 +497,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 
 	private void parseFrameOptionsElement(boolean addIfNotPresent, Element element, ParserContext parserContext) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(XFrameOptionsHeaderWriter.class);
-		Element frameElement = (element != null) ? DomUtils.getChildElementByTagName(element, FRAME_OPTIONS_ELEMENT)
+		Element frameElement = element != null ? DomUtils.getChildElementByTagName(element, FRAME_OPTIONS_ELEMENT)
 				: null;
 		if (frameElement == null) {
 			if (addIfNotPresent) {
@@ -575,7 +575,7 @@ public class HeadersBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private void parseXssElement(boolean addIfNotPresent, Element element, ParserContext parserContext) {
-		Element xssElt = (element != null) ? DomUtils.getChildElementByTagName(element, XSS_ELEMENT) : null;
+		Element xssElt = element != null ? DomUtils.getChildElementByTagName(element, XSS_ELEMENT) : null;
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(XXssProtectionHeaderWriter.class);
 		if (xssElt != null) {
 			boolean disabled = "true".equals(getAttribute(xssElt, ATT_DISABLED, "false"));

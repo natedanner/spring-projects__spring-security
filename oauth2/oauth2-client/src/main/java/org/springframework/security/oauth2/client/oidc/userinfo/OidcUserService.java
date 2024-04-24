@@ -75,8 +75,8 @@ public class OidcUserService implements OAuth2UserService<OidcUserRequest, OidcU
 
 	private OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService = new DefaultOAuth2UserService();
 
-	private Function<ClientRegistration, Converter<Map<String, Object>, Map<String, Object>>> claimTypeConverterFactory = (
-			clientRegistration) -> DEFAULT_CLAIM_TYPE_CONVERTER;
+	private Function<ClientRegistration, Converter<Map<String, Object>, Map<String, Object>>> claimTypeConverterFactory = 
+			clientRegistration -> DEFAULT_CLAIM_TYPE_CONVERTER;
 
 	/**
 	 * Returns the default {@link Converter}'s used for type conversion of claim values
@@ -97,7 +97,7 @@ public class OidcUserService implements OAuth2UserService<OidcUserRequest, OidcU
 
 	private static Converter<Object, ?> getConverter(TypeDescriptor targetDescriptor) {
 		TypeDescriptor sourceDescriptor = TypeDescriptor.valueOf(Object.class);
-		return (source) -> ClaimConversionService.getSharedInstance()
+		return source -> ClaimConversionService.getSharedInstance()
 			.convert(source, sourceDescriptor, targetDescriptor);
 	}
 

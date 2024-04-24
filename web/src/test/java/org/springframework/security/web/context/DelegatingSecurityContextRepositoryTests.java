@@ -72,7 +72,7 @@ public class DelegatingSecurityContextRepositoryTests {
 		given(this.strategy.createEmptyContext()).willReturn(emptySecurityContext);
 		List<SecurityContextRepository> delegates = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			SecurityContext context = (i == expectedIndex) ? actualSecurityContext : null;
+			SecurityContext context = i == expectedIndex ? actualSecurityContext : null;
 			SecurityContextRepository repository = mock(SecurityContextRepository.class);
 			SupplierDeferredSecurityContext supplier = new SupplierDeferredSecurityContext(() -> context,
 					this.strategy);
@@ -82,7 +82,7 @@ public class DelegatingSecurityContextRepositoryTests {
 
 		DelegatingSecurityContextRepository repository = new DelegatingSecurityContextRepository(delegates);
 		DeferredSecurityContext deferredSecurityContext = repository.loadDeferredContext(this.request);
-		SecurityContext expectedSecurityContext = (isGenerated) ? emptySecurityContext : actualSecurityContext;
+		SecurityContext expectedSecurityContext = isGenerated ? emptySecurityContext : actualSecurityContext;
 		assertThat(deferredSecurityContext.get()).isEqualTo(expectedSecurityContext);
 		assertThat(deferredSecurityContext.isGenerated()).isEqualTo(isGenerated);
 

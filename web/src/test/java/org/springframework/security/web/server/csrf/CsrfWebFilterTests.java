@@ -104,7 +104,7 @@ public class CsrfWebFilterTests {
 		StepVerifier.create(result).verifyComplete();
 		assertThat(this.post.getResponse().getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		StepVerifier.create(this.post.getResponse().getBodyAsString())
-			.assertNext((body) -> assertThat(body).contains("An expected CSRF token cannot be found"));
+			.assertNext(body -> assertThat(body).contains("An expected CSRF token cannot be found"));
 	}
 
 	@Test

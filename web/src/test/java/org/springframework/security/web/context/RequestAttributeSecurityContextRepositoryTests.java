@@ -40,13 +40,13 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 class RequestAttributeSecurityContextRepositoryTests {
 
-	private MockHttpServletRequest request = new MockHttpServletRequest();
+	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
-	private MockHttpServletResponse response = new MockHttpServletResponse();
+	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-	private RequestAttributeSecurityContextRepository repository = new RequestAttributeSecurityContextRepository();
+	private final RequestAttributeSecurityContextRepository repository = new RequestAttributeSecurityContextRepository();
 
-	private SecurityContext expectedSecurityContext = new SecurityContextImpl(TestAuthentication.authenticatedUser());
+	private final SecurityContext expectedSecurityContext = new SecurityContextImpl(TestAuthentication.authenticatedUser());
 
 	@Test
 	void setSecurityContextHolderStrategyWhenNullThenThrowsIllegalArgumentException() {

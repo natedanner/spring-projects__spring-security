@@ -74,7 +74,7 @@ public class OidcUserServiceTests {
 
 	private OidcIdToken idToken;
 
-	private OidcUserService userService = new OidcUserService();
+	private final OidcUserService userService = new OidcUserService();
 
 	private MockWebServer server;
 

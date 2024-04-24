@@ -59,7 +59,7 @@ final class OidcLogoutServerAuthenticationConverter implements ServerAuthenticat
 	public Mono<Authentication> convert(ServerWebExchange exchange) {
 		return this.exchangeMatcher.matches(exchange)
 			.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
-			.flatMap((match) -> {
+			.flatMap(match -> {
 				String registrationId = (String) match.getVariables().get("registrationId");
 				return this.clientRegistrationRepository.findByRegistrationId(registrationId)
 					.switchIfEmpty(Mono.error(() -> {
@@ -68,7 +68,7 @@ final class OidcLogoutServerAuthenticationConverter implements ServerAuthenticat
 						return new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
 					}));
 			})
-			.flatMap((clientRegistration) -> exchange.getFormData().map((data) -> {
+			.flatMap(clientRegistration -> exchange.getFormData().map(data -> {
 				String logoutToken = data.getFirst("logout_token");
 				return new OidcLogoutAuthenticationToken(logoutToken, clientRegistration);
 			}).switchIfEmpty(Mono.error(() -> {

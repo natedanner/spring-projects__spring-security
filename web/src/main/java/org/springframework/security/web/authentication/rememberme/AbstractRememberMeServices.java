@@ -75,7 +75,7 @@ public abstract class AbstractRememberMeServices
 
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
-	private UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	private UserDetailsChecker userDetailsChecker = new AccountStatusUserDetailsChecker();
 
@@ -89,11 +89,11 @@ public abstract class AbstractRememberMeServices
 
 	private boolean alwaysRemember;
 
-	private String key;
+	private final String key;
 
 	private int tokenValiditySeconds = TWO_WEEKS_S;
 
-	private Boolean useSecureCookie = null;
+	private Boolean useSecureCookie;
 
 	private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
@@ -305,8 +305,8 @@ public abstract class AbstractRememberMeServices
 		}
 		String paramValue = request.getParameter(parameter);
 		if (paramValue != null) {
-			if (paramValue.equalsIgnoreCase("true") || paramValue.equalsIgnoreCase("on")
-					|| paramValue.equalsIgnoreCase("yes") || paramValue.equals("1")) {
+			if ("true".equalsIgnoreCase(paramValue) || "on".equalsIgnoreCase(paramValue)
+					|| "yes".equalsIgnoreCase(paramValue) || "1".equals(paramValue)) {
 				return true;
 			}
 		}
@@ -344,7 +344,7 @@ public abstract class AbstractRememberMeServices
 		if (this.cookieDomain != null) {
 			cookie.setDomain(this.cookieDomain);
 		}
-		cookie.setSecure((this.useSecureCookie != null) ? this.useSecureCookie : request.isSecure());
+		cookie.setSecure(this.useSecureCookie != null ? this.useSecureCookie : request.isSecure());
 		response.addCookie(cookie);
 	}
 
@@ -371,14 +371,14 @@ public abstract class AbstractRememberMeServices
 		if (maxAge < 1) {
 			cookie.setVersion(1);
 		}
-		cookie.setSecure((this.useSecureCookie != null) ? this.useSecureCookie : request.isSecure());
+		cookie.setSecure(this.useSecureCookie != null ? this.useSecureCookie : request.isSecure());
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
 	}
 
 	private String getCookiePath(HttpServletRequest request) {
 		String contextPath = request.getContextPath();
-		return (contextPath.length() > 0) ? contextPath : "/";
+		return contextPath.length() > 0 ? contextPath : "/";
 	}
 
 	/**
@@ -388,7 +388,7 @@ public abstract class AbstractRememberMeServices
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		this.logger.debug(LogMessage
-			.of(() -> "Logout of user " + ((authentication != null) ? authentication.getName() : "Unknown")));
+			.of(() -> "Logout of user " + (authentication != null ? authentication.getName() : "Unknown")));
 		cancelCookie(request, response);
 	}
 

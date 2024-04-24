@@ -41,7 +41,7 @@ public final class TestOAuth2AuthenticatedPrincipals {
 	}
 
 	public static OAuth2AuthenticatedPrincipal active() {
-		return active((attributes) -> {
+		return active(attributes -> {
 		});
 	}
 

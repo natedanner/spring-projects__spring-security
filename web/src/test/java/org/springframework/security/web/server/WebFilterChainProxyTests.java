@@ -59,7 +59,7 @@ public class WebFilterChainProxyTests {
 	@Test
 	public void filterWhenNoMatchThenContinuesChainAnd404() {
 		List<WebFilter> filters = Arrays.asList(new Http200WebFilter());
-		ServerWebExchangeMatcher notMatch = (exchange) -> MatchResult.notMatch();
+		ServerWebExchangeMatcher notMatch = exchange -> MatchResult.notMatch();
 		MatcherSecurityWebFilterChain chain = new MatcherSecurityWebFilterChain(notMatch, filters);
 		WebFilterChainProxy filter = new WebFilterChainProxy(chain);
 		WebTestClient.bindToController(new Object())
@@ -78,7 +78,7 @@ public class WebFilterChainProxyTests {
 		ObservationRegistry registry = ObservationRegistry.create();
 		registry.observationConfig().observationHandler(handler);
 		List<WebFilter> filters = Arrays.asList(new PassthroughWebFilter());
-		ServerWebExchangeMatcher match = (exchange) -> MatchResult.match();
+		ServerWebExchangeMatcher match = exchange -> MatchResult.match();
 		MatcherSecurityWebFilterChain chain = new MatcherSecurityWebFilterChain(match, filters);
 		WebFilterChainProxy fcp = new WebFilterChainProxy(chain);
 		fcp.setFilterChainDecorator(new ObservationWebFilterChainDecorator(registry));
@@ -102,7 +102,7 @@ public class WebFilterChainProxyTests {
 		ObservationRegistry registry = ObservationRegistry.create();
 		registry.observationConfig().observationHandler(handler);
 		List<WebFilter> filters = Arrays.asList(new PassthroughWebFilter());
-		ServerWebExchangeMatcher notMatch = (exchange) -> MatchResult.notMatch();
+		ServerWebExchangeMatcher notMatch = exchange -> MatchResult.notMatch();
 		MatcherSecurityWebFilterChain chain = new MatcherSecurityWebFilterChain(notMatch, filters);
 		WebFilterChainProxy fcp = new WebFilterChainProxy(chain);
 		fcp.setFilterChainDecorator(new ObservationWebFilterChainDecorator(registry));
@@ -126,7 +126,7 @@ public class WebFilterChainProxyTests {
 		WebFilter error = mock(WebFilter.class);
 		given(error.filter(any(), any())).willReturn(Mono.error(new IllegalStateException()));
 		List<WebFilter> filters = Arrays.asList(error);
-		ServerWebExchangeMatcher match = (exchange) -> MatchResult.match();
+		ServerWebExchangeMatcher match = exchange -> MatchResult.match();
 		MatcherSecurityWebFilterChain chain = new MatcherSecurityWebFilterChain(match, filters);
 		WebFilterChainProxy fcp = new WebFilterChainProxy(chain);
 		fcp.setFilterChainDecorator(new ObservationWebFilterChainDecorator(registry));

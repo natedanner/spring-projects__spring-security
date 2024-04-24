@@ -62,13 +62,13 @@ public abstract class AbstractAuthenticationTargetUrlRequestHandler {
 
 	protected final Log logger = LogFactory.getLog(this.getClass());
 
-	private String targetUrlParameter = null;
+	private String targetUrlParameter;
 
 	private String defaultTargetUrl = "/";
 
-	private boolean alwaysUseDefaultTargetUrl = false;
+	private boolean alwaysUseDefaultTargetUrl;
 
-	private boolean useReferer = false;
+	private boolean useReferer;
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 

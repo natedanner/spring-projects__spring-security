@@ -65,7 +65,7 @@ public abstract class AbstractAclVoter implements AccessDecisionVoter<MethodInvo
 	 */
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return (MethodInvocation.class.isAssignableFrom(clazz));
+		return MethodInvocation.class.isAssignableFrom(clazz);
 	}
 
 }

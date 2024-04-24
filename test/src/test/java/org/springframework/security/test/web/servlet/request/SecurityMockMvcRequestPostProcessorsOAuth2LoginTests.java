@@ -109,7 +109,7 @@ public class SecurityMockMvcRequestPostProcessorsOAuth2LoginTests {
 	public void oauth2LoginWhenAttributeSpecifiedThenUserHasAttribute() throws Exception {
 		this.mvc
 			.perform(get("/attributes/iss")
-				.with(oauth2Login().attributes((a) -> a.put("iss", "https://idp.example.org"))))
+				.with(oauth2Login().attributes(a -> a.put("iss", "https://idp.example.org"))))
 			.andExpect(content().string("https://idp.example.org"));
 	}
 
@@ -139,12 +139,12 @@ public class SecurityMockMvcRequestPostProcessorsOAuth2LoginTests {
 				Collections.singletonMap("username", "user"), "username");
 		this.mvc
 			.perform(get("/attributes/sub")
-				.with(oauth2Login().attributes((a) -> a.put("sub", "bar")).oauth2User(oauth2User)))
+				.with(oauth2Login().attributes(a -> a.put("sub", "bar")).oauth2User(oauth2User)))
 			.andExpect(status().isOk())
 			.andExpect(content().string("no-attribute"));
 		this.mvc
 			.perform(get("/attributes/sub")
-				.with(oauth2Login().oauth2User(oauth2User).attributes((a) -> a.put("sub", "bar"))))
+				.with(oauth2Login().oauth2User(oauth2User).attributes(a -> a.put("sub", "bar"))))
 			.andExpect(content().string("bar"));
 	}
 
@@ -157,7 +157,7 @@ public class SecurityMockMvcRequestPostProcessorsOAuth2LoginTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorize) -> authorize
+				.authorizeRequests(authorize -> authorize
 					.requestMatchers("/admin/**").hasAuthority("SCOPE_admin")
 					.anyRequest().hasAuthority("SCOPE_read")
 				).oauth2Login();

@@ -102,7 +102,7 @@ public class CsrfConfigurerIgnoringRequestMatchersTests {
 	@EnableWebSecurity
 	static class IgnoringRequestMatchers {
 
-		RequestMatcher requestMatcher = (request) -> HttpMethod.POST.name().equals(request.getMethod());
+		RequestMatcher requestMatcher = request -> HttpMethod.POST.name().equals(request.getMethod());
 
 		@Bean
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -122,13 +122,13 @@ public class CsrfConfigurerIgnoringRequestMatchersTests {
 	@EnableWebMvc
 	static class IgnoringRequestInLambdaMatchers {
 
-		RequestMatcher requestMatcher = (request) -> HttpMethod.POST.name().equals(request.getMethod());
+		RequestMatcher requestMatcher = request -> HttpMethod.POST.name().equals(request.getMethod());
 
 		@Bean
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.csrf((csrf) ->
+				.csrf(csrf ->
 					csrf
 						.requireCsrfProtectionMatcher(new AntPathRequestMatcher("/path"))
 						.ignoringRequestMatchers(this.requestMatcher)
@@ -143,7 +143,7 @@ public class CsrfConfigurerIgnoringRequestMatchersTests {
 	@EnableWebSecurity
 	static class IgnoringPathsAndMatchers {
 
-		RequestMatcher requestMatcher = (request) -> HttpMethod.POST.name().equals(request.getMethod());
+		RequestMatcher requestMatcher = request -> HttpMethod.POST.name().equals(request.getMethod());
 
 		@Bean
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -163,13 +163,13 @@ public class CsrfConfigurerIgnoringRequestMatchersTests {
 	@EnableWebMvc
 	static class IgnoringPathsAndMatchersInLambdaConfig {
 
-		RequestMatcher requestMatcher = (request) -> HttpMethod.POST.name().equals(request.getMethod());
+		RequestMatcher requestMatcher = request -> HttpMethod.POST.name().equals(request.getMethod());
 
 		@Bean
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.csrf((csrf) ->
+				.csrf(csrf ->
 					csrf
 						.ignoringRequestMatchers(new AntPathRequestMatcher("/no-csrf"))
 						.ignoringRequestMatchers(this.requestMatcher)
@@ -206,7 +206,7 @@ public class CsrfConfigurerIgnoringRequestMatchersTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.csrf((csrf) -> csrf
+				.csrf(csrf -> csrf
 					.ignoringRequestMatchers("/no-csrf")
 				);
 			// @formatter:on

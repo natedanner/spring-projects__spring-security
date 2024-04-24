@@ -47,7 +47,7 @@ public abstract class AbstractMethodSecurityMetadataSource implements MethodSecu
 			Object target = mi.getThis();
 			Class<?> targetClass = null;
 			if (target != null) {
-				targetClass = (target instanceof Class<?>) ? (Class<?>) target
+				targetClass = target instanceof Class<?> ? (Class<?>) target
 						: AopProxyUtils.ultimateTargetClass(target);
 			}
 			Collection<ConfigAttribute> attrs = getAttributes(mi.getMethod(), targetClass);
@@ -64,7 +64,7 @@ public abstract class AbstractMethodSecurityMetadataSource implements MethodSecu
 
 	@Override
 	public final boolean supports(Class<?> clazz) {
-		return (MethodInvocation.class.isAssignableFrom(clazz));
+		return MethodInvocation.class.isAssignableFrom(clazz);
 	}
 
 }

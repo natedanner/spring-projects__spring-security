@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CurrentSecurityContextArgumentResolverTests {
 
-	private CurrentSecurityContextArgumentResolver resolver = new CurrentSecurityContextArgumentResolver();
+	private final CurrentSecurityContextArgumentResolver resolver = new CurrentSecurityContextArgumentResolver();
 
 	@Test
 	public void supportsParameterWhenAuthenticationPrincipalThenTrue() {

@@ -102,7 +102,7 @@ public class ObservationReactiveAuthorizationManagerTests {
 	@Test
 	void verifyWhenLooksUpAuthenticationThenObserves() {
 		given(this.handler.supportsContext(any())).willReturn(true);
-		given(this.authorizationManager.check(any(), any())).willAnswer((invocation) -> {
+		given(this.authorizationManager.check(any(), any())).willAnswer(invocation -> {
 			((Mono<Authentication>) invocation.getArgument(0)).block();
 			return Mono.just(this.grant);
 		});

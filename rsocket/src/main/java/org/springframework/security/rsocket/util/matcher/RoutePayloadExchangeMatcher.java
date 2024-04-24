@@ -53,7 +53,7 @@ public class RoutePayloadExchangeMatcher implements PayloadExchangeMatcher {
 				exchange.getMetadataMimeType());
 		return Optional.ofNullable((String) metadata.get(MetadataExtractor.ROUTE_KEY))
 			.map(this.routeMatcher::parseRoute)
-			.map((route) -> this.routeMatcher.matchAndExtract(this.pattern, route))
+			.map(route -> this.routeMatcher.matchAndExtract(this.pattern, route))
 			.map(MatchResult::match)
 			.orElse(MatchResult.notMatch());
 	}

@@ -109,7 +109,7 @@ public class JaasAuthenticationProviderTests {
 		myJaasProvider.setAuthorityGranters(this.jaasProvider.getAuthorityGranters());
 		myJaasProvider.setCallbackHandlers(this.jaasProvider.getCallbackHandlers());
 		myJaasProvider.setLoginContextName(this.jaasProvider.getLoginContextName());
-		assertThatIllegalArgumentException().isThrownBy(() -> myJaasProvider.afterPropertiesSet())
+		assertThatIllegalArgumentException().isThrownBy(myJaasProvider::afterPropertiesSet)
 			.withMessageStartingWith("loginConfig must be set on");
 	}
 
@@ -195,7 +195,7 @@ public class JaasAuthenticationProviderTests {
 	@Test
 	public void testLoginExceptionResolver() {
 		assertThat(this.jaasProvider.getLoginExceptionResolver()).isNotNull();
-		this.jaasProvider.setLoginExceptionResolver((e) -> new LockedException("This is just a test!"));
+		this.jaasProvider.setLoginExceptionResolver(e -> new LockedException("This is just a test!"));
 		try {
 			this.jaasProvider.authenticate(UsernamePasswordAuthenticationToken.unauthenticated("user", "password"));
 		}
@@ -236,7 +236,7 @@ public class JaasAuthenticationProviderTests {
 
 	private static class MockLoginContext extends LoginContext {
 
-		boolean loggedOut = false;
+		boolean loggedOut;
 
 		MockLoginContext(String loginModule) throws LoginException {
 			super(loginModule);

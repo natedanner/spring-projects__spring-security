@@ -150,7 +150,7 @@ public final class AntPathRequestMatcher implements RequestMatcher, RequestVaria
 			UrlPathHelper urlPathHelper) {
 		Assert.hasText(pattern, "Pattern cannot be null or empty");
 		this.caseSensitive = caseSensitive;
-		if (pattern.equals(MATCH_ALL) || pattern.equals("**")) {
+		if (pattern.equals(MATCH_ALL) || "**".equals(pattern)) {
 			pattern = MATCH_ALL;
 			this.matcher = null;
 		}
@@ -235,8 +235,8 @@ public final class AntPathRequestMatcher implements RequestMatcher, RequestVaria
 
 	@Override
 	public int hashCode() {
-		int result = (this.pattern != null) ? this.pattern.hashCode() : 0;
-		result = 31 * result + ((this.httpMethod != null) ? this.httpMethod.hashCode() : 0);
+		int result = this.pattern != null ? this.pattern.hashCode() : 0;
+		result = 31 * result + (this.httpMethod != null ? this.httpMethod.hashCode() : 0);
 		result = 31 * result + (this.caseSensitive ? 1231 : 1237);
 		return result;
 	}

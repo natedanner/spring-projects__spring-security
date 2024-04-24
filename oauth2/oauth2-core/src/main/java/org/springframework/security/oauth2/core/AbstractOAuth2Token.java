@@ -105,19 +105,19 @@ public abstract class AbstractOAuth2Token implements OAuth2Token, Serializable {
 		if (!this.getTokenValue().equals(other.getTokenValue())) {
 			return false;
 		}
-		if ((this.getIssuedAt() != null) ? !this.getIssuedAt().equals(other.getIssuedAt())
+		if (this.getIssuedAt() != null ? !this.getIssuedAt().equals(other.getIssuedAt())
 				: other.getIssuedAt() != null) {
 			return false;
 		}
-		return (this.getExpiresAt() != null) ? this.getExpiresAt().equals(other.getExpiresAt())
+		return this.getExpiresAt() != null ? this.getExpiresAt().equals(other.getExpiresAt())
 				: other.getExpiresAt() == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = this.getTokenValue().hashCode();
-		result = 31 * result + ((this.getIssuedAt() != null) ? this.getIssuedAt().hashCode() : 0);
-		result = 31 * result + ((this.getExpiresAt() != null) ? this.getExpiresAt().hashCode() : 0);
+		result = 31 * result + (this.getIssuedAt() != null ? this.getIssuedAt().hashCode() : 0);
+		result = 31 * result + (this.getExpiresAt() != null ? this.getExpiresAt().hashCode() : 0);
 		return result;
 	}
 

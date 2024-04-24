@@ -41,7 +41,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
  */
 final class OAuth2AuthorizationGrantRequestEntityUtils {
 
-	private static HttpHeaders DEFAULT_TOKEN_REQUEST_HEADERS = getDefaultTokenRequestHeaders();
+	private static final HttpHeaders DEFAULT_TOKEN_REQUEST_HEADERS = getDefaultTokenRequestHeaders();
 
 	private OAuth2AuthorizationGrantRequestEntityUtils() {
 	}

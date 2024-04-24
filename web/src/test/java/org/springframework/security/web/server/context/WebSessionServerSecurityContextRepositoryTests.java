@@ -37,9 +37,9 @@ import static org.mockito.Mockito.mock;
  */
 public class WebSessionServerSecurityContextRepositoryTests {
 
-	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
-	private WebSessionServerSecurityContextRepository repository = new WebSessionServerSecurityContextRepository();
+	private final WebSessionServerSecurityContextRepository repository = new WebSessionServerSecurityContextRepository();
 
 	@Test
 	public void saveAndLoadWhenDefaultsThenFound() {

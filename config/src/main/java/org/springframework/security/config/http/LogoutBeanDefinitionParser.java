@@ -55,13 +55,13 @@ class LogoutBeanDefinitionParser implements BeanDefinitionParser {
 
 	private final String defaultLogoutUrl;
 
-	private ManagedList<BeanMetadataElement> logoutHandlers = new ManagedList<>();
+	private final ManagedList<BeanMetadataElement> logoutHandlers = new ManagedList<>();
 
-	private boolean csrfEnabled;
+	private final boolean csrfEnabled;
 
 	private BeanMetadataElement logoutSuccessHandler;
 
-	private BeanMetadataElement authenticationFilterSecurityContextHolderStrategyRef;
+	private final BeanMetadataElement authenticationFilterSecurityContextHolderStrategyRef;
 
 	LogoutBeanDefinitionParser(String loginPageUrl, String rememberMeServices, BeanMetadataElement csrfLogoutHandler,
 			BeanMetadataElement authenticationFilterSecurityContextHolderStrategyRef) {

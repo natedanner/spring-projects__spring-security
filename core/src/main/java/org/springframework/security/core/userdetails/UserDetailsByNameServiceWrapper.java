@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
 public class UserDetailsByNameServiceWrapper<T extends Authentication>
 		implements AuthenticationUserDetailsService<T>, InitializingBean {
 
-	private UserDetailsService userDetailsService = null;
+	private UserDetailsService userDetailsService;
 
 	/**
 	 * Constructs an empty wrapper for compatibility with Spring Security 2.0.x's method

@@ -386,9 +386,9 @@ public class OidcLogoutSpecTests {
 		SecurityWebFilterChain filters(ServerHttpSecurity http) throws Exception {
 		// @formatter:off
 			http
-					.authorizeExchange((authorize) -> authorize.anyExchange().authenticated())
+					.authorizeExchange(authorize -> authorize.anyExchange().authenticated())
 					.oauth2Login(Customizer.withDefaults())
-					.oidcLogout((oidc) -> oidc.backChannel(Customizer.withDefaults()));
+					.oidcLogout(oidc -> oidc.backChannel(Customizer.withDefaults()));
 			// @formatter:on
 
 			return http.build();
@@ -408,9 +408,9 @@ public class OidcLogoutSpecTests {
 		SecurityWebFilterChain filters(ServerHttpSecurity http) throws Exception {
 		// @formatter:off
 			http
-					.authorizeExchange((authorize) -> authorize.anyExchange().authenticated())
-					.oauth2Login((oauth2) -> oauth2.oidcSessionRegistry(this.sessionRegistry))
-					.oidcLogout((oidc) -> oidc.backChannel(Customizer.withDefaults()));
+					.authorizeExchange(authorize -> authorize.anyExchange().authenticated())
+					.oauth2Login(oauth2 -> oauth2.oidcSessionRegistry(this.sessionRegistry))
+					.oidcLogout(oidc -> oidc.backChannel(Customizer.withDefaults()));
 			// @formatter:on
 
 			return http.build();
@@ -435,10 +435,10 @@ public class OidcLogoutSpecTests {
 		SecurityWebFilterChain filters(ServerHttpSecurity http) throws Exception {
 		// @formatter:off
 			http
-					.authorizeExchange((authorize) -> authorize.anyExchange().authenticated())
-					.logout((logout) -> logout.logoutHandler(this.logoutHandler))
+					.authorizeExchange(authorize -> authorize.anyExchange().authenticated())
+					.logout(logout -> logout.logoutHandler(this.logoutHandler))
 					.oauth2Login(Customizer.withDefaults())
-					.oidcLogout((oidc) -> oidc.backChannel(Customizer.withDefaults()));
+					.oidcLogout(oidc -> oidc.backChannel(Customizer.withDefaults()));
 			// @formatter:on
 
 			return http.build();
@@ -504,13 +504,13 @@ public class OidcLogoutSpecTests {
 		// @formatter:off
 			http
 					.securityMatcher(or("/jwks", "/login/oauth/authorize", "/nonce", "/token", "/token/logout", "/user"))
-					.authorizeExchange((authorize) -> authorize
+					.authorizeExchange(authorize -> authorize
 							.pathMatchers("/jwks").permitAll()
 							.anyExchange().authenticated()
 					)
 					.httpBasic(Customizer.withDefaults())
-					.oauth2ResourceServer((oauth2) -> oauth2
-							.jwt((jwt) -> jwt.jwkSetUri(registration.getProviderDetails().getJwkSetUri()))
+					.oauth2ResourceServer(oauth2 -> oauth2
+							.jwt(jwt -> jwt.jwkSetUri(registration.getProviderDetails().getJwkSetUri()))
 					);
 			// @formatter:off
 
@@ -546,7 +546,7 @@ public class OidcLogoutSpecTests {
 					.audience(List.of(this.registration.getClientId())).nonce(this.nonce)
 					.claim(LogoutTokenClaimNames.SID, sessionId).build();
 			JwtEncoderParameters parameters = JwtEncoderParameters
-					.from(JwtClaimsSet.builder().claims((claims) -> claims.putAll(token.getClaims())).build());
+					.from(JwtClaimsSet.builder().claims(claims -> claims.putAll(token.getClaims())).build());
 			return this.encoder.encode(parameters).getTokenValue();
 		}
 
@@ -565,7 +565,7 @@ public class OidcLogoutSpecTests {
 			OidcLogoutToken token = TestOidcLogoutTokens.withUser(user)
 					.audience(List.of(this.registration.getClientId())).build();
 			JwtEncoderParameters parameters = JwtEncoderParameters
-					.from(JwtClaimsSet.builder().claims((claims) -> claims.putAll(token.getClaims())).build());
+					.from(JwtClaimsSet.builder().claims(claims -> claims.putAll(token.getClaims())).build());
 			return this.encoder.encode(parameters).getTokenValue();
 		}
 
@@ -573,9 +573,9 @@ public class OidcLogoutSpecTests {
 		String logoutTokenAll(@AuthenticationPrincipal OidcUser user) {
 			OidcLogoutToken token = TestOidcLogoutTokens.withUser(user)
 					.audience(List.of(this.registration.getClientId()))
-					.claims((claims) -> claims.remove(LogoutTokenClaimNames.SID)).build();
+					.claims(claims -> claims.remove(LogoutTokenClaimNames.SID)).build();
 			JwtEncoderParameters parameters = JwtEncoderParameters
-					.from(JwtClaimsSet.builder().claims((claims) -> claims.putAll(token.getClaims())).build());
+					.from(JwtClaimsSet.builder().claims(claims -> claims.putAll(token.getClaims())).build());
 			return this.encoder.encode(parameters).getTokenValue();
 		}
 	}
@@ -631,7 +631,7 @@ public class OidcLogoutSpecTests {
 				r = body;
 			}
 			for (Map.Entry<String, List<String>> header : request.getHeaders().toMultimap().entrySet()) {
-				if (header.getKey().equalsIgnoreCase("Cookie")) {
+				if ("Cookie".equalsIgnoreCase(header.getKey())) {
 					continue;
 				}
 				r.header(header.getKey(), header.getValue().iterator().next());

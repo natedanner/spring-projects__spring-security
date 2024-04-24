@@ -42,7 +42,7 @@ public final class OpenSaml4AuthenticationRequestResolver implements Saml2Authen
 
 	private final OpenSamlAuthenticationRequestResolver authnRequestResolver;
 
-	private Consumer<AuthnRequestContext> contextConsumer = (parameters) -> {
+	private Consumer<AuthnRequestContext> contextConsumer = parameters -> {
 	};
 
 	private Clock clock = Clock.systemUTC();

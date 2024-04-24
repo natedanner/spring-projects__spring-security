@@ -42,11 +42,11 @@ import org.springframework.util.StringUtils;
 public class MapBasedAttributes2GrantedAuthoritiesMapper
 		implements Attributes2GrantedAuthoritiesMapper, MappableAttributesRetriever, InitializingBean {
 
-	private Map<String, Collection<GrantedAuthority>> attributes2grantedAuthoritiesMap = null;
+	private Map<String, Collection<GrantedAuthority>> attributes2grantedAuthoritiesMap;
 
 	private String stringSeparator = ",";
 
-	private Set<String> mappableAttributes = null;
+	private Set<String> mappableAttributes;
 
 	@Override
 	public void afterPropertiesSet() {

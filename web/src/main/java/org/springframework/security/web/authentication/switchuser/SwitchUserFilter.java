@@ -161,7 +161,7 @@ public class SwitchUserFilter extends GenericFilterBean implements ApplicationEv
 			this.successHandler = new SimpleUrlAuthenticationSuccessHandler(this.targetUrl);
 		}
 		if (this.failureHandler == null) {
-			this.failureHandler = (this.switchFailureUrl != null)
+			this.failureHandler = this.switchFailureUrl != null
 					? new SimpleUrlAuthenticationFailureHandler(this.switchFailureUrl)
 					: new SimpleUrlAuthenticationFailureHandler();
 		}
@@ -230,7 +230,7 @@ public class SwitchUserFilter extends GenericFilterBean implements ApplicationEv
 	protected Authentication attemptSwitchUser(HttpServletRequest request) throws AuthenticationException {
 		UsernamePasswordAuthenticationToken targetUserRequest;
 		String username = request.getParameter(this.usernameParameter);
-		username = (username != null) ? username : "";
+		username = username != null ? username : "";
 		this.logger.debug(LogMessage.format("Attempting to switch to user [%s]", username));
 		UserDetails targetUser = this.userDetailsService.loadUserByUsername(username);
 		this.userDetailsChecker.check(targetUser);

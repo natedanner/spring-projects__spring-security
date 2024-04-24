@@ -119,7 +119,7 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 	@Test
 	public void filterWhenNotMatchThenAuthenticationManagerNotCalled() {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		this.filter.filter(exchange, chain).block();
 		verifyNoInteractions(this.authenticationManager);
@@ -141,7 +141,7 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 			.willReturn(Mono.just(TestOAuth2AuthorizationCodeAuthenticationTokens.authenticated()));
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(authorizationRequest);
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		this.filter.filter(exchange, chain).block();
 		verify(this.authorizedClientRepository).saveAuthorizedClient(any(), any(AnonymousAuthenticationToken.class),
@@ -169,7 +169,7 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 			.willReturn(Mono.just(oauth2AuthorizationRequest));
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(authorizationRequest);
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		this.filter.filter(exchange, chain).block();
 		verify(this.authenticationManager, times(1)).authenticate(any());
@@ -203,7 +203,7 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(
 				createAuthorizationRequest(requestUri, parametersNotMatch));
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		this.filter.filter(exchange, chain).block();
 		verifyNoInteractions(this.authenticationManager);
@@ -240,7 +240,7 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 			.willReturn(Mono.just(oauth2AuthorizationRequest));
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(authorizationRequest);
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		ServerRequestCache requestCache = mock(ServerRequestCache.class);
 		given(requestCache.getRedirectUri(any(ServerWebExchange.class)))
@@ -265,11 +265,11 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 			.willReturn(Mono.just(oauth2AuthorizationRequest));
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(authorizationRequest);
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.filter.filter(exchange, chain).block())
-			.satisfies((ex) -> assertThat(ex.getError()).extracting("errorCode")
+			.satisfies(ex -> assertThat(ex.getError()).extracting("errorCode")
 				.isEqualTo("client_registration_not_found"));
 		verifyNoInteractions(this.authenticationManager);
 	}
@@ -290,11 +290,11 @@ public class OAuth2AuthorizationCodeGrantWebFilterTests {
 			.willReturn(Mono.error(new OAuth2AuthorizationException(new OAuth2Error("authorization_error"))));
 		MockServerHttpRequest authorizationResponse = createAuthorizationResponse(authorizationRequest);
 		MockServerWebExchange exchange = MockServerWebExchange.from(authorizationResponse);
-		DefaultWebFilterChain chain = new DefaultWebFilterChain((e) -> e.getResponse().setComplete(),
+		DefaultWebFilterChain chain = new DefaultWebFilterChain(e -> e.getResponse().setComplete(),
 				Collections.emptyList());
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.filter.filter(exchange, chain).block())
-			.satisfies((ex) -> assertThat(ex.getError()).extracting("errorCode").isEqualTo("authorization_error"));
+			.satisfies(ex -> assertThat(ex.getError()).extracting("errorCode").isEqualTo("authorization_error"));
 	}
 
 	private static OAuth2AuthorizationRequest createOAuth2AuthorizationRequest(

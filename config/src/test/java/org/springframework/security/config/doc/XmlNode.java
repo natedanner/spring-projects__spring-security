@@ -53,7 +53,7 @@ public class XmlNode {
 	}
 
 	public Optional<XmlNode> child(String name) {
-		return this.children().filter((child) -> name.equals(child.simpleName())).findFirst();
+		return this.children().filter(child -> name.equals(child.simpleName())).findFirst();
 	}
 
 	public Optional<XmlNode> parent() {
@@ -65,7 +65,7 @@ public class XmlNode {
 	public String attribute(String name) {
 		// @formatter:off
 		return Optional.ofNullable(this.node.getAttributes())
-				.map((attrs) -> attrs.getNamedItem(name))
+				.map(attrs -> attrs.getNamedItem(name))
 				.map(Node::getTextContent)
 				.orElse(null);
 		// @formatter:on

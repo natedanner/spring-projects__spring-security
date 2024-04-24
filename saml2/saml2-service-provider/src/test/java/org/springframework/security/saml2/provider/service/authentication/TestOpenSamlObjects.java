@@ -98,18 +98,18 @@ public final class TestOpenSamlObjects {
 	static {
 		OpenSamlInitializationService.initialize();
 	}
-	private static String USERNAME = "test@saml.user";
+	private static final String USERNAME = "test@saml.user";
 
-	private static String DESTINATION = "https://localhost/login/saml2/sso/idp-alias";
+	private static final String DESTINATION = "https://localhost/login/saml2/sso/idp-alias";
 
-	private static String LOGOUT_DESTINATION = "http://localhost/logout/saml2/slo";
+	private static final String LOGOUT_DESTINATION = "http://localhost/logout/saml2/slo";
 
 	public static String RELYING_PARTY_ENTITY_ID = "https://localhost/saml2/service-provider-metadata/idp-alias";
 
 	public static String ASSERTING_PARTY_ENTITY_ID = "https://some.idp.test/saml2/idp";
 
-	private static SecretKey SECRET_KEY = new SecretKeySpec(
-			Base64.getDecoder().decode("shOnwNMoCv88HKMEa91+FlYoD5RNvzMTAL5LGxZKIFk="), "AES");
+	private static final SecretKey SECRET_KEY = new SecretKeySpec(
+		Base64.getDecoder().decode("shOnwNMoCv88HKMEa91+FlYoD5RNvzMTAL5LGxZKIFk="), "AES");
 
 	private TestOpenSamlObjects() {
 	}
@@ -129,7 +129,7 @@ public final class TestOpenSamlObjects {
 	}
 
 	static Response signedResponseWithOneAssertion() {
-		return signedResponseWithOneAssertion((response) -> {
+		return signedResponseWithOneAssertion(response -> {
 		});
 	}
 

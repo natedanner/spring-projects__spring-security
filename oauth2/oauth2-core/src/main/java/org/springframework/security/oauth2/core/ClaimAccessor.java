@@ -49,7 +49,7 @@ public interface ClaimAccessor {
 	 */
 	@SuppressWarnings("unchecked")
 	default <T> T getClaim(String claim) {
-		return !hasClaim(claim) ? null : (T) getClaims().get(claim);
+		return hasClaim(claim) ? (T) getClaims().get(claim) : null;
 	}
 
 	/**
@@ -72,8 +72,8 @@ public interface ClaimAccessor {
 	 * {@code null}
 	 */
 	default String getClaimAsString(String claim) {
-		return !hasClaim(claim) ? null
-				: ClaimConversionService.getSharedInstance().convert(getClaims().get(claim), String.class);
+		return hasClaim(claim) ? ClaimConversionService.getSharedInstance().convert(getClaims().get(claim), String.class)
+				: null;
 	}
 
 	/**

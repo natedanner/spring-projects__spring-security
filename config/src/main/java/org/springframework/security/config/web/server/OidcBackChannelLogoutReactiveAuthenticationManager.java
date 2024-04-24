@@ -77,8 +77,8 @@ final class OidcBackChannelLogoutReactiveAuthenticationManager implements Reacti
 		String logoutToken = token.getLogoutToken();
 		ClientRegistration registration = token.getClientRegistration();
 		return decode(registration, logoutToken)
-			.map((jwt) -> OidcLogoutToken.withTokenValue(logoutToken)
-				.claims((claims) -> claims.putAll(jwt.getClaims()))
+			.map(jwt -> OidcLogoutToken.withTokenValue(logoutToken)
+				.claims(claims -> claims.putAll(jwt.getClaims()))
 				.build())
 			.map(OidcBackChannelLogoutAuthentication::new);
 	}

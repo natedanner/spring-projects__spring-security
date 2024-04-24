@@ -83,7 +83,7 @@ public class OAuth2AuthorizationCodeGrantFilterTests {
 
 	private ClientRegistration registration1;
 
-	private String principalName1 = "principal-1";
+	private final String principalName1 = "principal-1";
 
 	private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -436,7 +436,7 @@ public class OAuth2AuthorizationCodeGrantFilterTests {
 			parameters.forEach(request::addParameter);
 			request.setQueryString(parameters.entrySet()
 				.stream()
-				.map((e) -> e.getKey() + "=" + e.getValue())
+				.map(e -> e.getKey() + "=" + e.getValue())
 				.collect(Collectors.joining("&")));
 		}
 		return request;
@@ -458,7 +458,7 @@ public class OAuth2AuthorizationCodeGrantFilterTests {
 		authorizationResponse.setQueryString(authorizationResponse.getParameterMap()
 			.entrySet()
 			.stream()
-			.map((e) -> e.getKey() + "=" + e.getValue()[0])
+			.map(e -> e.getKey() + "=" + e.getValue()[0])
 			.collect(Collectors.joining("&")));
 		authorizationResponse.setSession(authorizationRequest.getSession());
 		return authorizationResponse;

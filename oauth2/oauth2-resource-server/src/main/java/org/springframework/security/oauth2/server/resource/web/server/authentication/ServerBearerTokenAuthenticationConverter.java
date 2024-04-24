@@ -50,13 +50,13 @@ public class ServerBearerTokenAuthenticationConverter implements ServerAuthentic
 	private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$",
 			Pattern.CASE_INSENSITIVE);
 
-	private boolean allowUriQueryParameter = false;
+	private boolean allowUriQueryParameter;
 
 	private String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
 
 	@Override
 	public Mono<Authentication> convert(ServerWebExchange exchange) {
-		return Mono.fromCallable(() -> token(exchange.getRequest())).map((token) -> {
+		return Mono.fromCallable(() -> token(exchange.getRequest())).map(token -> {
 			if (token.isEmpty()) {
 				BearerTokenError error = invalidTokenError();
 				throw new OAuth2AuthenticationException(error);

@@ -33,7 +33,7 @@ public class X509AuthenticationFilter extends AbstractPreAuthenticatedProcessing
 	@Override
 	protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
 		X509Certificate cert = extractClientCertificate(request);
-		return (cert != null) ? this.principalExtractor.extractPrincipal(cert) : null;
+		return cert != null ? this.principalExtractor.extractPrincipal(cert) : null;
 	}
 
 	@Override

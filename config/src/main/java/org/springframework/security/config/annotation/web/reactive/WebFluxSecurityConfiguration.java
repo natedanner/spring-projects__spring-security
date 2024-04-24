@@ -124,8 +124,7 @@ class WebFluxSecurityConfiguration {
 			http.httpBasic();
 			http.formLogin();
 		}
-		SecurityWebFilterChain result = http.build();
-		return result;
+		return http.build();
 	}
 
 	private static class OAuth2ClasspathGuard {

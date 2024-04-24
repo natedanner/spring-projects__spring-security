@@ -123,7 +123,7 @@ public class AnonymousConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.anonymous((anonymous) ->
+				.anonymous(anonymous ->
 					anonymous
 						.principal("principal")
 				);
@@ -141,7 +141,7 @@ public class AnonymousConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().permitAll()
 				)
@@ -165,7 +165,7 @@ public class AnonymousConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().permitAll()
 				)

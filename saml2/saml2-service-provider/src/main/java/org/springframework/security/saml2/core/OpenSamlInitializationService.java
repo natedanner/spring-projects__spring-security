@@ -94,7 +94,7 @@ public final class OpenSamlInitializationService {
 	 * @throws Saml2Exception if OpenSAML failed to initialize
 	 */
 	public static boolean initialize() {
-		return initialize((registry) -> {
+		return initialize(registry -> {
 		});
 	}
 

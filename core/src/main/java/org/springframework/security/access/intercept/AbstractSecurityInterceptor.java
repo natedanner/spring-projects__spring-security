@@ -135,13 +135,13 @@ public abstract class AbstractSecurityInterceptor
 
 	private RunAsManager runAsManager = new NullRunAsManager();
 
-	private boolean alwaysReauthenticate = false;
+	private boolean alwaysReauthenticate;
 
-	private boolean rejectPublicInvocations = false;
+	private boolean rejectPublicInvocations;
 
 	private boolean validateConfigAttributes = true;
 
-	private boolean publishAuthorizationSuccess = false;
+	private boolean publishAuthorizationSuccess;
 
 	@Override
 	public void afterPropertiesSet() {
@@ -180,7 +180,7 @@ public abstract class AbstractSecurityInterceptor
 				unsupportedAttrs.add(attr);
 			}
 		}
-		if (unsupportedAttrs.size() != 0) {
+		if (!unsupportedAttrs.isEmpty()) {
 			this.logger
 				.trace("Did not validate configuration attributes since validateConfigurationAttributes is false");
 			throw new IllegalArgumentException("Unsupported configuration attributes: " + unsupportedAttrs);

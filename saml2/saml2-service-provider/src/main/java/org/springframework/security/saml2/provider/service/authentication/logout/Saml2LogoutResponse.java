@@ -38,7 +38,7 @@ import org.springframework.web.util.UriUtils;
  */
 public final class Saml2LogoutResponse {
 
-	private static final Function<Map<String, String>, String> DEFAULT_ENCODER = (params) -> {
+	private static final Function<Map<String, String>, String> DEFAULT_ENCODER = params -> {
 		if (params.isEmpty()) {
 			return null;
 		}

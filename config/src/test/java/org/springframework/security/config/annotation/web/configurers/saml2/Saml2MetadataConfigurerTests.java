@@ -133,7 +133,7 @@ public class Saml2MetadataConfigurerTests {
 		SecurityFilterChain filters(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 				.saml2Metadata(Customizer.withDefaults());
 			return http.build();
 			// @formatter:on
@@ -150,8 +150,8 @@ public class Saml2MetadataConfigurerTests {
 		SecurityFilterChain filters(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-				.saml2Metadata((saml2) -> saml2.metadataUrl("/saml/metadata"));
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+				.saml2Metadata(saml2 -> saml2.metadataUrl("/saml/metadata"));
 			return http.build();
 			// @formatter:on
 		}
@@ -180,8 +180,8 @@ public class Saml2MetadataConfigurerTests {
 		SecurityFilterChain filters(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-				.saml2Metadata((saml2) -> saml2.metadataResponseResolver(this.metadataResponseResolver));
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+				.saml2Metadata(saml2 -> saml2.metadataResponseResolver(this.metadataResponseResolver));
 			return http.build();
 			// @formatter:on
 		}

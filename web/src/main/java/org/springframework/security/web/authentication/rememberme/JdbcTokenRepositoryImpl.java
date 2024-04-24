@@ -50,13 +50,13 @@ public class JdbcTokenRepositoryImpl extends JdbcDaoSupport implements Persisten
 	/** The default SQL used by <tt>removeUserTokens</tt> */
 	public static final String DEF_REMOVE_USER_TOKENS_SQL = "delete from persistent_logins where username = ?";
 
-	private String tokensBySeriesSql = DEF_TOKEN_BY_SERIES_SQL;
+	private final String tokensBySeriesSql = DEF_TOKEN_BY_SERIES_SQL;
 
-	private String insertTokenSql = DEF_INSERT_TOKEN_SQL;
+	private final String insertTokenSql = DEF_INSERT_TOKEN_SQL;
 
-	private String updateTokenSql = DEF_UPDATE_TOKEN_SQL;
+	private final String updateTokenSql = DEF_UPDATE_TOKEN_SQL;
 
-	private String removeUserTokensSql = DEF_REMOVE_USER_TOKENS_SQL;
+	private final String removeUserTokensSql = DEF_REMOVE_USER_TOKENS_SQL;
 
 	private boolean createTableOnStartup;
 

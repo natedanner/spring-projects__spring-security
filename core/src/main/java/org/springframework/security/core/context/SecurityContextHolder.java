@@ -66,7 +66,7 @@ public class SecurityContextHolder {
 
 	private static SecurityContextHolderStrategy strategy;
 
-	private static int initializeCount = 0;
+	private static int initializeCount;
 
 	static {
 		initialize();

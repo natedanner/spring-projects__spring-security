@@ -175,7 +175,7 @@ public class DefaultSavedRequest implements SavedRequest {
 	}
 
 	private void addHeader(String name, String value) {
-		List<String> values = this.headers.computeIfAbsent(name, (key) -> new ArrayList<>());
+		List<String> values = this.headers.computeIfAbsent(name, key -> new ArrayList<>());
 		values.add(value);
 	}
 
@@ -288,7 +288,7 @@ public class DefaultSavedRequest implements SavedRequest {
 	@Override
 	public List<String> getHeaderValues(String name) {
 		List<String> values = this.headers.get(name);
-		return (values != null) ? values : Collections.emptyList();
+		return values != null ? values : Collections.emptyList();
 	}
 
 	@Override
@@ -320,11 +320,11 @@ public class DefaultSavedRequest implements SavedRequest {
 	}
 
 	public String getQueryString() {
-		return (this.queryString);
+		return this.queryString;
 	}
 
 	public String getRequestURI() {
-		return (this.requestURI);
+		return this.requestURI;
 	}
 
 	public String getRequestURL() {
@@ -354,10 +354,7 @@ public class DefaultSavedRequest implements SavedRequest {
 		if (arg1 == null || arg2 == null) {
 			return false;
 		}
-		if (arg1.equals(arg2)) {
-			return true;
-		}
-		return false;
+		return arg1.equals(arg2);
 	}
 
 	@Override
@@ -387,9 +384,9 @@ public class DefaultSavedRequest implements SavedRequest {
 	@JsonPOJOBuilder(withPrefix = "set")
 	public static class Builder {
 
-		private List<SavedCookie> cookies = null;
+		private List<SavedCookie> cookies;
 
-		private List<Locale> locales = null;
+		private List<Locale> locales;
 
 		private Map<String, List<String>> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 

@@ -63,7 +63,7 @@ public class InvalidConfigurationTests {
 	public void missingAuthenticationManagerGivesSensibleErrorMessage() {
 		assertThatExceptionOfType(BeanCreationException.class)
 			.isThrownBy(() -> setContext("<http auto-config='true' />"))
-			.satisfies((ex) -> {
+			.satisfies(ex -> {
 				Throwable cause = ultimateCause(ex);
 				assertThat(cause).isInstanceOf(NoSuchBeanDefinitionException.class);
 				NoSuchBeanDefinitionException nsbe = (NoSuchBeanDefinitionException) cause;

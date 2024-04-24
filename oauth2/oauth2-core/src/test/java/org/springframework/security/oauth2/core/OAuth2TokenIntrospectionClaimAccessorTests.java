@@ -39,7 +39,7 @@ public class OAuth2TokenIntrospectionClaimAccessorTests {
 
 	private final Map<String, Object> claims = new HashMap<>();
 
-	private final OAuth2TokenIntrospectionClaimAccessor claimAccessor = (() -> this.claims);
+	private final OAuth2TokenIntrospectionClaimAccessor claimAccessor = () -> this.claims;
 
 	@BeforeEach
 	public void setup() {

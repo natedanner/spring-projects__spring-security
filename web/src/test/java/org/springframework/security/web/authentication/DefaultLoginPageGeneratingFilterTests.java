@@ -39,7 +39,7 @@ import static org.mockito.Mockito.mock;
  */
 public class DefaultLoginPageGeneratingFilterTests {
 
-	private FilterChain chain = mock(FilterChain.class);
+	private final FilterChain chain = mock(FilterChain.class);
 
 	@Test
 	public void generatingPageWithAuthenticationProcessingFilterOnlyIsSuccessFul() throws Exception {

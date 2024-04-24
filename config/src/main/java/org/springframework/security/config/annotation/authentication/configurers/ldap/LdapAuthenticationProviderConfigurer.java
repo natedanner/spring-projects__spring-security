@@ -73,7 +73,7 @@ public class LdapAuthenticationProviderConfigurer<B extends ProviderManagerBuild
 
 	private String groupSearchBase = "";
 
-	private boolean groupSearchSubtree = false;
+	private boolean groupSearchSubtree;
 
 	private String groupSearchFilter = "(uniqueMember={0})";
 
@@ -81,13 +81,13 @@ public class LdapAuthenticationProviderConfigurer<B extends ProviderManagerBuild
 
 	private String userSearchBase = ""; // only for search
 
-	private String userSearchFilter = null; // "uid={0}"; // only for search
+	private String userSearchFilter; // "uid={0}"; // only for search
 
 	private String[] userDnPatterns;
 
 	private BaseLdapPathContextSource contextSource;
 
-	private ContextSourceBuilder contextSourceBuilder = new ContextSourceBuilder();
+	private final ContextSourceBuilder contextSourceBuilder = new ContextSourceBuilder();
 
 	private UserDetailsContextMapper userDetailsContextMapper;
 
@@ -196,7 +196,7 @@ public class LdapAuthenticationProviderConfigurer<B extends ProviderManagerBuild
 	 * @return the {@link LdapAuthenticator} to use
 	 */
 	private LdapAuthenticator createLdapAuthenticator(BaseLdapPathContextSource contextSource) {
-		AbstractLdapAuthenticator ldapAuthenticator = (this.passwordEncoder != null)
+		AbstractLdapAuthenticator ldapAuthenticator = this.passwordEncoder != null
 				? createPasswordCompareAuthenticator(contextSource) : createBindAuthenticator(contextSource);
 		LdapUserSearch userSearch = createUserSearch();
 		if (userSearch != null) {

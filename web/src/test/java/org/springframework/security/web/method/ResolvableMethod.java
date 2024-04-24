@@ -216,7 +216,7 @@ public final class ResolvableMethod {
 
 	private String formatParameter(Parameter param) {
 		Annotation[] annot = param.getAnnotations();
-		return (annot.length > 0)
+		return annot.length > 0
 				? Arrays.stream(annot).map(this::formatAnnotation).collect(Collectors.joining(",", "[", "]")) + " "
 						+ param
 				: param.toString();
@@ -314,7 +314,7 @@ public final class ResolvableMethod {
 		 * Filter on methods with the given name.
 		 */
 		public Builder<T> named(String methodName) {
-			addFilter("methodName=" + methodName, (m) -> m.getName().equals(methodName));
+			addFilter("methodName=" + methodName, m -> m.getName().equals(methodName));
 			return this;
 		}
 
@@ -335,8 +335,8 @@ public final class ResolvableMethod {
 		@SafeVarargs
 		public final Builder<T> annotPresent(Class<? extends Annotation>... annotationTypes) {
 			String message = "annotationPresent=" + Arrays.toString(annotationTypes);
-			addFilter(message, (candidate) -> Arrays.stream(annotationTypes)
-				.allMatch((annotType) -> AnnotatedElementUtils.findMergedAnnotation(candidate, annotType) != null));
+			addFilter(message, candidate -> Arrays.stream(annotationTypes)
+				.allMatch(annotType -> AnnotatedElementUtils.findMergedAnnotation(candidate, annotType) != null));
 			return this;
 		}
 
@@ -346,11 +346,11 @@ public final class ResolvableMethod {
 		@SafeVarargs
 		public final Builder<T> annotNotPresent(Class<? extends Annotation>... annotationTypes) {
 			String message = "annotationNotPresent=" + Arrays.toString(annotationTypes);
-			addFilter(message, (candidate) -> {
+			addFilter(message, candidate -> {
 				if (annotationTypes.length != 0) {
 					return Arrays.stream(annotationTypes)
-						.noneMatch((
-								annotType) -> AnnotatedElementUtils.findMergedAnnotation(candidate, annotType) != null);
+						.noneMatch(
+								annotType -> AnnotatedElementUtils.findMergedAnnotation(candidate, annotType) != null);
 				}
 				else {
 					return candidate.getAnnotations().length == 0;
@@ -385,7 +385,7 @@ public final class ResolvableMethod {
 		public Builder<T> returning(ResolvableType returnType) {
 			String expected = returnType.toString();
 			String message = "returnType=" + expected;
-			addFilter(message, (m) -> expected.equals(ResolvableType.forMethodReturnType(m).toString()));
+			addFilter(message, m -> expected.equals(ResolvableType.forMethodReturnType(m).toString()));
 			return this;
 		}
 
@@ -406,7 +406,7 @@ public final class ResolvableMethod {
 		}
 
 		private boolean isMatch(Method method) {
-			return this.filters.stream().allMatch((p) -> p.test(method));
+			return this.filters.stream().allMatch(p -> p.test(method));
 		}
 
 		private String formatMethods(Set<Method> methods) {
@@ -564,7 +564,7 @@ public final class ResolvableMethod {
 		 */
 		@SafeVarargs
 		public final ArgResolver annotPresent(Class<? extends Annotation>... annotationTypes) {
-			this.filters.add((param) -> Arrays.stream(annotationTypes).allMatch(param::hasParameterAnnotation));
+			this.filters.add(param -> Arrays.stream(annotationTypes).allMatch(param::hasParameterAnnotation));
 			return this;
 		}
 
@@ -574,7 +574,7 @@ public final class ResolvableMethod {
 		 */
 		@SafeVarargs
 		public final ArgResolver annotNotPresent(Class<? extends Annotation>... annotationTypes) {
-			this.filters.add((param) -> (annotationTypes.length != 0)
+			this.filters.add(param -> annotationTypes.length != 0
 					? Arrays.stream(annotationTypes).noneMatch(param::hasParameterAnnotation)
 					: param.getParameterAnnotations().length == 0);
 			return this;
@@ -601,7 +601,7 @@ public final class ResolvableMethod {
 		 * @param type the expected type
 		 */
 		public MethodParameter arg(ResolvableType type) {
-			this.filters.add((p) -> type.toString().equals(ResolvableType.forMethodParameter(p).toString()));
+			this.filters.add(p -> type.toString().equals(ResolvableType.forMethodParameter(p).toString()));
 			return arg();
 		}
 
@@ -621,7 +621,7 @@ public final class ResolvableMethod {
 			for (int i = 0; i < ResolvableMethod.this.method.getParameterCount(); i++) {
 				MethodParameter param = new SynthesizingMethodParameter(ResolvableMethod.this.method, i);
 				param.initParameterNameDiscovery(nameDiscoverer);
-				if (this.filters.stream().allMatch((p) -> p.test(param))) {
+				if (this.filters.stream().allMatch(p -> p.test(param))) {
 					matches.add(param);
 				}
 			}

@@ -127,7 +127,7 @@ public class MappedJwtClaimSetConverterTests {
 	@Test
 	public void convertWhenConverterReturnsNullThenClaimIsRemoved() {
 		MappedJwtClaimSetConverter converter = MappedJwtClaimSetConverter
-			.withDefaults(Collections.singletonMap(JwtClaimNames.NBF, (nbfClaimValue) -> null));
+			.withDefaults(Collections.singletonMap(JwtClaimNames.NBF, nbfClaimValue -> null));
 		Map<String, Object> source = Collections.singletonMap(JwtClaimNames.NBF, Instant.now());
 		Map<String, Object> target = converter.convert(source);
 		assertThat(target).doesNotContainKey(JwtClaimNames.NBF);

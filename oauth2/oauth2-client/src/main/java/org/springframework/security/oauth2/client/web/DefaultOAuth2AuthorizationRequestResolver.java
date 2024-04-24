@@ -82,7 +82,7 @@ public final class DefaultOAuth2AuthorizationRequestResolver implements OAuth2Au
 
 	private final AntPathRequestMatcher authorizationRequestMatcher;
 
-	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer = (customizer) -> {
+	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer = customizer -> {
 	};
 
 	/**
@@ -172,7 +172,7 @@ public final class DefaultOAuth2AuthorizationRequestResolver implements OAuth2Au
 		if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(clientRegistration.getAuthorizationGrantType())) {
 			// @formatter:off
 			OAuth2AuthorizationRequest.Builder builder = OAuth2AuthorizationRequest.authorizationCode()
-					.attributes((attrs) ->
+					.attributes(attrs ->
 							attrs.put(OAuth2ParameterNames.REGISTRATION_ID, clientRegistration.getRegistrationId()));
 			// @formatter:on
 			if (!CollectionUtils.isEmpty(clientRegistration.getScopes())
@@ -231,21 +231,21 @@ public final class DefaultOAuth2AuthorizationRequestResolver implements OAuth2Au
 				.build();
 		// @formatter:on
 		String scheme = uriComponents.getScheme();
-		uriVariables.put("baseScheme", (scheme != null) ? scheme : "");
+		uriVariables.put("baseScheme", scheme != null ? scheme : "");
 		String host = uriComponents.getHost();
-		uriVariables.put("baseHost", (host != null) ? host : "");
+		uriVariables.put("baseHost", host != null ? host : "");
 		// following logic is based on HierarchicalUriComponents#toUriString()
 		int port = uriComponents.getPort();
-		uriVariables.put("basePort", (port == -1) ? "" : ":" + port);
+		uriVariables.put("basePort", port == -1 ? "" : ":" + port);
 		String path = uriComponents.getPath();
 		if (StringUtils.hasLength(path)) {
 			if (path.charAt(0) != PATH_DELIMITER) {
 				path = PATH_DELIMITER + path;
 			}
 		}
-		uriVariables.put("basePath", (path != null) ? path : "");
+		uriVariables.put("basePath", path != null ? path : "");
 		uriVariables.put("baseUrl", uriComponents.toUriString());
-		uriVariables.put("action", (action != null) ? action : "");
+		uriVariables.put("action", action != null ? action : "");
 		return UriComponentsBuilder.fromUriString(clientRegistration.getRedirectUri())
 			.buildAndExpand(uriVariables)
 			.toUriString();
@@ -265,8 +265,8 @@ public final class DefaultOAuth2AuthorizationRequestResolver implements OAuth2Au
 		try {
 			String nonce = DEFAULT_SECURE_KEY_GENERATOR.generateKey();
 			String nonceHash = createHash(nonce);
-			builder.attributes((attrs) -> attrs.put(OidcParameterNames.NONCE, nonce));
-			builder.additionalParameters((params) -> params.put(OidcParameterNames.NONCE, nonceHash));
+			builder.attributes(attrs -> attrs.put(OidcParameterNames.NONCE, nonce));
+			builder.additionalParameters(params -> params.put(OidcParameterNames.NONCE, nonceHash));
 		}
 		catch (NoSuchAlgorithmException ex) {
 		}

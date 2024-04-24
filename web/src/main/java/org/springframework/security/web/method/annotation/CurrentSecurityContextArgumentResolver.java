@@ -79,7 +79,7 @@ public final class CurrentSecurityContextArgumentResolver implements HandlerMeth
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	private BeanResolver beanResolver;
 

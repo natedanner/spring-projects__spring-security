@@ -86,7 +86,7 @@ public class DelegatingSecurityContextTaskSchedulerTests {
 
 	@Test
 	public void scheduleWhenDefaultThenCurrentSecurityContextPropagated() throws Exception {
-		willAnswer((invocation) -> {
+		willAnswer(invocation -> {
 			assertThat(SecurityContextHolder.getContext()).isEqualTo(this.originalSecurityContext);
 			return null;
 		}).given(this.runnable).run();
@@ -97,7 +97,7 @@ public class DelegatingSecurityContextTaskSchedulerTests {
 
 	@Test
 	public void scheduleWhenSecurityContextThenSecurityContextPropagated() throws Exception {
-		willAnswer((invocation) -> {
+		willAnswer(invocation -> {
 			assertThat(SecurityContextHolder.getContext()).isEqualTo(this.securityContext);
 			return null;
 		}).given(this.runnable).run();

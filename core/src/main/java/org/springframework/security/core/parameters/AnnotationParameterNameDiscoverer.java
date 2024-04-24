@@ -88,8 +88,7 @@ import org.springframework.util.ReflectionUtils;
  */
 public class AnnotationParameterNameDiscoverer implements ParameterNameDiscoverer {
 
-	private static final ParameterNameFactory<Constructor<?>> CONSTRUCTOR_METHODPARAM_FACTORY = (
-			constructor) -> constructor.getParameterAnnotations();
+	private static final ParameterNameFactory<Constructor<?>> CONSTRUCTOR_METHODPARAM_FACTORY = Constructor::getParameterAnnotations;
 
 	private static final ParameterNameFactory<Method> METHOD_METHODPARAM_FACTORY = Method::getParameterAnnotations;
 

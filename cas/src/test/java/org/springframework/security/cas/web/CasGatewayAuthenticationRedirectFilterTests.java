@@ -53,7 +53,7 @@ public class CasGatewayAuthenticationRedirectFilterTests {
 		RequestCache requestCache = mock();
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
-		this.filter.setRequestMatcher((req) -> true);
+		this.filter.setRequestMatcher(req -> true);
 		this.filter.setRequestCache(requestCache);
 		this.filter.doFilter(request, response, new MockFilterChain());
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
@@ -64,7 +64,7 @@ public class CasGatewayAuthenticationRedirectFilterTests {
 
 	@Test
 	void doFilterWhenNotMatchThenContinueFilter() throws ServletException, IOException {
-		this.filter.setRequestMatcher((req) -> false);
+		this.filter.setRequestMatcher(req -> false);
 		FilterChain chain = mock();
 		MockHttpServletResponse response = mock();
 		this.filter.doFilter(new MockHttpServletRequest(), response, chain);
@@ -79,7 +79,7 @@ public class CasGatewayAuthenticationRedirectFilterTests {
 		this.filter = new CasGatewayAuthenticationRedirectFilter(CAS_LOGIN_URL, serviceProperties);
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
-		this.filter.setRequestMatcher((req) -> true);
+		this.filter.setRequestMatcher(req -> true);
 		this.filter.doFilter(request, response, new MockFilterChain());
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
 		assertThat(response.getHeader("Location"))

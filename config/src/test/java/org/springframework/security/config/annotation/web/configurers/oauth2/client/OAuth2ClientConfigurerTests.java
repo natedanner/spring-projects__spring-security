@@ -262,7 +262,7 @@ public class OAuth2ClientConfigurerTests {
 		OAuth2AuthorizationRequestResolver defaultAuthorizationRequestResolver = authorizationRequestResolver;
 		authorizationRequestResolver = mock(OAuth2AuthorizationRequestResolver.class);
 		given(authorizationRequestResolver.resolve(any()))
-			.willAnswer((invocation) -> defaultAuthorizationRequestResolver.resolve(invocation.getArgument(0)));
+			.willAnswer(invocation -> defaultAuthorizationRequestResolver.resolve(invocation.getArgument(0)));
 		this.spring.register(OAuth2ClientConfig.class).autowire();
 		// @formatter:off
 		this.mockMvc.perform(get("/oauth2/authorization/registration-1"))
@@ -341,7 +341,7 @@ public class OAuth2ClientConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().authenticated()
 				)

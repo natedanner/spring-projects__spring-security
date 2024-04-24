@@ -40,7 +40,7 @@ import static org.mockito.Mockito.verify;
  */
 public class AbstractAuthenticationTokenTests {
 
-	private List<GrantedAuthority> authorities = null;
+	private List<GrantedAuthority> authorities;
 
 	@BeforeEach
 	public final void setUp() {

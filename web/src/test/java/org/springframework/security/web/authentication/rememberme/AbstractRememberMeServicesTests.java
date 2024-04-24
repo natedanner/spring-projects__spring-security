@@ -443,8 +443,7 @@ public class AbstractRememberMeServicesTests {
 			if (cookieTokens.length != 3) {
 				throw new InvalidCookieException("deliberate exception");
 			}
-			UserDetails user = getUserDetailsService().loadUserByUsername("joe");
-			return user;
+			return getUserDetailsService().loadUserByUsername("joe");
 		}
 
 	}

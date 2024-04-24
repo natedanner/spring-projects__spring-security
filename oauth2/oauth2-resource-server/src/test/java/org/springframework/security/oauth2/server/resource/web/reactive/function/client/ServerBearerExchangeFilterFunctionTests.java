@@ -43,15 +43,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ServerBearerExchangeFilterFunctionTests {
 
-	private ServerBearerExchangeFilterFunction function = new ServerBearerExchangeFilterFunction();
+	private final ServerBearerExchangeFilterFunction function = new ServerBearerExchangeFilterFunction();
 
-	private MockExchangeFunction exchange = new MockExchangeFunction();
+	private final MockExchangeFunction exchange = new MockExchangeFunction();
 
-	private OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, "token-0",
-			Instant.now(), Instant.now().plus(Duration.ofDays(1)));
+	private final OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, "token-0",
+		Instant.now(), Instant.now().plus(Duration.ofDays(1)));
 
-	private Authentication authentication = new AbstractOAuth2TokenAuthenticationToken<OAuth2AccessToken>(
-			this.accessToken) {
+	private final Authentication authentication = new AbstractOAuth2TokenAuthenticationToken<OAuth2AccessToken>(
+		this.accessToken) {
 		@Override
 		public Map<String, Object> getTokenAttributes() {
 			return Collections.emptyMap();

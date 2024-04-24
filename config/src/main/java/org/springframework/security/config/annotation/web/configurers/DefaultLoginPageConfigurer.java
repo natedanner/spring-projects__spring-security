@@ -72,7 +72,7 @@ public final class DefaultLoginPageConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private DefaultLoginPageGeneratingFilter loginPageGeneratingFilter = new DefaultLoginPageGeneratingFilter();
 
-	private DefaultLogoutPageGeneratingFilter logoutPageGeneratingFilter = new DefaultLogoutPageGeneratingFilter();
+	private final DefaultLogoutPageGeneratingFilter logoutPageGeneratingFilter = new DefaultLogoutPageGeneratingFilter();
 
 	@Override
 	public void init(H http) {
@@ -83,7 +83,7 @@ public final class DefaultLoginPageConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private Map<String, String> hiddenInputs(HttpServletRequest request) {
 		CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-		return (token != null) ? Collections.singletonMap(token.getParameterName(), token.getToken())
+		return token != null ? Collections.singletonMap(token.getParameterName(), token.getToken())
 				: Collections.emptyMap();
 	}
 

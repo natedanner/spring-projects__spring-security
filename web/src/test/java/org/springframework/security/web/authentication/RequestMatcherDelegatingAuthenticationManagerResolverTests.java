@@ -36,9 +36,9 @@ import static org.mockito.Mockito.mock;
  */
 public class RequestMatcherDelegatingAuthenticationManagerResolverTests {
 
-	private AuthenticationManager one = mock(AuthenticationManager.class);
+	private final AuthenticationManager one = mock(AuthenticationManager.class);
 
-	private AuthenticationManager two = mock(AuthenticationManager.class);
+	private final AuthenticationManager two = mock(AuthenticationManager.class);
 
 	@Test
 	public void resolveWhenMatchesThenReturnsAuthenticationManager() {

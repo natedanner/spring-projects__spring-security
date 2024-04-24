@@ -74,7 +74,7 @@ public class SecurityMockServerConfigurersOAuth2ClientTests extends AbstractMock
 		this.authorizedClientManager = new DefaultReactiveOAuth2AuthorizedClientManager(
 				this.clientRegistrationRepository, this.authorizedClientRepository);
 		this.client = WebTestClient.bindToController(this.controller)
-			.argumentResolvers((c) -> c
+			.argumentResolvers(c -> c
 				.addCustomResolver(new OAuth2AuthorizedClientArgumentResolver(this.authorizedClientManager)))
 			.webFilter(new SecurityContextServerWebExchangeWebFilter())
 			.apply(SecurityMockServerConfigurers.springSecurity())
@@ -130,7 +130,7 @@ public class SecurityMockServerConfigurersOAuth2ClientTests extends AbstractMock
 	public void oauth2ClientWhenClientRegistrationConsumerThenUses() throws Exception {
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOAuth2Client("registration-id")
-				.clientRegistration((c) -> c.clientId("client-id")))
+				.clientRegistration(c -> c.clientId("client-id")))
 			.get()
 			.uri("/client")
 			.exchange()
@@ -203,7 +203,7 @@ public class SecurityMockServerConfigurersOAuth2ClientTests extends AbstractMock
 	public void oauth2ClientWhenUsedThenSetsClientToRepository() {
 		this.client.mutateWith(SecurityMockServerConfigurers.mockOAuth2Client("registration-id"))
 			.mutateWith((clientBuilder, httpBuilder, connector) -> httpBuilder
-				.filters((filters) -> filters.add((exchange, chain) -> {
+				.filters(filters -> filters.add((exchange, chain) -> {
 					ServerOAuth2AuthorizedClientRepository repository = (ServerOAuth2AuthorizedClientRepository) ReflectionTestUtils
 						.getField(this.authorizedClientManager, "authorizedClientRepository");
 					assertThat(repository).isInstanceOf(TestOAuth2AuthorizedClientRepository.class);

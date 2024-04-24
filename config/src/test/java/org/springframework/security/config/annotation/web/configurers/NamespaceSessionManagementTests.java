@@ -98,7 +98,7 @@ public class NamespaceSessionManagementTests {
 	@Test
 	public void authenticateWhenUsingInvalidSessionUrlThenMatchesNamespace() throws Exception {
 		this.spring.register(CustomSessionManagementConfig.class).autowire();
-		MockHttpServletRequestBuilder authRequest = get("/auth").with((request) -> {
+		MockHttpServletRequestBuilder authRequest = get("/auth").with(request -> {
 			request.setRequestedSessionIdValid(false);
 			request.setRequestedSessionId("id");
 			return request;
@@ -136,7 +136,7 @@ public class NamespaceSessionManagementTests {
 		mock.setMethod("GET");
 		// @formatter:off
 		MockHttpServletRequestBuilder authRequest = get("/auth")
-				.with((request) -> mock)
+				.with(request -> mock)
 				.with(httpBasic("user", "password"));
 		// @formatter:on
 		this.mvc.perform(authRequest).andExpect(redirectedUrl("/session-auth-error"));
@@ -156,7 +156,7 @@ public class NamespaceSessionManagementTests {
 	@Test
 	public void authenticateWhenUsingCustomInvalidSessionStrategyThenMatchesNamespace() throws Exception {
 		this.spring.register(InvalidSessionStrategyConfig.class).autowire();
-		MockHttpServletRequestBuilder authRequest = get("/auth").with((request) -> {
+		MockHttpServletRequestBuilder authRequest = get("/auth").with(request -> {
 			request.setRequestedSessionIdValid(false);
 			request.setRequestedSessionId("id");
 			return request;
@@ -264,10 +264,10 @@ public class NamespaceSessionManagementTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize
+				.authorizeHttpRequests(authorize -> authorize
 					.anyRequest().authenticated()
 				)
-				.sessionManagement((sessions) -> sessions
+				.sessionManagement(sessions -> sessions
 					.requireExplicitAuthenticationStrategy(false)
 				)
 				.httpBasic(Customizer.withDefaults());
@@ -402,7 +402,7 @@ public class NamespaceSessionManagementTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessions) -> sessions
+				.sessionManagement(sessions -> sessions
 					.requireExplicitAuthenticationStrategy(false)
 				)
 				.httpBasic();
@@ -425,7 +425,7 @@ public class NamespaceSessionManagementTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((sessions) -> sessions
+				.sessionManagement(sessions -> sessions
 					.sessionFixation().newSession()
 					.requireExplicitAuthenticationStrategy(false)
 				)

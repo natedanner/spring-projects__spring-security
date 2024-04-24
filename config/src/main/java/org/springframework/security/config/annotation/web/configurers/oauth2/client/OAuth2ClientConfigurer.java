@@ -96,7 +96,7 @@ import org.springframework.util.Assert;
 public final class OAuth2ClientConfigurer<B extends HttpSecurityBuilder<B>>
 		extends AbstractHttpConfigurer<OAuth2ClientConfigurer<B>, B> {
 
-	private AuthorizationCodeGrantConfigurer authorizationCodeGrantConfigurer = new AuthorizationCodeGrantConfigurer();
+	private final AuthorizationCodeGrantConfigurer authorizationCodeGrantConfigurer = new AuthorizationCodeGrantConfigurer();
 
 	/**
 	 * Sets the repository of client registrations.
@@ -312,7 +312,7 @@ public final class OAuth2ClientConfigurer<B extends HttpSecurityBuilder<B>>
 			ResolvableType resolvableType = ResolvableType.forClassWithGenerics(OAuth2AccessTokenResponseClient.class,
 					OAuth2AuthorizationCodeGrantRequest.class);
 			OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> bean = getBeanOrNull(resolvableType);
-			return (bean != null) ? bean : new DefaultAuthorizationCodeTokenResponseClient();
+			return bean != null ? bean : new DefaultAuthorizationCodeTokenResponseClient();
 		}
 
 		@SuppressWarnings("unchecked")

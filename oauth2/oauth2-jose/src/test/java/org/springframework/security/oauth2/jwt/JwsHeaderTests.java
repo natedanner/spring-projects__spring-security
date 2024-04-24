@@ -66,7 +66,7 @@ public class JwsHeaderTests {
 				.contentType(expectedJwsHeader.getContentType())
 				.criticalHeader("critical-header1-name", "critical-header1-value")
 				.criticalHeader("critical-header2-name", "critical-header2-value")
-				.headers((headers) -> headers.put("custom-header-name", "custom-header-value"))
+				.headers(headers -> headers.put("custom-header-name", "custom-header-value"))
 				.build();
 		// @formatter:on
 

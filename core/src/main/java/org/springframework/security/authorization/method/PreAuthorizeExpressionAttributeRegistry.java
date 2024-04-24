@@ -69,7 +69,7 @@ final class PreAuthorizeExpressionAttributeRegistry extends AbstractExpressionAt
 
 	private PreAuthorize findPreAuthorizeAnnotation(Method method) {
 		PreAuthorize preAuthorize = AuthorizationAnnotationUtils.findUniqueAnnotation(method, PreAuthorize.class);
-		return (preAuthorize != null) ? preAuthorize
+		return preAuthorize != null ? preAuthorize
 				: AuthorizationAnnotationUtils.findUniqueAnnotation(method.getDeclaringClass(), PreAuthorize.class);
 	}
 

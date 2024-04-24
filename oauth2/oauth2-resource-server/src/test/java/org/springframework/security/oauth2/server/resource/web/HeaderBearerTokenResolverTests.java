@@ -34,7 +34,7 @@ public class HeaderBearerTokenResolverTests {
 
 	private static final String CORRECT_HEADER = "jwt-assertion";
 
-	private HeaderBearerTokenResolver resolver = new HeaderBearerTokenResolver(CORRECT_HEADER);
+	private final HeaderBearerTokenResolver resolver = new HeaderBearerTokenResolver(CORRECT_HEADER);
 
 	@Test
 	public void constructorWhenHeaderNullThenThrowIllegalArgumentException() {

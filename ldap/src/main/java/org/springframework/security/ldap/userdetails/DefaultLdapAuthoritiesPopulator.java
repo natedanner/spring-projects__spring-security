@@ -129,7 +129,7 @@ public class DefaultLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator
 	/**
 	 * The base DN from which the search for group membership should be performed
 	 */
-	private String groupSearchBase;
+	private final String groupSearchBase;
 
 	/**
 	 * The pattern to be used for the user search. {0} is the user's DN
@@ -169,7 +169,7 @@ public class DefaultLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator
 		else if (groupSearchBase.length() == 0) {
 			logger.info("Will perform group search from the context source base since groupSearchBase is empty.");
 		}
-		this.authorityMapper = (record) -> {
+		this.authorityMapper = record -> {
 			List<String> roles = record.get(this.groupRoleAttribute);
 			if (CollectionUtils.isEmpty(roles)) {
 				return null;

@@ -100,7 +100,7 @@ public class ReactorContextTestExecutionListenerTests {
 		TestSecurityContextHolder.setAuthentication(contextHolder);
 		this.listener.beforeTestMethod(this.testContext);
 		Mono<Authentication> authentication = Mono.just("any")
-			.flatMap((s) -> ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication))
+			.flatMap(s -> ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication))
 			.contextWrite(ReactiveSecurityContextHolder.withAuthentication(expectedAuthentication));
 		StepVerifier.create(authentication).expectNext(expectedAuthentication).verifyComplete();
 	}
@@ -114,7 +114,7 @@ public class ReactorContextTestExecutionListenerTests {
 		TestSecurityContextHolder.setAuthentication(contextHolder);
 		this.listener.beforeTestMethod(this.testContext);
 		Mono<Authentication> authentication = Mono.just("any")
-			.flatMap((s) -> ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication))
+			.flatMap(s -> ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication))
 			.contextWrite(ReactiveSecurityContextHolder.clearContext());
 		StepVerifier.create(authentication).verifyComplete();
 	}
@@ -135,7 +135,7 @@ public class ReactorContextTestExecutionListenerTests {
 	@Test
 	public void afterTestMethodWhenDifferentHookIsRegistered() throws Exception {
 		Object obj = new Object();
-		Hooks.onLastOperator("CUSTOM_HOOK", (p) -> Mono.just(obj));
+		Hooks.onLastOperator("CUSTOM_HOOK", p -> Mono.just(obj));
 		this.listener.afterTestMethod(this.testContext);
 		Object result = Mono.deferContextual(Mono::just).block();
 		assertThat(result).isEqualTo(obj);

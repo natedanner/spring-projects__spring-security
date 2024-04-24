@@ -119,7 +119,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 	private final LdapTemplate template;
 
 	/** Default context mapper used to create a set of roles from a list of attributes */
-	private AttributesMapper roleMapper = (attributes) -> {
+	private AttributesMapper roleMapper = attributes -> {
 		Attribute roleAttr = attributes.get(this.groupRoleAttributeName);
 		NamingEnumeration<?> ne = roleAttr.getAll();
 		Object group = ne.next();
@@ -129,7 +129,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 
 	private String[] attributesToRetrieve;
 
-	private boolean usePasswordModifyExtensionOperation = false;
+	private boolean usePasswordModifyExtensionOperation;
 
 	public LdapUserDetailsManager(ContextSource contextSource) {
 		this.template = new LdapTemplate(contextSource);
@@ -145,7 +145,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 	}
 
 	private DirContextAdapter loadUserAsContext(final DistinguishedName dn, final String username) {
-		return (DirContextAdapter) this.template.executeReadOnly((ContextExecutor) (ctx) -> {
+		return (DirContextAdapter) this.template.executeReadOnly((ContextExecutor) ctx -> {
 			try {
 				Attributes attrs = ctx.getAttributes(dn, this.attributesToRetrieve);
 				return new DirContextAdapter(attrs, LdapUtils.getFullDn(dn, ctx));
@@ -205,7 +205,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 	 */
 	@SuppressWarnings("unchecked")
 	List<GrantedAuthority> getUserAuthorities(final DistinguishedName dn, final String username) {
-		SearchExecutor se = (ctx) -> {
+		SearchExecutor se = ctx -> {
 			DistinguishedName fullDn = LdapUtils.getFullDn(dn, ctx);
 			SearchControls ctrls = new SearchControls();
 			ctrls.setReturningAttributes(new String[] { this.groupRoleAttributeName });
@@ -227,7 +227,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 		// Check for any existing authorities which might be set for this
 		// DN and remove them
 		List<GrantedAuthority> authorities = getUserAuthorities(dn, user.getUsername());
-		if (authorities.size() > 0) {
+		if (!authorities.isEmpty()) {
 			removeAuthorities(dn, authorities);
 		}
 		addAuthorities(dn, user.getAuthorities());
@@ -305,7 +305,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 
 	private void modifyAuthorities(final DistinguishedName userDn,
 			final Collection<? extends GrantedAuthority> authorities, final int modType) {
-		this.template.executeReadWrite((ContextExecutor) (ctx) -> {
+		this.template.executeReadWrite((ContextExecutor) ctx -> {
 			for (GrantedAuthority authority : authorities) {
 				String group = convertAuthorityToGroup(authority);
 				DistinguishedName fullDn = LdapUtils.getFullDn(userDn, ctx);
@@ -411,7 +411,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 			this.template.modifyAttributes(userDn, passwordChange);
 			return;
 		}
-		this.template.executeReadWrite((dirCtx) -> {
+		this.template.executeReadWrite(dirCtx -> {
 			LdapContext ctx = (LdapContext) dirCtx;
 			ctx.removeFromEnvironment("com.sun.jndi.ldap.connect.pool");
 			ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, LdapUtils.getFullDn(userDn, ctx).toString());
@@ -430,7 +430,7 @@ public class LdapUserDetailsManager implements UserDetailsManager {
 
 	private void changePasswordUsingExtensionOperation(DistinguishedName userDn, String oldPassword,
 			String newPassword) {
-		this.template.executeReadWrite((dirCtx) -> {
+		this.template.executeReadWrite(dirCtx -> {
 			LdapContext ctx = (LdapContext) dirCtx;
 			String userIdentity = LdapUtils.getFullDn(userDn, ctx).encode();
 			PasswordModifyRequest request = new PasswordModifyRequest(userIdentity, oldPassword, newPassword);

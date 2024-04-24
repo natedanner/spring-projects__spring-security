@@ -101,7 +101,7 @@ public class FilterInvocationSecurityMetadataSourceParser implements BeanDefinit
 		BeanDefinitionBuilder fidsBuilder;
 		if (useExpressions) {
 			Element expressionHandlerElt = DomUtils.getChildElementByTagName(httpElt, Elements.EXPRESSION_HANDLER);
-			String expressionHandlerRef = (expressionHandlerElt != null) ? expressionHandlerElt.getAttribute("ref")
+			String expressionHandlerRef = expressionHandlerElt != null ? expressionHandlerElt.getAttribute("ref")
 					: null;
 			if (StringUtils.hasText(expressionHandlerRef)) {
 				logger.info("Using bean '" + expressionHandlerRef + "' as web "

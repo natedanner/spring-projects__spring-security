@@ -64,9 +64,9 @@ public final class PreAuthorizeReactiveAuthorizationManager implements ReactiveA
 		}
 		// @formatter:off
 		return authentication
-				.map((auth) -> this.registry.getExpressionHandler().createEvaluationContext(auth, mi))
-				.flatMap((ctx) -> ReactiveExpressionUtils.evaluateAsBoolean(attribute.getExpression(), ctx))
-				.map((granted) -> new ExpressionAttributeAuthorizationDecision(granted, attribute));
+				.map(auth -> this.registry.getExpressionHandler().createEvaluationContext(auth, mi))
+				.flatMap(ctx -> ReactiveExpressionUtils.evaluateAsBoolean(attribute.getExpression(), ctx))
+				.map(granted -> new ExpressionAttributeAuthorizationDecision(granted, attribute));
 		// @formatter:on
 	}
 

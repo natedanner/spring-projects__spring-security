@@ -40,9 +40,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class DefaultLogoutPageGeneratingFilter extends OncePerRequestFilter {
 
-	private RequestMatcher matcher = new AntPathRequestMatcher("/logout", "GET");
+	private final RequestMatcher matcher = new AntPathRequestMatcher("/logout", "GET");
 
-	private Function<HttpServletRequest, Map<String, String>> resolveHiddenInputs = (request) -> Collections.emptyMap();
+	private Function<HttpServletRequest, Map<String, String>> resolveHiddenInputs = request -> Collections.emptyMap();
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -77,11 +77,9 @@ public class DefaultLogoutPageGeneratingFilter extends OncePerRequestFilter {
 		sb.append("  </head>\n");
 		sb.append("  <body>\n");
 		sb.append("     <div class=\"container\">\n");
-		sb.append("      <form class=\"form-signin\" method=\"post\" action=\"" + request.getContextPath()
-				+ "/logout\">\n");
+		sb.append("      <form class=\"form-signin\" method=\"post\" action=\"").append(request.getContextPath()).append("/logout\">\n");
 		sb.append("        <h2 class=\"form-signin-heading\">Are you sure you want to log out?</h2>\n");
-		sb.append(renderHiddenInputs(request)
-				+ "        <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Log Out</button>\n");
+		sb.append(renderHiddenInputs(request) + "        <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Log Out</button>\n");
 		sb.append("      </form>\n");
 		sb.append("    </div>\n");
 		sb.append("  </body>\n");

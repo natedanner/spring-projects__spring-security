@@ -227,11 +227,11 @@ public class BasicLookupStrategy implements LookupStrategy {
 		Assert.notNull(acls, "ACLs are required");
 		Assert.notEmpty(findNow, "Items to find now required");
 		String sql = computeRepeatingSql(this.lookupPrimaryKeysWhereClause, findNow.size());
-		Set<Long> parentsToLookup = this.jdbcTemplate.query(sql, (ps) -> setKeys(ps, findNow),
+		Set<Long> parentsToLookup = this.jdbcTemplate.query(sql, ps -> setKeys(ps, findNow),
 				new ProcessResultSet(acls, sids));
 		// Lookup the parents, now that our JdbcTemplate has released the database
 		// connection (SEC-547)
-		if (parentsToLookup.size() > 0) {
+		if (!parentsToLookup.isEmpty()) {
 			lookupPrimaryKeys(acls, parentsToLookup, sids);
 		}
 	}
@@ -296,7 +296,7 @@ public class BasicLookupStrategy implements LookupStrategy {
 			}
 			// Is it time to load from JDBC the currentBatchToLoad?
 			if ((currentBatchToLoad.size() == this.batchSize) || ((i + 1) == objects.size())) {
-				if (currentBatchToLoad.size() > 0) {
+				if (!currentBatchToLoad.isEmpty()) {
 					Map<ObjectIdentity, Acl> loadedBatch = lookupObjectIdentities(currentBatchToLoad, sids);
 					// Add loaded batch (all elements 100% initialized) to results
 					result.putAll(loadedBatch);
@@ -333,11 +333,11 @@ public class BasicLookupStrategy implements LookupStrategy {
 		String sql = computeRepeatingSql(this.lookupObjectIdentitiesWhereClause, objectIdentities.size());
 
 		Set<Long> parentsToLookup = this.jdbcTemplate.query(sql,
-				(ps) -> setupLookupObjectIdentitiesStatement(ps, objectIdentities), new ProcessResultSet(acls, sids));
+				ps -> setupLookupObjectIdentitiesStatement(ps, objectIdentities), new ProcessResultSet(acls, sids));
 
 		// Lookup the parents, now that our JdbcTemplate has released the database
 		// connection (SEC-547)
-		if (parentsToLookup.size() > 0) {
+		if (!parentsToLookup.isEmpty()) {
 			lookupPrimaryKeys(acls, parentsToLookup, sids);
 		}
 

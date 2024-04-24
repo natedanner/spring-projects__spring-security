@@ -62,9 +62,9 @@ public final class DefaultOAuth2AuthenticatedPrincipal implements OAuth2Authenti
 			Collection<GrantedAuthority> authorities) {
 		Assert.notEmpty(attributes, "attributes cannot be empty");
 		this.attributes = Collections.unmodifiableMap(attributes);
-		this.authorities = (authorities != null) ? Collections.unmodifiableCollection(authorities)
+		this.authorities = authorities != null ? Collections.unmodifiableCollection(authorities)
 				: AuthorityUtils.NO_AUTHORITIES;
-		this.name = (name != null) ? name : (String) this.attributes.get("sub");
+		this.name = name != null ? name : (String) this.attributes.get("sub");
 	}
 
 	/**

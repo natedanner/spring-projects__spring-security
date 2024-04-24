@@ -149,7 +149,7 @@ public class RelyingPartyRegistrationsTests {
 			List<RelyingPartyRegistration> registrations = RelyingPartyRegistrations
 				.collectionFromMetadataLocation(server.url("/").toString())
 				.stream()
-				.map((r) -> r.entityId("rp").build())
+				.map(r -> r.entityId("rp").build())
 				.collect(Collectors.toList());
 			assertThat(registrations).hasSize(2);
 			RelyingPartyRegistration first = registrations.get(0);
@@ -198,7 +198,7 @@ public class RelyingPartyRegistrationsTests {
 		RelyingPartyRegistration registration = RelyingPartyRegistrations
 			.collectionFromMetadataLocation("file:" + file.getAbsolutePath())
 			.stream()
-			.map((r) -> r.entityId("rp").build())
+			.map(r -> r.entityId("rp").build())
 			.findFirst()
 			.get();
 		RelyingPartyRegistration.AssertingPartyDetails details = registration.getAssertingPartyDetails();
@@ -216,7 +216,7 @@ public class RelyingPartyRegistrationsTests {
 		RelyingPartyRegistration registration = RelyingPartyRegistrations
 			.collectionFromMetadataLocation("file:" + file.getAbsolutePath())
 			.stream()
-			.map((r) -> r.entityId("rp").build())
+			.map(r -> r.entityId("rp").build())
 			.findFirst()
 			.get();
 		RelyingPartyRegistration.AssertingPartyDetails details = registration.getAssertingPartyDetails();
@@ -239,7 +239,7 @@ public class RelyingPartyRegistrationsTests {
 		try (InputStream source = new ByteArrayInputStream(this.entitiesDescriptor.getBytes())) {
 			RelyingPartyRegistration registration = RelyingPartyRegistrations.collectionFromMetadata(source)
 				.stream()
-				.map((r) -> r.entityId("rp").build())
+				.map(r -> r.entityId("rp").build())
 				.findFirst()
 				.get();
 			RelyingPartyRegistration.AssertingPartyDetails details = registration.getAssertingPartyDetails();

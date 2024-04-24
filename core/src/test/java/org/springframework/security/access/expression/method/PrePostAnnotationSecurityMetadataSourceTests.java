@@ -46,8 +46,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PrePostAnnotationSecurityMetadataSourceTests {
 
-	private PrePostAnnotationSecurityMetadataSource mds = new PrePostAnnotationSecurityMetadataSource(
-			new ExpressionBasedAnnotationAttributeFactory(new DefaultMethodSecurityExpressionHandler()));
+	private final PrePostAnnotationSecurityMetadataSource mds = new PrePostAnnotationSecurityMetadataSource(
+		new ExpressionBasedAnnotationAttributeFactory(new DefaultMethodSecurityExpressionHandler()));
 
 	private MockMethodInvocation voidImpl1;
 

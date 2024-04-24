@@ -64,7 +64,7 @@ final class PostFilterExpressionAttributeRegistry extends AbstractExpressionAttr
 
 	private PostFilter findPostFilterAnnotation(Method method) {
 		PostFilter postFilter = AuthorizationAnnotationUtils.findUniqueAnnotation(method, PostFilter.class);
-		return (postFilter != null) ? postFilter
+		return postFilter != null ? postFilter
 				: AuthorizationAnnotationUtils.findUniqueAnnotation(method.getDeclaringClass(), PostFilter.class);
 	}
 

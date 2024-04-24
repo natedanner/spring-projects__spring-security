@@ -52,7 +52,7 @@ public class SimpleUrlAuthenticationFailureHandler implements AuthenticationFail
 
 	private String defaultFailureUrl;
 
-	private boolean forwardToDestination = false;
+	private boolean forwardToDestination;
 
 	private boolean allowSessionCreation = true;
 

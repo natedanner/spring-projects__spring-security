@@ -100,7 +100,7 @@ public final class OAuth2AuthorizationResponse implements Serializable {
 	 * @return {@code true} if the Authorization Request failed, otherwise {@code false}
 	 */
 	public boolean statusError() {
-		return (this.error != null && this.error.getErrorCode() != null);
+		return this.error != null && this.error.getErrorCode() != null;
 	}
 
 	/**

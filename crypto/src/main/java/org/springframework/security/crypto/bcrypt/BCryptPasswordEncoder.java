@@ -35,7 +35,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class BCryptPasswordEncoder implements PasswordEncoder {
 
-	private Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
+	private Pattern bcryptPattern = Pattern.compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
 
 	private final Log logger = LogFactory.getLog(getClass());
 
@@ -97,7 +97,7 @@ public class BCryptPasswordEncoder implements PasswordEncoder {
 			throw new IllegalArgumentException("Bad strength");
 		}
 		this.version = version;
-		this.strength = (strength == -1) ? 10 : strength;
+		this.strength = strength == -1 ? 10 : strength;
 		this.random = random;
 	}
 
@@ -126,7 +126,7 @@ public class BCryptPasswordEncoder implements PasswordEncoder {
 			this.logger.warn("Empty encoded password");
 			return false;
 		}
-		if (!this.BCRYPT_PATTERN.matcher(encodedPassword).matches()) {
+		if (!this.bcryptPattern.matcher(encodedPassword).matches()) {
 			this.logger.warn("Encoded password does not look like BCrypt");
 			return false;
 		}
@@ -139,7 +139,7 @@ public class BCryptPasswordEncoder implements PasswordEncoder {
 			this.logger.warn("Empty encoded password");
 			return false;
 		}
-		Matcher matcher = this.BCRYPT_PATTERN.matcher(encodedPassword);
+		Matcher matcher = this.bcryptPattern.matcher(encodedPassword);
 		if (!matcher.matches()) {
 			throw new IllegalArgumentException("Encoded password does not look like BCrypt: " + encodedPassword);
 		}

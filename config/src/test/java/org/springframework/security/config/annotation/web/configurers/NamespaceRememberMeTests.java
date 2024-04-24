@@ -270,7 +270,7 @@ public class NamespaceRememberMeTests {
 	}
 
 	static RequestPostProcessor rememberMeLogin(String parameterName, boolean parameterValue) {
-		return (request) -> {
+		return request -> {
 			csrf().postProcessRequest(request);
 			request.setParameter("username", "user");
 			request.setParameter("password", "password");
@@ -353,7 +353,7 @@ public class NamespaceRememberMeTests {
 			// @formatter:off
 			http
 				.securityMatcher(new AntPathRequestMatcher("/without-key/**"))
-				.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated())
+				.authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
 				.formLogin()
 					.loginProcessingUrl("/without-key/login")
 					.and()

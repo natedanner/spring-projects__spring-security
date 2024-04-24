@@ -68,7 +68,7 @@ public class WebClientReactiveClientCredentialsTokenResponseClientTests {
 
 	private MockWebServer server;
 
-	private WebClientReactiveClientCredentialsTokenResponseClient client = new WebClientReactiveClientCredentialsTokenResponseClient();
+	private final WebClientReactiveClientCredentialsTokenResponseClient client = new WebClientReactiveClientCredentialsTokenResponseClient();
 
 	private ClientRegistration.Builder clientRegistration;
 
@@ -186,7 +186,7 @@ public class WebClientReactiveClientCredentialsTokenResponseClientTests {
 		SecretKeySpec secretKey = new SecretKeySpec(
 				clientRegistration.getClientSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 		JWK jwk = TestJwks.jwk(secretKey).build();
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2ClientCredentialsGrantRequest request = new OAuth2ClientCredentialsGrantRequest(clientRegistration);
@@ -216,7 +216,7 @@ public class WebClientReactiveClientCredentialsTokenResponseClientTests {
 
 		// Configure Jwt client authentication converter
 		JWK jwk = TestJwks.DEFAULT_RSA_JWK;
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2ClientCredentialsGrantRequest request = new OAuth2ClientCredentialsGrantRequest(clientRegistration);
@@ -281,7 +281,7 @@ public class WebClientReactiveClientCredentialsTokenResponseClientTests {
 		OAuth2ClientCredentialsGrantRequest request = new OAuth2ClientCredentialsGrantRequest(registration);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.client.getTokenResponse(request).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessageContaining("[invalid_token_response]")
 			.withMessageContaining("Empty OAuth 2.0 Access Token Response");
 	}

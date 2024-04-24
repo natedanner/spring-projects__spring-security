@@ -62,17 +62,17 @@ public class AnnotationSecurityAspectTests {
 	@Mock
 	private AuthenticationManager authman;
 
-	private TestingAuthenticationToken anne = new TestingAuthenticationToken("anne", "", "ROLE_A");
+	private final TestingAuthenticationToken anne = new TestingAuthenticationToken("anne", "", "ROLE_A");
 
 	// private TestingAuthenticationToken bob = new TestingAuthenticationToken("bob", "",
 	// "ROLE_B");
 	private AspectJMethodSecurityInterceptor interceptor;
 
-	private SecuredImpl secured = new SecuredImpl();
+	private final SecuredImpl secured = new SecuredImpl();
 
-	private SecuredImplSubclass securedSub = new SecuredImplSubclass();
+	private final SecuredImplSubclass securedSub = new SecuredImplSubclass();
 
-	private PrePostSecured prePostSecured = new PrePostSecured();
+	private final PrePostSecured prePostSecured = new PrePostSecured();
 
 	@BeforeEach
 	public final void setUp() {

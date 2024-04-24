@@ -81,11 +81,11 @@ public class XsdDocumentedTests {
 		List<String> nodes = root.child("schema")
 				.map(XmlNode::children)
 				.orElse(Stream.empty())
-				.filter((node) -> "simpleType".equals(node.simpleName())
+				.filter(node -> "simpleType".equals(node.simpleName())
 						&& "named-security-filter".equals(node.attribute("name")))
 				.flatMap(XmlNode::children)
 				.flatMap(XmlNode::children)
-				.map((node) -> node.attribute("value"))
+				.map(node -> node.attribute("value"))
 				.filter(StringUtils::isNotEmpty)
 				.collect(Collectors.toList());
 		// @formatter:on
@@ -124,11 +124,11 @@ public class XsdDocumentedTests {
 		List<String> nodes = root.child("schema")
 				.map(XmlNode::children)
 				.orElse(Stream.empty())
-				.filter((node) -> "simpleType".equals(node.simpleName())
+				.filter(node -> "simpleType".equals(node.simpleName())
 						&& "named-security-filter".equals(node.attribute("name")))
 				.flatMap(XmlNode::children)
 				.flatMap(XmlNode::children)
-				.map((node) -> node.attribute("value"))
+				.map(node -> node.attribute("value"))
 				.filter(StringUtils::isNotEmpty)
 				.collect(Collectors.toList());
 		// @formatter:on
@@ -166,12 +166,12 @@ public class XsdDocumentedTests {
 		Map<String, Element> elementsByElementName = this.xml.elementsByElementName(this.schemaDocumentLocation);
 		// @formatter:off
 		List<String> documentIds = namespaceLines()
-				.filter((line) -> line.matches("\\[\\[(nsa-.*)\\]\\]"))
-				.map((line) -> line.substring(2, line.length() - 2))
+				.filter(line -> line.matches("\\[\\[(nsa-.*)\\]\\]"))
+				.map(line -> line.substring(2, line.length() - 2))
 				.collect(Collectors.toList());
 		Set<String> expectedIds = elementsByElementName.values()
 				.stream()
-				.flatMap((element) -> element.getIds().stream())
+				.flatMap(element -> element.getIds().stream())
 				.collect(Collectors.toSet());
 		// @formatter:on
 		documentIds.removeAll(this.ignoredIds);
@@ -212,13 +212,13 @@ public class XsdDocumentedTests {
 				String expression = ".*<<(nsa-.*),.*>>.*";
 				if (line.matches(expression)) {
 					String elmtId = line.replaceAll(expression, "$1");
-					currentDocAttrNameToElmt.computeIfAbsent(docAttrName, (key) -> new ArrayList<>()).add(elmtId);
+					currentDocAttrNameToElmt.computeIfAbsent(docAttrName, key -> new ArrayList<>()).add(elmtId);
 				}
 				else {
 					expression = ".*xref:.*#(nsa-.*)\\[.*\\]";
 					if (line.matches(expression)) {
 						String elmtId = line.replaceAll(expression, "$1");
-						currentDocAttrNameToElmt.computeIfAbsent(docAttrName, (key) -> new ArrayList<>()).add(elmtId);
+						currentDocAttrNameToElmt.computeIfAbsent(docAttrName, key -> new ArrayList<>()).add(elmtId);
 					}
 				}
 			}
@@ -226,7 +226,7 @@ public class XsdDocumentedTests {
 		Map<String, Element> elementNameToElement = this.xml.elementsByElementName(this.schemaDocumentLocation);
 		Map<String, List<String>> schemaAttrNameToChildren = new TreeMap<>();
 		Map<String, List<String>> schemaAttrNameToParents = new TreeMap<>();
-		elementNameToElement.entrySet().stream().forEach((entry) -> {
+		elementNameToElement.entrySet().stream().forEach(entry -> {
 			String key = "nsa-" + entry.getKey();
 			if (this.ignoredIds.contains(key)) {
 				return;
@@ -236,8 +236,8 @@ public class XsdDocumentedTests {
 					.getAllParentElmts()
 					.values()
 					.stream()
-					.filter((element) -> !this.ignoredIds.contains(element.getId()))
-					.map((element) -> element.getId())
+					.filter(element -> !this.ignoredIds.contains(element.getId()))
+					.map(Element::getId)
 					.sorted()
 					.collect(Collectors.toList());
 			// @formatter:on
@@ -249,7 +249,7 @@ public class XsdDocumentedTests {
 					.getAllChildElmts()
 					.values()
 					.stream()
-					.filter((element) -> !this.ignoredIds.contains(element.getId())).map((element) -> element.getId())
+					.filter(element -> !this.ignoredIds.contains(element.getId())).map(Element::getId)
 					.sorted()
 					.collect(Collectors.toList());
 			// @formatter:on
@@ -286,17 +286,17 @@ public class XsdDocumentedTests {
 		// @formatter:off
 		String notDocElmtIds = elementNameToElement.values()
 				.stream()
-				.filter((element) -> StringUtils.isEmpty(element.getDesc())
+				.filter(element -> StringUtils.isEmpty(element.getDesc())
 						&& !this.ignoredIds.contains(element.getId()))
-				.map((element) -> element.getId())
+				.map(Element::getId)
 				.sorted()
 				.collect(Collectors.joining("\n"));
 		String notDocAttrIds = elementNameToElement.values()
 				.stream()
-				.flatMap((element) -> element.getAttrs().stream())
-				.filter((element) -> StringUtils.isEmpty(element.getDesc())
+				.flatMap(element -> element.getAttrs().stream())
+				.filter(element -> StringUtils.isEmpty(element.getDesc())
 						&& !this.ignoredIds.contains(element.getId()))
-				.map((element) -> element.getId())
+				.map(Attribute::getId)
 				.sorted()
 				.collect(Collectors.joining("\n"));
 		// @formatter:on

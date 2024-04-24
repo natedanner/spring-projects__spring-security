@@ -102,7 +102,7 @@ public class JdbcAclService implements AclService {
 		Object[] args = { parentIdentity.getIdentifier().toString(), parentIdentity.getType() };
 		List<ObjectIdentity> objects = this.jdbcOperations.query(this.findChildrenSql, args,
 				(rs, rowNum) -> mapObjectIdentityRow(rs));
-		return (!objects.isEmpty()) ? objects : null;
+		return !objects.isEmpty() ? objects : null;
 	}
 
 	private ObjectIdentity mapObjectIdentityRow(ResultSet rs) throws SQLException {

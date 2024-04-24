@@ -212,7 +212,7 @@ public class AclImplTests {
 		AclAuthorizationStrategyImpl strategy = new AclAuthorizationStrategyImpl(
 				new SimpleGrantedAuthority("ROLE_OWNERSHIP"), new SimpleGrantedAuthority("ROLE_AUDITING"),
 				new SimpleGrantedAuthority("ROLE_GENERAL"));
-		MutableAcl acl = new AclImpl(this.objectIdentity, (1), strategy, this.pgs, null, null, true,
+		MutableAcl acl = new AclImpl(this.objectIdentity, 1, strategy, this.pgs, null, null, true,
 				new PrincipalSid("joe"));
 		assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> acl.deleteAce(99));
 	}
@@ -367,8 +367,8 @@ public class AclImplTests {
 		Authentication auth = new TestingAuthenticationToken("ben", "ignored", "ROLE_GENERAL");
 		auth.setAuthenticated(true);
 		SecurityContextHolder.getContext().setAuthentication(auth);
-		ObjectIdentity identity = new ObjectIdentityImpl(TARGET_CLASS, (100));
-		ObjectIdentity identity2 = new ObjectIdentityImpl(TARGET_CLASS, (101));
+		ObjectIdentity identity = new ObjectIdentityImpl(TARGET_CLASS, 100);
+		ObjectIdentity identity2 = new ObjectIdentityImpl(TARGET_CLASS, 101);
 		MutableAcl acl = new AclImpl(identity, 1, this.authzStrategy, this.pgs, null, null, true,
 				new PrincipalSid("joe"));
 		MutableAcl parentAcl = new AclImpl(identity2, 2, this.authzStrategy, this.pgs, null, null, true,

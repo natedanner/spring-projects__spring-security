@@ -50,10 +50,10 @@ import org.springframework.security.core.GrantedAuthority;
  */
 class UsernamePasswordAuthenticationTokenDeserializer extends JsonDeserializer<UsernamePasswordAuthenticationToken> {
 
-	private static final TypeReference<List<GrantedAuthority>> GRANTED_AUTHORITY_LIST = new TypeReference<List<GrantedAuthority>>() {
+	private static final TypeReference<List<GrantedAuthority>> GRANTED_AUTHORITY_LIST = new TypeReference<>() {
 	};
 
-	private static final TypeReference<Object> OBJECT = new TypeReference<Object>() {
+	private static final TypeReference<Object> OBJECT = new TypeReference<>() {
 	};
 
 	/**
@@ -77,7 +77,7 @@ class UsernamePasswordAuthenticationTokenDeserializer extends JsonDeserializer<U
 		Object credentials = getCredentials(credentialsNode);
 		List<GrantedAuthority> authorities = mapper.readValue(readJsonNode(jsonNode, "authorities").traverse(mapper),
 				GRANTED_AUTHORITY_LIST);
-		UsernamePasswordAuthenticationToken token = (!authenticated)
+		UsernamePasswordAuthenticationToken token = !authenticated
 				? UsernamePasswordAuthenticationToken.unauthenticated(principal, credentials)
 				: UsernamePasswordAuthenticationToken.authenticated(principal, credentials, authorities);
 		JsonNode detailsNode = readJsonNode(jsonNode, "details");

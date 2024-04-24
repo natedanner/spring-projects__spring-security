@@ -60,7 +60,7 @@ public abstract class AbstractUserDetailsReactiveAuthenticationManager
 
 	private Scheduler scheduler = Schedulers.boundedElastic();
 
-	private UserDetailsChecker preAuthenticationChecks = this::defaultPreAuthenticationChecks;
+	private final UserDetailsChecker preAuthenticationChecks = this::defaultPreAuthenticationChecks;
 
 	private UserDetailsChecker postAuthenticationChecks = this::defaultPostAuthenticationChecks;
 
@@ -98,9 +98,9 @@ public abstract class AbstractUserDetailsReactiveAuthenticationManager
 		return retrieveUser(username)
 				.doOnNext(this.preAuthenticationChecks::check)
 				.publishOn(this.scheduler)
-				.filter((userDetails) -> this.passwordEncoder.matches(presentedPassword, userDetails.getPassword()))
+				.filter(userDetails -> this.passwordEncoder.matches(presentedPassword, userDetails.getPassword()))
 				.switchIfEmpty(Mono.defer(() -> Mono.error(new BadCredentialsException("Invalid Credentials"))))
-				.flatMap((userDetails) -> upgradeEncodingIfNecessary(userDetails, presentedPassword))
+				.flatMap(userDetails -> upgradeEncodingIfNecessary(userDetails, presentedPassword))
 				.doOnNext(this.postAuthenticationChecks::check)
 				.map(this::createUsernamePasswordAuthenticationToken);
 		// @formatter:on

@@ -77,7 +77,7 @@ public class NimbusReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 		Assert.hasText(clientId, "clientId cannot be empty");
 		Assert.notNull(clientSecret, "clientSecret cannot be null");
 		this.introspectionUri = URI.create(introspectionUri);
-		this.webClient = WebClient.builder().defaultHeaders((h) -> h.setBasicAuth(clientId, clientSecret)).build();
+		this.webClient = WebClient.builder().defaultHeaders(h -> h.setBasicAuth(clientId, clientSecret)).build();
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class NimbusReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 				.flatMap(this::adaptToNimbusResponse)
 				.map(this::parseNimbusResponse)
 				.map(this::castToNimbusSuccess)
-				.doOnNext((response) -> validate(token, response))
+				.doOnNext(response -> validate(token, response))
 				.map(this::convertClaimsSet)
-				.onErrorMap((e) -> !(e instanceof OAuth2IntrospectionException), this::onError);
+				.onErrorMap(e -> !(e instanceof OAuth2IntrospectionException), this::onError);
 		// @formatter:on
 	}
 
@@ -146,7 +146,7 @@ public class NimbusReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 					);
 			// @formatter:on
 		}
-		return responseEntity.bodyToMono(String.class).doOnNext(response::setContent).map((body) -> response);
+		return responseEntity.bodyToMono(String.class).doOnNext(response::setContent).map(body -> response);
 	}
 
 	private TokenIntrospectionResponse parseNimbusResponse(HTTPResponse response) {

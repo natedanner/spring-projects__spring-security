@@ -48,7 +48,7 @@ public class ClearSiteDataHeaderWriterTests {
 
 	@Test
 	public void createInstanceWhenMissingSourceThenThrowsException() {
-		assertThatExceptionOfType(Exception.class).isThrownBy(() -> new ClearSiteDataHeaderWriter())
+		assertThatExceptionOfType(Exception.class).isThrownBy(ClearSiteDataHeaderWriter::new)
 			.withMessage("directives cannot be empty or null");
 	}
 

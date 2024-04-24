@@ -80,7 +80,7 @@ public final class RsaKeyConverters {
 	 */
 	public static Converter<InputStream, RSAPrivateKey> pkcs8() {
 		KeyFactory keyFactory = rsaFactory();
-		return (source) -> {
+		return source -> {
 			List<String> lines = readAllLines(source);
 			Assert.isTrue(!lines.isEmpty() && lines.get(0).startsWith(PKCS8_PEM_HEADER),
 					"Key is not in PEM-encoded PKCS#8 format, please check that the header begins with "
@@ -113,7 +113,7 @@ public final class RsaKeyConverters {
 	public static Converter<InputStream, RSAPublicKey> x509() {
 		X509PemDecoder pemDecoder = new X509PemDecoder(rsaFactory());
 		X509CertificateDecoder certDecoder = new X509CertificateDecoder(x509CertificateFactory());
-		return (source) -> {
+		return source -> {
 			List<String> lines = readAllLines(source);
 			Assert.notEmpty(lines, "Input stream is empty");
 			String encodingHint = lines.get(0);

@@ -36,19 +36,19 @@ import static org.mockito.Mockito.mock;
  */
 public class WebSessionServerOAuth2AuthorizedClientRepositoryTests {
 
-	private WebSessionServerOAuth2AuthorizedClientRepository authorizedClientRepository = new WebSessionServerOAuth2AuthorizedClientRepository();
+	private final WebSessionServerOAuth2AuthorizedClientRepository authorizedClientRepository = new WebSessionServerOAuth2AuthorizedClientRepository();
 
-	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
-	private ClientRegistration registration1 = TestClientRegistrations.clientRegistration().build();
+	private final ClientRegistration registration1 = TestClientRegistrations.clientRegistration().build();
 
-	private ClientRegistration registration2 = TestClientRegistrations.clientRegistration2().build();
+	private final ClientRegistration registration2 = TestClientRegistrations.clientRegistration2().build();
 
-	private String registrationId1 = this.registration1.getRegistrationId();
+	private final String registrationId1 = this.registration1.getRegistrationId();
 
-	private String registrationId2 = this.registration2.getRegistrationId();
+	private final String registrationId2 = this.registration2.getRegistrationId();
 
-	private String principalName1 = "principalName-1";
+	private final String principalName1 = "principalName-1";
 
 	@Test
 	public void loadAuthorizedClientWhenClientRegistrationIdIsNullThenThrowIllegalArgumentException() {

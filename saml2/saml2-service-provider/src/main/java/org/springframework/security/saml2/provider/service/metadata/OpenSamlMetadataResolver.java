@@ -69,7 +69,7 @@ public final class OpenSamlMetadataResolver implements Saml2MetadataResolver {
 
 	private final EntitiesDescriptorMarshaller entitiesDescriptorMarshaller;
 
-	private Consumer<EntityDescriptorParameters> entityDescriptorCustomizer = (parameters) -> {
+	private Consumer<EntityDescriptorParameters> entityDescriptorCustomizer = parameters -> {
 	};
 
 	private boolean usePrettyPrint = true;

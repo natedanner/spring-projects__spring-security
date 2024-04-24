@@ -35,9 +35,9 @@ import org.springframework.web.servlet.support.RequestDataValueProcessor;
  */
 public final class CsrfRequestDataValueProcessor implements RequestDataValueProcessor {
 
-	private Pattern DISABLE_CSRF_TOKEN_PATTERN = Pattern.compile("(?i)^(GET|HEAD|TRACE|OPTIONS)$");
+	private final Pattern disableCsrfTokenPattern = Pattern.compile("(?i)^(GET|HEAD|TRACE|OPTIONS)$");
 
-	private String DISABLE_CSRF_TOKEN_ATTR = "DISABLE_CSRF_TOKEN_ATTR";
+	private static final String DISABLE_CSRF_TOKEN_ATTR = "DISABLE_CSRF_TOKEN_ATTR";
 
 	public String processAction(HttpServletRequest request, String action) {
 		return action;
@@ -45,7 +45,7 @@ public final class CsrfRequestDataValueProcessor implements RequestDataValueProc
 
 	@Override
 	public String processAction(HttpServletRequest request, String action, String method) {
-		if (method != null && this.DISABLE_CSRF_TOKEN_PATTERN.matcher(method).matches()) {
+		if (method != null && this.disableCsrfTokenPattern.matcher(method).matches()) {
 			request.setAttribute(this.DISABLE_CSRF_TOKEN_ATTR, Boolean.TRUE);
 		}
 		else {

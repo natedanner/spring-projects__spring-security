@@ -53,7 +53,7 @@ class OAuth2AccessTokenResponseBodyExtractor
 
 	private static final String INVALID_TOKEN_RESPONSE_ERROR_CODE = "invalid_token_response";
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
 	OAuth2AccessTokenResponseBodyExtractor() {
@@ -64,7 +64,7 @@ class OAuth2AccessTokenResponseBodyExtractor
 		BodyExtractor<Mono<Map<String, Object>>, ReactiveHttpInputMessage> delegate = BodyExtractors
 			.toMono(STRING_OBJECT_MAP);
 		return delegate.extract(inputMessage, context)
-			.onErrorMap((ex) -> new OAuth2AuthorizationException(
+			.onErrorMap(ex -> new OAuth2AuthorizationException(
 					invalidTokenResponse("An error occurred parsing the Access Token response: " + ex.getMessage()),
 					ex))
 			.switchIfEmpty(Mono.error(() -> new OAuth2AuthorizationException(
@@ -103,9 +103,9 @@ class OAuth2AccessTokenResponseBodyExtractor
 		if (errorObject == null) {
 			return new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR);
 		}
-		String code = (errorObject.getCode() != null) ? errorObject.getCode() : OAuth2ErrorCodes.SERVER_ERROR;
+		String code = errorObject.getCode() != null ? errorObject.getCode() : OAuth2ErrorCodes.SERVER_ERROR;
 		String description = errorObject.getDescription();
-		String uri = (errorObject.getURI() != null) ? errorObject.getURI().toString() : null;
+		String uri = errorObject.getURI() != null ? errorObject.getURI().toString() : null;
 		return new OAuth2Error(code, description, uri);
 	}
 
@@ -116,7 +116,7 @@ class OAuth2AccessTokenResponseBodyExtractor
 			accessTokenType = OAuth2AccessToken.TokenType.BEARER;
 		}
 		long expiresIn = accessToken.getLifetime();
-		Set<String> scopes = (accessToken.getScope() != null)
+		Set<String> scopes = accessToken.getScope() != null
 				? new LinkedHashSet<>(accessToken.getScope().toStringList()) : Collections.emptySet();
 		String refreshToken = null;
 		if (accessTokenResponse.getTokens().getRefreshToken() != null) {

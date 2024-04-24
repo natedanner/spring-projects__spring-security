@@ -76,7 +76,7 @@ import org.springframework.util.CollectionUtils;
  */
 final class HttpServlet3RequestFactory implements HttpServletRequestFactory {
 
-	private Log logger = LogFactory.getLog(getClass());
+	private final Log logger = LogFactory.getLog(getClass());
 
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
@@ -93,7 +93,7 @@ final class HttpServlet3RequestFactory implements HttpServletRequestFactory {
 
 	private List<LogoutHandler> logoutHandlers;
 
-	private SecurityContextRepository securityContextRepository;
+	private final SecurityContextRepository securityContextRepository;
 
 	HttpServlet3RequestFactory(String rolePrefix, SecurityContextRepository securityContextRepository) {
 		this.rolePrefix = rolePrefix;

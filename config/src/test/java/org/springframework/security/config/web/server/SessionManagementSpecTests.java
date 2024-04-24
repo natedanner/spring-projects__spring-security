@@ -125,7 +125,7 @@ public class SessionManagementSpecTests {
 		// first request be successful
 		ResponseCookie sessionCookie = this.client.get()
 			.uri("/")
-			.headers((headers) -> headers.setBasicAuth("user", "password"))
+			.headers(headers -> headers.setBasicAuth("user", "password"))
 			.exchange()
 			.expectStatus()
 			.isOk()
@@ -138,7 +138,7 @@ public class SessionManagementSpecTests {
 		// request with no session should fail
 		this.client.get()
 			.uri("/")
-			.headers((headers) -> headers.setBasicAuth("user", "password"))
+			.headers(headers -> headers.setBasicAuth("user", "password"))
 			.exchange()
 			.expectStatus()
 			.isUnauthorized();
@@ -146,7 +146,7 @@ public class SessionManagementSpecTests {
 		// request with session obtained from first request should be successful
 		this.client.get()
 			.uri("/")
-			.headers((headers) -> headers.setBasicAuth("user", "password"))
+			.headers(headers -> headers.setBasicAuth("user", "password"))
 			.cookie(sessionCookie.getName(), sessionCookie.getValue())
 			.exchange()
 			.expectStatus()
@@ -155,8 +155,8 @@ public class SessionManagementSpecTests {
 
 	@Test
 	void loginWhenMaxSessionPerAuthenticationThenUserLoginFailsAndAdminLoginSucceeds() {
-		ConcurrentSessionsMaxSessionPreventsLoginConfig.sessionLimit = (authentication) -> {
-			if (authentication.getName().equals("admin")) {
+		ConcurrentSessionsMaxSessionPreventsLoginConfig.sessionLimit = authentication -> {
+			if ("admin".equals(authentication.getName())) {
 				return Mono.empty();
 			}
 			return Mono.just(1);
@@ -454,10 +454,10 @@ public class SessionManagementSpecTests {
 		SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-				.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
+				.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
 				.formLogin(Customizer.withDefaults())
-				.sessionManagement((sessionManagement) -> sessionManagement
-					.concurrentSessions((concurrentSessions) -> concurrentSessions
+				.sessionManagement(sessionManagement -> sessionManagement
+					.concurrentSessions(concurrentSessions -> concurrentSessions
 						.maximumSessions(sessionLimit)
 						.maximumSessionsExceededHandler(new PreventLoginServerMaximumSessionsExceededHandler())
 					)
@@ -490,16 +490,16 @@ public class SessionManagementSpecTests {
 		SecurityWebFilterChain springSecurityFilter(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-					.authorizeExchange((exchanges) -> exchanges
+					.authorizeExchange(exchanges -> exchanges
 						.anyExchange().authenticated()
 					)
-					.oauth2Login((oauth2Login) -> oauth2Login
+					.oauth2Login(oauth2Login -> oauth2Login
 						.authenticationConverter(this.authenticationConverter)
 						.authenticationManager(this.manager)
 						.authorizationRequestResolver(this.resolver)
 					)
-					.sessionManagement((sessionManagement) -> sessionManagement
-						.concurrentSessions((concurrentSessions) -> concurrentSessions
+					.sessionManagement(sessionManagement -> sessionManagement
+						.concurrentSessions(concurrentSessions -> concurrentSessions
 								.maximumSessions(SessionLimit.of(maxSessions))
 								.maximumSessionsExceededHandler(preventLogin
 										? new PreventLoginServerMaximumSessionsExceededHandler()
@@ -530,10 +530,10 @@ public class SessionManagementSpecTests {
 		SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-				.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
+				.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
 				.formLogin(Customizer.withDefaults())
-				.sessionManagement((sessionManagement) -> sessionManagement
-					.concurrentSessions((concurrentSessions) -> concurrentSessions
+				.sessionManagement(sessionManagement -> sessionManagement
+					.concurrentSessions(concurrentSessions -> concurrentSessions
 						.maximumSessions(sessionLimit)
 					)
 				);
@@ -553,12 +553,12 @@ public class SessionManagementSpecTests {
 		SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-				.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
-				.formLogin((login) -> login
+				.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
+				.formLogin(login -> login
 						.authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/"))
 				)
-				.sessionManagement((sessionManagement) -> sessionManagement
-					.concurrentSessions((concurrentSessions) -> concurrentSessions
+				.sessionManagement(sessionManagement -> sessionManagement
+					.concurrentSessions(concurrentSessions -> concurrentSessions
 						.maximumSessions(SessionLimit.of(1))
 						.maximumSessionsExceededHandler(new PreventLoginServerMaximumSessionsExceededHandler())
 					)
@@ -579,12 +579,12 @@ public class SessionManagementSpecTests {
 		SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-					.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
-					.httpBasic((basic) -> basic
+					.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
+					.httpBasic(basic -> basic
 							.securityContextRepository(new WebSessionServerSecurityContextRepository())
 					)
-					.sessionManagement((sessionManagement) -> sessionManagement
-							.concurrentSessions((concurrentSessions) -> concurrentSessions
+					.sessionManagement(sessionManagement -> sessionManagement
+							.concurrentSessions(concurrentSessions -> concurrentSessions
 									.maximumSessions(SessionLimit.of(1))
 									.maximumSessionsExceededHandler(new PreventLoginServerMaximumSessionsExceededHandler())
 							)

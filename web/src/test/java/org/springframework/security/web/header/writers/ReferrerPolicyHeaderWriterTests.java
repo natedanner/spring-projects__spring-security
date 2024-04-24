@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class ReferrerPolicyHeaderWriterTests {
 
-	private final String DEFAULT_REFERRER_POLICY = "no-referrer";
+	private static final String DEFAULT_REFERRER_POLICY = "no-referrer";
 
 	private MockHttpServletRequest request;
 

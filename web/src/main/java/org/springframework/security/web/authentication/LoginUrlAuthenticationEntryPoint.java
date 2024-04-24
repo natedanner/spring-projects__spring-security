@@ -71,11 +71,11 @@ public class LoginUrlAuthenticationEntryPoint implements AuthenticationEntryPoin
 
 	private PortResolver portResolver = new PortResolverImpl();
 
-	private String loginFormUrl;
+	private final String loginFormUrl;
 
-	private boolean forceHttps = false;
+	private boolean forceHttps;
 
-	private boolean useForward = false;
+	private boolean useForward;
 
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -138,7 +138,6 @@ public class LoginUrlAuthenticationEntryPoint implements AuthenticationEntryPoin
 		logger.debug(LogMessage.format("Server side forward to: %s", loginForm));
 		RequestDispatcher dispatcher = request.getRequestDispatcher(loginForm);
 		dispatcher.forward(request, response);
-		return;
 	}
 
 	protected String buildRedirectUrlToLoginPage(HttpServletRequest request, HttpServletResponse response,

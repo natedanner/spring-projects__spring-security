@@ -38,7 +38,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 public class LogoutSpecTests {
 
-	private ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
+	private final ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
 
 	@Test
 	public void defaultLogout() {
@@ -118,11 +118,11 @@ public class LogoutSpecTests {
 	public void logoutWhenCustomLogoutInLambdaThenCustomLogoutUsed() {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
-				.authorizeExchange((exchange) -> exchange
+				.authorizeExchange(exchange -> exchange
 						.anyExchange().authenticated()
 				)
 				.formLogin(withDefaults())
-				.logout((logout) -> logout
+				.logout(logout -> logout
 						.requiresLogout(ServerWebExchangeMatchers.pathMatchers("/custom-logout"))
 				)
 				.build();

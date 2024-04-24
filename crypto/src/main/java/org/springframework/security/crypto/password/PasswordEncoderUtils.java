@@ -45,7 +45,7 @@ final class PasswordEncoderUtils {
 	private static byte[] bytesUtf8(String s) {
 		// need to check if Utf8.encode() runs in constant time (probably not).
 		// This may leak length of string.
-		return (s != null) ? Utf8.encode(s) : null;
+		return s != null ? Utf8.encode(s) : null;
 	}
 
 }

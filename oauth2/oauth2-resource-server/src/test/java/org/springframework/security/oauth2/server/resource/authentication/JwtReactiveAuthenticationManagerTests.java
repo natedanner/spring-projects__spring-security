@@ -102,7 +102,7 @@ public class JwtReactiveAuthenticationManagerTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> this.manager.authenticate(token).block())
-				.satisfies((ex) -> assertThat(ex)
+				.satisfies(ex -> assertThat(ex)
 						.hasFieldOrPropertyWithValue("error.description", "Invalid token")
 				);
 		// @formatter:on

@@ -102,7 +102,7 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
 
 	private RememberMeServices rememberMeServices = new NullRememberMeServices();
 
-	private boolean ignoreFailure = false;
+	private boolean ignoreFailure;
 
 	private String credentialsCharset = "UTF-8";
 
@@ -230,7 +230,7 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
 		// provided by form and digest, both of which force re-authentication if the
 		// respective header is detected (and in doing so replace/ any existing
 		// AnonymousAuthenticationToken). See SEC-610.
-		return (existingAuth instanceof AnonymousAuthenticationToken);
+		return existingAuth instanceof AnonymousAuthenticationToken;
 	}
 
 	protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,

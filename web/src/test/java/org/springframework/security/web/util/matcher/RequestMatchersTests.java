@@ -29,14 +29,14 @@ class RequestMatchersTests {
 
 	@Test
 	void checkAnyOfWhenOneMatchThenMatch() {
-		RequestMatcher composed = RequestMatchers.anyOf((r) -> false, (r) -> true);
+		RequestMatcher composed = RequestMatchers.anyOf(r -> false, r -> true);
 		boolean match = composed.matches(null);
 		assertThat(match).isTrue();
 	}
 
 	@Test
 	void checkAnyOfWhenNoneMatchThenNotMatch() {
-		RequestMatcher composed = RequestMatchers.anyOf((r) -> false, (r) -> false);
+		RequestMatcher composed = RequestMatchers.anyOf(r -> false, r -> false);
 		boolean match = composed.matches(null);
 		assertThat(match).isFalse();
 	}
@@ -50,14 +50,14 @@ class RequestMatchersTests {
 
 	@Test
 	void checkAllOfWhenOneNotMatchThenNotMatch() {
-		RequestMatcher composed = RequestMatchers.allOf((r) -> false, (r) -> true);
+		RequestMatcher composed = RequestMatchers.allOf(r -> false, r -> true);
 		boolean match = composed.matches(null);
 		assertThat(match).isFalse();
 	}
 
 	@Test
 	void checkAllOfWhenAllMatchThenMatch() {
-		RequestMatcher composed = RequestMatchers.allOf((r) -> true, (r) -> true);
+		RequestMatcher composed = RequestMatchers.allOf(r -> true, r -> true);
 		boolean match = composed.matches(null);
 		assertThat(match).isTrue();
 	}
@@ -71,14 +71,14 @@ class RequestMatchersTests {
 
 	@Test
 	void checkNotWhenMatchThenNotMatch() {
-		RequestMatcher composed = RequestMatchers.not((r) -> true);
+		RequestMatcher composed = RequestMatchers.not(r -> true);
 		boolean match = composed.matches(null);
 		assertThat(match).isFalse();
 	}
 
 	@Test
 	void checkNotWhenNotMatchThenMatch() {
-		RequestMatcher composed = RequestMatchers.not((r) -> false);
+		RequestMatcher composed = RequestMatchers.not(r -> false);
 		boolean match = composed.matches(null);
 		assertThat(match).isTrue();
 	}

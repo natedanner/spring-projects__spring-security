@@ -38,7 +38,7 @@ public class PostFilterAspectTests {
 
 	private MethodInterceptor interceptor;
 
-	private PrePostSecured prePostSecured = new PrePostSecured();
+	private final PrePostSecured prePostSecured = new PrePostSecured();
 
 	@BeforeEach
 	public final void setUp() {

@@ -787,7 +787,7 @@ public class HttpHeadersConfigTests {
 	}
 
 	private static ResultMatcher includes(Map<String, String> headers) {
-		return (result) -> {
+		return result -> {
 			for (Map.Entry<String, String> header : headers.entrySet()) {
 				header().string(header.getKey(), header.getValue()).match(result);
 			}
@@ -799,7 +799,7 @@ public class HttpHeadersConfigTests {
 	}
 
 	private static ResultMatcher excludes(Collection<String> headers) {
-		return (result) -> {
+		return result -> {
 			for (String name : headers) {
 				header().doesNotExist(name).match(result);
 			}

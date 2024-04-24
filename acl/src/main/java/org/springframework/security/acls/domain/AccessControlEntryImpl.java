@@ -40,9 +40,9 @@ public class AccessControlEntryImpl implements AccessControlEntry, AuditableAcce
 
 	private final Sid sid;
 
-	private boolean auditFailure = false;
+	private boolean auditFailure;
 
-	private boolean auditSuccess = false;
+	private boolean auditSuccess;
 
 	private final boolean granting;
 
@@ -108,18 +108,15 @@ public class AccessControlEntryImpl implements AccessControlEntry, AuditableAcce
 				return false;
 			}
 		}
-		if ((this.auditFailure != other.isAuditFailure()) || (this.auditSuccess != other.isAuditSuccess())
-				|| (this.granting != other.isGranting()) || !this.permission.equals(other.getPermission())
-				|| !this.sid.equals(other.getSid())) {
-			return false;
-		}
-		return true;
+		return !((this.auditFailure != other.isAuditFailure()) || (this.auditSuccess != other.isAuditSuccess())
+			|| (this.granting != other.isGranting()) || !this.permission.equals(other.getPermission())
+			|| !this.sid.equals(other.getSid()));
 	}
 
 	@Override
 	public int hashCode() {
 		int result = this.permission.hashCode();
-		result = 31 * result + ((this.id != null) ? this.id.hashCode() : 0);
+		result = 31 * result + (this.id != null ? this.id.hashCode() : 0);
 		result = 31 * result + (this.sid.hashCode());
 		result = 31 * result + (this.auditFailure ? 1 : 0);
 		result = 31 * result + (this.auditSuccess ? 1 : 0);

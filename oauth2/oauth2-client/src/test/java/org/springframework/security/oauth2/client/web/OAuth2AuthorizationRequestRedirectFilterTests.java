@@ -337,7 +337,7 @@ public class OAuth2AuthorizationRequestRedirectFilterTests {
 		request.setServletPath(requestUri);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		FilterChain filterChain = mock(FilterChain.class);
-		willAnswer((invocation) -> assertThat((invocation.<HttpServletResponse>getArgument(1)).isCommitted()).isFalse())
+		willAnswer(invocation -> assertThat((invocation.getArgument(1)).isCommitted()).isFalse())
 			.given(this.requestCache)
 			.saveRequest(any(HttpServletRequest.class), any(HttpServletResponse.class));
 		willThrow(new ClientAuthorizationRequiredException(this.registration1.getRegistrationId())).given(filterChain)

@@ -83,7 +83,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider
 
 	private UserCache userCache = new NullUserCache();
 
-	private boolean forcePrincipalAsString = false;
+	private boolean forcePrincipalAsString;
 
 	protected boolean hideUserNotFoundExceptions = true;
 
@@ -169,7 +169,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider
 	}
 
 	private String determineUsername(Authentication authentication) {
-		return (authentication.getPrincipal() == null) ? "NONE_PROVIDED" : authentication.getName();
+		return authentication.getPrincipal() == null ? "NONE_PROVIDED" : authentication.getName();
 	}
 
 	/**
@@ -286,7 +286,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
+		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 
 	protected UserDetailsChecker getPreAuthenticationChecks() {

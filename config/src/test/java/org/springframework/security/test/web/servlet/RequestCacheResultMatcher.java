@@ -35,7 +35,7 @@ public final class RequestCacheResultMatcher {
 	 * @return a ResultMatcher that performs the verification.
 	 */
 	public static ResultMatcher redirectToCachedRequest() {
-		return (mvcResult) -> {
+		return mvcResult -> {
 			RequestCache requestCache = new HttpSessionRequestCache();
 			MockHttpServletResponse response = mvcResult.getResponse();
 			SavedRequest savedRequest = requestCache.getRequest(mvcResult.getRequest(), response);

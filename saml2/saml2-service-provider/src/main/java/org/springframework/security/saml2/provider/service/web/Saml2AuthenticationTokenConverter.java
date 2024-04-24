@@ -72,7 +72,7 @@ public final class Saml2AuthenticationTokenConverter implements AuthenticationCo
 	@Override
 	public Saml2AuthenticationToken convert(HttpServletRequest request) {
 		AbstractSaml2AuthenticationRequest authenticationRequest = loadAuthenticationRequest(request);
-		String relyingPartyRegistrationId = (authenticationRequest != null)
+		String relyingPartyRegistrationId = authenticationRequest != null
 				? authenticationRequest.getRelyingPartyRegistrationId() : null;
 		RelyingPartyRegistration relyingPartyRegistration = this.relyingPartyRegistrationResolver.resolve(request,
 				relyingPartyRegistrationId);

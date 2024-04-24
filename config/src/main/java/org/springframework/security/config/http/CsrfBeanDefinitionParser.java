@@ -195,7 +195,7 @@ public class CsrfBeanDefinitionParser implements BeanDefinitionParser {
 
 	void setIgnoreCsrfRequestMatchers(List<BeanDefinition> requestMatchers) {
 		if (!requestMatchers.isEmpty()) {
-			BeanMetadataElement requestMatcher = (!StringUtils.hasText(this.requestMatcherRef))
+			BeanMetadataElement requestMatcher = !StringUtils.hasText(this.requestMatcherRef)
 					? new RootBeanDefinition(DefaultRequiresCsrfMatcher.class)
 					: new RuntimeBeanReference(this.requestMatcherRef);
 			BeanDefinitionBuilder and = BeanDefinitionBuilder.rootBeanDefinition(AndRequestMatcher.class);

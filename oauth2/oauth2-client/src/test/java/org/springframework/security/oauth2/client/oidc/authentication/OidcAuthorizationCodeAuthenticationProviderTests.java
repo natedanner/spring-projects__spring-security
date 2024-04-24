@@ -94,8 +94,8 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 
 	private OidcAuthorizationCodeAuthenticationProvider authenticationProvider;
 
-	private StringKeyGenerator secureKeyGenerator = new Base64StringKeyGenerator(
-			Base64.getUrlEncoder().withoutPadding(), 96);
+	private final StringKeyGenerator secureKeyGenerator = new Base64StringKeyGenerator(
+		Base64.getUrlEncoder().withoutPadding(), 96);
 
 	private String nonceHash;
 
@@ -235,7 +235,7 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 	public void authenticateWhenIdTokenValidationErrorThenThrowOAuth2AuthenticationException() {
 		JwtDecoder jwtDecoder = mock(JwtDecoder.class);
 		given(jwtDecoder.decode(anyString())).willThrow(new JwtException("ID Token Validation Error"));
-		this.authenticationProvider.setJwtDecoderFactory((registration) -> jwtDecoder);
+		this.authenticationProvider.setJwtDecoderFactory(registration -> jwtDecoder);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.authenticationProvider
 				.authenticate(new OAuth2LoginAuthenticationToken(this.clientRegistration, this.authorizationExchange)))
@@ -268,7 +268,7 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 		this.setUpIdToken(claims);
 		OidcUser principal = mock(OidcUser.class);
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
-		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) (invocation) -> authorities);
+		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) invocation -> authorities);
 		given(this.userService.loadUser(any())).willReturn(principal);
 		OAuth2LoginAuthenticationToken authentication = (OAuth2LoginAuthenticationToken) this.authenticationProvider
 			.authenticate(new OAuth2LoginAuthenticationToken(this.clientRegistration, this.authorizationExchange));
@@ -293,12 +293,12 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 		this.setUpIdToken(claims);
 		OidcUser principal = mock(OidcUser.class);
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
-		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) (invocation) -> authorities);
+		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) invocation -> authorities);
 		given(this.userService.loadUser(any())).willReturn(principal);
 		List<GrantedAuthority> mappedAuthorities = AuthorityUtils.createAuthorityList("ROLE_OIDC_USER");
 		GrantedAuthoritiesMapper authoritiesMapper = mock(GrantedAuthoritiesMapper.class);
 		given(authoritiesMapper.mapAuthorities(anyCollection()))
-			.willAnswer((Answer<List<GrantedAuthority>>) (invocation) -> mappedAuthorities);
+			.willAnswer((Answer<List<GrantedAuthority>>) invocation -> mappedAuthorities);
 		this.authenticationProvider.setAuthoritiesMapper(authoritiesMapper);
 		OAuth2LoginAuthenticationToken authentication = (OAuth2LoginAuthenticationToken) this.authenticationProvider
 			.authenticate(new OAuth2LoginAuthenticationToken(this.clientRegistration, this.authorizationExchange));
@@ -317,7 +317,7 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 		this.setUpIdToken(claims);
 		OidcUser principal = mock(OidcUser.class);
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
-		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) (invocation) -> authorities);
+		given(principal.getAuthorities()).willAnswer((Answer<List<GrantedAuthority>>) invocation -> authorities);
 		ArgumentCaptor<OidcUserRequest> userRequestArgCaptor = ArgumentCaptor.forClass(OidcUserRequest.class);
 		given(this.userService.loadUser(userRequestArgCaptor.capture())).willReturn(principal);
 		this.authenticationProvider
@@ -327,10 +327,10 @@ public class OidcAuthorizationCodeAuthenticationProviderTests {
 	}
 
 	private void setUpIdToken(Map<String, Object> claims) {
-		Jwt idToken = TestJwts.jwt().claims((c) -> c.putAll(claims)).build();
+		Jwt idToken = TestJwts.jwt().claims(c -> c.putAll(claims)).build();
 		JwtDecoder jwtDecoder = mock(JwtDecoder.class);
 		given(jwtDecoder.decode(anyString())).willReturn(idToken);
-		this.authenticationProvider.setJwtDecoderFactory((registration) -> jwtDecoder);
+		this.authenticationProvider.setJwtDecoderFactory(registration -> jwtDecoder);
 	}
 
 	private OAuth2AccessTokenResponse accessTokenSuccessResponse() {

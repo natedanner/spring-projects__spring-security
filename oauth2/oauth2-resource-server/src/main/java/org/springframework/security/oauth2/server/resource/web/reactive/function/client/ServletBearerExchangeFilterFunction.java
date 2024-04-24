@@ -65,7 +65,7 @@ public final class ServletBearerExchangeFilterFunction implements ExchangeFilter
 	@Override
 	public Mono<ClientResponse> filter(ClientRequest request, ExchangeFunction next) {
 		// @formatter:off
-		return oauth2Token().map((token) -> bearer(request, token))
+		return oauth2Token().map(token -> bearer(request, token))
 				.defaultIfEmpty(request)
 				.flatMap(next::exchange);
 		// @formatter:on
@@ -76,7 +76,7 @@ public final class ServletBearerExchangeFilterFunction implements ExchangeFilter
 		return Mono.deferContextual(Mono::just)
 				.cast(Context.class)
 				.flatMap(this::currentAuthentication)
-				.filter((authentication) -> authentication.getCredentials() instanceof OAuth2Token)
+				.filter(authentication -> authentication.getCredentials() instanceof OAuth2Token)
 				.map(Authentication::getCredentials)
 				.cast(OAuth2Token.class);
 		// @formatter:on
@@ -99,7 +99,7 @@ public final class ServletBearerExchangeFilterFunction implements ExchangeFilter
 	private ClientRequest bearer(ClientRequest request, OAuth2Token token) {
 		// @formatter:off
 		return ClientRequest.from(request)
-				.headers((headers) -> headers.setBearerAuth(token.getTokenValue()))
+				.headers(headers -> headers.setBearerAuth(token.getTokenValue()))
 				.build();
 		// @formatter:on
 	}

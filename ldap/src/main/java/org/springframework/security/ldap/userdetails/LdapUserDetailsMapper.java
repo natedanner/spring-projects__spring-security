@@ -46,7 +46,7 @@ public class LdapUserDetailsMapper implements UserDetailsContextMapper {
 
 	private String rolePrefix = "ROLE_";
 
-	private String[] roleAttributes = null;
+	private String[] roleAttributes;
 
 	private boolean convertToUpperCase = true;
 

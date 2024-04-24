@@ -37,7 +37,7 @@ public final class PortMapperConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private PortMapper portMapper;
 
-	private Map<String, String> httpsPortMappings = new HashMap<>();
+	private final Map<String, String> httpsPortMappings = new HashMap<>();
 
 	/**
 	 * Creates a new instance

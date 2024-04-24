@@ -107,7 +107,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public final class Saml2LogoutConfigurer<H extends HttpSecurityBuilder<H>>
 		extends AbstractHttpConfigurer<Saml2LogoutConfigurer<H>, H> {
 
-	private ApplicationContext context;
+	private final ApplicationContext context;
 
 	private RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 
@@ -117,9 +117,9 @@ public final class Saml2LogoutConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private LogoutSuccessHandler logoutSuccessHandler;
 
-	private LogoutRequestConfigurer logoutRequestConfigurer;
+	private final LogoutRequestConfigurer logoutRequestConfigurer;
 
-	private LogoutResponseConfigurer logoutResponseConfigurer;
+	private final LogoutResponseConfigurer logoutResponseConfigurer;
 
 	/**
 	 * Creates a new instance

@@ -301,7 +301,7 @@ public class ApacheDSContainer
 
 	private void importLdifs() throws Exception {
 		// Import any ldif files
-		Resource[] ldifs = (this.ctxt != null) ? this.ctxt.getResources(this.ldifResources)
+		Resource[] ldifs = this.ctxt != null ? this.ctxt.getResources(this.ldifResources)
 				: new PathMatchingResourcePatternResolver().getResources(this.ldifResources);
 		// Note that we can't just import using the ServerContext returned
 		// from starting Apache DS, apparently because of the long-running issue

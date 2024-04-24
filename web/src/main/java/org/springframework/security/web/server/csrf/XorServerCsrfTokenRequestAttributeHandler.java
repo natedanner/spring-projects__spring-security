@@ -53,7 +53,7 @@ public final class XorServerCsrfTokenRequestAttributeHandler extends ServerCsrfT
 		Assert.notNull(exchange, "exchange cannot be null");
 		Assert.notNull(csrfToken, "csrfToken cannot be null");
 		Mono<CsrfToken> updatedCsrfToken = csrfToken
-			.map((token) -> new DefaultCsrfToken(token.getHeaderName(), token.getParameterName(),
+			.map(token -> new DefaultCsrfToken(token.getHeaderName(), token.getParameterName(),
 					createXoredCsrfToken(this.secureRandom, token.getToken())))
 			.cast(CsrfToken.class)
 			.cache();
@@ -63,7 +63,7 @@ public final class XorServerCsrfTokenRequestAttributeHandler extends ServerCsrfT
 	@Override
 	public Mono<String> resolveCsrfTokenValue(ServerWebExchange exchange, CsrfToken csrfToken) {
 		return super.resolveCsrfTokenValue(exchange, csrfToken)
-			.flatMap((actualToken) -> Mono.justOrEmpty(getTokenValue(actualToken, csrfToken.getToken())));
+			.flatMap(actualToken -> Mono.justOrEmpty(getTokenValue(actualToken, csrfToken.getToken())));
 	}
 
 	private static String getTokenValue(String actualToken, String token) {
@@ -90,7 +90,7 @@ public final class XorServerCsrfTokenRequestAttributeHandler extends ServerCsrfT
 		System.arraycopy(actualBytes, randomBytesSize, xoredCsrf, 0, tokenSize);
 
 		byte[] csrfBytes = xorCsrf(randomBytes, xoredCsrf);
-		return (csrfBytes != null) ? Utf8.decode(csrfBytes) : null;
+		return csrfBytes != null ? Utf8.decode(csrfBytes) : null;
 	}
 
 	private static String createXoredCsrfToken(SecureRandom secureRandom, String token) {

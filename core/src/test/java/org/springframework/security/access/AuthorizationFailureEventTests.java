@@ -37,9 +37,9 @@ public class AuthorizationFailureEventTests {
 	private final UsernamePasswordAuthenticationToken foo = UsernamePasswordAuthenticationToken.unauthenticated("foo",
 			"bar");
 
-	private List<ConfigAttribute> attributes = SecurityConfig.createList("TEST");
+	private final List<ConfigAttribute> attributes = SecurityConfig.createList("TEST");
 
-	private AccessDeniedException exception = new AuthorizationServiceException("error", new Throwable());
+	private final AccessDeniedException exception = new AuthorizationServiceException("error", new Throwable());
 
 	@Test
 	public void rejectsNullSecureObject() {

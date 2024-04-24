@@ -31,7 +31,7 @@ final class MessageMatcherAuthorizationManagerConfiguration {
 			ApplicationContext context) {
 		return MessageMatcherDelegatingAuthorizationManager.builder()
 			.simpDestPathMatcher(
-					() -> (context.getBeanNamesForType(SimpAnnotationMethodMessageHandler.class).length > 0)
+					() -> context.getBeanNamesForType(SimpAnnotationMethodMessageHandler.class).length > 0
 							? context.getBean(SimpAnnotationMethodMessageHandler.class).getPathMatcher()
 							: new AntPathMatcher());
 	}

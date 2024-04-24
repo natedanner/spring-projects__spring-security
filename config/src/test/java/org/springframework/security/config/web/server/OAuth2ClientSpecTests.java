@@ -156,7 +156,7 @@ public class OAuth2ClientSpecTests {
 		given(requestCache.getRedirectUri(any())).willReturn(Mono.just(URI.create("/saved-request")));
 		// @formatter:off
 		this.client.get()
-				.uri((uriBuilder) -> uriBuilder
+				.uri(uriBuilder -> uriBuilder
 						.path("/authorize/oauth2/code/registration-id")
 						.queryParam(OAuth2ParameterNames.CODE, "code")
 						.queryParam(OAuth2ParameterNames.STATE, "state")
@@ -201,7 +201,7 @@ public class OAuth2ClientSpecTests {
 		given(requestCache.getRedirectUri(any())).willReturn(Mono.just(URI.create("/saved-request")));
 		// @formatter:off
 		this.client.get()
-				.uri((uriBuilder) -> uriBuilder
+				.uri(uriBuilder -> uriBuilder
 						.path("/authorize/oauth2/code/registration-id")
 						.queryParam(OAuth2ParameterNames.CODE, "code")
 						.queryParam(OAuth2ParameterNames.STATE, "state")
@@ -289,7 +289,7 @@ public class OAuth2ClientSpecTests {
 					.authorizationRequestRepository(this.authorizationRequestRepository)
 					.authorizationRequestResolver(this.resolver)
 					.and()
-				.requestCache((c) -> c.requestCache(this.requestCache));
+				.requestCache(c -> c.requestCache(this.requestCache));
 			// @formatter:on
 			return http.build();
 		}
@@ -312,12 +312,12 @@ public class OAuth2ClientSpecTests {
 		SecurityWebFilterChain springSecurityFilter(ServerHttpSecurity http) {
 			// @formatter:off
 			http
-				.oauth2Client((oauth2Client) ->
+				.oauth2Client(oauth2Client ->
 					oauth2Client
 						.authenticationConverter(this.authenticationConverter)
 						.authenticationManager(this.manager)
 						.authorizationRequestRepository(this.authorizationRequestRepository))
-				.requestCache((c) -> c.requestCache(this.requestCache));
+				.requestCache(c -> c.requestCache(this.requestCache));
 			// @formatter:on
 			return http.build();
 		}

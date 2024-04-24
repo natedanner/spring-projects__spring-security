@@ -253,7 +253,7 @@ public class ServletApiConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-					.authorizeHttpRequests((requests) -> requests
+					.authorizeHttpRequests(requests -> requests
 							.anyRequest().authenticated()
 					)
 					.httpBasic(Customizer.withDefaults())
@@ -362,7 +362,7 @@ public class ServletApiConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.servletApi((servletApi) ->
+				.servletApi(servletApi ->
 					servletApi
 						.rolePrefix("PERMISSION_")
 				);

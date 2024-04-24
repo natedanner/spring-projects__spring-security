@@ -152,11 +152,11 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
 
 	private final RequestMatcherConfigurer requestMatcherConfigurer;
 
-	private List<OrderedFilter> filters = new ArrayList<>();
+	private final List<OrderedFilter> filters = new ArrayList<>();
 
 	private RequestMatcher requestMatcher = AnyRequestMatcher.INSTANCE;
 
-	private FilterOrderRegistration filterOrders = new FilterOrderRegistration();
+	private final FilterOrderRegistration filterOrders = new FilterOrderRegistration();
 
 	private AuthenticationManager authenticationManager;
 

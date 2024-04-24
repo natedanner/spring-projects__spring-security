@@ -50,16 +50,16 @@ final class DefaultWASUsernameAndGroupsExtractor implements WASUsernameAndGroups
 
 	private static final String USER_REGISTRY = "UserRegistry";
 
-	private static Method getRunAsSubject = null;
+	private static Method getRunAsSubject;
 
-	private static Method getGroupsForUser = null;
+	private static Method getGroupsForUser;
 
-	private static Method getSecurityName = null;
+	private static Method getSecurityName;
 
-	private static Method narrow = null;
+	private static Method narrow;
 
 	// SEC-803
-	private static Class<?> wsCredentialClass = null;
+	private static Class<?> wsCredentialClass;
 
 	@Override
 	public List<String> getGroupsForCurrentUser() {
@@ -129,7 +129,7 @@ final class DefaultWASUsernameAndGroupsExtractor implements WASUsernameAndGroups
 			final Collection<String> groups = (Collection<String>) invokeMethod(getGroupsForUserMethod(), userReg,
 					new Object[] { securityName });
 			logger.debug(LogMessage.format("Groups for user %s: %s", securityName, groups));
-			return new ArrayList<String>(groups);
+			return new ArrayList<>(groups);
 		}
 		catch (Exception ex) {
 			logger.error("Exception occured while looking up groups for user", ex);

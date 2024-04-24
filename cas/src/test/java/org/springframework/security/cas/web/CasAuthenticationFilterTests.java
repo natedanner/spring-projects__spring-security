@@ -77,7 +77,7 @@ public class CasAuthenticationFilterTests {
 		request.setServletPath("/login/cas");
 		request.addParameter("ticket", "ST-0-ER94xMJmn6pha35CQRoZ");
 		CasAuthenticationFilter filter = new CasAuthenticationFilter();
-		filter.setAuthenticationManager((a) -> a);
+		filter.setAuthenticationManager(a -> a);
 		assertThat(filter.requiresAuthentication(request, new MockHttpServletResponse())).isTrue();
 		Authentication result = filter.attemptAuthentication(request, new MockHttpServletResponse());
 		assertThat(result != null).isTrue();
@@ -86,7 +86,7 @@ public class CasAuthenticationFilterTests {
 	@Test
 	public void testNullServiceTicketHandledGracefully() throws Exception {
 		CasAuthenticationFilter filter = new CasAuthenticationFilter();
-		filter.setAuthenticationManager((a) -> {
+		filter.setAuthenticationManager(a -> {
 			throw new BadCredentialsException("Rejected");
 		});
 		assertThatExceptionOfType(AuthenticationException.class).isThrownBy(

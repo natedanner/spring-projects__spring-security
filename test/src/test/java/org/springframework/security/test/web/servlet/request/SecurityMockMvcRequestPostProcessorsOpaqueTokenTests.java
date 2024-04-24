@@ -92,7 +92,7 @@ public class SecurityMockMvcRequestPostProcessorsOpaqueTokenTests {
 	public void opaqueTokenWhenAttributeSpecifiedThenUserHasAttribute() throws Exception {
 		this.mvc
 			.perform(get("/opaque-token/iss")
-				.with(opaqueToken().attributes((a) -> a.put("iss", "https://idp.example.org"))))
+				.with(opaqueToken().attributes(a -> a.put("iss", "https://idp.example.org"))))
 			.andExpect(content().string("https://idp.example.org"));
 	}
 
@@ -109,15 +109,15 @@ public class SecurityMockMvcRequestPostProcessorsOpaqueTokenTests {
 	@Test
 	public void opaqueTokenWhenPrincipalSpecifiedThenLastCalledTakesPrecedence() throws Exception {
 		OAuth2AuthenticatedPrincipal principal = TestOAuth2AuthenticatedPrincipals
-			.active((a) -> a.put("scope", "user"));
+			.active(a -> a.put("scope", "user"));
 		this.mvc
 			.perform(get("/opaque-token/sub")
-				.with(opaqueToken().attributes((a) -> a.put("sub", "foo")).principal(principal)))
+				.with(opaqueToken().attributes(a -> a.put("sub", "foo")).principal(principal)))
 			.andExpect(status().isOk())
 			.andExpect(content().string((String) principal.getAttribute("sub")));
 		this.mvc
 			.perform(get("/opaque-token/sub")
-				.with(opaqueToken().principal(principal).attributes((a) -> a.put("sub", "bar"))))
+				.with(opaqueToken().principal(principal).attributes(a -> a.put("sub", "bar"))))
 			.andExpect(content().string("bar"));
 	}
 

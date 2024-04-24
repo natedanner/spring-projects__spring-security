@@ -74,7 +74,7 @@ public class RedirectServerAuthenticationSuccessHandler implements ServerAuthent
 		ServerWebExchange exchange = webFilterExchange.getExchange();
 		return this.requestCache.getRedirectUri(exchange)
 			.defaultIfEmpty(this.location)
-			.flatMap((location) -> this.redirectStrategy.sendRedirect(exchange, location));
+			.flatMap(location -> this.redirectStrategy.sendRedirect(exchange, location));
 	}
 
 	/**

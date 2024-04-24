@@ -94,7 +94,7 @@ public class DefaultBearerTokenResolverTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addHeader("Authorization", "Bearer ");
 		assertThatExceptionOfType(OAuth2AuthenticationException.class).isThrownBy(() -> this.resolver.resolve(request))
-			.withMessageContaining(("Bearer token is malformed"));
+			.withMessageContaining("Bearer token is malformed");
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class DefaultBearerTokenResolverTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addHeader("Authorization", "Bearer an\"invalid\"token");
 		assertThatExceptionOfType(OAuth2AuthenticationException.class).isThrownBy(() -> this.resolver.resolve(request))
-			.withMessageContaining(("Bearer token is malformed"));
+			.withMessageContaining("Bearer token is malformed");
 	}
 
 	@Test

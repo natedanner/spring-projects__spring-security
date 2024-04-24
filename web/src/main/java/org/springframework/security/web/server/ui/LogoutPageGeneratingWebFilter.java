@@ -41,14 +41,14 @@ import org.springframework.web.server.WebFilterChain;
  */
 public class LogoutPageGeneratingWebFilter implements WebFilter {
 
-	private ServerWebExchangeMatcher matcher = ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/logout");
+	private final ServerWebExchangeMatcher matcher = ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/logout");
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return this.matcher.matches(exchange)
 			.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
 			.switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
-			.flatMap((matchResult) -> render(exchange));
+			.flatMap(matchResult -> render(exchange));
 	}
 
 	private Mono<Void> render(ServerWebExchange exchange) {
@@ -61,7 +61,7 @@ public class LogoutPageGeneratingWebFilter implements WebFilter {
 	private Mono<DataBuffer> createBuffer(ServerWebExchange exchange) {
 		Mono<CsrfToken> token = exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.empty());
 		String contextPath = exchange.getRequest().getPath().contextPath().value();
-		return token.map(LogoutPageGeneratingWebFilter::csrfToken).defaultIfEmpty("").map((csrfTokenHtmlInput) -> {
+		return token.map(LogoutPageGeneratingWebFilter::csrfToken).defaultIfEmpty("").map(csrfTokenHtmlInput -> {
 			byte[] bytes = createPage(csrfTokenHtmlInput, contextPath);
 			DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
 			return bufferFactory.wrap(bytes);
@@ -85,7 +85,7 @@ public class LogoutPageGeneratingWebFilter implements WebFilter {
 		page.append("  </head>\n");
 		page.append("  <body>\n");
 		page.append("     <div class=\"container\">\n");
-		page.append("      <form class=\"form-signin\" method=\"post\" action=\"" + contextPath + "/logout\">\n");
+		page.append("      <form class=\"form-signin\" method=\"post\" action=\"").append(contextPath).append("/logout\">\n");
 		page.append("        <h2 class=\"form-signin-heading\">Are you sure you want to log out?</h2>\n");
 		page.append(csrfTokenHtmlInput);
 		page.append("        <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Log Out</button>\n");

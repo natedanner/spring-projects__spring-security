@@ -77,7 +77,7 @@ public class OAuth2AuthorizationContextTests {
 		OAuth2AuthorizationContext authorizationContext = OAuth2AuthorizationContext
 				.withAuthorizedClient(this.authorizedClient)
 				.principal(this.principal)
-				.attributes((attributes) -> {
+				.attributes(attributes -> {
 					attributes.put("attribute1", "value1");
 					attributes.put("attribute2", "value2");
 				})

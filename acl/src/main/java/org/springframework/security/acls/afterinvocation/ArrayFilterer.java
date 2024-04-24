@@ -83,7 +83,7 @@ class ArrayFilterer<T> implements Filterer<T> {
 	 */
 	private class ArrayFiltererIterator implements Iterator<T> {
 
-		private int index = 0;
+		private int index;
 
 		@Override
 		public boolean hasNext() {

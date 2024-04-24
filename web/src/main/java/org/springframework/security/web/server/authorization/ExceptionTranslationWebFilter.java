@@ -50,13 +50,13 @@ public class ExceptionTranslationWebFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return chain.filter(exchange)
-			.onErrorResume(AccessDeniedException.class, (denied) -> exchange.getPrincipal()
-				.filter((principal) -> (!(principal instanceof Authentication) || (principal instanceof Authentication
-						&& !(this.authenticationTrustResolver.isAnonymous((Authentication) principal)))))
+			.onErrorResume(AccessDeniedException.class, denied -> exchange.getPrincipal()
+				.filter(principal -> (!(principal instanceof Authentication) || (principal instanceof Authentication
+						&& !this.authenticationTrustResolver.isAnonymous((Authentication) principal))))
 				.switchIfEmpty(commenceAuthentication(exchange,
 						new InsufficientAuthenticationException(
 								"Full authentication is required to access this resource")))
-				.flatMap((principal) -> this.accessDeniedHandler.handle(exchange, denied))
+				.flatMap(principal -> this.accessDeniedHandler.handle(exchange, denied))
 				.then());
 	}
 

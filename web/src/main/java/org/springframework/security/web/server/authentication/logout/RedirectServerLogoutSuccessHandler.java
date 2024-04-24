@@ -38,7 +38,7 @@ public class RedirectServerLogoutSuccessHandler implements ServerLogoutSuccessHa
 
 	private URI logoutSuccessUrl = URI.create(DEFAULT_LOGOUT_SUCCESS_URL);
 
-	private ServerRedirectStrategy redirectStrategy = new DefaultServerRedirectStrategy();
+	private final ServerRedirectStrategy redirectStrategy = new DefaultServerRedirectStrategy();
 
 	@Override
 	public Mono<Void> onLogoutSuccess(WebFilterExchange exchange, Authentication authentication) {

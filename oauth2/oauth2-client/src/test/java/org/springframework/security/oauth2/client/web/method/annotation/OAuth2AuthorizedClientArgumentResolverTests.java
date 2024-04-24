@@ -82,7 +82,7 @@ public class OAuth2AuthorizedClientArgumentResolverTests {
 
 	private TestingAuthenticationToken authentication;
 
-	private String principalName = "principal-1";
+	private final String principalName = "principal-1";
 
 	private ClientRegistration registration1;
 
@@ -319,7 +319,7 @@ public class OAuth2AuthorizedClientArgumentResolverTests {
 				this.clientRegistrationRepository, this.authorizedClientRepository);
 		authorizedClientManager.setAuthorizedClientProvider(passwordAuthorizedClientProvider);
 		// Set custom contextAttributesMapper
-		authorizedClientManager.setContextAttributesMapper((authorizeRequest) -> {
+		authorizedClientManager.setContextAttributesMapper(authorizeRequest -> {
 			Map<String, Object> contextAttributes = new HashMap<>();
 			HttpServletRequest servletRequest = authorizeRequest.getAttribute(HttpServletRequest.class.getName());
 			String username = servletRequest.getParameter(OAuth2ParameterNames.USERNAME);

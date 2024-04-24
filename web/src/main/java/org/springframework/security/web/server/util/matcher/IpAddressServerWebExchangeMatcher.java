@@ -48,9 +48,9 @@ public final class IpAddressServerWebExchangeMatcher implements ServerWebExchang
 	public Mono<MatchResult> matches(ServerWebExchange exchange) {
 		// @formatter:off
 		return Mono.justOrEmpty(exchange.getRequest().getRemoteAddress())
-				.map((remoteAddress) -> remoteAddress.isUnresolved() ? remoteAddress.getHostString() : remoteAddress.getAddress().getHostAddress())
+				.map(remoteAddress -> remoteAddress.isUnresolved() ? remoteAddress.getHostString() : remoteAddress.getAddress().getHostAddress())
 				.map(this.ipAddressMatcher::matches)
-				.flatMap((matches) -> matches ? MatchResult.match() : MatchResult.notMatch())
+				.flatMap(matches -> matches ? MatchResult.match() : MatchResult.notMatch())
 				.switchIfEmpty(MatchResult.notMatch());
 		// @formatter:on
 	}

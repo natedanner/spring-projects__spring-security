@@ -232,7 +232,7 @@ public abstract class AbstractJaasAuthenticationProvider implements Authenticati
 		}
 		for (SecurityContext context : contexts) {
 			Authentication auth = context.getAuthentication();
-			if ((auth instanceof JaasAuthenticationToken token)) {
+			if (auth instanceof JaasAuthenticationToken token) {
 				try {
 					LoginContext loginContext = token.getLoginContext();
 					logout(token, loginContext);

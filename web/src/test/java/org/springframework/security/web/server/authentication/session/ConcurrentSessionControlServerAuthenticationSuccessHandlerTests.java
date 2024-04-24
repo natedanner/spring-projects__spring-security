@@ -140,7 +140,7 @@ class ConcurrentSessionControlServerAuthenticationSuccessHandlerTests {
 	void onAuthenticationWhenMaximumSessionsForUsersAreDifferentThenHandlerIsCalledWhereNeeded() {
 		Authentication user = TestAuthentication.authenticatedUser();
 		Authentication admin = TestAuthentication.authenticatedAdmin();
-		this.strategy.setSessionLimit((authentication) -> {
+		this.strategy.setSessionLimit(authentication -> {
 			if (authentication.equals(user)) {
 				return Mono.just(1);
 			}

@@ -150,7 +150,7 @@ public class R2dbcReactiveOAuth2AuthorizedClientService implements ReactiveOAuth
 	private Mono<OAuth2AuthorizedClient> getAuthorizedClient(OAuth2AuthorizedClientHolder authorizedClientHolder) {
 		return this.clientRegistrationRepository.findByRegistrationId(authorizedClientHolder.getClientRegistrationId())
 			.switchIfEmpty(Mono.error(dataRetrievalFailureException(authorizedClientHolder.getClientRegistrationId())))
-			.map((clientRegistration) -> new OAuth2AuthorizedClient(clientRegistration,
+			.map(clientRegistration -> new OAuth2AuthorizedClient(clientRegistration,
 					authorizedClientHolder.getPrincipalName(), authorizedClientHolder.getAccessToken(),
 					authorizedClientHolder.getRefreshToken()));
 	}
@@ -166,7 +166,7 @@ public class R2dbcReactiveOAuth2AuthorizedClientService implements ReactiveOAuth
 		Assert.notNull(principal, "principal cannot be null");
 		return this
 			.loadAuthorizedClient(authorizedClient.getClientRegistration().getRegistrationId(), principal.getName())
-			.flatMap((dbAuthorizedClient) -> updateAuthorizedClient(authorizedClient, principal))
+			.flatMap(dbAuthorizedClient -> updateAuthorizedClient(authorizedClient, principal))
 			.switchIfEmpty(Mono.defer(() -> insertAuthorizedClient(authorizedClient, principal)))
 			.then();
 	}

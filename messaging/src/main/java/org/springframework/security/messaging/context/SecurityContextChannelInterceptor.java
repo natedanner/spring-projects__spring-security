@@ -132,7 +132,7 @@ public final class SecurityContextChannelInterceptor implements ExecutorChannelI
 	}
 
 	private Authentication getAuthentication(Object user) {
-		if ((user instanceof Authentication)) {
+		if (user instanceof Authentication) {
 			return (Authentication) user;
 		}
 		return this.anonymous;

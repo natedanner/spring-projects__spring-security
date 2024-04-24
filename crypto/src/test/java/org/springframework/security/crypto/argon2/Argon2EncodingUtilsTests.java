@@ -31,27 +31,27 @@ public class Argon2EncodingUtilsTests {
 
 	private final Base64.Decoder decoder = Base64.getDecoder();
 
-	private TestDataEntry testDataEntry1 = new TestDataEntry(
-			"$argon2i$v=19$m=1024,t=3,p=2$Y1JkRmJDdzIzZ3oyTWx4aw$cGE5Cbd/cx7micVhXVBdH5qTr66JI1iUyuNNVAnErXs",
-			new Argon2EncodingUtils.Argon2Hash(this.decoder.decode("cGE5Cbd/cx7micVhXVBdH5qTr66JI1iUyuNNVAnErXs"),
-					(new Argon2Parameters.Builder(Argon2Parameters.ARGON2_i)).withVersion(19)
-						.withMemoryAsKB(1024)
-						.withIterations(3)
-						.withParallelism(2)
-						.withSalt("cRdFbCw23gz2Mlxk".getBytes())
-						.build()));
+	private final TestDataEntry testDataEntry1 = new TestDataEntry(
+		"$argon2i$v=19$m=1024,t=3,p=2$Y1JkRmJDdzIzZ3oyTWx4aw$cGE5Cbd/cx7micVhXVBdH5qTr66JI1iUyuNNVAnErXs",
+		new Argon2EncodingUtils.Argon2Hash(this.decoder.decode("cGE5Cbd/cx7micVhXVBdH5qTr66JI1iUyuNNVAnErXs"),
+			(new Argon2Parameters.Builder(Argon2Parameters.ARGON2_i)).withVersion(19)
+				.withMemoryAsKB(1024)
+				.withIterations(3)
+				.withParallelism(2)
+				.withSalt("cRdFbCw23gz2Mlxk".getBytes())
+				.build()));
 
-	private TestDataEntry testDataEntry2 = new TestDataEntry(
-			"$argon2id$v=19$m=333,t=5,p=2$JDR8N3k1QWx0$+PrEoHOHsWkU9lnsxqnOFrWTVEuOh7ZRIUIbe2yUG8FgTYNCWJfHQI09JAAFKzr2JAvoejEpTMghUt0WsntQYA",
-			new Argon2EncodingUtils.Argon2Hash(
-					this.decoder.decode(
-							"+PrEoHOHsWkU9lnsxqnOFrWTVEuOh7ZRIUIbe2yUG8FgTYNCWJfHQI09JAAFKzr2JAvoejEpTMghUt0WsntQYA"),
-					(new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)).withVersion(19)
-						.withMemoryAsKB(333)
-						.withIterations(5)
-						.withParallelism(2)
-						.withSalt("$4|7y5Alt".getBytes())
-						.build()));
+	private final TestDataEntry testDataEntry2 = new TestDataEntry(
+		"$argon2id$v=19$m=333,t=5,p=2$JDR8N3k1QWx0$+PrEoHOHsWkU9lnsxqnOFrWTVEuOh7ZRIUIbe2yUG8FgTYNCWJfHQI09JAAFKzr2JAvoejEpTMghUt0WsntQYA",
+		new Argon2EncodingUtils.Argon2Hash(
+			this.decoder.decode(
+				"+PrEoHOHsWkU9lnsxqnOFrWTVEuOh7ZRIUIbe2yUG8FgTYNCWJfHQI09JAAFKzr2JAvoejEpTMghUt0WsntQYA"),
+			(new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)).withVersion(19)
+				.withMemoryAsKB(333)
+				.withIterations(5)
+				.withParallelism(2)
+				.withSalt("$4|7y5Alt".getBytes())
+				.build()));
 
 	@Test
 	public void decodeWhenValidEncodedHashWithIThenDecodeCorrectly() {

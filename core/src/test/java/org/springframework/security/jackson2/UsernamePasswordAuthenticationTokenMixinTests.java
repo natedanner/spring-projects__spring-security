@@ -195,9 +195,8 @@ public class UsernamePasswordAuthenticationTokenMixinTests extends AbstractMixin
 
 	private UsernamePasswordAuthenticationToken createToken() {
 		User user = createDefaultUser();
-		UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.authenticated(user,
+		return UsernamePasswordAuthenticationToken.authenticated(user,
 				user.getPassword(), user.getAuthorities());
-		return token;
 	}
 
 	@JsonClassDescription

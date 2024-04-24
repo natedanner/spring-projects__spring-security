@@ -426,14 +426,13 @@ public class DefaultOAuth2AuthorizationRequestResolverTests {
 	// gh-6548
 	@Test
 	public void resolveWhenAuthorizationRequestApplyPkceToSpecificConfidentialClientThenApplied() {
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> {
-			builder.attributes((attrs) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder ->
+			builder.attributes(attrs -> {
 				String registrationId = (String) attrs.get(OAuth2ParameterNames.REGISTRATION_ID);
 				if (this.registration1.getRegistrationId().equals(registrationId)) {
 					OAuth2AuthorizationRequestCustomizers.withPkce().accept(builder);
 				}
-			});
-		});
+			}));
 
 		ClientRegistration clientRegistration = this.registration1;
 		String requestUri = this.authorizationRequestBaseUri + "/" + clientRegistration.getRegistrationId();
@@ -517,8 +516,8 @@ public class DefaultOAuth2AuthorizationRequestResolverTests {
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
 		request.setServletPath(requestUri);
 		this.resolver.setAuthorizationRequestCustomizer(
-				(builder) -> builder.additionalParameters((params) -> params.remove(OidcParameterNames.NONCE))
-					.attributes((attrs) -> attrs.remove(OidcParameterNames.NONCE)));
+				builder -> builder.additionalParameters(params -> params.remove(OidcParameterNames.NONCE))
+					.attributes(attrs -> attrs.remove(OidcParameterNames.NONCE)));
 		OAuth2AuthorizationRequest authorizationRequest = this.resolver.resolve(request);
 		assertThat(authorizationRequest.getAdditionalParameters()).doesNotContainKey(OidcParameterNames.NONCE);
 		assertThat(authorizationRequest.getAttributes()).doesNotContainKey(OidcParameterNames.NONCE);
@@ -535,7 +534,7 @@ public class DefaultOAuth2AuthorizationRequestResolverTests {
 		String requestUri = this.authorizationRequestBaseUri + "/" + clientRegistration.getRegistrationId();
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
 		request.setServletPath(requestUri);
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> builder.authorizationRequestUri((uriBuilder) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder -> builder.authorizationRequestUri(uriBuilder -> {
 			uriBuilder.queryParam("param1", "value1");
 			return uriBuilder.build();
 		}));
@@ -553,7 +552,7 @@ public class DefaultOAuth2AuthorizationRequestResolverTests {
 		String requestUri = this.authorizationRequestBaseUri + "/" + clientRegistration.getRegistrationId();
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
 		request.setServletPath(requestUri);
-		this.resolver.setAuthorizationRequestCustomizer((builder) -> builder.parameters((params) -> {
+		this.resolver.setAuthorizationRequestCustomizer(builder -> builder.parameters(params -> {
 			params.put("appid", params.get("client_id"));
 			params.remove("client_id");
 		}));

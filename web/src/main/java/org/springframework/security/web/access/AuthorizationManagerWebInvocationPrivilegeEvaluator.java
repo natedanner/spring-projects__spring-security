@@ -82,7 +82,7 @@ public final class AuthorizationManagerWebInvocationPrivilegeEvaluator
 	 */
 	public interface HttpServletRequestTransformer {
 
-		HttpServletRequestTransformer IDENTITY = (request) -> request;
+		HttpServletRequestTransformer IDENTITY = request -> request;
 
 		/**
 		 * Return the {@link HttpServletRequest} that is passed into the

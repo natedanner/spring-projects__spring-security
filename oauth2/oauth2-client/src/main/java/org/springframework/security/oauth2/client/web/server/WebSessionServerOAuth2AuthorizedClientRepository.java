@@ -53,7 +53,7 @@ public final class WebSessionServerOAuth2AuthorizedClientRepository implements S
 		// @formatter:off
 		return exchange.getSession()
 				.map(this::getAuthorizedClients)
-				.flatMap((clients) -> Mono.justOrEmpty((T) clients.get(clientRegistrationId)));
+				.flatMap(clients -> Mono.justOrEmpty((T) clients.get(clientRegistrationId)));
 		// @formatter:on
 	}
 
@@ -64,7 +64,7 @@ public final class WebSessionServerOAuth2AuthorizedClientRepository implements S
 		Assert.notNull(exchange, "exchange cannot be null");
 		// @formatter:off
 		return exchange.getSession()
-				.doOnSuccess((session) -> {
+				.doOnSuccess(session -> {
 					Map<String, OAuth2AuthorizedClient> authorizedClients = getAuthorizedClients(session);
 					authorizedClients.put(authorizedClient.getClientRegistration().getRegistrationId(), authorizedClient);
 					session.getAttributes().put(this.sessionAttributeName, authorizedClients);
@@ -80,7 +80,7 @@ public final class WebSessionServerOAuth2AuthorizedClientRepository implements S
 		Assert.notNull(exchange, "exchange cannot be null");
 		// @formatter:off
 		return exchange.getSession()
-				.doOnSuccess((session) -> {
+				.doOnSuccess(session -> {
 					Map<String, OAuth2AuthorizedClient> authorizedClients = getAuthorizedClients(session);
 					authorizedClients.remove(clientRegistrationId);
 					if (authorizedClients.isEmpty()) {
@@ -96,7 +96,7 @@ public final class WebSessionServerOAuth2AuthorizedClientRepository implements S
 
 	@SuppressWarnings("unchecked")
 	private Map<String, OAuth2AuthorizedClient> getAuthorizedClients(WebSession session) {
-		Map<String, OAuth2AuthorizedClient> authorizedClients = (session != null)
+		Map<String, OAuth2AuthorizedClient> authorizedClients = session != null
 				? (Map<String, OAuth2AuthorizedClient>) session.getAttribute(this.sessionAttributeName) : null;
 		if (authorizedClients == null) {
 			authorizedClients = new HashMap<>();

@@ -36,7 +36,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 public class ExceptionHandlingSpecTests {
 
-	private ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
+	private final ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
 
 	@Test
 	public void defaultAuthenticationEntryPoint() {
@@ -63,7 +63,7 @@ public class ExceptionHandlingSpecTests {
 	public void requestWhenExceptionHandlingWithDefaultsInLambdaThenDefaultAuthenticationEntryPointUsed() {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
-				.authorizeExchange((exchanges) -> exchanges
+				.authorizeExchange(exchanges -> exchanges
 						.anyExchange().authenticated()
 				)
 				.exceptionHandling(withDefaults())
@@ -106,10 +106,10 @@ public class ExceptionHandlingSpecTests {
 	public void requestWhenCustomAuthenticationEntryPointInLambdaThenCustomAuthenticationEntryPointUsed() {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
-				.authorizeExchange((exchanges) -> exchanges
+				.authorizeExchange(exchanges -> exchanges
 						.anyExchange().authenticated()
 				)
-				.exceptionHandling((exceptionHandling) -> exceptionHandling
+				.exceptionHandling(exceptionHandling -> exceptionHandling
 						.authenticationEntryPoint(redirectServerAuthenticationEntryPoint("/auth"))
 				)
 				.build();
@@ -140,7 +140,7 @@ public class ExceptionHandlingSpecTests {
 				.build();
 		client.get()
 				.uri("/admin")
-				.headers((headers) -> headers.setBasicAuth("user", "password"))
+				.headers(headers -> headers.setBasicAuth("user", "password"))
 				.exchange()
 				.expectStatus().isForbidden();
 		// @formatter:on
@@ -151,7 +151,7 @@ public class ExceptionHandlingSpecTests {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
 				.httpBasic(withDefaults())
-				.authorizeExchange((exchanges) -> exchanges
+				.authorizeExchange(exchanges -> exchanges
 						.anyExchange().hasRole("ADMIN")
 				)
 				.exceptionHandling(withDefaults())
@@ -161,7 +161,7 @@ public class ExceptionHandlingSpecTests {
 				.build();
 		client.get()
 				.uri("/admin")
-				.headers((headers) -> headers.setBasicAuth("user", "password"))
+				.headers(headers -> headers.setBasicAuth("user", "password"))
 				.exchange()
 				.expectStatus().isForbidden();
 		// @formatter:on
@@ -185,7 +185,7 @@ public class ExceptionHandlingSpecTests {
 				.build();
 		client.get()
 				.uri("/admin")
-				.headers((headers) -> headers.setBasicAuth("user", "password"))
+				.headers(headers -> headers.setBasicAuth("user", "password"))
 				.exchange()
 				.expectStatus().isBadRequest();
 		// @formatter:on
@@ -196,10 +196,10 @@ public class ExceptionHandlingSpecTests {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
 				.httpBasic(withDefaults())
-				.authorizeExchange((exchanges) -> exchanges
+				.authorizeExchange(exchanges -> exchanges
 						.anyExchange().hasRole("ADMIN")
 				)
-				.exceptionHandling((exceptionHandling) -> exceptionHandling
+				.exceptionHandling(exceptionHandling -> exceptionHandling
 						.accessDeniedHandler(httpStatusServerAccessDeniedHandler(HttpStatus.BAD_REQUEST))
 				)
 				.build();
@@ -208,7 +208,7 @@ public class ExceptionHandlingSpecTests {
 				.build();
 		client.get()
 				.uri("/admin")
-				.headers((headers) -> headers.setBasicAuth("user", "password"))
+				.headers(headers -> headers.setBasicAuth("user", "password"))
 				.exchange()
 				.expectStatus().isBadRequest();
 		// @formatter:on

@@ -205,15 +205,12 @@ public class OAuth2AuthorizationCodeGrantFilter extends OncePerRequestFilter {
 		// before doing an exact comparison with the authorizationRequest.getRedirectUri()
 		// parameters (if any)
 		requestUriParameters.retainAll(redirectUriParameters);
-		if (Objects.equals(requestUri.getScheme(), redirectUri.getScheme())
-				&& Objects.equals(requestUri.getUserInfo(), redirectUri.getUserInfo())
-				&& Objects.equals(requestUri.getHost(), redirectUri.getHost())
-				&& Objects.equals(requestUri.getPort(), redirectUri.getPort())
-				&& Objects.equals(requestUri.getPath(), redirectUri.getPath())
-				&& Objects.equals(requestUriParameters.toString(), redirectUriParameters.toString())) {
-			return true;
-		}
-		return false;
+		return Objects.equals(requestUri.getScheme(), redirectUri.getScheme())
+			&& Objects.equals(requestUri.getUserInfo(), redirectUri.getUserInfo())
+			&& Objects.equals(requestUri.getHost(), redirectUri.getHost())
+			&& Objects.equals(requestUri.getPort(), redirectUri.getPort())
+			&& Objects.equals(requestUri.getPath(), redirectUri.getPath())
+			&& Objects.equals(requestUriParameters.toString(), redirectUriParameters.toString());
 	}
 
 	private void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response)
@@ -248,7 +245,7 @@ public class OAuth2AuthorizationCodeGrantFilter extends OncePerRequestFilter {
 			return;
 		}
 		Authentication currentAuthentication = this.securityContextHolderStrategy.getContext().getAuthentication();
-		String principalName = (currentAuthentication != null) ? currentAuthentication.getName() : "anonymousUser";
+		String principalName = currentAuthentication != null ? currentAuthentication.getName() : "anonymousUser";
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticationResult.getClientRegistration(), principalName, authenticationResult.getAccessToken(),
 				authenticationResult.getRefreshToken());

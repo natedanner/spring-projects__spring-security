@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class WebSessionOAuth2ServerAuthorizationRequestRepositoryTests {
 
-	private WebSessionOAuth2ServerAuthorizationRequestRepository repository = new WebSessionOAuth2ServerAuthorizationRequestRepository();
+	private final WebSessionOAuth2ServerAuthorizationRequestRepository repository = new WebSessionOAuth2ServerAuthorizationRequestRepository();
 
 	// @formatter:off
 	private OAuth2AuthorizationRequest authorizationRequest = OAuth2AuthorizationRequest.authorizationCode()
@@ -71,7 +71,7 @@ public class WebSessionOAuth2ServerAuthorizationRequestRepositoryTests {
 		// @formatter:off
 		Mono<OAuth2AuthorizationRequest> setAttrThenLoad = this.exchange.getSession()
 				.map(WebSession::getAttributes)
-				.doOnNext((attrs) -> attrs.put("foo", "bar"))
+				.doOnNext(attrs -> attrs.put("foo", "bar"))
 				.then(this.repository.loadAuthorizationRequest(this.exchange));
 		StepVerifier.create(setAttrThenLoad)
 				.verifyComplete();

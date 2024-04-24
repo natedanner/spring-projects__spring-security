@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class BCryptTests {
 
-	private static class TestObject<T> {
+	private static final class TestObject<T> {
 
 		private final T password;
 
@@ -284,9 +284,9 @@ public class BCryptTests {
 	public void testCheckpw_failure() {
 		print("BCrypt.checkpw w/ bad passwords: ");
 		for (int i = 0; i < testObjectsString.size(); i++) {
-			int broken_index = (i + 8) % testObjectsString.size();
+			int brokenIndex = (i + 8) % testObjectsString.size();
 			String plain = testObjectsString.get(i).password;
-			String expected = testObjectsString.get(broken_index).expected;
+			String expected = testObjectsString.get(brokenIndex).expected;
 			assertThat(BCrypt.checkpw(plain, expected)).isFalse();
 			print(".");
 		}
@@ -299,9 +299,9 @@ public class BCryptTests {
 	@Test
 	public void testCheckpwByteArray_failure() {
 		for (int i = 0; i < testObjectsByteArray.size(); i++) {
-			int broken_index = (i + 8) % testObjectsByteArray.size();
+			int brokenIndex = (i + 8) % testObjectsByteArray.size();
 			byte[] plain = testObjectsByteArray.get(i).password;
-			String expected = testObjectsByteArray.get(broken_index).expected;
+			String expected = testObjectsByteArray.get(brokenIndex).expected;
 			assertThat(BCrypt.checkpw(plain, expected)).isFalse();
 		}
 	}
@@ -332,23 +332,23 @@ public class BCryptTests {
 	@Test
 	public void emptyByteArrayCannotBeEncoded() {
 		assertThatIllegalArgumentException()
-			.isThrownBy(() -> BCrypt.encode_base64(new byte[0], 0, new StringBuilder()));
+			.isThrownBy(() -> BCrypt.encodeBase64(new byte[0], 0, new StringBuilder()));
 	}
 
 	@Test
 	public void moreBytesThanInTheArrayCannotBeEncoded() {
 		assertThatIllegalArgumentException()
-			.isThrownBy(() -> BCrypt.encode_base64(new byte[1], 2, new StringBuilder()));
+			.isThrownBy(() -> BCrypt.encodeBase64(new byte[1], 2, new StringBuilder()));
 	}
 
 	@Test
 	public void decodingMustRequestMoreThanZeroBytes() {
-		assertThatIllegalArgumentException().isThrownBy(() -> BCrypt.decode_base64("", 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> BCrypt.decodeBase64("", 0));
 	}
 
-	private static String encode_base64(byte d[], int len) throws IllegalArgumentException {
+	private static String encode_base64(byte[] d, int len) throws IllegalArgumentException {
 		StringBuilder rs = new StringBuilder();
-		BCrypt.encode_base64(d, len, rs);
+		BCrypt.encodeBase64(d, len, rs);
 		return rs.toString();
 	}
 
@@ -361,22 +361,22 @@ public class BCryptTests {
 
 	@Test
 	public void decodingCharsOutsideAsciiGivesNoResults() {
-		byte[] ba = BCrypt.decode_base64("ππππππππ", 1);
+		byte[] ba = BCrypt.decodeBase64("ππππππππ", 1);
 		assertThat(ba).isEmpty();
 	}
 
 	@Test
 	public void decodingStopsWithFirstInvalidCharacter() {
-		assertThat(BCrypt.decode_base64("....", 1)).hasSize(1);
-		assertThat(BCrypt.decode_base64(" ....", 1)).isEmpty();
+		assertThat(BCrypt.decodeBase64("....", 1)).hasSize(1);
+		assertThat(BCrypt.decodeBase64(" ....", 1)).isEmpty();
 	}
 
 	@Test
 	public void decodingOnlyProvidesAvailableBytes() {
-		assertThat(BCrypt.decode_base64("", 1)).isEmpty();
-		assertThat(BCrypt.decode_base64("......", 3)).hasSize(3);
-		assertThat(BCrypt.decode_base64("......", 4)).hasSize(4);
-		assertThat(BCrypt.decode_base64("......", 5)).hasSize(4);
+		assertThat(BCrypt.decodeBase64("", 1)).isEmpty();
+		assertThat(BCrypt.decodeBase64("......", 3)).hasSize(3);
+		assertThat(BCrypt.decodeBase64("......", 4)).hasSize(4);
+		assertThat(BCrypt.decodeBase64("......", 5)).hasSize(4);
 	}
 
 	/**
@@ -391,7 +391,7 @@ public class BCryptTests {
 				ba[i] = (byte) b;
 				String s = encode_base64(ba, 3);
 				assertThat(s).hasSize(4);
-				byte[] decoded = BCrypt.decode_base64(s, 3);
+				byte[] decoded = BCrypt.decodeBase64(s, 3);
 				assertThat(decoded).isEqualTo(ba);
 			}
 		}

@@ -187,7 +187,7 @@ public class OAuth2AuthorizedClientArgumentResolverTests {
 
 	private Object resolveArgument(MethodParameter methodParameter) {
 		return this.argumentResolver.resolveArgument(methodParameter, null, null)
-			.contextWrite((this.authentication != null)
+			.contextWrite(this.authentication != null
 					? ReactiveSecurityContextHolder.withAuthentication(this.authentication) : Context.empty())
 			.contextWrite(serverWebExchange())
 			.block();

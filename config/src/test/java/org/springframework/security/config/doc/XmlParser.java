@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlParser implements AutoCloseable {
 
-	private InputStream xml;
+	private final InputStream xml;
 
 	public XmlParser(InputStream xml) {
 		this.xml = xml;

@@ -113,7 +113,7 @@ public class XorServerCsrfTokenRequestAttributeHandlerTests {
 		assertThat(csrfTokenAttribute).isNotNull();
 		// @formatter:off
 		StepVerifier.create(csrfTokenAttribute)
-				.assertNext((csrfToken) -> assertThat(csrfToken.getToken()).isEqualTo(XOR_CSRF_TOKEN_VALUE))
+				.assertNext(csrfToken -> assertThat(csrfToken.getToken()).isEqualTo(XOR_CSRF_TOKEN_VALUE))
 				.verifyComplete();
 		// @formatter:on
 		verify(this.secureRandom).nextBytes(anyByteArray());
@@ -201,7 +201,7 @@ public class XorServerCsrfTokenRequestAttributeHandlerTests {
 	}
 
 	private static Answer<Void> fillByteArray() {
-		return (invocation) -> {
+		return invocation -> {
 			byte[] bytes = invocation.getArgument(0);
 			Arrays.fill(bytes, (byte) 1);
 			return null;

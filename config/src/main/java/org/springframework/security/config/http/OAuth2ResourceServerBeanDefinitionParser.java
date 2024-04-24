@@ -235,7 +235,7 @@ final class OAuth2ResourceServerBeanDefinitionParser implements BeanDefinitionPa
 
 		Object getJwtAuthenticationConverter(Element element) {
 			String jwtDecoderRef = element.getAttribute(JWT_AUTHENTICATION_CONVERTER_REF);
-			return (StringUtils.hasLength(jwtDecoderRef)) ? new RuntimeBeanReference(jwtDecoderRef)
+			return StringUtils.hasLength(jwtDecoderRef) ? new RuntimeBeanReference(jwtDecoderRef)
 					: new JwtAuthenticationConverter();
 		}
 

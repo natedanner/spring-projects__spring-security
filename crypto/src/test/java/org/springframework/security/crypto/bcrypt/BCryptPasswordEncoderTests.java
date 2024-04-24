@@ -42,7 +42,7 @@ public class BCryptPasswordEncoderTests {
 		// $2y is default version
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String result = encoder.encode("password");
-		assertThat(result.equals("password")).isFalse();
+		assertThat("password".equals(result)).isFalse();
 		assertThat(encoder.matches("password", result)).isTrue();
 	}
 
@@ -50,7 +50,7 @@ public class BCryptPasswordEncoderTests {
 	public void $2aMatches() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
 		String result = encoder.encode("password");
-		assertThat(result.equals("password")).isFalse();
+		assertThat("password".equals(result)).isFalse();
 		assertThat(encoder.matches("password", result)).isTrue();
 	}
 
@@ -58,7 +58,7 @@ public class BCryptPasswordEncoderTests {
 	public void $2bMatches() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B);
 		String result = encoder.encode("password");
-		assertThat(result.equals("password")).isFalse();
+		assertThat("password".equals(result)).isFalse();
 		assertThat(encoder.matches("password", result)).isTrue();
 	}
 

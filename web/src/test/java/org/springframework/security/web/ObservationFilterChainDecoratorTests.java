@@ -154,7 +154,7 @@ public class ObservationFilterChainDecoratorTests {
 	@Test
 	void observationNamesDoNotContainDashes() {
 		ObservationFilterChainDecorator.ObservationFilter.OBSERVATION_NAMES.values()
-			.forEach((name) -> assertThat(name).doesNotContain("-"));
+			.forEach(name -> assertThat(name).doesNotContain("-"));
 	}
 
 	static Stream<Arguments> decorateFiltersWhenCompletesThenHasSpringSecurityReachedFilterNameTag() {

@@ -47,7 +47,7 @@ public class PortResolverImpl implements PortResolver {
 		int serverPort = request.getServerPort();
 		String scheme = request.getScheme().toLowerCase();
 		Integer mappedPort = getMappedPort(serverPort, scheme);
-		return (mappedPort != null) ? mappedPort : serverPort;
+		return mappedPort != null ? mappedPort : serverPort;
 	}
 
 	private Integer getMappedPort(int serverPort, String scheme) {

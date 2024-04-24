@@ -51,10 +51,10 @@ public class RsaKeyConversionServicePostProcessor implements BeanFactoryPostProc
 
 	private static final String CONVERSION_SERVICE_BEAN_NAME = "conversionService";
 
-	private ResourceKeyConverterAdapter<RSAPublicKey> x509 = new ResourceKeyConverterAdapter<>(RsaKeyConverters.x509());
+	private final ResourceKeyConverterAdapter<RSAPublicKey> x509 = new ResourceKeyConverterAdapter<>(RsaKeyConverters.x509());
 
-	private ResourceKeyConverterAdapter<RSAPrivateKey> pkcs8 = new ResourceKeyConverterAdapter<>(
-			RsaKeyConverters.pkcs8());
+	private final ResourceKeyConverterAdapter<RSAPrivateKey> pkcs8 = new ResourceKeyConverterAdapter<>(
+		RsaKeyConverters.pkcs8());
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		Assert.notNull(resourceLoader, "resourceLoader cannot be null");
@@ -73,7 +73,7 @@ public class RsaKeyConversionServicePostProcessor implements BeanFactoryPostProc
 			registry.addConverter(String.class, RSAPublicKey.class, this.x509);
 		}
 		else {
-			beanFactory.addPropertyEditorRegistrar((registry) -> {
+			beanFactory.addPropertyEditorRegistrar(registry -> {
 				registry.registerCustomEditor(RSAPublicKey.class, new ConverterPropertyEditorAdapter<>(this.x509));
 				registry.registerCustomEditor(RSAPrivateKey.class, new ConverterPropertyEditorAdapter<>(this.pkcs8));
 			});
@@ -142,7 +142,7 @@ public class RsaKeyConversionServicePostProcessor implements BeanFactoryPostProc
 		}
 
 		private Converter<String, InputStream> pemInputStreamConverter() {
-			return (source) -> source.startsWith("-----") ? toInputStream(source)
+			return source -> source.startsWith("-----") ? toInputStream(source)
 					: toInputStream(this.resourceLoader.getResource(source));
 		}
 
@@ -160,7 +160,7 @@ public class RsaKeyConversionServicePostProcessor implements BeanFactoryPostProc
 		}
 
 		private <T> Converter<InputStream, T> autoclose(Converter<InputStream, T> inputStreamKeyConverter) {
-			return (inputStream) -> {
+			return inputStream -> {
 				try (InputStream is = inputStream) {
 					return inputStreamKeyConverter.convert(is);
 				}

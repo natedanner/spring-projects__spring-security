@@ -136,7 +136,7 @@ public class Md4PasswordEncoder implements PasswordEncoder {
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
 		String salt = extractSalt(encodedPassword);
 		String rawPasswordEncoded = digest(salt, rawPassword);
-		return PasswordEncoderUtils.equals(encodedPassword.toString(), rawPasswordEncoded);
+		return PasswordEncoderUtils.equals(encodedPassword, rawPasswordEncoded);
 	}
 
 	private String extractSalt(String prefixEncodedPassword) {

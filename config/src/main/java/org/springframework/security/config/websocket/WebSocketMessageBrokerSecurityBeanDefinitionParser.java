@@ -199,7 +199,7 @@ public final class WebSocketMessageBrokerSecurityBeanDefinitionParser implements
 			return authorizationManagerRef;
 		}
 		Element expressionHandlerElt = DomUtils.getChildElementByTagName(element, Elements.EXPRESSION_HANDLER);
-		String expressionHandlerRef = (expressionHandlerElt != null) ? expressionHandlerElt.getAttribute("ref") : null;
+		String expressionHandlerRef = expressionHandlerElt != null ? expressionHandlerElt.getAttribute("ref") : null;
 		ManagedMap<BeanDefinition, BeanDefinition> matcherToExpression = new ManagedMap<>();
 		List<Element> interceptMessages = DomUtils.getChildElementsByTagName(element, Elements.INTERCEPT_MESSAGE);
 		for (Element interceptMessage : interceptMessages) {
@@ -227,7 +227,7 @@ public final class WebSocketMessageBrokerSecurityBeanDefinitionParser implements
 		XmlReaderContext context = parserContext.getReaderContext();
 		ManagedMap<BeanDefinition, String> matcherToExpression = new ManagedMap<>();
 		Element expressionHandlerElt = DomUtils.getChildElementByTagName(element, Elements.EXPRESSION_HANDLER);
-		String expressionHandlerRef = (expressionHandlerElt != null) ? expressionHandlerElt.getAttribute("ref") : null;
+		String expressionHandlerRef = expressionHandlerElt != null ? expressionHandlerElt.getAttribute("ref") : null;
 		boolean expressionHandlerDefined = StringUtils.hasText(expressionHandlerRef);
 		List<Element> interceptMessages = DomUtils.getChildElementsByTagName(element, Elements.INTERCEPT_MESSAGE);
 		for (Element interceptMessage : interceptMessages) {
@@ -331,7 +331,7 @@ public final class WebSocketMessageBrokerSecurityBeanDefinitionParser implements
 					bd.getPropertyValues().add(CUSTOM_ARG_RESOLVERS_PROP, argResolvers);
 					if (!registry.containsBeanDefinition(PATH_MATCHER_BEAN_NAME)) {
 						PropertyValue pathMatcherProp = bd.getPropertyValues().getPropertyValue("pathMatcher");
-						Object pathMatcher = (pathMatcherProp != null) ? pathMatcherProp.getValue() : null;
+						Object pathMatcher = pathMatcherProp != null ? pathMatcherProp.getValue() : null;
 						if (pathMatcher instanceof BeanReference) {
 							registry.registerAlias(((BeanReference) pathMatcher).getBeanName(), PATH_MATCHER_BEAN_NAME);
 						}

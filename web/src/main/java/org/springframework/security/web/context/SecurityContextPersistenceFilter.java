@@ -71,7 +71,7 @@ public class SecurityContextPersistenceFilter extends GenericFilterBean {
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private boolean forceEagerSessionCreation = false;
+	private boolean forceEagerSessionCreation;
 
 	public SecurityContextPersistenceFilter() {
 		this(new HttpSessionSecurityContextRepository());

@@ -78,7 +78,7 @@ final class Saml2LogoutBeanDefinitionParser implements BeanDefinitionParser {
 
 	private BeanDefinition logoutFilter;
 
-	private BeanMetadataElement authenticationFilterSecurityContextHolderStrategy;
+	private final BeanMetadataElement authenticationFilterSecurityContextHolderStrategy;
 
 	Saml2LogoutBeanDefinitionParser(ManagedList<BeanMetadataElement> logoutHandlers,
 			BeanMetadataElement logoutSuccessHandler,

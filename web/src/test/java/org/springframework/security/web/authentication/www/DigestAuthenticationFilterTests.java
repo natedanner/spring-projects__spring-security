@@ -123,7 +123,7 @@ public class DigestAuthenticationFilterTests {
 	public void setUp() {
 		SecurityContextHolder.clearContext();
 		// Create User Details Service
-		UserDetailsService uds = (username) -> new User("rod,ok", "koala",
+		UserDetailsService uds = username -> new User("rod,ok", "koala",
 				AuthorityUtils.createAuthorityList("ROLE_ONE", "ROLE_TWO"));
 		DigestAuthenticationEntryPoint ep = new DigestAuthenticationEntryPoint();
 		ep.setRealmName(REALM);
@@ -146,7 +146,7 @@ public class DigestAuthenticationFilterTests {
 		MockHttpServletResponse response = executeFilterInContainerSimulator(this.filter, this.request, false);
 		assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
 		assertThat(response.getStatus()).isEqualTo(401);
-		String header = response.getHeader("WWW-Authenticate").toString().substring(7);
+		String header = response.getHeader("WWW-Authenticate").substring(7);
 		String[] headerEntries = StringUtils.commaDelimitedListToStringArray(header);
 		Map<String, String> headerMap = DigestAuthUtils.splitEachArrayElementAndCreateMap(headerEntries, "=", "\"");
 		assertThat(headerMap).containsEntry("stale", "true");

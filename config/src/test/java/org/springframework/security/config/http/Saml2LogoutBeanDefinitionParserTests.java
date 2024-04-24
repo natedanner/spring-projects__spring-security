@@ -219,7 +219,7 @@ public class Saml2LogoutBeanDefinitionParserTests {
 			.samlRequest(this.rpLogoutRequest)
 			.id(this.rpLogoutRequestId)
 			.relayState(this.rpLogoutRequestRelayState)
-			.parameters((params) -> params.put("Signature", this.rpLogoutRequestSignature))
+			.parameters(params -> params.put("Signature", this.rpLogoutRequestSignature))
 			.build();
 		given(getBean(Saml2LogoutRequestResolver.class).resolve(any(), any())).willReturn(logoutRequest);
 		this.mvc.perform(post("/logout").with(authentication(this.saml2User)).with(csrf()));
@@ -322,7 +322,7 @@ public class Saml2LogoutBeanDefinitionParserTests {
 			.samlRequest(this.rpLogoutRequest)
 			.id(this.rpLogoutRequestId)
 			.relayState(this.rpLogoutRequestRelayState)
-			.parameters((params) -> params.put("Signature", this.rpLogoutRequestSignature))
+			.parameters(params -> params.put("Signature", this.rpLogoutRequestSignature))
 			.build();
 		this.logoutRequestRepository.saveLogoutRequest(logoutRequest, this.request, this.response);
 		this.request.setParameter("RelayState", logoutRequest.getRelayState());
@@ -347,7 +347,7 @@ public class Saml2LogoutBeanDefinitionParserTests {
 			.samlRequest(this.rpLogoutRequest)
 			.id(this.rpLogoutRequestId)
 			.relayState(this.rpLogoutRequestRelayState)
-			.parameters((params) -> params.put("Signature", this.rpLogoutRequestSignature))
+			.parameters(params -> params.put("Signature", this.rpLogoutRequestSignature))
 			.build();
 		this.logoutRequestRepository.saveLogoutRequest(logoutRequest, this.request, this.response);
 		String deflatedApLogoutResponse = Saml2Utils.samlEncode(
@@ -371,7 +371,7 @@ public class Saml2LogoutBeanDefinitionParserTests {
 			.samlRequest(this.rpLogoutRequest)
 			.id(this.rpLogoutRequestId)
 			.relayState(this.rpLogoutRequestRelayState)
-			.parameters((params) -> params.put("Signature", this.rpLogoutRequestSignature))
+			.parameters(params -> params.put("Signature", this.rpLogoutRequestSignature))
 			.build();
 		given(getBean(Saml2LogoutRequestRepository.class).removeLogoutRequest(any(), any())).willReturn(logoutRequest);
 		given(getBean(Saml2LogoutResponseValidator.class).validate(any()))

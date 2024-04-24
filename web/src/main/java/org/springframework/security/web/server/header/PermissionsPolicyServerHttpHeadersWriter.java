@@ -37,7 +37,7 @@ public final class PermissionsPolicyServerHttpHeadersWriter implements ServerHtt
 
 	@Override
 	public Mono<Void> writeHttpHeaders(ServerWebExchange exchange) {
-		return (this.delegate != null) ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
+		return this.delegate != null ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
 	}
 
 	private static ServerHttpHeadersWriter createDelegate(String policyDirectives) {

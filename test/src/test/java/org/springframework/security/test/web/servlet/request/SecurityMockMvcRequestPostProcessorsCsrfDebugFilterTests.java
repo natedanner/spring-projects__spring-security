@@ -70,7 +70,7 @@ public class SecurityMockMvcRequestPostProcessorsCsrfDebugFilterTests {
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
 			// Enable the DebugFilter
-			return (web) -> web.debug(true);
+			return web -> web.debug(true);
 		}
 
 	}

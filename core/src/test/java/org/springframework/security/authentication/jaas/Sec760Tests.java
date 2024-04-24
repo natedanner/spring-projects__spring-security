@@ -34,8 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Sec760Tests {
 
 	public String resolveConfigFile(String filename) {
-		String resName = "/" + getClass().getPackage().getName().replace('.', '/') + filename;
-		return resName;
+		return "/" + getClass().getPackage().getName().replace('.', '/') + filename;
 	}
 
 	private void testConfigureJaasCase(JaasAuthenticationProvider p1, JaasAuthenticationProvider p2) throws Exception {

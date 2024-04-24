@@ -105,7 +105,7 @@ public class DefaultMethodSecurityExpressionHandlerTests {
 		EvaluationContext context = this.handler.createEvaluationContext(this.authentication, this.methodInvocation);
 		Object filtered = this.handler.filter(map, expression, context);
 		assertThat(filtered == map);
-		Map<String, String> result = ((Map<String, String>) filtered);
+		Map<String, String> result = (Map<String, String>) filtered;
 		assertThat(result.size() == 1);
 		assertThat(result).containsKey("key2");
 		assertThat(result).containsValue("value2");
@@ -123,7 +123,7 @@ public class DefaultMethodSecurityExpressionHandlerTests {
 		EvaluationContext context = this.handler.createEvaluationContext(this.authentication, this.methodInvocation);
 		Object filtered = this.handler.filter(map, expression, context);
 		assertThat(filtered == map);
-		Map<String, String> result = ((Map<String, String>) filtered);
+		Map<String, String> result = (Map<String, String>) filtered;
 		assertThat(result.size() == 1);
 		assertThat(result).containsKey("key3");
 		assertThat(result).containsValue("value3");
@@ -142,7 +142,7 @@ public class DefaultMethodSecurityExpressionHandlerTests {
 		EvaluationContext context = this.handler.createEvaluationContext(this.authentication, this.methodInvocation);
 		Object filtered = this.handler.filter(map, expression, context);
 		assertThat(filtered == map);
-		Map<String, String> result = ((Map<String, String>) filtered);
+		Map<String, String> result = (Map<String, String>) filtered;
 		assertThat(result.size() == 2);
 		assertThat(result).containsKeys("key1", "key2");
 		assertThat(result).containsValues("value1", "value2");

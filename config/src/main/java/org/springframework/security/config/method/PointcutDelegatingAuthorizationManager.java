@@ -38,7 +38,7 @@ class PointcutDelegatingAuthorizationManager implements AuthorizationManager<Met
 	@Override
 	public AuthorizationDecision check(Supplier<Authentication> authentication, MethodInvocation object) {
 		for (Map.Entry<Pointcut, AuthorizationManager<MethodInvocation>> entry : this.managers.entrySet()) {
-			Class<?> targetClass = (object.getThis() != null) ? AopUtils.getTargetClass(object.getThis()) : null;
+			Class<?> targetClass = object.getThis() != null ? AopUtils.getTargetClass(object.getThis()) : null;
 			if (entry.getKey().getClassFilter().matches(targetClass)
 					&& entry.getKey().getMethodMatcher().matches(object.getMethod(), targetClass)) {
 				return entry.getValue().check(authentication, object);

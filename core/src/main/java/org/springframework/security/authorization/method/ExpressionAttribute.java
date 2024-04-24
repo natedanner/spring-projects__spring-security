@@ -52,7 +52,7 @@ class ExpressionAttribute {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [Expression="
-				+ ((this.expression != null) ? this.expression.getExpressionString() : null) + "]";
+				+ (this.expression != null ? this.expression.getExpressionString() : null) + "]";
 	}
 
 }

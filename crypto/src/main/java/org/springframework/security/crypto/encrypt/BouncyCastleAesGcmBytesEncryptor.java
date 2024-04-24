@@ -50,7 +50,7 @@ public class BouncyCastleAesGcmBytesEncryptor extends BouncyCastleAesBytesEncryp
 		GCMBlockCipher blockCipher = new GCMBlockCipher(new org.bouncycastle.crypto.engines.AESFastEngine());
 		blockCipher.init(true, new AEADParameters(this.secretKey, 128, iv, null));
 		byte[] encrypted = process(blockCipher, bytes);
-		return (iv != null) ? EncodingUtils.concatenate(iv, encrypted) : encrypted;
+		return iv != null ? EncodingUtils.concatenate(iv, encrypted) : encrypted;
 	}
 
 	@Override

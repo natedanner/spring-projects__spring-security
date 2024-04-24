@@ -201,7 +201,7 @@ public class NamespaceHttpBasicTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
@@ -238,11 +238,11 @@ public class NamespaceHttpBasicTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.httpBasic((httpBasicConfig) -> httpBasicConfig.realmName("Custom Realm"));
+				.httpBasic(httpBasicConfig -> httpBasicConfig.realmName("Custom Realm"));
 			return http.build();
 			// @formatter:on
 		}
@@ -284,7 +284,7 @@ public class NamespaceHttpBasicTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.httpBasic((httpBasicConfig) ->
+				.httpBasic(httpBasicConfig ->
 						httpBasicConfig.authenticationDetailsSource(this.authenticationDetailsSource));
 			return http.build();
 			// @formatter:on
@@ -328,11 +328,11 @@ public class NamespaceHttpBasicTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.httpBasic((httpBasicConfig) ->
+				.httpBasic(httpBasicConfig ->
 						httpBasicConfig.authenticationEntryPoint(this.authenticationEntryPoint));
 			return http.build();
 			// @formatter:on

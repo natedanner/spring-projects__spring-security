@@ -155,7 +155,7 @@ public final class ActiveDirectoryLdapAuthenticationProvider extends AbstractLda
 		Assert.isTrue(StringUtils.hasText(url), "Url cannot be empty");
 		this.domain = StringUtils.hasText(domain) ? domain.toLowerCase() : null;
 		this.url = url;
-		this.rootDn = (this.domain != null) ? rootDnFromDomain(this.domain) : null;
+		this.rootDn = this.domain != null ? rootDnFromDomain(this.domain) : null;
 	}
 
 	@Override
@@ -304,7 +304,7 @@ public final class ActiveDirectoryLdapAuthenticationProvider extends AbstractLda
 		SearchControls searchControls = new SearchControls();
 		searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		String bindPrincipal = createBindPrincipal(username);
-		String searchRoot = (this.rootDn != null) ? this.rootDn : searchRootFromPrincipal(bindPrincipal);
+		String searchRoot = this.rootDn != null ? this.rootDn : searchRootFromPrincipal(bindPrincipal);
 
 		try {
 			return SpringSecurityLdapTemplate.searchForSingleEntryInternal(context, searchControls, searchRoot,

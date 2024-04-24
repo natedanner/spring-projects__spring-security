@@ -8,7 +8,7 @@ import org.springframework.gradle.CopyPropertiesPlugin
 import org.springframework.gradle.maven.SpringMavenPlugin
 
 public class MavenBomPlugin implements Plugin<Project> {
-	static String MAVEN_BOM_TASK_NAME = "mavenBom"
+	static String mavenBomTaskName = "mavenBom"
 
 	public void apply(Project project) {
 		project.plugins.apply(JavaPlatformPlugin)

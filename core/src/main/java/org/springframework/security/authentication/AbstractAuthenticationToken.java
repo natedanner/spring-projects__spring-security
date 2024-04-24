@@ -43,7 +43,7 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
 
 	private Object details;
 
-	private boolean authenticated = false;
+	private boolean authenticated;
 
 	/**
 	 * Creates a token with the supplied array of authorities.
@@ -77,7 +77,7 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
 		if (this.getPrincipal() instanceof Principal principal) {
 			return principal.getName();
 		}
-		return (this.getPrincipal() == null) ? "" : this.getPrincipal().toString();
+		return this.getPrincipal() == null ? "" : this.getPrincipal().toString();
 	}
 
 	@Override

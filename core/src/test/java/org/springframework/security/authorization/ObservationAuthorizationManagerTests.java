@@ -112,7 +112,7 @@ public class ObservationAuthorizationManagerTests {
 	@Test
 	void verifyWhenLooksUpAuthenticationThenObserves() {
 		given(this.handler.supportsContext(any())).willReturn(true);
-		given(this.authorizationManager.check(any(), any())).willAnswer((invocation) -> {
+		given(this.authorizationManager.check(any(), any())).willAnswer(invocation -> {
 			((Supplier<Authentication>) invocation.getArgument(0)).get();
 			return this.grant;
 		});

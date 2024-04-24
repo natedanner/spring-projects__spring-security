@@ -57,7 +57,7 @@ public class AclImpl implements Acl, MutableAcl, AuditableAcl, OwnershipAcl {
 	private Sid owner;
 
 	// includes all SIDs the WHERE clause covered, even if there was no ACE for a SID
-	private List<Sid> loadedSids = null;
+	private List<Sid> loadedSids;
 
 	private boolean entriesInheriting = true;
 
@@ -202,7 +202,7 @@ public class AclImpl implements Acl, MutableAcl, AuditableAcl, OwnershipAcl {
 	public boolean isSidLoaded(List<Sid> sids) {
 		// If loadedSides is null, this indicates all SIDs were loaded
 		// Also return true if the caller didn't specify a SID to find
-		if ((this.loadedSids == null) || (sids == null) || (sids.size() == 0)) {
+		if ((this.loadedSids == null) || (sids == null) || (sids.isEmpty())) {
 			return true;
 		}
 
@@ -297,15 +297,15 @@ public class AclImpl implements Acl, MutableAcl, AuditableAcl, OwnershipAcl {
 
 	@Override
 	public int hashCode() {
-		int result = (this.parentAcl != null) ? this.parentAcl.hashCode() : 0;
+		int result = this.parentAcl != null ? this.parentAcl.hashCode() : 0;
 		result = 31 * result + this.aclAuthorizationStrategy.hashCode();
 		result = 31 * result
-				+ ((this.permissionGrantingStrategy != null) ? this.permissionGrantingStrategy.hashCode() : 0);
-		result = 31 * result + ((this.aces != null) ? this.aces.hashCode() : 0);
+				+ (this.permissionGrantingStrategy != null ? this.permissionGrantingStrategy.hashCode() : 0);
+		result = 31 * result + (this.aces != null ? this.aces.hashCode() : 0);
 		result = 31 * result + this.objectIdentity.hashCode();
 		result = 31 * result + this.id.hashCode();
-		result = 31 * result + ((this.owner != null) ? this.owner.hashCode() : 0);
-		result = 31 * result + ((this.loadedSids != null) ? this.loadedSids.hashCode() : 0);
+		result = 31 * result + (this.owner != null ? this.owner.hashCode() : 0);
+		result = 31 * result + (this.loadedSids != null ? this.loadedSids.hashCode() : 0);
 		result = 31 * result + (this.entriesInheriting ? 1 : 0);
 		return result;
 	}
@@ -329,7 +329,7 @@ public class AclImpl implements Acl, MutableAcl, AuditableAcl, OwnershipAcl {
 			sb.append("no ACEs; ");
 		}
 		sb.append("inheriting: ").append(this.entriesInheriting).append("; ");
-		sb.append("parent: ").append((this.parentAcl == null) ? "Null" : this.parentAcl.getObjectIdentity().toString());
+		sb.append("parent: ").append(this.parentAcl == null ? "Null" : this.parentAcl.getObjectIdentity().toString());
 		sb.append("; ");
 		sb.append("aclAuthorizationStrategy: ").append(this.aclAuthorizationStrategy).append("; ");
 		sb.append("permissionGrantingStrategy: ").append(this.permissionGrantingStrategy);

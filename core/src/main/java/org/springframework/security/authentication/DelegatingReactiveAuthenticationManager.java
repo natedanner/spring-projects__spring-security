@@ -50,7 +50,7 @@ public class DelegatingReactiveAuthenticationManager implements ReactiveAuthenti
 	public Mono<Authentication> authenticate(Authentication authentication) {
 		// @formatter:off
 		return Flux.fromIterable(this.delegates)
-				.concatMap((m) -> m.authenticate(authentication))
+				.concatMap(m -> m.authenticate(authentication))
 				.next();
 		// @formatter:on
 	}

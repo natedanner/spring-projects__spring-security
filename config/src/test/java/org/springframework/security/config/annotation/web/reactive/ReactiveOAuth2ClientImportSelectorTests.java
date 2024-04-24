@@ -92,7 +92,7 @@ public class ReactiveOAuth2ClientImportSelectorTests {
 		this.client
 				.get()
 				.uri("http://localhost/authorized-client")
-				.headers((headers) -> headers.setBasicAuth("user", "password")).exchange().expectStatus().isOk()
+				.headers(headers -> headers.setBasicAuth("user", "password")).exchange().expectStatus().isOk()
 				.expectBody(String.class).isEqualTo("resolved");
 		// @formatter:on
 		verify(authorizedClientManager).authorize(any());
@@ -123,7 +123,7 @@ public class ReactiveOAuth2ClientImportSelectorTests {
 		this.client
 				.get()
 				.uri("http://localhost/authorized-client")
-				.headers((headers) -> headers.setBasicAuth("user", "password")).exchange().expectStatus().isOk()
+				.headers(headers -> headers.setBasicAuth("user", "password")).exchange().expectStatus().isOk()
 				.expectBody(String.class).isEqualTo("resolved");
 		// @formatter:on
 	}
@@ -163,7 +163,7 @@ public class ReactiveOAuth2ClientImportSelectorTests {
 			@GetMapping("/authorized-client")
 			String authorizedClient(
 					@RegisteredOAuth2AuthorizedClient("client1") OAuth2AuthorizedClient authorizedClient) {
-				return (authorizedClient != null) ? "resolved" : "not-resolved";
+				return authorizedClient != null ? "resolved" : "not-resolved";
 			}
 
 		}

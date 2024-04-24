@@ -105,7 +105,7 @@ public class UserDetailsManagerConfigurerTests {
 	}
 
 	private UserDetailsManagerConfigurer<AuthenticationManagerBuilder, InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>> configurer() {
-		return new UserDetailsManagerConfigurer<AuthenticationManagerBuilder, InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>>(
+		return new UserDetailsManagerConfigurer<>(
 				this.userDetailsManager);
 	}
 

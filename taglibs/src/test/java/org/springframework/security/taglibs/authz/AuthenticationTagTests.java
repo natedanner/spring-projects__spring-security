@@ -159,7 +159,7 @@ public class AuthenticationTagTests {
 
 	private class MyAuthenticationTag extends AuthenticationTag {
 
-		String lastMessage = null;
+		String lastMessage;
 
 		String getLastMessage() {
 			return this.lastMessage;

@@ -49,7 +49,7 @@ import static org.assertj.core.api.Assertions.fail;
  */
 public class SecuredAnnotationSecurityMetadataSourceTests {
 
-	private SecuredAnnotationSecurityMetadataSource mds = new SecuredAnnotationSecurityMetadataSource();
+	private final SecuredAnnotationSecurityMetadataSource mds = new SecuredAnnotationSecurityMetadataSource();
 
 	@Test
 	public void genericsSuperclassDeclarationsAreIncludedWhenSubclassesOverride() {
@@ -114,10 +114,10 @@ public class SecuredAnnotationSecurityMetadataSourceTests {
 		// should have 2 SecurityConfigs
 		for (ConfigAttribute sc : attrs) {
 			assertThat(sc).isInstanceOf(SecurityConfig.class);
-			if (sc.getAttribute().equals("ROLE_USER")) {
+			if ("ROLE_USER".equals(sc.getAttribute())) {
 				user = true;
 			}
-			else if (sc.getAttribute().equals("ROLE_ADMIN")) {
+			else if ("ROLE_ADMIN".equals(sc.getAttribute())) {
 				admin = true;
 			}
 		}

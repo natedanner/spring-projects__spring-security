@@ -77,7 +77,7 @@ final class OpenSamlLogoutRequestResolver {
 
 	private final RelyingPartyRegistrationResolver relyingPartyRegistrationResolver;
 
-	private Converter<HttpServletRequest, String> relayStateResolver = (request) -> UUID.randomUUID().toString();
+	private Converter<HttpServletRequest, String> relayStateResolver = request -> UUID.randomUUID().toString();
 
 	/**
 	 * Construct a {@link OpenSamlLogoutRequestResolver}
@@ -166,7 +166,7 @@ final class OpenSamlLogoutRequestResolver {
 			QueryParametersPartial partial = OpenSamlSigningUtils.sign(registration)
 				.param(Saml2ParameterNames.SAML_REQUEST, deflatedAndEncoded)
 				.param(Saml2ParameterNames.RELAY_STATE, relayState);
-			return result.parameters((params) -> params.putAll(partial.parameters())).build();
+			return result.parameters(params -> params.putAll(partial.parameters())).build();
 		}
 	}
 

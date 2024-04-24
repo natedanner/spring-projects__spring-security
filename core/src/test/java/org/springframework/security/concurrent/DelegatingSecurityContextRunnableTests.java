@@ -71,14 +71,14 @@ public class DelegatingSecurityContextRunnableTests {
 	}
 
 	private void givenDelegateRunWillAnswerWithCurrentSecurityContext() {
-		willAnswer((Answer<Object>) (invocation) -> {
+		willAnswer((Answer<Object>) invocation -> {
 			assertThat(SecurityContextHolder.getContext()).isEqualTo(this.securityContext);
 			return null;
 		}).given(this.delegate).run();
 	}
 
 	private void givenDelegateRunWillAnswerWithCurrentSecurityContext(SecurityContextHolderStrategy strategy) {
-		willAnswer((Answer<Object>) (invocation) -> {
+		willAnswer((Answer<Object>) invocation -> {
 			assertThat(strategy.getContext()).isEqualTo(this.securityContext);
 			return null;
 		}).given(this.delegate).run();

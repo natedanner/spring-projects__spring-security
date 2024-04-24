@@ -130,7 +130,7 @@ public abstract class AbstractAuthenticationProcessingFilter extends GenericFilt
 
 	private RequestMatcher requiresAuthenticationRequestMatcher;
 
-	private boolean continueChainBeforeSuccessfulAuthentication = false;
+	private boolean continueChainBeforeSuccessfulAuthentication;
 
 	private SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
 

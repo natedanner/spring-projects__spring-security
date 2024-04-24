@@ -164,7 +164,7 @@ public final class DefaultOAuth2AuthorizedClientManager implements OAuth2Authori
 		}
 		// @formatter:off
 		OAuth2AuthorizationContext authorizationContext = contextBuilder.principal(principal)
-				.attributes((attributes) -> {
+				.attributes(attributes -> {
 					Map<String, Object> contextAttributes = this.contextAttributesMapper.apply(authorizeRequest);
 					if (!CollectionUtils.isEmpty(contextAttributes)) {
 						attributes.putAll(contextAttributes);

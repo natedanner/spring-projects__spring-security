@@ -33,7 +33,7 @@ final class LdapEncoder {
 
 	private static final int HEX = 16;
 
-	private static String[] NAME_ESCAPE_TABLE = new String[96];
+	private static final String[] NAME_ESCAPE_TABLE = new String[96];
 	static {
 		// all below 0x20 (control chars)
 		for (char c = 0; c < ' '; c++) {
@@ -50,7 +50,7 @@ final class LdapEncoder {
 		NAME_ESCAPE_TABLE['\\'] = "\\\\";
 	}
 
-	private static String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
+	private static final String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
 
 	static {
 		// fill with char itself
@@ -73,7 +73,7 @@ final class LdapEncoder {
 
 	protected static String toTwoCharHex(char c) {
 		String raw = Integer.toHexString(c).toUpperCase();
-		return (raw.length() > 1) ? raw : "0" + raw;
+		return raw.length() > 1 ? raw : "0" + raw;
 	}
 
 	/**
@@ -89,7 +89,7 @@ final class LdapEncoder {
 		int length = value.length();
 		for (int i = 0; i < length; i++) {
 			char ch = value.charAt(i);
-			encodedValue.append((ch < FILTER_ESCAPE_TABLE.length) ? FILTER_ESCAPE_TABLE[ch] : ch);
+			encodedValue.append(ch < FILTER_ESCAPE_TABLE.length ? FILTER_ESCAPE_TABLE[ch] : ch);
 		}
 		return encodedValue.toString();
 	}

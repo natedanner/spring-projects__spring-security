@@ -66,7 +66,7 @@ public final class CasGatewayAuthenticationRedirectFilter extends GenericFilterB
 
 	private RequestCache requestCache = new HttpSessionRequestCache();
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	/**
 	 * Constructs a new instance of this class

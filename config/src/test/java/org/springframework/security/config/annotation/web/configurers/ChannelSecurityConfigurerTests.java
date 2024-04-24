@@ -186,7 +186,7 @@ public class ChannelSecurityConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.requiresChannel((requiresChannel) ->
+				.requiresChannel(requiresChannel ->
 					requiresChannel
 						.anyRequest().requiresSecure()
 			);
@@ -267,10 +267,10 @@ public class ChannelSecurityConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.portMapper((port) -> port
+				.portMapper(port -> port
 					.portMapper(new PortMapperImpl())
 				)
-				.requiresChannel((channel) -> channel
+				.requiresChannel(channel -> channel
 					.requestMatchers("/test-1")
 						.requiresSecure()
 					.requestMatchers("/test-2")

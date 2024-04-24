@@ -157,7 +157,7 @@ public class OAuth2AuthorizationRequestMixinTests {
 			additionalParameters += "," + authorizationRequest.getAdditionalParameters()
 				.keySet()
 				.stream()
-				.map((key) -> "\"" + key + "\": \"" + authorizationRequest.getAdditionalParameters().get(key) + "\"")
+				.map(key -> "\"" + key + "\": \"" + authorizationRequest.getAdditionalParameters().get(key) + "\"")
 				.collect(Collectors.joining(","));
 		}
 		String attributes = "\"@class\": \"java.util.Collections$UnmodifiableMap\"";
@@ -165,7 +165,7 @@ public class OAuth2AuthorizationRequestMixinTests {
 			attributes += "," + authorizationRequest.getAttributes()
 				.keySet()
 				.stream()
-				.map((key) -> "\"" + key + "\": \"" + authorizationRequest.getAttributes().get(key) + "\"")
+				.map(key -> "\"" + key + "\": \"" + authorizationRequest.getAttributes().get(key) + "\"")
 				.collect(Collectors.joining(","));
 		}
 		// @formatter:off
@@ -184,7 +184,7 @@ public class OAuth2AuthorizationRequestMixinTests {
 				"    \"java.util.Collections$UnmodifiableSet\",\n" +
 				"    [" + scopes + "]\n" +
 				"  ],\n" +
-				"  \"state\": " + ((authorizationRequest.getState() != null) ? "\"" + authorizationRequest.getState() + "\"" : "null") + ",\n" +
+				"  \"state\": " + (authorizationRequest.getState() != null ? "\"" + authorizationRequest.getState() + "\"" : "null") + ",\n" +
 				"  \"additionalParameters\": {\n" +
 				"    " + additionalParameters + "\n" +
 				"  },\n" +

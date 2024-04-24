@@ -128,7 +128,7 @@ public final class UrlUtils {
 	 * defined in RFC 1738.
 	 */
 	public static boolean isAbsoluteUrl(String url) {
-		return (url != null) ? ABSOLUTE_URL.matcher(url).matches() : false;
+		return url != null ? ABSOLUTE_URL.matcher(url).matches() : false;
 	}
 
 }

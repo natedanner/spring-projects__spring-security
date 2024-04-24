@@ -78,9 +78,9 @@ public final class OAuth2AuthorizationRequestCustomizers {
 
 		String codeVerifier = DEFAULT_SECURE_KEY_GENERATOR.generateKey();
 
-		builder.attributes((attrs) -> attrs.put(PkceParameterNames.CODE_VERIFIER, codeVerifier));
+		builder.attributes(attrs -> attrs.put(PkceParameterNames.CODE_VERIFIER, codeVerifier));
 
-		builder.additionalParameters((params) -> {
+		builder.additionalParameters(params -> {
 			try {
 				String codeChallenge = createHash(codeVerifier);
 				params.put(PkceParameterNames.CODE_CHALLENGE, codeChallenge);
@@ -94,7 +94,7 @@ public final class OAuth2AuthorizationRequestCustomizers {
 
 	private static boolean isPkceAlreadyApplied(OAuth2AuthorizationRequest.Builder builder) {
 		AtomicBoolean pkceApplied = new AtomicBoolean(false);
-		builder.additionalParameters((params) -> {
+		builder.additionalParameters(params -> {
 			if (params.containsKey(PkceParameterNames.CODE_CHALLENGE)) {
 				pkceApplied.set(true);
 			}

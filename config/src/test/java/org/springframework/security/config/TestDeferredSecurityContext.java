@@ -24,9 +24,9 @@ import org.springframework.security.core.context.SecurityContext;
  */
 public class TestDeferredSecurityContext implements DeferredSecurityContext {
 
-	private SecurityContext securityContext;
+	private final SecurityContext securityContext;
 
-	private boolean isGenerated;
+	private final boolean isGenerated;
 
 	public TestDeferredSecurityContext(SecurityContext securityContext, boolean isGenerated) {
 		this.securityContext = securityContext;

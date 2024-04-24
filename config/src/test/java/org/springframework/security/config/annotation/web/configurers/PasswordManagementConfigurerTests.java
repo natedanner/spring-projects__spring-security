@@ -110,7 +110,7 @@ public class PasswordManagementConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			return http
-					.passwordManagement((passwordManagement) -> passwordManagement
+					.passwordManagement(passwordManagement -> passwordManagement
 						.changePasswordPage("/custom-change-password-page")
 					)
 					.build();

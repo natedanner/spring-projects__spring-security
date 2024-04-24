@@ -88,9 +88,9 @@ public class DigestAuthenticationEntryPointTests {
 		ep.commence(request, response, new DisabledException("foobar"));
 		// Check response is properly formed
 		assertThat(response.getStatus()).isEqualTo(401);
-		assertThat(response.getHeader("WWW-Authenticate").toString()).startsWith("Digest ");
+		assertThat(response.getHeader("WWW-Authenticate")).startsWith("Digest ");
 		// Break up response header
-		String header = response.getHeader("WWW-Authenticate").toString().substring(7);
+		String header = response.getHeader("WWW-Authenticate").substring(7);
 		String[] headerEntries = StringUtils.commaDelimitedListToStringArray(header);
 		Map<String, String> headerMap = DigestAuthUtils.splitEachArrayElementAndCreateMap(headerEntries, "=", "\"");
 		assertThat(headerMap).containsEntry("realm", "hello");
@@ -111,9 +111,9 @@ public class DigestAuthenticationEntryPointTests {
 		ep.commence(request, response, new NonceExpiredException("expired nonce"));
 		// Check response is properly formed
 		assertThat(response.getStatus()).isEqualTo(401);
-		assertThat(response.getHeader("WWW-Authenticate").toString()).startsWith("Digest ");
+		assertThat(response.getHeader("WWW-Authenticate")).startsWith("Digest ");
 		// Break up response header
-		String header = response.getHeader("WWW-Authenticate").toString().substring(7);
+		String header = response.getHeader("WWW-Authenticate").substring(7);
 		String[] headerEntries = StringUtils.commaDelimitedListToStringArray(header);
 		Map<String, String> headerMap = DigestAuthUtils.splitEachArrayElementAndCreateMap(headerEntries, "=", "\"");
 		assertThat(headerMap).containsEntry("realm", "hello");

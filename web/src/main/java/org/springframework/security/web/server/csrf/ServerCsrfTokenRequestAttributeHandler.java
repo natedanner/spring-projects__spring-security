@@ -71,7 +71,7 @@ public class ServerCsrfTokenRequestAttributeHandler implements ServerCsrfTokenRe
 			return Mono.empty();
 		}
 		return exchange.getMultipartData()
-			.map((d) -> d.getFirst(expected.getParameterName()))
+			.map(d -> d.getFirst(expected.getParameterName()))
 			.cast(FormFieldPart.class)
 			.map(FormFieldPart::value);
 	}

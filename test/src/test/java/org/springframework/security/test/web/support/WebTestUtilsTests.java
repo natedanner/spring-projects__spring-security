@@ -253,7 +253,7 @@ public class WebTestUtilsTests {
 		DefaultSecurityFilterChain springSecurityFilter(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.securityContext((securityContext) -> securityContext.requireExplicitSave(true));
+				.securityContext(securityContext -> securityContext.requireExplicitSave(true));
 			// @formatter:on
 			return http.build();
 		}

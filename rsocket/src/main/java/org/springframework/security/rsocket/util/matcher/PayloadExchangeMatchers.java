@@ -27,17 +27,17 @@ public final class PayloadExchangeMatchers {
 	}
 
 	public static PayloadExchangeMatcher setup() {
-		return (exchange) -> PayloadExchangeType.SETUP.equals(exchange.getType())
+		return exchange -> PayloadExchangeType.SETUP.equals(exchange.getType())
 				? PayloadExchangeMatcher.MatchResult.match() : PayloadExchangeMatcher.MatchResult.notMatch();
 	}
 
 	public static PayloadExchangeMatcher anyRequest() {
-		return (exchange) -> exchange.getType().isRequest() ? PayloadExchangeMatcher.MatchResult.match()
+		return exchange -> exchange.getType().isRequest() ? PayloadExchangeMatcher.MatchResult.match()
 				: PayloadExchangeMatcher.MatchResult.notMatch();
 	}
 
 	public static PayloadExchangeMatcher anyExchange() {
-		return (exchange) -> PayloadExchangeMatcher.MatchResult.match();
+		return exchange -> PayloadExchangeMatcher.MatchResult.match();
 	}
 
 }

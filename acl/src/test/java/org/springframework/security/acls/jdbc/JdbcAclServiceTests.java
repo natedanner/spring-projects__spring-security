@@ -99,7 +99,7 @@ public class JdbcAclServiceTests {
 		Map<ObjectIdentity, Acl> result = new HashMap<>();
 		given(this.lookupStrategy.readAclsById(anyList(), anyList())).willReturn(result);
 		ObjectIdentity objectIdentity = new ObjectIdentityImpl(Object.class, 1);
-		List<Sid> sids = Arrays.<Sid>asList(new PrincipalSid("user"));
+		List<Sid> sids = Arrays.asList(new PrincipalSid("user"));
 		assertThatExceptionOfType(NotFoundException.class)
 			.isThrownBy(() -> this.aclService.readAclById(objectIdentity, sids));
 	}

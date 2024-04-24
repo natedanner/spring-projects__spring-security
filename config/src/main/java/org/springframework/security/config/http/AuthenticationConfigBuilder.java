@@ -126,7 +126,7 @@ final class AuthenticationConfigBuilder {
 
 	private BeanDefinition formEntryPoint;
 
-	private String formFilterId = null;
+	private String formFilterId;
 
 	private BeanDefinition x509Filter;
 

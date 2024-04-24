@@ -470,7 +470,7 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 		Map<String, GrantedAuthoritiesMapper> grantedAuthoritiesMapperMap = BeanFactoryUtils
 			.beansOfTypeIncludingAncestors(this.getBuilder().getSharedObject(ApplicationContext.class),
 					GrantedAuthoritiesMapper.class);
-		return (!grantedAuthoritiesMapperMap.isEmpty() ? grantedAuthoritiesMapperMap.values().iterator().next() : null);
+		return grantedAuthoritiesMapperMap.isEmpty() ? null : grantedAuthoritiesMapperMap.values().iterator().next();
 	}
 
 	private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> getAccessTokenResponseClient() {
@@ -480,7 +480,7 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 		ResolvableType resolvableType = ResolvableType.forClassWithGenerics(OAuth2AccessTokenResponseClient.class,
 				OAuth2AuthorizationCodeGrantRequest.class);
 		OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> bean = getBeanOrNull(resolvableType);
-		return (bean != null) ? bean : new DefaultAuthorizationCodeTokenResponseClient();
+		return bean != null ? bean : new DefaultAuthorizationCodeTokenResponseClient();
 	}
 
 	private OAuth2UserService<OidcUserRequest, OidcUser> getOidcUserService() {
@@ -490,7 +490,7 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 		ResolvableType type = ResolvableType.forClassWithGenerics(OAuth2UserService.class, OidcUserRequest.class,
 				OidcUser.class);
 		OAuth2UserService<OidcUserRequest, OidcUser> bean = getBeanOrNull(type);
-		return (bean != null) ? bean : new OidcUserService();
+		return bean != null ? bean : new OidcUserService();
 	}
 
 	private OAuth2UserService<OAuth2UserRequest, OAuth2User> getOAuth2UserService() {
@@ -500,7 +500,7 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 		ResolvableType type = ResolvableType.forClassWithGenerics(OAuth2UserService.class, OAuth2UserRequest.class,
 				OAuth2User.class);
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> bean = getBeanOrNull(type);
-		return (bean != null) ? bean : new DefaultOAuth2UserService();
+		return bean != null ? bean : new DefaultOAuth2UserService();
 	}
 
 	private <T> T getBeanOrNull(ResolvableType type) {
@@ -538,11 +538,11 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 		if (clientRegistrations == null) {
 			return Collections.emptyMap();
 		}
-		String authorizationRequestBaseUri = (this.authorizationEndpointConfig.authorizationRequestBaseUri != null)
+		String authorizationRequestBaseUri = this.authorizationEndpointConfig.authorizationRequestBaseUri != null
 				? this.authorizationEndpointConfig.authorizationRequestBaseUri
 				: OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
 		Map<String, String> loginUrlToClientName = new HashMap<>();
-		clientRegistrations.forEach((registration) -> {
+		clientRegistrations.forEach(registration -> {
 			if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(registration.getAuthorizationGrantType())) {
 				String authorizationRequestUri = authorizationRequestBaseUri + "/" + registration.getRegistrationId();
 				loginUrlToClientName.put(authorizationRequestUri, registration.getClientName());
@@ -571,11 +571,11 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 	private RequestMatcher getFormLoginNotEnabledRequestMatcher(B http) {
 		DefaultLoginPageGeneratingFilter defaultLoginPageGeneratingFilter = http
 			.getSharedObject(DefaultLoginPageGeneratingFilter.class);
-		Field formLoginEnabledField = (defaultLoginPageGeneratingFilter != null)
+		Field formLoginEnabledField = defaultLoginPageGeneratingFilter != null
 				? ReflectionUtils.findField(DefaultLoginPageGeneratingFilter.class, "formLoginEnabled") : null;
 		if (formLoginEnabledField != null) {
 			ReflectionUtils.makeAccessible(formLoginEnabledField);
-			return (request) -> Boolean.FALSE
+			return request -> Boolean.FALSE
 				.equals(ReflectionUtils.getField(formLoginEnabledField, defaultLoginPageGeneratingFilter));
 		}
 		return AnyRequestMatcher.INSTANCE;
@@ -913,7 +913,7 @@ public final class OAuth2LoginConfigurer<B extends HttpSecurityBuilder<B>>
 			}
 			String sessionId = session.getId();
 			CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-			Map<String, String> headers = (csrfToken != null) ? Map.of(csrfToken.getHeaderName(), csrfToken.getToken())
+			Map<String, String> headers = csrfToken != null ? Map.of(csrfToken.getHeaderName(), csrfToken.getToken())
 					: Collections.emptyMap();
 			OidcSessionInformation registration = new OidcSessionInformation(sessionId, headers, user);
 			if (this.logger.isTraceEnabled()) {

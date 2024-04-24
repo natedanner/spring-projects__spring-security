@@ -73,7 +73,7 @@ final class OidcBackChannelLogoutAuthenticationProvider implements Authenticatio
 		ClientRegistration registration = token.getClientRegistration();
 		Jwt jwt = decode(registration, logoutToken);
 		OidcLogoutToken oidcLogoutToken = OidcLogoutToken.withTokenValue(logoutToken)
-			.claims((claims) -> claims.putAll(jwt.getClaims()))
+			.claims(claims -> claims.putAll(jwt.getClaims()))
 			.build();
 		return new OidcBackChannelLogoutAuthentication(oidcLogoutToken);
 	}

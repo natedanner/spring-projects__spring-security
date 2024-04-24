@@ -227,7 +227,7 @@ public class HttpSessionLogoutRequestRepositoryTests {
 		return Saml2LogoutRequest.withRelyingPartyRegistration(registration)
 			.samlRequest("request")
 			.id("id")
-			.parameters((params) -> params.put(Saml2ParameterNames.RELAY_STATE, "state-1234"));
+			.parameters(params -> params.put(Saml2ParameterNames.RELAY_STATE, "state-1234"));
 	}
 
 	static class MockDistributedHttpSession extends MockHttpSession {

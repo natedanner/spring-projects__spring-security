@@ -37,7 +37,7 @@ public class SpringTestContextExtension implements BeforeEachCallback, AfterEach
 	@Override
 	public void beforeEach(ExtensionContext context) throws Exception {
 		Object testInstance = context.getRequiredTestInstance();
-		getContexts(testInstance).forEach((springTestContext) -> springTestContext.setTest(testInstance));
+		getContexts(testInstance).forEach(springTestContext -> springTestContext.setTest(testInstance));
 	}
 
 	private static List<SpringTestContext> getContexts(Object test) throws IllegalAccessException {

@@ -63,7 +63,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 public class FormLoginTests {
 
-	private ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
+	private final ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
 
 	@Test
 	public void defaultLoginPage() {
@@ -102,7 +102,7 @@ public class FormLoginTests {
 	@Test
 	public void formLoginWhenDefaultsInLambdaThenCreatesDefaultLoginPage() {
 		SecurityWebFilterChain securityWebFilter = this.http
-			.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
+			.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
 			.formLogin(withDefaults())
 			.build();
 		WebTestClient webTestClient = WebTestClientBuilder.bindToWebFilters(securityWebFilter).build();
@@ -159,11 +159,11 @@ public class FormLoginTests {
 	public void formLoginWhenCustomLoginPageInLambdaThenUsed() {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
-				.authorizeExchange((exchanges) -> exchanges
+				.authorizeExchange(exchanges -> exchanges
 						.pathMatchers("/login").permitAll()
 						.anyExchange().authenticated()
 				)
-				.formLogin((formLogin) -> formLogin
+				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 				)
 				.build();
@@ -565,7 +565,7 @@ public class FormLoginTests {
 		public Mono<String> login(ServerWebExchange exchange) {
 			Mono<CsrfToken> token = exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.empty());
 			// @formatter:off
-			return token.map((t) -> "<!DOCTYPE html>\n"
+			return token.map(t -> "<!DOCTYPE html>\n"
 					+ "<html lang=\"en\">\n"
 					+ "  <head>\n"
 					+ "    <meta charset=\"utf-8\">\n"

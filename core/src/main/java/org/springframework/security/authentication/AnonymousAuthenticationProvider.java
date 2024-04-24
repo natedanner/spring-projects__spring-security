@@ -37,7 +37,7 @@ public class AnonymousAuthenticationProvider implements AuthenticationProvider, 
 
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
-	private String key;
+	private final String key;
 
 	public AnonymousAuthenticationProvider(String key) {
 		Assert.hasLength(key, "A Key is required");
@@ -68,7 +68,7 @@ public class AnonymousAuthenticationProvider implements AuthenticationProvider, 
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return (AnonymousAuthenticationToken.class.isAssignableFrom(authentication));
+		return AnonymousAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 
 }

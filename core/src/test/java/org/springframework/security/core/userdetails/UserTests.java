@@ -125,7 +125,7 @@ public class UserTests {
 				.authorities("one", "two", "three")
 				.build();
 		// @formatter:on
-		String[] authorities = (arg != null) ? arg.split(",") : new String[0];
+		String[] authorities = arg != null ? arg.split(",") : new String[0];
 		User.UserBuilder builder = User.withUserDetails(parent);
 		UserDetails user = builder.build();
 		assertThat(AuthorityUtils.authorityListToSet(user.getAuthorities())).containsOnly("one", "two", "three");
@@ -213,7 +213,7 @@ public class UserTests {
 	public void withUserWhenDetailsPasswordEncoderThenEncodes() {
 		UserDetails userDetails = User.withUsername("user").password("password").roles("USER").build();
 		UserDetails withEncodedPassword = User.withUserDetails(userDetails)
-			.passwordEncoder((p) -> p + "encoded")
+			.passwordEncoder(p -> p + "encoded")
 			.build();
 		assertThat(withEncodedPassword.getPassword()).isEqualTo("passwordencoded");
 	}
@@ -222,7 +222,7 @@ public class UserTests {
 	public void withUsernameWhenPasswordEncoderAndPasswordThenEncodes() {
 		UserDetails withEncodedPassword = User.withUsername("user")
 			.password("password")
-			.passwordEncoder((p) -> p + "encoded")
+			.passwordEncoder(p -> p + "encoded")
 			.roles("USER")
 			.build();
 		assertThat(withEncodedPassword.getPassword()).isEqualTo("passwordencoded");
@@ -232,7 +232,7 @@ public class UserTests {
 	public void withUsernameWhenPasswordAndPasswordEncoderThenEncodes() {
 		// @formatter:off
 		UserDetails withEncodedPassword = User.withUsername("user")
-			.passwordEncoder((p) -> p + "encoded")
+			.passwordEncoder(p -> p + "encoded")
 			.password("password")
 			.roles("USER")
 			.build();
@@ -242,7 +242,7 @@ public class UserTests {
 
 	@Test
 	public void withUsernameWhenPasswordAndPasswordEncoderTwiceThenEncodesOnce() {
-		Function<String, String> encoder = (p) -> p + "encoded";
+		Function<String, String> encoder = p -> p + "encoded";
 		// @formatter:off
 		UserDetails withEncodedPassword = User.withUsername("user")
 			.passwordEncoder(encoder)

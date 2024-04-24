@@ -54,9 +54,9 @@ public final class WebSessionOAuth2ServerAuthorizationRequestRepository
 		}
 		// @formatter:off
 		return getSessionAttributes(exchange)
-				.filter((sessionAttrs) -> sessionAttrs.containsKey(this.sessionAttributeName))
+				.filter(sessionAttrs -> sessionAttrs.containsKey(this.sessionAttributeName))
 				.map(this::getAuthorizationRequest)
-				.filter((authorizationRequest) -> state.equals(authorizationRequest.getState()));
+				.filter(authorizationRequest -> state.equals(authorizationRequest.getState()));
 		// @formatter:on
 	}
 
@@ -67,7 +67,7 @@ public final class WebSessionOAuth2ServerAuthorizationRequestRepository
 		Assert.notNull(exchange, "exchange cannot be null");
 		// @formatter:off
 		return getSessionAttributes(exchange)
-				.doOnNext((sessionAttrs) -> {
+				.doOnNext(sessionAttrs -> {
 					Assert.hasText(authorizationRequest.getState(), "authorizationRequest.state cannot be empty");
 					sessionAttrs.put(this.sessionAttributeName, authorizationRequest);
 				})
@@ -83,8 +83,8 @@ public final class WebSessionOAuth2ServerAuthorizationRequestRepository
 		}
 		// @formatter:off
 		return getSessionAttributes(exchange)
-				.filter((sessionAttrs) -> sessionAttrs.containsKey(this.sessionAttributeName))
-				.flatMap((sessionAttrs) -> {
+				.filter(sessionAttrs -> sessionAttrs.containsKey(this.sessionAttributeName))
+				.flatMap(sessionAttrs -> {
 					OAuth2AuthorizationRequest authorizationRequest = (OAuth2AuthorizationRequest) sessionAttrs.get(this.sessionAttributeName);
 					if (state.equals(authorizationRequest.getState())) {
 						sessionAttrs.remove(this.sessionAttributeName);

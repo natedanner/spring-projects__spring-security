@@ -75,9 +75,9 @@ public class RememberMeAuthenticationFilter extends GenericFilterBean implements
 
 	private AuthenticationSuccessHandler successHandler;
 
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-	private RememberMeServices rememberMeServices;
+	private final RememberMeServices rememberMeServices;
 
 	private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 

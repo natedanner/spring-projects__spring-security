@@ -49,10 +49,10 @@ public class OAuth2ErrorHttpMessageConverter extends AbstractHttpMessageConverte
 
 	private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
-	private GenericHttpMessageConverter<Object> jsonMessageConverter = HttpMessageConverters.getJsonMessageConverter();
+	private final GenericHttpMessageConverter<Object> jsonMessageConverter = HttpMessageConverters.getJsonMessageConverter();
 
 	protected Converter<Map<String, String>, OAuth2Error> errorConverter = new OAuth2ErrorConverter();
 
@@ -78,7 +78,7 @@ public class OAuth2ErrorHttpMessageConverter extends AbstractHttpMessageConverte
 				.read(STRING_OBJECT_MAP.getType(), null, inputMessage);
 			return this.errorConverter.convert(errorParameters.entrySet()
 				.stream()
-				.collect(Collectors.toMap(Map.Entry::getKey, (entry) -> String.valueOf(entry.getValue()))));
+				.collect(Collectors.toMap(Map.Entry::getKey, entry -> String.valueOf(entry.getValue()))));
 		}
 		catch (Exception ex) {
 			throw new HttpMessageNotReadableException(

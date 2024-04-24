@@ -39,7 +39,7 @@ public abstract class SecurityConfigurerAdapter<O, B extends SecurityBuilder<O>>
 
 	private B securityBuilder;
 
-	private CompositeObjectPostProcessor objectPostProcessor = new CompositeObjectPostProcessor();
+	private final CompositeObjectPostProcessor objectPostProcessor = new CompositeObjectPostProcessor();
 
 	@Override
 	public void init(B builder) throws Exception {

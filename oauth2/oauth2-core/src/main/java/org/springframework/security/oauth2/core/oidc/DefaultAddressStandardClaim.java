@@ -81,36 +81,36 @@ public final class DefaultAddressStandardClaim implements AddressStandardClaim {
 			return false;
 		}
 		AddressStandardClaim other = (AddressStandardClaim) obj;
-		if ((this.getFormatted() != null) ? !this.getFormatted().equals(other.getFormatted())
+		if (this.getFormatted() != null ? !this.getFormatted().equals(other.getFormatted())
 				: other.getFormatted() != null) {
 			return false;
 		}
-		if ((this.getStreetAddress() != null) ? !this.getStreetAddress().equals(other.getStreetAddress())
+		if (this.getStreetAddress() != null ? !this.getStreetAddress().equals(other.getStreetAddress())
 				: other.getStreetAddress() != null) {
 			return false;
 		}
-		if ((this.getLocality() != null) ? !this.getLocality().equals(other.getLocality())
+		if (this.getLocality() != null ? !this.getLocality().equals(other.getLocality())
 				: other.getLocality() != null) {
 			return false;
 		}
-		if ((this.getRegion() != null) ? !this.getRegion().equals(other.getRegion()) : other.getRegion() != null) {
+		if (this.getRegion() != null ? !this.getRegion().equals(other.getRegion()) : other.getRegion() != null) {
 			return false;
 		}
-		if ((this.getPostalCode() != null) ? !this.getPostalCode().equals(other.getPostalCode())
+		if (this.getPostalCode() != null ? !this.getPostalCode().equals(other.getPostalCode())
 				: other.getPostalCode() != null) {
 			return false;
 		}
-		return (this.getCountry() != null) ? this.getCountry().equals(other.getCountry()) : other.getCountry() == null;
+		return this.getCountry() != null ? this.getCountry().equals(other.getCountry()) : other.getCountry() == null;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = (this.getFormatted() != null) ? this.getFormatted().hashCode() : 0;
-		result = 31 * result + ((this.getStreetAddress() != null) ? this.getStreetAddress().hashCode() : 0);
-		result = 31 * result + ((this.getLocality() != null) ? this.getLocality().hashCode() : 0);
-		result = 31 * result + ((this.getRegion() != null) ? this.getRegion().hashCode() : 0);
-		result = 31 * result + ((this.getPostalCode() != null) ? this.getPostalCode().hashCode() : 0);
-		result = 31 * result + ((this.getCountry() != null) ? this.getCountry().hashCode() : 0);
+		int result = this.getFormatted() != null ? this.getFormatted().hashCode() : 0;
+		result = 31 * result + (this.getStreetAddress() != null ? this.getStreetAddress().hashCode() : 0);
+		result = 31 * result + (this.getLocality() != null ? this.getLocality().hashCode() : 0);
+		result = 31 * result + (this.getRegion() != null ? this.getRegion().hashCode() : 0);
+		result = 31 * result + (this.getPostalCode() != null ? this.getPostalCode().hashCode() : 0);
+		result = 31 * result + (this.getCountry() != null ? this.getCountry().hashCode() : 0);
 		return result;
 	}
 

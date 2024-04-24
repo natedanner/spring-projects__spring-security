@@ -51,7 +51,7 @@ public final class HttpSessionOAuth2AuthorizationRequestRepository
 			return null;
 		}
 		OAuth2AuthorizationRequest authorizationRequest = getAuthorizationRequest(request);
-		return (authorizationRequest != null && stateParameter.equals(authorizationRequest.getState()))
+		return authorizationRequest != null && stateParameter.equals(authorizationRequest.getState())
 				? authorizationRequest : null;
 	}
 
@@ -91,7 +91,7 @@ public final class HttpSessionOAuth2AuthorizationRequestRepository
 
 	private OAuth2AuthorizationRequest getAuthorizationRequest(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		return (session != null) ? (OAuth2AuthorizationRequest) session.getAttribute(this.sessionAttributeName) : null;
+		return session != null ? (OAuth2AuthorizationRequest) session.getAttribute(this.sessionAttributeName) : null;
 	}
 
 }

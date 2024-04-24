@@ -38,7 +38,7 @@ public class ServiceProperties implements InitializingBean {
 
 	private boolean authenticateAllArtifacts;
 
-	private boolean sendRenew = false;
+	private boolean sendRenew;
 
 	private String artifactParameter = DEFAULT_CAS_ARTIFACT_PARAMETER;
 

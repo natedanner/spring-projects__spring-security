@@ -42,8 +42,8 @@ public class AuthenticationProviderBeanDefinitionParserTests {
 
 	private AbstractXmlApplicationContext appContext;
 
-	private UsernamePasswordAuthenticationToken bob = UsernamePasswordAuthenticationToken.unauthenticated("bob",
-			"bobspassword");
+	private final UsernamePasswordAuthenticationToken bob = UsernamePasswordAuthenticationToken.unauthenticated("bob",
+		"bobspassword");
 
 	@AfterEach
 	public void closeAppContext() {

@@ -102,7 +102,7 @@ public class Saml2MetadataConfigurer<H extends HttpSecurityBuilder<H>>
 	 */
 	public Saml2MetadataConfigurer<H> metadataUrl(String metadataUrl) {
 		Assert.hasText(metadataUrl, "metadataUrl cannot be empty");
-		this.metadataResponseResolver = (registrations) -> {
+		this.metadataResponseResolver = registrations -> {
 			RequestMatcherMetadataResponseResolver metadata = new RequestMatcherMetadataResponseResolver(registrations,
 					new OpenSamlMetadataResolver());
 			metadata.setRequestMatcher(new AntPathRequestMatcher(metadataUrl));
@@ -119,7 +119,7 @@ public class Saml2MetadataConfigurer<H extends HttpSecurityBuilder<H>>
 	 */
 	public Saml2MetadataConfigurer<H> metadataResponseResolver(Saml2MetadataResponseResolver metadataResponseResolver) {
 		Assert.notNull(metadataResponseResolver, "metadataResponseResolver cannot be null");
-		this.metadataResponseResolver = (registrations) -> metadataResponseResolver;
+		this.metadataResponseResolver = registrations -> metadataResponseResolver;
 		return this;
 	}
 

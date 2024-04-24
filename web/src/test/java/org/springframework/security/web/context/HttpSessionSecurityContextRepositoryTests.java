@@ -802,8 +802,7 @@ public class HttpSessionSecurityContextRepositoryTests {
 	private SecurityContext createSecurityContext(UserDetails userDetails) {
 		UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.authenticated(userDetails,
 				userDetails.getPassword(), userDetails.getAuthorities());
-		SecurityContext securityContext = new SecurityContextImpl(token);
-		return securityContext;
+		return new SecurityContextImpl(token);
 	}
 
 	@Transient

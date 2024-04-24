@@ -104,7 +104,7 @@ class WebSessionStoreReactiveSessionRegistryTests {
 		List<ReactiveSessionInformation> saved = this.registry.getAllSessions(session.getPrincipal(), false)
 			.collectList()
 			.block();
-		saved.forEach((info) -> info.invalidate().block());
+		saved.forEach(info -> info.invalidate().block());
 		verify(webSession).invalidate();
 		assertThat(this.registry.getAllSessions(session.getPrincipal(), false).collectList().block()).isEmpty();
 	}

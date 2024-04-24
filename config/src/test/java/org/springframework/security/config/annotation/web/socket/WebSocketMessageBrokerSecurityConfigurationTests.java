@@ -743,7 +743,7 @@ public class WebSocketMessageBrokerSecurityConfigurationTests {
 
 		@Bean
 		Consumer<List<ChannelInterceptor>> channelInterceptorCustomizer() {
-			return (interceptors) -> interceptors.remove(1);
+			return interceptors -> interceptors.remove(1);
 		}
 
 	}

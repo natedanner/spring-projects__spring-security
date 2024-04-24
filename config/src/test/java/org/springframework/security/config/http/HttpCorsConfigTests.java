@@ -119,7 +119,7 @@ public class HttpCorsConfigTests {
 	}
 
 	private RequestPostProcessor cors(boolean preflight) {
-		return (request) -> {
+		return request -> {
 			request.addHeader(HttpHeaders.ORIGIN, "https://example.com");
 			if (preflight) {
 				request.setMethod(HttpMethod.OPTIONS.name());
@@ -130,7 +130,7 @@ public class HttpCorsConfigTests {
 	}
 
 	private ResultMatcher corsResponseHeaders() {
-		return (result) -> {
+		return result -> {
 			header().exists("Access-Control-Allow-Origin").match(result);
 			header().exists("X-Content-Type-Options").match(result);
 		};

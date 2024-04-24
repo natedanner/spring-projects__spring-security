@@ -71,7 +71,7 @@ public class OidcUserInfoBuilderTests {
 		OidcUserInfo.Builder userInfoBuilder = OidcUserInfo.builder()
 				.claim("needs", "a claim");
 		OidcUserInfo userInfo = userInfoBuilder.subject("sub")
-				.claims((claims) -> claims.remove(IdTokenClaimNames.SUB))
+				.claims(claims -> claims.remove(IdTokenClaimNames.SUB))
 				.build();
 		// @formatter:on
 		assertThat(userInfo.getSubject()).isNull();
@@ -84,7 +84,7 @@ public class OidcUserInfoBuilderTests {
 		String value = new String("value");
 		// @formatter:off
 		OidcUserInfo userInfo = userInfoBuilder
-				.claims((claims) -> claims.put(name, value))
+				.claims(claims -> claims.put(name, value))
 				.build();
 		// @formatter:on
 		assertThat(userInfo.getClaims()).hasSize(1);

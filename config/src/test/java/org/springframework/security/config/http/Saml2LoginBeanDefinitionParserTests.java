@@ -97,12 +97,12 @@ public class Saml2LoginBeanDefinitionParserTests {
 	private static final String CONFIG_LOCATION_PREFIX = "classpath:org/springframework/security/config/http/Saml2LoginBeanDefinitionParserTests";
 
 	private static final RelyingPartyRegistration registration = TestRelyingPartyRegistrations.noCredentials()
-		.signingX509Credentials((c) -> c.add(TestSaml2X509Credentials.assertingPartySigningCredential()))
-		.assertingPartyDetails((party) -> party
-			.verificationX509Credentials((c) -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
+		.signingX509Credentials(c -> c.add(TestSaml2X509Credentials.assertingPartySigningCredential()))
+		.assertingPartyDetails(party -> party
+			.verificationX509Credentials(c -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
 		.build();
 
-	private static String SIGNED_RESPONSE;
+	private static String signedResponse;
 
 	private static final String IDP_SSO_URL = "https://sso-url.example.com/IDP/SSO";
 
@@ -152,7 +152,7 @@ public class Saml2LoginBeanDefinitionParserTests {
 		Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(signed);
 		Element element = marshaller.marshall(signed);
 		String serialized = SerializeSupport.nodeToString(element);
-		SIGNED_RESPONSE = Saml2Utils.samlEncode(serialized.getBytes(StandardCharsets.UTF_8));
+		signedResponse = Saml2Utils.samlEncode(serialized.getBytes(StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -208,7 +208,7 @@ public class Saml2LoginBeanDefinitionParserTests {
 		this.spring.configLocations(this.xml("WithCustomRelyingPartyRepository")).autowire();
 		RelyingPartyRegistration relyingPartyRegistration = relyingPartyRegistrationWithVerifyingCredential();
 		// @formatter:off
-		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, SIGNED_RESPONSE))
+		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, signedResponse))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(status().is2xxSuccessful());
 		// @formatter:on
@@ -223,7 +223,7 @@ public class Saml2LoginBeanDefinitionParserTests {
 		this.spring.configLocations(this.xml("WithCustomSecurityContextHolderStrategy")).autowire();
 		RelyingPartyRegistration relyingPartyRegistration = relyingPartyRegistrationWithVerifyingCredential();
 		// @formatter:off
-		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, SIGNED_RESPONSE))
+		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, signedResponse))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(status().is2xxSuccessful());
 		// @formatter:on
@@ -240,7 +240,7 @@ public class Saml2LoginBeanDefinitionParserTests {
 		this.spring.configLocations(this.xml("WithCustomRelyingPartyRepository")).autowire();
 		RelyingPartyRegistration relyingPartyRegistration = relyingPartyRegistrationWithVerifyingCredential();
 		// @formatter:off
-		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, SIGNED_RESPONSE))
+		this.mvc.perform(post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId()).param(Saml2ParameterNames.SAML_RESPONSE, signedResponse))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(status().is2xxSuccessful());
 		// @formatter:on
@@ -252,12 +252,12 @@ public class Saml2LoginBeanDefinitionParserTests {
 		this.spring.configLocations(this.xml("WithCustomRelyingPartyRepository-WithCustomAuthenticationConverter"))
 			.autowire();
 		RelyingPartyRegistration relyingPartyRegistration = relyingPartyRegistrationWithVerifyingCredential();
-		String response = new String(Saml2Utils.samlDecode(SIGNED_RESPONSE));
+		String response = new String(Saml2Utils.samlDecode(signedResponse));
 		given(this.authenticationConverter.convert(any(HttpServletRequest.class)))
 			.willReturn(new Saml2AuthenticationToken(relyingPartyRegistration, response));
 		// @formatter:off
 		MockHttpServletRequestBuilder request = post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId())
-				.param("SAMLResponse", SIGNED_RESPONSE);
+				.param("SAMLResponse", signedResponse);
 		// @formatter:on
 		this.mvc.perform(request).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/"));
 		verify(this.authenticationConverter).convert(any(HttpServletRequest.class));
@@ -270,12 +270,12 @@ public class Saml2LoginBeanDefinitionParserTests {
 		RelyingPartyRegistration relyingPartyRegistration = relyingPartyRegistrationWithVerifyingCredential();
 		AuthenticationManager authenticationManager = this.applicationContext.getBean("customAuthenticationManager",
 				AuthenticationManager.class);
-		String response = new String(Saml2Utils.samlDecode(SIGNED_RESPONSE));
+		String response = new String(Saml2Utils.samlDecode(signedResponse));
 		given(authenticationManager.authenticate(any()))
 			.willReturn(new Saml2AuthenticationToken(relyingPartyRegistration, response));
 		// @formatter:off
 		MockHttpServletRequestBuilder request = post("/login/saml2/sso/" + relyingPartyRegistration.getRegistrationId())
-				.param("SAMLResponse", SIGNED_RESPONSE);
+				.param("SAMLResponse", signedResponse);
 		// @formatter:on
 		this.mvc.perform(request).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/"));
 		verify(authenticationManager).authenticate(any());
@@ -317,7 +317,7 @@ public class Saml2LoginBeanDefinitionParserTests {
 		given(this.repository.findByRegistrationId(anyString()))
 			.willReturn(TestRelyingPartyRegistrations.relyingPartyRegistration().build());
 		MockHttpServletRequestBuilder request = post("/login/saml2/sso/registration-id").param("SAMLResponse",
-				SIGNED_RESPONSE);
+				signedResponse);
 		this.mvc.perform(request);
 		verify(this.authenticationRequestRepository).loadAuthenticationRequest(any(HttpServletRequest.class));
 		verify(this.authenticationRequestRepository).removeAuthenticationRequest(any(HttpServletRequest.class),
@@ -336,11 +336,11 @@ public class Saml2LoginBeanDefinitionParserTests {
 			throws Exception {
 		this.spring.configLocations(this.xml("WithCustomLoginProcessingUrl-WithCustomAuthenticationConverter"))
 			.autowire();
-		String response = new String(Saml2Utils.samlDecode(SIGNED_RESPONSE));
+		String response = new String(Saml2Utils.samlDecode(signedResponse));
 		given(this.authenticationConverter.convert(any(HttpServletRequest.class)))
 			.willReturn(new Saml2AuthenticationToken(registration, response));
 		// @formatter:off
-		MockHttpServletRequestBuilder request = post("/my/custom/url").param("SAMLResponse", SIGNED_RESPONSE);
+		MockHttpServletRequestBuilder request = post("/my/custom/url").param("SAMLResponse", signedResponse);
 		// @formatter:on
 		this.mvc.perform(request).andExpect(redirectedUrl("/"));
 		verify(this.authenticationConverter).convert(any(HttpServletRequest.class));

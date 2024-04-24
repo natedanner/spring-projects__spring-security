@@ -47,7 +47,7 @@ public class JwtClaimsSetTests {
 				.notBefore(expectedJwtClaimsSet.getNotBefore())
 				.expiresAt(expectedJwtClaimsSet.getExpiresAt())
 				.id(expectedJwtClaimsSet.getId())
-				.claims((claims) -> claims.put("custom-claim-name", "custom-claim-value"))
+				.claims(claims -> claims.put("custom-claim-name", "custom-claim-value"))
 				.build();
 		// @formatter:on
 

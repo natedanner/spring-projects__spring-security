@@ -224,7 +224,7 @@ public class ProviderManagerTests {
 				Collections.singletonList(createProviderWhichThrows(new BadCredentialsException(""))), parent);
 		mgr.setAuthenticationEventPublisher(publisher);
 		assertThatExceptionOfType(BadCredentialsException.class).isThrownBy(() -> mgr.authenticate(authReq))
-			.satisfies((ex) -> verify(publisher).publishAuthenticationFailure(ex, authReq));
+			.satisfies(ex -> verify(publisher).publishAuthenticationFailure(ex, authReq));
 	}
 
 	@Test

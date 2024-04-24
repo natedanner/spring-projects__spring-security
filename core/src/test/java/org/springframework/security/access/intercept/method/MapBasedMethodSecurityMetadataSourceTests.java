@@ -36,9 +36,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class MapBasedMethodSecurityMetadataSourceTests {
 
-	private final List<ConfigAttribute> ROLE_A = SecurityConfig.createList("ROLE_A");
+	private final List<ConfigAttribute> roleA = SecurityConfig.createList("ROLE_A");
 
-	private final List<ConfigAttribute> ROLE_B = SecurityConfig.createList("ROLE_B");
+	private final List<ConfigAttribute> roleB = SecurityConfig.createList("ROLE_B");
 
 	private MapBasedMethodSecurityMetadataSource mds;
 
@@ -55,17 +55,17 @@ public class MapBasedMethodSecurityMetadataSourceTests {
 
 	@Test
 	public void wildcardedMatchIsOverwrittenByMoreSpecificMatch() {
-		this.mds.addSecureMethod(MockService.class, "some*", this.ROLE_A);
-		this.mds.addSecureMethod(MockService.class, "someMethod*", this.ROLE_B);
-		assertThat(this.mds.getAttributes(this.someMethodInteger, MockService.class)).isEqualTo(this.ROLE_B);
+		this.mds.addSecureMethod(MockService.class, "some*", this.roleA);
+		this.mds.addSecureMethod(MockService.class, "someMethod*", this.roleB);
+		assertThat(this.mds.getAttributes(this.someMethodInteger, MockService.class)).isEqualTo(this.roleB);
 	}
 
 	@Test
 	public void methodsWithDifferentArgumentsAreMatchedCorrectly() {
-		this.mds.addSecureMethod(MockService.class, this.someMethodInteger, this.ROLE_A);
-		this.mds.addSecureMethod(MockService.class, this.someMethodString, this.ROLE_B);
-		assertThat(this.mds.getAttributes(this.someMethodInteger, MockService.class)).isEqualTo(this.ROLE_A);
-		assertThat(this.mds.getAttributes(this.someMethodString, MockService.class)).isEqualTo(this.ROLE_B);
+		this.mds.addSecureMethod(MockService.class, this.someMethodInteger, this.roleA);
+		this.mds.addSecureMethod(MockService.class, this.someMethodString, this.roleB);
+		assertThat(this.mds.getAttributes(this.someMethodInteger, MockService.class)).isEqualTo(this.roleA);
+		assertThat(this.mds.getAttributes(this.someMethodString, MockService.class)).isEqualTo(this.roleB);
 	}
 
 	@SuppressWarnings("unused")

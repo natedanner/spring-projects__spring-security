@@ -59,7 +59,7 @@ public class WithSecurityContextTestExecutionListener extends AbstractTestExecut
 
 	static final SecurityContextHolderStrategy DEFAULT_SECURITY_CONTEXT_HOLDER_STRATEGY = new TestSecurityContextHolderStrategyAdapter();
 
-	Converter<TestContext, SecurityContextHolderStrategy> securityContextHolderStrategyConverter = (testContext) -> {
+	Converter<TestContext, SecurityContextHolderStrategy> securityContextHolderStrategyConverter = testContext -> {
 		if (!testContext.hasApplicationContext()) {
 			return DEFAULT_SECURITY_CONTEXT_HOLDER_STRATEGY;
 		}

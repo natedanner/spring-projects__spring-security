@@ -119,7 +119,7 @@ public final class SecurityContextConfigurer<H extends HttpSecurityBuilder<H>>
 					securityContextRepository);
 			securityContextFilter.setSecurityContextHolderStrategy(getSecurityContextHolderStrategy());
 			SessionManagementConfigurer<?> sessionManagement = http.getConfigurer(SessionManagementConfigurer.class);
-			SessionCreationPolicy sessionCreationPolicy = (sessionManagement != null)
+			SessionCreationPolicy sessionCreationPolicy = sessionManagement != null
 					? sessionManagement.getSessionCreationPolicy() : null;
 			if (SessionCreationPolicy.ALWAYS == sessionCreationPolicy) {
 				securityContextFilter.setForceEagerSessionCreation(true);

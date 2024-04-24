@@ -68,7 +68,7 @@ public class DefaultOAuth2UserServiceTests {
 
 	private OAuth2AccessToken accessToken;
 
-	private DefaultOAuth2UserService userService = new DefaultOAuth2UserService();
+	private final DefaultOAuth2UserService userService = new DefaultOAuth2UserService();
 
 	private MockWebServer server;
 

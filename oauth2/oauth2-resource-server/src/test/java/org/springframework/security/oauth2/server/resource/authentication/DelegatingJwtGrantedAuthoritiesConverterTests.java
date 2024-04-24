@@ -48,7 +48,7 @@ public class DelegatingJwtGrantedAuthoritiesConverterTests {
 	@Test
 	public void convertWhenConverterThenAuthorities() {
 		DelegatingJwtGrantedAuthoritiesConverter converter = new DelegatingJwtGrantedAuthoritiesConverter(
-				((jwt) -> AuthorityUtils.createAuthorityList("one")));
+				(jwt -> AuthorityUtils.createAuthorityList("one")));
 		Jwt jwt = TestJwts.jwt().build();
 		Collection<GrantedAuthority> authorities = converter.convert(jwt);
 		assertThat(authorityListToOrderedSet(authorities)).containsExactly("one");
@@ -56,8 +56,8 @@ public class DelegatingJwtGrantedAuthoritiesConverterTests {
 
 	@Test
 	public void convertWhenMultipleConvertersThenDuplicatesRemoved() {
-		Converter<Jwt, Collection<GrantedAuthority>> one = (jwt) -> AuthorityUtils.createAuthorityList("one", "two");
-		Converter<Jwt, Collection<GrantedAuthority>> two = (jwt) -> AuthorityUtils.createAuthorityList("one", "three");
+		Converter<Jwt, Collection<GrantedAuthority>> one = jwt -> AuthorityUtils.createAuthorityList("one", "two");
+		Converter<Jwt, Collection<GrantedAuthority>> two = jwt -> AuthorityUtils.createAuthorityList("one", "three");
 		DelegatingJwtGrantedAuthoritiesConverter composite = new DelegatingJwtGrantedAuthoritiesConverter(one, two);
 		Jwt jwt = TestJwts.jwt().build();
 		Collection<GrantedAuthority> authorities = composite.convert(jwt);

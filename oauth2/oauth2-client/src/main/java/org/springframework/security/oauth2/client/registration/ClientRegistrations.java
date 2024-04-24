@@ -66,7 +66,7 @@ public final class ClientRegistrations {
 		rest.setRequestFactory(requestFactory);
 	}
 
-	private static final ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<>() {
 	};
 
 	private ClientRegistrations() {
@@ -255,7 +255,7 @@ public final class ClientRegistrations {
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 				.clientAuthenticationMethod(method)
 				.redirectUri("{baseUrl}/{action}/oauth2/code/{registrationId}")
-				.authorizationUri((metadata.getAuthorizationEndpointURI() != null) ? metadata.getAuthorizationEndpointURI().toASCIIString() : null)
+				.authorizationUri(metadata.getAuthorizationEndpointURI() != null ? metadata.getAuthorizationEndpointURI().toASCIIString() : null)
 				.providerConfigurationMetadata(configurationMetadata)
 				.tokenUri(metadata.getTokenEndpointURI().toASCIIString())
 				.issuerUri(issuer)

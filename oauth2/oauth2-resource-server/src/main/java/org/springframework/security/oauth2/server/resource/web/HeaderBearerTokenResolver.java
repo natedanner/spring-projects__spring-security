@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
  */
 public class HeaderBearerTokenResolver implements BearerTokenResolver {
 
-	private String header;
+	private final String header;
 
 	public HeaderBearerTokenResolver(String header) {
 		Assert.hasText(header, "header cannot be empty");

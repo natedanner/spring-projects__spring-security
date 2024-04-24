@@ -55,8 +55,8 @@ public class TokenBasedRememberMeServicesTests {
 
 	private UserDetailsService uds;
 
-	private UserDetails user = new User("someone", "password", true, true, true, true,
-			AuthorityUtils.createAuthorityList("ROLE_ABC"));
+	private final UserDetails user = new User("someone", "password", true, true, true, true,
+		AuthorityUtils.createAuthorityList("ROLE_ABC"));
 
 	private TokenBasedRememberMeServices services;
 

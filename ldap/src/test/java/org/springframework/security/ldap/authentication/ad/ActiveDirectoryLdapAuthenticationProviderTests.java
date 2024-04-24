@@ -242,7 +242,7 @@ public class ActiveDirectoryLdapAuthenticationProviderTests {
 		this.provider.setConvertSubErrorCodesToExceptions(true);
 		assertThatExceptionOfType(BadCredentialsException.class).isThrownBy(() -> this.provider.authenticate(this.joe))
 			.withCauseInstanceOf(ActiveDirectoryAuthenticationException.class)
-			.satisfies((ex) -> assertThat(((ActiveDirectoryAuthenticationException) ex.getCause()).getDataCode())
+			.satisfies(ex -> assertThat(((ActiveDirectoryAuthenticationException) ex.getCause()).getDataCode())
 				.isEqualTo(dataCode));
 	}
 

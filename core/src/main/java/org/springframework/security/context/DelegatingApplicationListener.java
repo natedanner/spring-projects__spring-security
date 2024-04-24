@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  */
 public final class DelegatingApplicationListener implements ApplicationListener<ApplicationEvent> {
 
-	private List<SmartApplicationListener> listeners = new CopyOnWriteArrayList<>();
+	private final List<SmartApplicationListener> listeners = new CopyOnWriteArrayList<>();
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {

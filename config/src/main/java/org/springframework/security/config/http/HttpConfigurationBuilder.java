@@ -221,7 +221,7 @@ class HttpConfigurationBuilder {
 
 	private BeanDefinition invalidSession;
 
-	private boolean addAllAuth;
+	private final boolean addAllAuth;
 
 	HttpConfigurationBuilder(Element element, boolean addAllAuth, ParserContext pc, BeanReference portMapper,
 			BeanReference portResolver, BeanReference authenticationManager, BeanMetadataElement observationRegistry) {
@@ -234,8 +234,8 @@ class HttpConfigurationBuilder {
 		this.interceptUrls = DomUtils.getChildElementsByTagName(element, Elements.INTERCEPT_URL);
 		validateInterceptUrls(pc);
 		String createSession = element.getAttribute(ATT_CREATE_SESSION);
-		this.sessionPolicy = !StringUtils.hasText(createSession) ? SessionCreationPolicy.IF_REQUIRED
-				: createPolicy(createSession);
+		this.sessionPolicy = StringUtils.hasText(createSession) ? createPolicy(createSession)
+				: SessionCreationPolicy.IF_REQUIRED;
 		createSecurityContextHolderStrategy();
 		createForceEagerSessionCreationFilter();
 		createDisableEncodeUrlFilter();
@@ -321,7 +321,7 @@ class HttpConfigurationBuilder {
 	}
 
 	BeanReference getSecurityContextRepositoryForAuthenticationFilters() {
-		return (isExplicitSave()) ? this.contextRepoRef : null;
+		return isExplicitSave() ? this.contextRepoRef : null;
 	}
 
 	private void createSecurityPersistence() {
@@ -553,8 +553,8 @@ class HttpConfigurationBuilder {
 			sessionMgmtFilter.addPropertyReference("invalidSessionStrategy", invalidSessionStrategyRef);
 		}
 		sessionMgmtFilter.addConstructorArgReference(sessionAuthStratRef);
-		boolean registerSessionMgmtFilter = (sessionMgmtElt != null
-				&& "false".equals(sessionMgmtElt.getAttribute(ATT_AUTHENTICATION_STRATEGY_EXPLICIT_INVOCATION)));
+		boolean registerSessionMgmtFilter = sessionMgmtElt != null
+				&& "false".equals(sessionMgmtElt.getAttribute(ATT_AUTHENTICATION_STRATEGY_EXPLICIT_INVOCATION));
 		if (registerSessionMgmtFilter || StringUtils.hasText(errorUrl) || StringUtils.hasText(invalidSessionUrl)
 				|| StringUtils.hasText(invalidSessionStrategyRef)) {
 			this.sfpf = (RootBeanDefinition) sessionMgmtFilter.getBeanDefinition();
@@ -938,7 +938,7 @@ class HttpConfigurationBuilder {
 				throws Exception {
 			HandlerMappingIntrospector hmi = this.applicationContext.getBeanProvider(HandlerMappingIntrospector.class)
 				.getIfAvailable();
-			return (hmi != null) ? new HandlerMappingIntrospectorRequestTransformer(hmi)
+			return hmi != null ? new HandlerMappingIntrospectorRequestTransformer(hmi)
 					: AuthorizationManagerWebInvocationPrivilegeEvaluator.HttpServletRequestTransformer.IDENTITY;
 		}
 

@@ -41,7 +41,7 @@ public interface ServerWebExchangeMatcher {
 	/**
 	 * The result of matching
 	 */
-	class MatchResult {
+	final class MatchResult {
 
 		private final boolean match;
 

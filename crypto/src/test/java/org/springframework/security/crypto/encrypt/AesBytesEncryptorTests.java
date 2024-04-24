@@ -36,11 +36,11 @@ import static org.mockito.Mockito.mock;
  */
 public class AesBytesEncryptorTests {
 
-	private String secret = "value";
+	private final String secret = "value";
 
-	private String password = "password";
+	private final String password = "password";
 
-	private String hexSalt = "deadbeef";
+	private final String hexSalt = "deadbeef";
 
 	private BytesKeyGenerator generator;
 

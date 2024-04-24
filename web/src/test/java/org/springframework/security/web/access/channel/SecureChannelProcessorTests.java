@@ -102,7 +102,7 @@ public class SecureChannelProcessorTests {
 		assertThatIllegalArgumentException().isThrownBy(processor::afterPropertiesSet)
 			.withMessage("secureKeyword required");
 		processor.setSecureKeyword("");
-		assertThatIllegalArgumentException().isThrownBy(() -> processor.afterPropertiesSet())
+		assertThatIllegalArgumentException().isThrownBy(processor::afterPropertiesSet)
 			.withMessage("secureKeyword required");
 	}
 

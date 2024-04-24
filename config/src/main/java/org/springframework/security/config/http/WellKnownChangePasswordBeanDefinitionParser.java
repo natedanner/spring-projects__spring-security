@@ -56,7 +56,7 @@ public final class WellKnownChangePasswordBeanDefinitionParser implements BeanDe
 
 	private String getChangePasswordPage(Element element) {
 		String changePasswordPage = element.getAttribute(ATT_CHANGE_PASSWORD_PAGE);
-		return (StringUtils.hasText(changePasswordPage) ? changePasswordPage : DEFAULT_CHANGE_PASSWORD_PAGE);
+		return StringUtils.hasText(changePasswordPage) ? changePasswordPage : DEFAULT_CHANGE_PASSWORD_PAGE;
 	}
 
 }

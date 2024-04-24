@@ -58,7 +58,7 @@ import static org.mockito.Mockito.verify;
  */
 public class SpringOpaqueTokenIntrospectorTests {
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
 	private static final String INTROSPECTION_URL = "https://server.example.com";
@@ -352,8 +352,8 @@ public class SpringOpaqueTokenIntrospectorTests {
 				String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 				// @formatter:off
 				return Optional.ofNullable(authorization)
-						.filter((a) -> isAuthorized(authorization, username, password))
-						.map((a) -> ok(response))
+						.filter(a -> isAuthorized(authorization, username, password))
+						.map(a -> ok(response))
 						.orElse(unauthorized());
 				// @formatter:on
 			}

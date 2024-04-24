@@ -131,7 +131,7 @@ public class OAuth2UserAuthority implements GrantedAuthority {
 	 * equality/hashCode. For other instances the value is returned as is.
 	 */
 	private static Object convertURLIfNecessary(Object value) {
-		return (value instanceof URL) ? ((URL) value).toExternalForm() : value;
+		return value instanceof URL ? ((URL) value).toExternalForm() : value;
 	}
 
 }

@@ -723,7 +723,7 @@ public class OAuth2ResourceServerBeanDefinitionParserTests {
 		AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver = this.spring.getContext()
 			.getBean(AuthenticationManagerResolver.class);
 		given(authenticationManagerResolver.resolve(any(HttpServletRequest.class))).willReturn(
-				(authentication) -> new JwtAuthenticationToken(TestJwts.jwt().build(), Collections.emptyList()));
+				authentication -> new JwtAuthenticationToken(TestJwts.jwt().build(), Collections.emptyList()));
 		// @formatter:off
 		this.mvc.perform(get("/").header("Authorization", "Bearer token"))
 				.andExpect(status().isNotFound());

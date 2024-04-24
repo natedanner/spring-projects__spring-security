@@ -39,7 +39,7 @@ public class AuditLoggerTests {
 
 	private PrintStream console;
 
-	private ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
 	private ConsoleAuditLogger logger;
 

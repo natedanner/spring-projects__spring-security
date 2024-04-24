@@ -60,7 +60,7 @@ public class RequestCacheAwareFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 		HttpServletRequest wrappedSavedRequest = this.requestCache.getMatchingRequest((HttpServletRequest) request,
 				(HttpServletResponse) response);
-		chain.doFilter((wrappedSavedRequest != null) ? wrappedSavedRequest : request, response);
+		chain.doFilter(wrappedSavedRequest != null ? wrappedSavedRequest : request, response);
 	}
 
 }

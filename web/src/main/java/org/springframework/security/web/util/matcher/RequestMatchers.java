@@ -35,7 +35,7 @@ public final class RequestMatchers {
 	 * @see OrRequestMatcher
 	 */
 	public static RequestMatcher anyOf(RequestMatcher... matchers) {
-		return (matchers.length > 0) ? new OrRequestMatcher(List.of(matchers)) : (request) -> false;
+		return matchers.length > 0 ? new OrRequestMatcher(List.of(matchers)) : request -> false;
 	}
 
 	/**
@@ -47,7 +47,7 @@ public final class RequestMatchers {
 	 * @see AndRequestMatcher
 	 */
 	public static RequestMatcher allOf(RequestMatcher... matchers) {
-		return (matchers.length > 0) ? new AndRequestMatcher(List.of(matchers)) : (request) -> true;
+		return matchers.length > 0 ? new AndRequestMatcher(List.of(matchers)) : request -> true;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public final class RequestMatchers {
 	 * @return the inverted {@link RequestMatcher}
 	 */
 	public static RequestMatcher not(RequestMatcher matcher) {
-		return (request) -> !matcher.matches(request);
+		return request -> !matcher.matches(request);
 	}
 
 	private RequestMatchers() {

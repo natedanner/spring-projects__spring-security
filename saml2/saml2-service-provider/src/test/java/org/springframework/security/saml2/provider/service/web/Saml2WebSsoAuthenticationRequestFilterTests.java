@@ -55,13 +55,13 @@ public class Saml2WebSsoAuthenticationRequestFilterTests {
 
 	private Saml2WebSsoAuthenticationRequestFilter filter;
 
-	private RelyingPartyRegistrationRepository repository = mock(RelyingPartyRegistrationRepository.class);
+	private final RelyingPartyRegistrationRepository repository = mock(RelyingPartyRegistrationRepository.class);
 
-	private Saml2AuthenticationRequestResolver authenticationRequestResolver = mock(
-			Saml2AuthenticationRequestResolver.class);
+	private final Saml2AuthenticationRequestResolver authenticationRequestResolver = mock(
+		Saml2AuthenticationRequestResolver.class);
 
-	private Saml2AuthenticationRequestRepository<AbstractSaml2AuthenticationRequest> authenticationRequestRepository = mock(
-			Saml2AuthenticationRequestRepository.class);
+	private final Saml2AuthenticationRequestRepository<AbstractSaml2AuthenticationRequest> authenticationRequestRepository = mock(
+		Saml2AuthenticationRequestRepository.class);
 
 	private MockHttpServletRequest request;
 
@@ -84,11 +84,11 @@ public class Saml2WebSsoAuthenticationRequestFilterTests {
 			}
 		};
 		this.rpBuilder = RelyingPartyRegistration.withRegistrationId("registration-id")
-			.assertingPartyDetails((c) -> c.entityId("idp-entity-id"))
-			.assertingPartyDetails((c) -> c.singleSignOnServiceLocation(IDP_SSO_URL))
+			.assertingPartyDetails(c -> c.entityId("idp-entity-id"))
+			.assertingPartyDetails(c -> c.singleSignOnServiceLocation(IDP_SSO_URL))
 			.assertionConsumerServiceLocation("template")
-			.signingX509Credentials((c) -> c.add(TestSaml2X509Credentials.assertingPartyPrivateCredential()))
-			.decryptionX509Credentials((c) -> c.add(TestSaml2X509Credentials.assertingPartyPrivateCredential()));
+			.signingX509Credentials(c -> c.add(TestSaml2X509Credentials.assertingPartyPrivateCredential()))
+			.decryptionX509Credentials(c -> c.add(TestSaml2X509Credentials.assertingPartyPrivateCredential()));
 		this.filter.setAuthenticationRequestRepository(this.authenticationRequestRepository);
 	}
 
@@ -168,7 +168,7 @@ public class Saml2WebSsoAuthenticationRequestFilterTests {
 		String relayStateValue = "https://my-relay-state.example.com?with=param&other=param&javascript{alert('1');}";
 		String relayStateEncoded = HtmlUtils.htmlEscape(relayStateValue);
 		RelyingPartyRegistration registration = this.rpBuilder
-			.assertingPartyDetails((asserting) -> asserting.singleSignOnServiceBinding(Saml2MessageBinding.POST))
+			.assertingPartyDetails(asserting -> asserting.singleSignOnServiceBinding(Saml2MessageBinding.POST))
 			.build();
 		Saml2PostAuthenticationRequest request = Saml2PostAuthenticationRequest
 			.withRelyingPartyRegistration(registration)
@@ -213,7 +213,7 @@ public class Saml2WebSsoAuthenticationRequestFilterTests {
 	@Test
 	public void doFilterWhenPostThenSaveRedirectRequest() throws ServletException, IOException {
 		RelyingPartyRegistration registration = this.rpBuilder
-			.assertingPartyDetails((asserting) -> asserting.singleSignOnServiceBinding(Saml2MessageBinding.POST))
+			.assertingPartyDetails(asserting -> asserting.singleSignOnServiceBinding(Saml2MessageBinding.POST))
 			.build();
 		Saml2PostAuthenticationRequest request = Saml2PostAuthenticationRequest
 			.withRelyingPartyRegistration(registration)

@@ -107,7 +107,7 @@ public class ClientRegistrationsTests {
 
 	private MockWebServer server;
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	private Map<String, Object> response;
 
@@ -475,7 +475,7 @@ public class ClientRegistrationsTests {
 		this.issuer = createIssuerFromServer(path);
 		this.response.put("issuer", this.issuer);
 		this.issuer = this.server.url(path).toString();
-		final String responseBody = (body != null) ? body : this.mapper.writeValueAsString(this.response);
+		final String responseBody = body != null ? body : this.mapper.writeValueAsString(this.response);
 		final Dispatcher dispatcher = new Dispatcher() {
 			@Override
 			public MockResponse dispatch(RecordedRequest request) {
@@ -511,7 +511,7 @@ public class ClientRegistrationsTests {
 	private ClientRegistration.Builder registrationOidcFallback(String path, String body) throws Exception {
 		this.issuer = createIssuerFromServer(path);
 		this.response.put("issuer", this.issuer);
-		String responseBody = (body != null) ? body : this.mapper.writeValueAsString(this.response);
+		String responseBody = body != null ? body : this.mapper.writeValueAsString(this.response);
 		final Dispatcher dispatcher = new Dispatcher() {
 			@Override
 			public MockResponse dispatch(RecordedRequest request) {

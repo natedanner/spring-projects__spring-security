@@ -71,9 +71,9 @@ import org.springframework.util.Assert;
 public final class LogoutConfigurer<H extends HttpSecurityBuilder<H>>
 		extends AbstractHttpConfigurer<LogoutConfigurer<H>, H> {
 
-	private List<LogoutHandler> logoutHandlers = new ArrayList<>();
+	private final List<LogoutHandler> logoutHandlers = new ArrayList<>();
 
-	private SecurityContextLogoutHandler contextLogoutHandler = new SecurityContextLogoutHandler();
+	private final SecurityContextLogoutHandler contextLogoutHandler = new SecurityContextLogoutHandler();
 
 	private String logoutSuccessUrl = "/login?logout";
 
@@ -87,7 +87,7 @@ public final class LogoutConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private boolean customLogoutSuccess;
 
-	private LinkedHashMap<RequestMatcher, LogoutSuccessHandler> defaultLogoutSuccessHandlerMappings = new LinkedHashMap<>();
+	private final LinkedHashMap<RequestMatcher, LogoutSuccessHandler> defaultLogoutSuccessHandlerMappings = new LinkedHashMap<>();
 
 	/**
 	 * Creates a new instance

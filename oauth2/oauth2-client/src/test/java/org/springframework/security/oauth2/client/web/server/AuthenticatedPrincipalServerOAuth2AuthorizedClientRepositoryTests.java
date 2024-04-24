@@ -41,9 +41,9 @@ import static org.mockito.Mockito.verify;
  */
 public class AuthenticatedPrincipalServerOAuth2AuthorizedClientRepositoryTests {
 
-	private String registrationId = "registrationId";
+	private final String registrationId = "registrationId";
 
-	private String principalName = "principalName";
+	private final String principalName = "principalName";
 
 	private ReactiveOAuth2AuthorizedClientService authorizedClientService;
 
@@ -51,7 +51,7 @@ public class AuthenticatedPrincipalServerOAuth2AuthorizedClientRepositoryTests {
 
 	private AuthenticatedPrincipalServerOAuth2AuthorizedClientRepository authorizedClientRepository;
 
-	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	@BeforeEach
 	public void setup() {

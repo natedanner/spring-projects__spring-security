@@ -71,7 +71,7 @@ public class DefaultOAuth2User implements OAuth2User, Serializable {
 		if (!attributes.containsKey(nameAttributeKey)) {
 			throw new IllegalArgumentException("Missing attribute '" + nameAttributeKey + "' in attributes");
 		}
-		this.authorities = (authorities != null)
+		this.authorities = authorities != null
 				? Collections.unmodifiableSet(new LinkedHashSet<>(this.sortAuthorities(authorities)))
 				: Collections.unmodifiableSet(new LinkedHashSet<>(AuthorityUtils.NO_AUTHORITIES));
 		this.attributes = Collections.unmodifiableMap(new LinkedHashMap<>(attributes));

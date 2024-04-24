@@ -313,7 +313,7 @@ final class Saml2LoginBeanDefinitionParser implements BeanDefinitionParser {
 			}
 			String authenticationRequestProcessingUrl = DEFAULT_AUTHENTICATION_REQUEST_PROCESSING_URL;
 			Map<String, String> saml2AuthenticationUrlToProviderName = new HashMap<>();
-			relyingPartyRegistrations.forEach((registration) -> saml2AuthenticationUrlToProviderName.put(
+			relyingPartyRegistrations.forEach(registration -> saml2AuthenticationUrlToProviderName.put(
 					authenticationRequestProcessingUrl.replace("{registrationId}", registration.getRegistrationId()),
 					registration.getRegistrationId()));
 			return saml2AuthenticationUrlToProviderName;

@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class OidcUserRequestUtilsTests {
 
-	private ClientRegistration.Builder registration = TestClientRegistrations.clientRegistration();
+	private final ClientRegistration.Builder registration = TestClientRegistrations.clientRegistration();
 
 	OidcIdToken idToken = TestOidcIdTokens.idToken().build();
 

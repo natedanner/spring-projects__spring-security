@@ -62,7 +62,7 @@ public class OpenSamlMetadataRelyingPartyRegistrationConverterTests {
 	private static final String SINGLE_SIGN_ON_SERVICE_TEMPLATE = "<md:SingleSignOnService Binding=\"urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect\" "
 			+ "Location=\"sso-location\"/>";
 
-	private OpenSamlMetadataRelyingPartyRegistrationConverter converter = new OpenSamlMetadataRelyingPartyRegistrationConverter();
+	private final OpenSamlMetadataRelyingPartyRegistrationConverter converter = new OpenSamlMetadataRelyingPartyRegistrationConverter();
 
 	private String metadata;
 
@@ -79,7 +79,7 @@ public class OpenSamlMetadataRelyingPartyRegistrationConverterTests {
 	public void convertWhenDefaultsThenAssertingPartyInstanceOfOpenSaml() throws Exception {
 		try (InputStream source = new ByteArrayInputStream(this.metadata.getBytes(StandardCharsets.UTF_8))) {
 			this.converter.convert(source)
-				.forEach((registration) -> assertThat(registration.build().getAssertingPartyDetails())
+				.forEach(registration -> assertThat(registration.build().getAssertingPartyDetails())
 					.isInstanceOf(OpenSamlAssertingPartyDetails.class));
 		}
 	}

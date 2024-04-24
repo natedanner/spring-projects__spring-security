@@ -47,7 +47,7 @@ public final class ServerWebExchangeDelegatingReactiveAuthenticationManagerResol
 
 	private final List<ServerWebExchangeMatcherEntry<ReactiveAuthenticationManager>> authenticationManagers;
 
-	private ReactiveAuthenticationManager defaultAuthenticationManager = (authentication) -> Mono
+	private ReactiveAuthenticationManager defaultAuthenticationManager = authentication -> Mono
 		.error(new AuthenticationServiceException("Cannot authenticate " + authentication));
 
 	/**
@@ -79,7 +79,7 @@ public final class ServerWebExchangeDelegatingReactiveAuthenticationManagerResol
 	@Override
 	public Mono<ReactiveAuthenticationManager> resolve(ServerWebExchange exchange) {
 		return Flux.fromIterable(this.authenticationManagers)
-			.filterWhen((entry) -> isMatch(exchange, entry))
+			.filterWhen(entry -> isMatch(exchange, entry))
 			.next()
 			.map(ServerWebExchangeMatcherEntry::getEntry)
 			.defaultIfEmpty(this.defaultAuthenticationManager);

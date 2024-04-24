@@ -79,7 +79,7 @@ public class SimpleAuthenticationITests {
 		// @formatter:off
 		this.server = RSocketServer.create()
 				.payloadDecoder(PayloadDecoder.ZERO_COPY)
-				.interceptors((registry) ->
+				.interceptors(registry ->
 					registry.forSocketAcceptor(this.interceptor)
 				)
 				.acceptor(this.handler.responder())
@@ -160,7 +160,7 @@ public class SimpleAuthenticationITests {
 
 		@Bean
 		PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
-			rsocket.authorizePayload((authorize) -> authorize.anyRequest().authenticated().anyExchange().permitAll())
+			rsocket.authorizePayload(authorize -> authorize.anyRequest().authenticated().anyExchange().permitAll())
 				.simpleAuthentication(Customizer.withDefaults());
 			return rsocket.build();
 		}

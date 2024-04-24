@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class OAuth2UserRequestEntityConverterTests {
 
-	private OAuth2UserRequestEntityConverter converter = new OAuth2UserRequestEntityConverter();
+	private final OAuth2UserRequestEntityConverter converter = new OAuth2UserRequestEntityConverter();
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -80,9 +80,8 @@ public class OAuth2UserRequestEntityConverterTests {
 	}
 
 	private OAuth2AccessToken createAccessToken() {
-		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, "access-token-1234",
+		return new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, "access-token-1234",
 				Instant.now(), Instant.now().plusSeconds(3600), new LinkedHashSet<>(Arrays.asList("read", "write")));
-		return accessToken;
 	}
 
 }

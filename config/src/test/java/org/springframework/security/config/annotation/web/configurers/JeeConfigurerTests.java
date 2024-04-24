@@ -85,7 +85,7 @@ public class JeeConfigurerTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder authRequest = get("/")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("ROLE_ADMIN");
 					request.addUserRole("ROLE_USER");
 					return request;
@@ -102,7 +102,7 @@ public class JeeConfigurerTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder authRequest = get("/")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("ROLE_ADMIN");
 					request.addUserRole("ROLE_USER");
 					return request;
@@ -119,7 +119,7 @@ public class JeeConfigurerTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder authRequest = get("/")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("ROLE_ADMIN");
 					request.addUserRole("ROLE_USER");
 					return request;
@@ -143,7 +143,7 @@ public class JeeConfigurerTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder authRequest = get("/")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("ROLE_ADMIN");
 					request.addUserRole("ROLE_USER");
 					return request;
@@ -209,11 +209,11 @@ public class JeeConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.jee((jee) ->
+				.jee(jee ->
 					jee
 						.mappableRoles("USER")
 				);
@@ -231,11 +231,11 @@ public class JeeConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.jee((jee) ->
+				.jee(jee ->
 					jee
 						.mappableAuthorities("ROLE_USER")
 				);
@@ -256,11 +256,11 @@ public class JeeConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().hasRole("USER")
 				)
-				.jee((jee) ->
+				.jee(jee ->
 					jee
 						.authenticatedUserDetailsService(authenticationUserDetailsService)
 				);

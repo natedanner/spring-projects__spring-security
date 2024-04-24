@@ -207,7 +207,7 @@ public class GlobalMethodSecurityConfigurationTests {
 	@Test
 	public void globalSecurityProxiesSecurity() {
 		this.spring.register(Sec3005Config.class).autowire();
-		assertThat(this.service.getClass()).matches((c) -> !Proxy.isProxyClass(c), "is not proxy class");
+		assertThat(this.service.getClass()).matches(c -> !Proxy.isProxyClass(c), "is not proxy class");
 	}
 
 	//
@@ -309,7 +309,7 @@ public class GlobalMethodSecurityConfigurationTests {
 
 		@Bean
 		public MockEventListener<AbstractAuthenticationEvent> listener() {
-			return new MockEventListener<AbstractAuthenticationEvent>() {
+			return new MockEventListener<>() {
 			};
 		}
 

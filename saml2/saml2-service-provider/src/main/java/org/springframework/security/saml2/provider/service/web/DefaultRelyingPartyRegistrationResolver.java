@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
 public final class DefaultRelyingPartyRegistrationResolver
 		implements Converter<HttpServletRequest, RelyingPartyRegistration>, RelyingPartyRegistrationResolver {
 
-	private Log logger = LogFactory.getLog(getClass());
+	private final Log logger = LogFactory.getLog(getClass());
 
 	private final RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 

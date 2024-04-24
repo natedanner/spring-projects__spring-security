@@ -46,7 +46,7 @@ class WebTestUtilsTestRuntimeHintsTests {
 	void setup() {
 		SpringFactoriesLoader.forResourceLocation("META-INF/spring/aot.factories")
 			.load(TestRuntimeHintsRegistrar.class)
-			.forEach((registrar) -> registrar.registerHints(this.hints, WebTestUtilsTestRuntimeHintsTests.class,
+			.forEach(registrar -> registrar.registerHints(this.hints, WebTestUtilsTestRuntimeHintsTests.class,
 					ClassUtils.getDefaultClassLoader()));
 	}
 

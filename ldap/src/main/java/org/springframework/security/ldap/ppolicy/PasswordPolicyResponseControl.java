@@ -223,7 +223,7 @@ public class PasswordPolicyResponseControl extends PasswordPolicyControl {
 		class SpecificTagDecoder extends BERTagDecoder {
 
 			/** Allows us to remember which of the two options we're decoding */
-			private Boolean inChoice = null;
+			private Boolean inChoice;
 
 			@Override
 			public BERElement getElement(BERTagDecoder decoder, int tag, InputStream stream, int[] bytesRead,

@@ -92,7 +92,7 @@ public class DefaultServerOAuth2AuthorizationRequestResolver implements ServerOA
 
 	private final ReactiveClientRegistrationRepository clientRegistrationRepository;
 
-	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer = (customizer) -> {
+	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer = customizer -> {
 	};
 
 	/**
@@ -128,18 +128,18 @@ public class DefaultServerOAuth2AuthorizationRequestResolver implements ServerOA
 		// @formatter:off
 		return this.authorizationRequestMatcher
 				.matches(exchange)
-				.filter((matchResult) -> matchResult.isMatch())
+				.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
 				.map(ServerWebExchangeMatcher.MatchResult::getVariables)
-				.map((variables) -> variables.get(DEFAULT_REGISTRATION_ID_URI_VARIABLE_NAME))
+				.map(variables -> variables.get(DEFAULT_REGISTRATION_ID_URI_VARIABLE_NAME))
 				.cast(String.class)
-				.flatMap((clientRegistrationId) -> resolve(exchange, clientRegistrationId));
+				.flatMap(clientRegistrationId -> resolve(exchange, clientRegistrationId));
 		// @formatter:on
 	}
 
 	@Override
 	public Mono<OAuth2AuthorizationRequest> resolve(ServerWebExchange exchange, String clientRegistrationId) {
 		return findByRegistrationId(exchange, clientRegistrationId)
-			.map((clientRegistration) -> authorizationRequest(exchange, clientRegistration));
+			.map(clientRegistration -> authorizationRequest(exchange, clientRegistration));
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class DefaultServerOAuth2AuthorizationRequestResolver implements ServerOA
 		if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(clientRegistration.getAuthorizationGrantType())) {
 			// @formatter:off
 			OAuth2AuthorizationRequest.Builder builder = OAuth2AuthorizationRequest.authorizationCode()
-					.attributes((attrs) ->
+					.attributes(attrs ->
 							attrs.put(OAuth2ParameterNames.REGISTRATION_ID, clientRegistration.getRegistrationId()));
 			// @formatter:on
 			if (!CollectionUtils.isEmpty(clientRegistration.getScopes())
@@ -234,19 +234,19 @@ public class DefaultServerOAuth2AuthorizationRequestResolver implements ServerOA
 				.build();
 		// @formatter:on
 		String scheme = uriComponents.getScheme();
-		uriVariables.put("baseScheme", (scheme != null) ? scheme : "");
+		uriVariables.put("baseScheme", scheme != null ? scheme : "");
 		String host = uriComponents.getHost();
-		uriVariables.put("baseHost", (host != null) ? host : "");
+		uriVariables.put("baseHost", host != null ? host : "");
 		// following logic is based on HierarchicalUriComponents#toUriString()
 		int port = uriComponents.getPort();
-		uriVariables.put("basePort", (port == -1) ? "" : ":" + port);
+		uriVariables.put("basePort", port == -1 ? "" : ":" + port);
 		String path = uriComponents.getPath();
 		if (StringUtils.hasLength(path)) {
 			if (path.charAt(0) != PATH_DELIMITER) {
 				path = PATH_DELIMITER + path;
 			}
 		}
-		uriVariables.put("basePath", (path != null) ? path : "");
+		uriVariables.put("basePath", path != null ? path : "");
 		uriVariables.put("baseUrl", uriComponents.toUriString());
 		String action = "";
 		if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(clientRegistration.getAuthorizationGrantType())) {
@@ -274,8 +274,8 @@ public class DefaultServerOAuth2AuthorizationRequestResolver implements ServerOA
 		try {
 			String nonce = DEFAULT_SECURE_KEY_GENERATOR.generateKey();
 			String nonceHash = createHash(nonce);
-			builder.attributes((attrs) -> attrs.put(OidcParameterNames.NONCE, nonce));
-			builder.additionalParameters((params) -> params.put(OidcParameterNames.NONCE, nonceHash));
+			builder.attributes(attrs -> attrs.put(OidcParameterNames.NONCE, nonce));
+			builder.additionalParameters(params -> params.put(OidcParameterNames.NONCE, nonceHash));
 		}
 		catch (NoSuchAlgorithmException ex) {
 		}

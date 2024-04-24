@@ -114,7 +114,7 @@ class AuthorizationFilterParser implements BeanDefinitionParser {
 			return authorizationManagerRef;
 		}
 		Element expressionHandlerElt = DomUtils.getChildElementByTagName(element, Elements.EXPRESSION_HANDLER);
-		String expressionHandlerRef = (expressionHandlerElt != null) ? expressionHandlerElt.getAttribute("ref") : null;
+		String expressionHandlerRef = expressionHandlerElt != null ? expressionHandlerElt.getAttribute("ref") : null;
 		if (expressionHandlerRef == null) {
 			expressionHandlerRef = registerDefaultExpressionHandler(parserContext);
 		}

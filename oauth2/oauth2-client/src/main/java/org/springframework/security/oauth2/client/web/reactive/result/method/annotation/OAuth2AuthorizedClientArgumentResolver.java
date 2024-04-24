@@ -120,7 +120,7 @@ public final class OAuth2AuthorizedClientArgumentResolver implements HandlerMeth
 		Mono<ServerWebExchange> defaultedExchange = Mono.justOrEmpty(exchange)
 			.switchIfEmpty(currentServerWebExchange());
 		return Mono.zip(defaultedRegistrationId, defaultedAuthentication, defaultedExchange)
-			.map((zipped) -> OAuth2AuthorizeRequest.withClientRegistrationId(zipped.getT1())
+			.map(zipped -> OAuth2AuthorizeRequest.withClientRegistrationId(zipped.getT1())
 				.principal(zipped.getT2())
 				.attribute(ServerWebExchange.class.getName(), zipped.getT3())
 				.build());
@@ -135,7 +135,7 @@ public final class OAuth2AuthorizedClientArgumentResolver implements HandlerMeth
 	}
 
 	private Mono<String> clientRegistrationId(Mono<Authentication> authentication) {
-		return authentication.filter((t) -> t instanceof OAuth2AuthenticationToken)
+		return authentication.filter(OAuth2AuthenticationToken.class::isInstance)
 			.cast(OAuth2AuthenticationToken.class)
 			.map(OAuth2AuthenticationToken::getAuthorizedClientRegistrationId);
 	}
@@ -143,8 +143,8 @@ public final class OAuth2AuthorizedClientArgumentResolver implements HandlerMeth
 	private Mono<ServerWebExchange> currentServerWebExchange() {
 		// @formatter:off
 		return Mono.deferContextual(Mono::just)
-				.filter((c) -> c.hasKey(ServerWebExchange.class))
-				.map((c) -> c.get(ServerWebExchange.class));
+				.filter(c -> c.hasKey(ServerWebExchange.class))
+				.map(c -> c.get(ServerWebExchange.class));
 		// @formatter:on
 	}
 

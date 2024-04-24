@@ -167,7 +167,7 @@ public class CasAuthenticationToken extends AbstractAuthenticationToken implemen
 		sb.append(super.toString());
 		sb.append(" Assertion: ").append(this.assertion);
 		sb.append(" Credentials (Service/Proxy Ticket): ").append(this.credentials);
-		return (sb.toString());
+		return sb.toString();
 	}
 
 }

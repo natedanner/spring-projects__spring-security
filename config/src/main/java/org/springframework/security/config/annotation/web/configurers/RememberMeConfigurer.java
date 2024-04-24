@@ -375,7 +375,7 @@ public final class RememberMeConfigurer<H extends HttpSecurityBuilder<H>>
 	 * @return the {@link RememberMeServices} to use
 	 */
 	private AbstractRememberMeServices createRememberMeServices(H http, String key) {
-		return (this.tokenRepository != null) ? createPersistentRememberMeServices(http, key)
+		return this.tokenRepository != null ? createPersistentRememberMeServices(http, key)
 				: createTokenBasedRememberMeServices(http, key);
 	}
 

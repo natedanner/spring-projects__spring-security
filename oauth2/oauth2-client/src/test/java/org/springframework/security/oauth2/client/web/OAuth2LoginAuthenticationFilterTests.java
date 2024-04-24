@@ -81,7 +81,7 @@ public class OAuth2LoginAuthenticationFilterTests {
 
 	private ClientRegistration registration2;
 
-	private String principalName1 = "principal-1";
+	private final String principalName1 = "principal-1";
 
 	private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -427,7 +427,7 @@ public class OAuth2LoginAuthenticationFilterTests {
 	// gh-10033
 	@Test
 	public void attemptAuthenticationWhenAuthenticationResultIsNullThenIllegalArgumentException() throws Exception {
-		this.filter.setAuthenticationResultConverter((authentication) -> null);
+		this.filter.setAuthenticationResultConverter(authentication -> null);
 		String requestUri = "/login/oauth2/code/" + this.registration1.getRegistrationId();
 		String state = "state";
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", requestUri);
@@ -444,7 +444,7 @@ public class OAuth2LoginAuthenticationFilterTests {
 	@Test
 	public void attemptAuthenticationWhenAuthenticationResultConverterSetThenUsed() {
 		this.filter.setAuthenticationResultConverter(
-				(authentication) -> new CustomOAuth2AuthenticationToken(authentication.getPrincipal(),
+				authentication -> new CustomOAuth2AuthenticationToken(authentication.getPrincipal(),
 						authentication.getAuthorities(), authentication.getClientRegistration().getRegistrationId()));
 		String requestUri = "/login/oauth2/code/" + this.registration1.getRegistrationId();
 		String state = "state";

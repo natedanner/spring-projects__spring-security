@@ -74,7 +74,7 @@ public class ConcurrentSessionControlAuthenticationStrategy
 
 	private final SessionRegistry sessionRegistry;
 
-	private boolean exceptionIfMaximumExceeded = false;
+	private boolean exceptionIfMaximumExceeded;
 
 	private int maximumSessions = 1;
 

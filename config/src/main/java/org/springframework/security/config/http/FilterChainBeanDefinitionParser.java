@@ -53,7 +53,7 @@ public class FilterChainBeanDefinitionParser implements BeanDefinitionParser {
 			builder.addConstructorArgReference(requestMatcher);
 		}
 		if (filters.equals(HttpSecurityBeanDefinitionParser.OPT_FILTERS_NONE)) {
-			builder.addConstructorArgValue(Collections.EMPTY_LIST);
+			builder.addConstructorArgValue(Collections.emptyList());
 		}
 		else {
 			String[] filterBeanNames = StringUtils.tokenizeToStringArray(filters, ",");

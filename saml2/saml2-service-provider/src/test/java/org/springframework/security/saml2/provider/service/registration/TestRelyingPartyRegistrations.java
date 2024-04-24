@@ -43,10 +43,10 @@ public final class TestRelyingPartyRegistrations {
 			.nameIdFormat("format")
 			.assertionConsumerServiceLocation(assertionConsumerServiceLocation)
 			.singleLogoutServiceLocation(singleLogoutServiceLocation)
-			.signingX509Credentials((c) -> c.add(signingCredential))
-			.assertingPartyDetails((a) -> a.entityId(apEntityId)
+			.signingX509Credentials(c -> c.add(signingCredential))
+			.assertingPartyDetails(a -> a.entityId(apEntityId)
 				.singleSignOnServiceLocation(singleSignOnServiceLocation)
-				.verificationX509Credentials((c) -> c.add(verificationCertificate)));
+				.verificationX509Credentials(c -> c.add(verificationCertificate)));
 	}
 
 	public static RelyingPartyRegistration.Builder noCredentials() {
@@ -55,7 +55,7 @@ public final class TestRelyingPartyRegistrations {
 			.singleLogoutServiceLocation("https://rp.example.org/logout/saml2/request")
 			.singleLogoutServiceResponseLocation("https://rp.example.org/logout/saml2/response")
 			.assertionConsumerServiceLocation("https://rp.example.org/acs")
-			.assertingPartyDetails((party) -> party.entityId("ap-entity-id")
+			.assertingPartyDetails(party -> party.entityId("ap-entity-id")
 				.singleSignOnServiceLocation("https://ap.example.org/sso")
 				.singleLogoutServiceLocation("https://ap.example.org/logout/saml2/request")
 				.singleLogoutServiceResponseLocation("https://ap.example.org/logout/saml2/response"));
@@ -63,12 +63,12 @@ public final class TestRelyingPartyRegistrations {
 
 	public static RelyingPartyRegistration.Builder full() {
 		return noCredentials()
-			.signingX509Credentials((c) -> c
+			.signingX509Credentials(c -> c
 				.add(org.springframework.security.saml2.core.TestSaml2X509Credentials.relyingPartySigningCredential()))
-			.decryptionX509Credentials((c) -> c.add(org.springframework.security.saml2.core.TestSaml2X509Credentials
+			.decryptionX509Credentials(c -> c.add(org.springframework.security.saml2.core.TestSaml2X509Credentials
 				.relyingPartyDecryptingCredential()))
-			.assertingPartyDetails((party) -> party.verificationX509Credentials(
-					(c) -> c.add(org.springframework.security.saml2.core.TestSaml2X509Credentials
+			.assertingPartyDetails(party -> party.verificationX509Credentials(
+					c -> c.add(org.springframework.security.saml2.core.TestSaml2X509Credentials
 						.relyingPartyVerifyingCredential())));
 	}
 

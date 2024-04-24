@@ -57,7 +57,7 @@ public enum PayloadInterceptorOrder implements Ordered {
 
 	private static final int INTERVAL = 100;
 
-	private int order;
+	private final int order;
 
 	PayloadInterceptorOrder() {
 		this.order = ordinal() * INTERVAL;

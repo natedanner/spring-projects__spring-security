@@ -194,7 +194,7 @@ public class NimbusJwtClientAuthenticationParametersConverterTests {
 		String headerValue = "header-value";
 		String claimName = "custom-claim";
 		String claimValue = "claim-value";
-		this.converter.setJwtClientAssertionCustomizer((context) -> {
+		this.converter.setJwtClientAssertionCustomizer(context -> {
 			context.getHeaders().header(headerName, headerValue);
 			context.getClaims().claim(claimName, claimValue);
 		});

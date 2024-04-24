@@ -79,7 +79,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 
 	private Map<String, String> saml2AuthenticationUrlToProviderName;
 
-	private Function<HttpServletRequest, Map<String, String>> resolveHiddenInputs = (request) -> Collections.emptyMap();
+	private Function<HttpServletRequest, Map<String, String>> resolveHiddenInputs = request -> Collections.emptyMap();
 
 	public DefaultLoginPageGeneratingFilter() {
 	}
@@ -212,7 +212,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 			sb.append("      <form class=\"form-signin\" method=\"post\" action=\"" + contextPath
 					+ this.authenticationUrl + "\">\n");
 			sb.append("        <h2 class=\"form-signin-heading\">Please sign in</h2>\n");
-			sb.append(createError(loginError, errorMsg) + createLogoutSuccess(logoutSuccess) + "        <p>\n");
+			sb.append(createError(loginError, errorMsg)).append(createLogoutSuccess(logoutSuccess)).append("        <p>\n");
 			sb.append("          <label for=\"username\" class=\"sr-only\">Username</label>\n");
 			sb.append("          <input type=\"text\" id=\"username\" name=\"" + this.usernameParameter
 					+ "\" class=\"form-control\" placeholder=\"Username\" required autofocus>\n");
@@ -222,7 +222,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 			sb.append("          <input type=\"password\" id=\"password\" name=\"" + this.passwordParameter
 					+ "\" class=\"form-control\" placeholder=\"Password\" required>\n");
 			sb.append("        </p>\n");
-			sb.append(createRememberMe(this.rememberMeParameter) + renderHiddenInputs(request));
+			sb.append(createRememberMe(this.rememberMeParameter)).append(renderHiddenInputs(request));
 			sb.append("        <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Sign in</button>\n");
 			sb.append("      </form>\n");
 		}

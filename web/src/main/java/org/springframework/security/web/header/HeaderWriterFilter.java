@@ -53,7 +53,7 @@ public class HeaderWriterFilter extends OncePerRequestFilter {
 	/**
 	 * Indicates whether to write the headers at the beginning of the request.
 	 */
-	private boolean shouldWriteHeadersEagerly = false;
+	private boolean shouldWriteHeadersEagerly;
 
 	/**
 	 * Creates a new instance.

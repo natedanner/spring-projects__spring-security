@@ -37,7 +37,7 @@ public class HttpSessionSaml2AuthenticationRequestRepository
 		.getName()
 		.concat(".SAML2_AUTHN_REQUEST");
 
-	private String saml2AuthnRequestAttributeName = DEFAULT_SAML2_AUTHN_REQUEST_ATTR_NAME;
+	private final String saml2AuthnRequestAttributeName = DEFAULT_SAML2_AUTHN_REQUEST_ATTR_NAME;
 
 	@Override
 	public AbstractSaml2AuthenticationRequest loadAuthenticationRequest(HttpServletRequest request) {

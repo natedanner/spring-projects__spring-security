@@ -45,7 +45,7 @@ public final class RequestMatcherDelegatingAuthenticationManagerResolver
 
 	private final List<RequestMatcherEntry<AuthenticationManager>> authenticationManagers;
 
-	private AuthenticationManager defaultAuthenticationManager = (authentication) -> {
+	private AuthenticationManager defaultAuthenticationManager = authentication -> {
 		throw new AuthenticationServiceException("Cannot authenticate " + authentication);
 	};
 

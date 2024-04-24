@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public final class SecurityFiltersAssertions {
 
-	private static Collection<SecurityFilters> ordered = Arrays.asList(SecurityFilters.values());
+	private static final Collection<SecurityFilters> ordered = Arrays.asList(SecurityFilters.values());
 
 	private SecurityFiltersAssertions() {
 	}

@@ -61,7 +61,7 @@ public class SecurityMockServerConfigurersOAuth2LoginTests extends AbstractMockS
 	@BeforeEach
 	public void setup() {
 		this.client = WebTestClient.bindToController(this.controller)
-			.argumentResolvers((c) -> c.addCustomResolver(new OAuth2AuthorizedClientArgumentResolver(
+			.argumentResolvers(c -> c.addCustomResolver(new OAuth2AuthorizedClientArgumentResolver(
 					this.clientRegistrationRepository, this.authorizedClientRepository)))
 			.webFilter(new SecurityContextServerWebExchangeWebFilter())
 			.apply(SecurityMockServerConfigurers.springSecurity())
@@ -121,7 +121,7 @@ public class SecurityMockServerConfigurersOAuth2LoginTests extends AbstractMockS
 	public void oauth2LoginWhenAttributeSpecifiedThenUserHasAttribute() {
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOAuth2Login()
-				.attributes((a) -> a.put("iss", "https://idp.example.org")))
+				.attributes(a -> a.put("iss", "https://idp.example.org")))
 			.get()
 			.uri("/token")
 			.exchange()
@@ -159,7 +159,7 @@ public class SecurityMockServerConfigurersOAuth2LoginTests extends AbstractMockS
 				Collections.singletonMap("sub", "subject"), "sub");
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOAuth2Login()
-				.attributes((a) -> a.put("subject", "foo"))
+				.attributes(a -> a.put("subject", "foo"))
 				.oauth2User(oauth2User))
 			.get()
 			.uri("/token")
@@ -171,7 +171,7 @@ public class SecurityMockServerConfigurersOAuth2LoginTests extends AbstractMockS
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockOAuth2Login()
 				.oauth2User(oauth2User)
-				.attributes((a) -> a.put("sub", "bar")))
+				.attributes(a -> a.put("sub", "bar")))
 			.get()
 			.uri("/token")
 			.exchange()

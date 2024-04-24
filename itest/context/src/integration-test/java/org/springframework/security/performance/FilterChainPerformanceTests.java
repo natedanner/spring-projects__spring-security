@@ -127,7 +127,7 @@ public class FilterChainPerformanceTests {
 	public void provideDataOnScalingWithNumberOfAuthoritiesUserHas() throws Exception {
 		StopWatch sw = new StopWatch("Scaling with nAuthorities");
 		for (int user = 0; user < N_AUTHORITIES / 10; user++) {
-			int nAuthorities = (user != 0) ? user * 10 : 1;
+			int nAuthorities = user != 0 ? user * 10 : 1;
 			SecurityContextHolder.getContext()
 				.setAuthentication(UsernamePasswordAuthenticationToken.authenticated("bob", "bobspassword",
 						createRoles(nAuthorities)));

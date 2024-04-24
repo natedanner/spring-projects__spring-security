@@ -88,7 +88,7 @@ public class HttpSessionRequestCache implements RequestCache {
 	@Override
 	public SavedRequest getRequest(HttpServletRequest currentRequest, HttpServletResponse response) {
 		HttpSession session = currentRequest.getSession(false);
-		return (session != null) ? (SavedRequest) session.getAttribute(this.sessionAttrName) : null;
+		return session != null ? (SavedRequest) session.getAttribute(this.sessionAttrName) : null;
 	}
 
 	@Override

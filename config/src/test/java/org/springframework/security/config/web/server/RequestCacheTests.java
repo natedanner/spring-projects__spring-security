@@ -43,7 +43,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 public class RequestCacheTests {
 
-	private ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
+	private final ServerHttpSecurity http = ServerHttpSecurityConfigurationBuilder.httpWithDefaultAuthentication();
 
 	@Test
 	public void defaultFormLoginRequestCache() {
@@ -106,11 +106,11 @@ public class RequestCacheTests {
 	public void requestWhenCustomRequestCacheInLambdaThenCustomCacheUsed() {
 		// @formatter:off
 		SecurityWebFilterChain securityWebFilter = this.http
-				.authorizeExchange((exchange) -> exchange
+				.authorizeExchange(exchange -> exchange
 						.anyExchange().authenticated()
 				)
 				.formLogin(withDefaults())
-				.requestCache((requestCache) -> requestCache
+				.requestCache(requestCache -> requestCache
 						.requestCache(NoOpServerRequestCache.getInstance())
 				)
 				.build();

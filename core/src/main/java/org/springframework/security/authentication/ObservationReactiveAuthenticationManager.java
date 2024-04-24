@@ -51,14 +51,14 @@ public class ObservationReactiveAuthenticationManager implements ReactiveAuthent
 		AuthenticationObservationContext context = new AuthenticationObservationContext();
 		context.setAuthenticationRequest(authentication);
 		context.setAuthenticationManagerClass(this.delegate.getClass());
-		return Mono.deferContextual((contextView) -> {
+		return Mono.deferContextual(contextView -> {
 			Observation observation = Observation.createNotStarted(this.convention, () -> context, this.registry)
 				.parentObservation(contextView.getOrDefault(ObservationThreadLocalAccessor.KEY, null))
 				.start();
-			return this.delegate.authenticate(authentication).doOnSuccess((result) -> {
+			return this.delegate.authenticate(authentication).doOnSuccess(result -> {
 				context.setAuthenticationResult(result);
 				observation.stop();
-			}).doOnCancel(observation::stop).doOnError((t) -> {
+			}).doOnCancel(observation::stop).doOnError(t -> {
 				observation.error(t);
 				observation.stop();
 			});

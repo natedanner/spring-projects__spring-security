@@ -93,7 +93,7 @@ public class FormLoginBeanDefinitionParser {
 
 	private String loginPage;
 
-	private String loginMethod;
+	private final String loginMethod;
 
 	private String loginProcessingUrl;
 
@@ -161,7 +161,7 @@ public class FormLoginBeanDefinitionParser {
 		BeanDefinitionBuilder entryPointBuilder = BeanDefinitionBuilder
 			.rootBeanDefinition(LoginUrlAuthenticationEntryPoint.class);
 		entryPointBuilder.getRawBeanDefinition().setSource(source);
-		entryPointBuilder.addConstructorArgValue((this.loginPage != null) ? this.loginPage : DEF_LOGIN_PAGE);
+		entryPointBuilder.addConstructorArgValue(this.loginPage != null ? this.loginPage : DEF_LOGIN_PAGE);
 		entryPointBuilder.addPropertyValue("portMapper", this.portMapper);
 		entryPointBuilder.addPropertyValue("portResolver", this.portResolver);
 		this.entryPointBean = (RootBeanDefinition) entryPointBuilder.getBeanDefinition();

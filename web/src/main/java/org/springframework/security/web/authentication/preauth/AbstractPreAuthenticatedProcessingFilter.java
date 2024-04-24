@@ -92,11 +92,11 @@ public abstract class AbstractPreAuthenticatedProcessingFilter extends GenericFi
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private ApplicationEventPublisher eventPublisher = null;
+	private ApplicationEventPublisher eventPublisher;
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
-	private AuthenticationManager authenticationManager = null;
+	private AuthenticationManager authenticationManager;
 
 	private boolean continueFilterChainOnUnsuccessfulAuthentication = true;
 
@@ -104,9 +104,9 @@ public abstract class AbstractPreAuthenticatedProcessingFilter extends GenericFi
 
 	private boolean invalidateSessionOnPrincipalChange = true;
 
-	private AuthenticationSuccessHandler authenticationSuccessHandler = null;
+	private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-	private AuthenticationFailureHandler authenticationFailureHandler = null;
+	private AuthenticationFailureHandler authenticationFailureHandler;
 
 	private RequestMatcher requiresAuthenticationRequestMatcher = new PreAuthenticatedProcessingRequestMatcher();
 

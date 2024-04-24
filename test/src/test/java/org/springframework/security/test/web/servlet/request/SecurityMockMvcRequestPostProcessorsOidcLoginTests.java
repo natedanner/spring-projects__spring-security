@@ -112,13 +112,13 @@ public class SecurityMockMvcRequestPostProcessorsOidcLoginTests {
 
 	@Test
 	public void oidcLoginWhenIdTokenSpecifiedThenUserHasClaims() throws Exception {
-		this.mvc.perform(get("/id-token/iss").with(oidcLogin().idToken((i) -> i.issuer("https://idp.example.org"))))
+		this.mvc.perform(get("/id-token/iss").with(oidcLogin().idToken(i -> i.issuer("https://idp.example.org"))))
 			.andExpect(content().string("https://idp.example.org"));
 	}
 
 	@Test
 	public void oidcLoginWhenUserInfoSpecifiedThenUserHasClaims() throws Exception {
-		this.mvc.perform(get("/user-info/email").with(oidcLogin().userInfoToken((u) -> u.email("email@email"))))
+		this.mvc.perform(get("/user-info/email").with(oidcLogin().userInfoToken(u -> u.email("email@email"))))
 			.andExpect(content().string("email@email"));
 	}
 
@@ -139,10 +139,10 @@ public class SecurityMockMvcRequestPostProcessorsOidcLoginTests {
 	public void oidcLoginWhenOidcUserSpecifiedThenLastCalledTakesPrecedence() throws Exception {
 		OidcUser oidcUser = new DefaultOidcUser(AuthorityUtils.createAuthorityList("SCOPE_read"),
 				TestOidcIdTokens.idToken().build());
-		this.mvc.perform(get("/id-token/sub").with(oidcLogin().idToken((i) -> i.subject("foo")).oidcUser(oidcUser)))
+		this.mvc.perform(get("/id-token/sub").with(oidcLogin().idToken(i -> i.subject("foo")).oidcUser(oidcUser)))
 			.andExpect(status().isOk())
 			.andExpect(content().string("subject"));
-		this.mvc.perform(get("/id-token/sub").with(oidcLogin().oidcUser(oidcUser).idToken((i) -> i.subject("bar"))))
+		this.mvc.perform(get("/id-token/sub").with(oidcLogin().oidcUser(oidcUser).idToken(i -> i.subject("bar"))))
 			.andExpect(content().string("bar"));
 	}
 

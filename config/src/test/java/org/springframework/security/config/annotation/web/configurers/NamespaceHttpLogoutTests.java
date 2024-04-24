@@ -101,7 +101,7 @@ public class NamespaceHttpLogoutTests {
 		this.mvc.perform(post("/custom-logout").with(csrf()))
 				.andExpect(authenticated(false))
 				.andExpect(redirectedUrl("/logout-success"))
-				.andExpect((result) -> assertThat(result.getResponse().getCookies()).hasSize(1))
+				.andExpect(result -> assertThat(result.getResponse().getCookies()).hasSize(1))
 				.andExpect(cookie().maxAge("remove", 0))
 				.andExpect(session(Objects::nonNull));
 		// @formatter:on
@@ -115,7 +115,7 @@ public class NamespaceHttpLogoutTests {
 		this.mvc.perform(post("/custom-logout").with(csrf()))
 				.andExpect(authenticated(false))
 				.andExpect(redirectedUrl("/logout-success"))
-				.andExpect((result) -> assertThat(result.getResponse().getCookies()).hasSize(1))
+				.andExpect(result -> assertThat(result.getResponse().getCookies()).hasSize(1))
 				.andExpect(cookie().maxAge("remove", 0))
 				.andExpect(session(Objects::nonNull));
 		// @formatter:on
@@ -151,17 +151,17 @@ public class NamespaceHttpLogoutTests {
 	}
 
 	ResultMatcher authenticated(boolean authenticated) {
-		return (result) -> assertThat(Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+		return result -> assertThat(Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
 			.map(Authentication::isAuthenticated)
 			.orElse(false)).isEqualTo(authenticated);
 	}
 
 	ResultMatcher noCookies() {
-		return (result) -> assertThat(result.getResponse().getCookies()).isEmpty();
+		return result -> assertThat(result.getResponse().getCookies()).isEmpty();
 	}
 
 	ResultMatcher session(Predicate<HttpSession> sessionPredicate) {
-		return (result) -> assertThat(result.getRequest().getSession(false))
+		return result -> assertThat(result.getRequest().getSession(false))
 			.is(new Condition<>(sessionPredicate, "sessionPredicate failed"));
 	}
 
@@ -215,7 +215,7 @@ public class NamespaceHttpLogoutTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.logout((logout) ->
+				.logout(logout ->
 						logout.deleteCookies("remove")
 							.invalidateHttpSession(false)
 							.logoutUrl("/custom-logout")
@@ -255,7 +255,7 @@ public class NamespaceHttpLogoutTests {
 			logoutSuccessHandler.setDefaultTargetUrl("/SuccessHandlerRefHttpLogoutConfig");
 			// @formatter:off
 			http
-				.logout((logout) -> logout.logoutSuccessHandler(logoutSuccessHandler));
+				.logout(logout -> logout.logoutSuccessHandler(logoutSuccessHandler));
 			return http.build();
 			// @formatter:on
 		}

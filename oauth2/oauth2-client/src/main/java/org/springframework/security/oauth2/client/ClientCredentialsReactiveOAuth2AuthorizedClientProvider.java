@@ -83,8 +83,8 @@ public final class ClientCredentialsReactiveOAuth2AuthorizedClientProvider
 		return Mono.just(new OAuth2ClientCredentialsGrantRequest(clientRegistration))
 			.flatMap(this.accessTokenResponseClient::getTokenResponse)
 			.onErrorMap(OAuth2AuthorizationException.class,
-					(ex) -> new ClientAuthorizationException(ex.getError(), clientRegistration.getRegistrationId(), ex))
-			.map((tokenResponse) -> new OAuth2AuthorizedClient(clientRegistration, context.getPrincipal().getName(),
+					ex -> new ClientAuthorizationException(ex.getError(), clientRegistration.getRegistrationId(), ex))
+			.map(tokenResponse -> new OAuth2AuthorizedClient(clientRegistration, context.getPrincipal().getName(),
 					tokenResponse.getAccessToken()));
 	}
 

@@ -32,7 +32,7 @@ public final class SupplierReactiveJwtDecoder implements ReactiveJwtDecoder {
 
 	private static final Duration FOREVER = Duration.ofMillis(Long.MAX_VALUE);
 
-	private Mono<ReactiveJwtDecoder> jwtDecoderMono;
+	private final Mono<ReactiveJwtDecoder> jwtDecoderMono;
 
 	public SupplierReactiveJwtDecoder(Supplier<ReactiveJwtDecoder> supplier) {
 		// @formatter:off
@@ -40,7 +40,7 @@ public final class SupplierReactiveJwtDecoder implements ReactiveJwtDecoder {
 				.subscribeOn(Schedulers.boundedElastic())
 				.publishOn(Schedulers.parallel())
 				.onErrorMap(this::wrapException)
-				.cache((delegate) -> FOREVER, (ex) -> Duration.ZERO, () -> Duration.ZERO);
+				.cache(delegate -> FOREVER, ex -> Duration.ZERO, () -> Duration.ZERO);
 		// @formatter:on
 	}
 
@@ -53,7 +53,7 @@ public final class SupplierReactiveJwtDecoder implements ReactiveJwtDecoder {
 	 */
 	@Override
 	public Mono<Jwt> decode(String token) throws JwtException {
-		return this.jwtDecoderMono.flatMap((decoder) -> decoder.decode(token));
+		return this.jwtDecoderMono.flatMap(decoder -> decoder.decode(token));
 	}
 
 }

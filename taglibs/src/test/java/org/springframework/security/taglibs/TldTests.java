@@ -31,8 +31,8 @@ public class TldTests {
 	// SEC-2324
 	@Test
 	public void testTldVersionIsCorrect() throws Exception {
-		String SPRING_SECURITY_VERSION = "springSecurityVersion";
-		String version = System.getProperty(SPRING_SECURITY_VERSION);
+		String springSecurityVersion = "springSecurityVersion";
+		String version = System.getProperty(springSecurityVersion);
 		File securityTld = new File("src/main/resources/META-INF/security.tld");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

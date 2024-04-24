@@ -131,11 +131,11 @@ public class NamespaceHttpServerAccessDeniedHandlerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().denyAll()
 				)
-				.exceptionHandling((exceptionHandling) ->
+				.exceptionHandling(exceptionHandling ->
 					exceptionHandling.accessDeniedPage("/AccessDeniedPageConfig")
 				);
 			return http.build();
@@ -178,11 +178,11 @@ public class NamespaceHttpServerAccessDeniedHandlerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().denyAll()
 				)
-				.exceptionHandling((exceptionHandling) ->
+				.exceptionHandling(exceptionHandling ->
 						exceptionHandling.accessDeniedHandler(accessDeniedHandler())
 				);
 			return http.build();

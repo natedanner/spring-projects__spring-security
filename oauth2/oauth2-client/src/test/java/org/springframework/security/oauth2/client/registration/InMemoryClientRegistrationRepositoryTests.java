@@ -38,9 +38,9 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class InMemoryClientRegistrationRepositoryTests {
 
-	private ClientRegistration registration = TestClientRegistrations.clientRegistration().build();
+	private final ClientRegistration registration = TestClientRegistrations.clientRegistration().build();
 
-	private InMemoryClientRegistrationRepository clients = new InMemoryClientRegistrationRepository(this.registration);
+	private final InMemoryClientRegistrationRepository clients = new InMemoryClientRegistrationRepository(this.registration);
 
 	@Test
 	public void constructorListClientRegistrationWhenNullThenIllegalArgumentException() {

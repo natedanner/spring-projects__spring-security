@@ -45,7 +45,7 @@ public class Enumerator<T> implements Enumeration<T> {
 	 * The <code>Iterator</code> over which the <code>Enumeration</code> represented by
 	 * this class actually operates.
 	 */
-	private Iterator<T> iterator = null;
+	private Iterator<T> iterator;
 
 	/**
 	 * Return an Enumeration over the values of the specified Collection.
@@ -114,7 +114,7 @@ public class Enumerator<T> implements Enumeration<T> {
 	 */
 	@Override
 	public boolean hasMoreElements() {
-		return (this.iterator.hasNext());
+		return this.iterator.hasNext();
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class Enumerator<T> implements Enumeration<T> {
 	 */
 	@Override
 	public T nextElement() throws NoSuchElementException {
-		return (this.iterator.next());
+		return this.iterator.next();
 	}
 
 }

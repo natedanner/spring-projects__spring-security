@@ -32,13 +32,13 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class OAuth2PasswordGrantRequestTests {
 
-	private ClientRegistration clientRegistration = TestClientRegistrations.clientRegistration()
+	private final ClientRegistration clientRegistration = TestClientRegistrations.clientRegistration()
 		.authorizationGrantType(AuthorizationGrantType.PASSWORD)
 		.build();
 
-	private String username = "user1";
+	private final String username = "user1";
 
-	private String password = "password";
+	private final String password = "password";
 
 	@Test
 	public void constructorWhenClientRegistrationIsNullThenThrowIllegalArgumentException() {

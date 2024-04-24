@@ -79,7 +79,7 @@ class OidcBackChannelLogoutWebFilter implements WebFilter {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-		return this.authenticationConverter.convert(exchange).onErrorResume(AuthenticationException.class, (ex) -> {
+		return this.authenticationConverter.convert(exchange).onErrorResume(AuthenticationException.class, ex -> {
 			this.logger.debug("Failed to process OIDC Back-Channel Logout", ex);
 			if (ex instanceof AuthenticationServiceException) {
 				return Mono.error(ex);
@@ -88,14 +88,14 @@ class OidcBackChannelLogoutWebFilter implements WebFilter {
 		})
 			.switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
 			.flatMap(this.authenticationManager::authenticate)
-			.onErrorResume(AuthenticationException.class, (ex) -> {
+			.onErrorResume(AuthenticationException.class, ex -> {
 				this.logger.debug("Failed to process OIDC Back-Channel Logout", ex);
 				if (ex instanceof AuthenticationServiceException) {
 					return Mono.error(ex);
 				}
 				return handleAuthenticationFailure(exchange.getResponse(), ex).then(Mono.empty());
 			})
-			.flatMap((authentication) -> {
+			.flatMap(authentication -> {
 				WebFilterExchange webFilterExchange = new WebFilterExchange(exchange, chain);
 				return this.logoutHandler.logout(webFilterExchange, authentication);
 			});

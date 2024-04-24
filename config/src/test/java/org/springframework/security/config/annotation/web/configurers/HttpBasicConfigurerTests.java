@@ -200,7 +200,7 @@ public class HttpBasicConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.anyRequest().authenticated()
 				)
@@ -329,7 +329,7 @@ public class HttpBasicConfigurerTests {
 
 		@Bean
 		SecurityFilterChain web(HttpSecurity http) throws Exception {
-			http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+			http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults());
 
 			return http.build();

@@ -31,10 +31,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 abstract class JsonNodeUtils {
 
-	static final TypeReference<Set<String>> STRING_SET = new TypeReference<Set<String>>() {
+	static final TypeReference<Set<String>> STRING_SET = new TypeReference<>() {
 	};
 
-	static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<Map<String, Object>>() {
+	static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<>() {
 	};
 
 	static String findStringValue(JsonNode jsonNode, String fieldName) {
@@ -42,7 +42,7 @@ abstract class JsonNodeUtils {
 			return null;
 		}
 		JsonNode value = jsonNode.findValue(fieldName);
-		return (value != null && value.isTextual()) ? value.asText() : null;
+		return value != null && value.isTextual() ? value.asText() : null;
 	}
 
 	static <T> T findValue(JsonNode jsonNode, String fieldName, TypeReference<T> valueTypeReference,
@@ -51,7 +51,7 @@ abstract class JsonNodeUtils {
 			return null;
 		}
 		JsonNode value = jsonNode.findValue(fieldName);
-		return (value != null && value.isContainerNode()) ? mapper.convertValue(value, valueTypeReference) : null;
+		return value != null && value.isContainerNode() ? mapper.convertValue(value, valueTypeReference) : null;
 	}
 
 	static JsonNode findObjectNode(JsonNode jsonNode, String fieldName) {
@@ -59,7 +59,7 @@ abstract class JsonNodeUtils {
 			return null;
 		}
 		JsonNode value = jsonNode.findValue(fieldName);
-		return (value != null && value.isObject()) ? value : null;
+		return value != null && value.isObject() ? value : null;
 	}
 
 }

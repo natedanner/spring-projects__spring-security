@@ -56,7 +56,7 @@ public class OpenSaml4LogoutRequestResolverTests {
 
 	@Test
 	public void resolveWhenCustomParametersConsumerThenUses() {
-		this.logoutRequestResolver.setParametersConsumer((parameters) -> parameters.getLogoutRequest().setID("myid"));
+		this.logoutRequestResolver.setParametersConsumer(parameters -> parameters.getLogoutRequest().setID("myid"));
 		given(this.registrationResolver.resolve(any(), any())).willReturn(this.registration);
 
 		Saml2LogoutRequest logoutRequest = this.logoutRequestResolver.resolve(givenRequest(), givenAuthentication());

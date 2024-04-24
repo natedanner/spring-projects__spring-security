@@ -26,6 +26,7 @@ import reactor.core.scheduler.Schedulers;
 
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebSession;
 
 /**
  * A {@link ServerCsrfTokenRepository} that stores the {@link CsrfToken} in the
@@ -51,14 +52,14 @@ public class WebSessionServerCsrfTokenRepository implements ServerCsrfTokenRepos
 
 	@Override
 	public Mono<CsrfToken> generateToken(ServerWebExchange exchange) {
-		return Mono.fromCallable(() -> createCsrfToken()).subscribeOn(Schedulers.boundedElastic());
+		return Mono.fromCallable(this::createCsrfToken).subscribeOn(Schedulers.boundedElastic());
 	}
 
 	@Override
 	public Mono<Void> saveToken(ServerWebExchange exchange, CsrfToken token) {
 		return exchange.getSession()
-			.doOnNext((session) -> putToken(session.getAttributes(), token))
-			.flatMap((session) -> session.changeSessionId());
+			.doOnNext(session -> putToken(session.getAttributes(), token))
+			.flatMap(WebSession::changeSessionId);
 	}
 
 	private void putToken(Map<String, Object> attributes, CsrfToken token) {
@@ -73,8 +74,8 @@ public class WebSessionServerCsrfTokenRepository implements ServerCsrfTokenRepos
 	@Override
 	public Mono<CsrfToken> loadToken(ServerWebExchange exchange) {
 		return exchange.getSession()
-			.filter((session) -> session.getAttributes().containsKey(this.sessionAttributeName))
-			.map((session) -> session.getAttribute(this.sessionAttributeName));
+			.filter(session -> session.getAttributes().containsKey(this.sessionAttributeName))
+			.map(session -> session.getAttribute(this.sessionAttributeName));
 	}
 
 	/**

@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
 public class UserDetailsRepositoryReactiveAuthenticationManager
 		extends AbstractUserDetailsReactiveAuthenticationManager {
 
-	private ReactiveUserDetailsService userDetailsService;
+	private final ReactiveUserDetailsService userDetailsService;
 
 	public UserDetailsRepositoryReactiveAuthenticationManager(ReactiveUserDetailsService userDetailsService) {
 		Assert.notNull(userDetailsService, "userDetailsService cannot be null");

@@ -37,9 +37,9 @@ import static org.mockito.Mockito.mock;
  */
 public class ServerWebExchangeDelegatingReactiveAuthenticationManagerResolverTests {
 
-	private ReactiveAuthenticationManager one = mock(ReactiveAuthenticationManager.class);
+	private final ReactiveAuthenticationManager one = mock(ReactiveAuthenticationManager.class);
 
-	private ReactiveAuthenticationManager two = mock(ReactiveAuthenticationManager.class);
+	private final ReactiveAuthenticationManager two = mock(ReactiveAuthenticationManager.class);
 
 	@Test
 	public void resolveWhenMatchesThenReturnsReactiveAuthenticationManager() {

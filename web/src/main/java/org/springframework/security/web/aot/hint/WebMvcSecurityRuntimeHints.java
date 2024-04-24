@@ -32,7 +32,7 @@ class WebMvcSecurityRuntimeHints implements RuntimeHintsRegistrar {
 	@Override
 	public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
 		hints.reflection()
-			.registerType(WebSecurityExpressionRoot.class, (builder) -> builder
+			.registerType(WebSecurityExpressionRoot.class, builder -> builder
 				.withMembers(MemberCategory.INVOKE_DECLARED_METHODS, MemberCategory.DECLARED_FIELDS));
 	}
 

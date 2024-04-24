@@ -92,7 +92,7 @@ public class DefaultWebInvocationPrivilegeEvaluator implements WebInvocationPriv
 		Collection<ConfigAttribute> attributes = this.securityInterceptor.obtainSecurityMetadataSource()
 			.getAttributes(filterInvocation);
 		if (attributes == null) {
-			return (!this.securityInterceptor.isRejectPublicInvocations());
+			return !this.securityInterceptor.isRejectPublicInvocations();
 		}
 		if (authentication == null) {
 			return false;

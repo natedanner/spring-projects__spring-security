@@ -42,7 +42,7 @@ public interface PayloadExchangeMatcher {
 	/**
 	 * The result of matching
 	 */
-	class MatchResult {
+	final class MatchResult {
 
 		private final boolean match;
 
@@ -82,7 +82,7 @@ public interface PayloadExchangeMatcher {
 		 */
 		public static Mono<MatchResult> match(Map<String, ? extends Object> variables) {
 			MatchResult result = new MatchResult(true,
-					(variables != null) ? new HashMap<String, Object>(variables) : null);
+					variables != null ? new HashMap<String, Object>(variables) : null);
 			return Mono.just(result);
 		}
 

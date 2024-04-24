@@ -53,13 +53,13 @@ public class InMemoryReactiveSessionRegistry implements ReactiveSessionRegistry 
 	public Flux<ReactiveSessionInformation> getAllSessions(Object principal, boolean includeExpiredSessions) {
 		return Flux.fromIterable(this.sessionIdsByPrincipal.getOrDefault(principal, Collections.emptySet()))
 			.map(this.sessionById::get)
-			.filter((sessionInformation) -> includeExpiredSessions || !sessionInformation.isExpired());
+			.filter(sessionInformation -> includeExpiredSessions || !sessionInformation.isExpired());
 	}
 
 	@Override
 	public Mono<Void> saveSessionInformation(ReactiveSessionInformation information) {
 		this.sessionById.put(information.getSessionId(), information);
-		this.sessionIdsByPrincipal.computeIfAbsent(information.getPrincipal(), (key) -> new CopyOnWriteArraySet<>())
+		this.sessionIdsByPrincipal.computeIfAbsent(information.getPrincipal(), key -> new CopyOnWriteArraySet<>())
 			.add(information.getSessionId());
 		return Mono.empty();
 	}
@@ -71,7 +71,7 @@ public class InMemoryReactiveSessionRegistry implements ReactiveSessionRegistry 
 
 	@Override
 	public Mono<ReactiveSessionInformation> removeSessionInformation(String sessionId) {
-		return getSessionInformation(sessionId).doOnNext((sessionInformation) -> {
+		return getSessionInformation(sessionId).doOnNext(sessionInformation -> {
 			this.sessionById.remove(sessionId);
 			Set<String> sessionsUsedByPrincipal = this.sessionIdsByPrincipal.get(sessionInformation.getPrincipal());
 			if (sessionsUsedByPrincipal != null) {

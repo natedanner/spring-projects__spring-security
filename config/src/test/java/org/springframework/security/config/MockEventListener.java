@@ -28,7 +28,7 @@ import org.springframework.context.ApplicationListener;
  */
 public class MockEventListener<T extends ApplicationEvent> implements ApplicationListener<T> {
 
-	private List<T> events = new ArrayList<>();
+	private final List<T> events = new ArrayList<>();
 
 	@Override
 	public void onApplicationEvent(T event) {

@@ -49,7 +49,7 @@ public class SecurityMockServerConfigurersJwtTests extends AbstractMockServerCon
 
 	WebTestClient client = WebTestClient.bindToController(this.securityContextController)
 		.webFilter(new SecurityContextServerWebExchangeWebFilter())
-		.argumentResolvers((resolvers) -> resolvers
+		.argumentResolvers(resolvers -> resolvers
 			.addCustomResolver(new CurrentSecurityContextArgumentResolver(new ReactiveAdapterRegistry())))
 		.apply(SecurityMockServerConfigurers.springSecurity())
 		.configureClient()
@@ -71,7 +71,7 @@ public class SecurityMockServerConfigurersJwtTests extends AbstractMockServerCon
 	@Test
 	public void mockJwtWhenProvidingBuilderConsumerThenProducesJwtAuthentication() {
 		String name = new String("user");
-		this.client.mutateWith(SecurityMockServerConfigurers.mockJwt().jwt((jwt) -> jwt.subject(name)))
+		this.client.mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.subject(name)))
 			.get()
 			.exchange()
 			.expectStatus()
@@ -86,7 +86,7 @@ public class SecurityMockServerConfigurersJwtTests extends AbstractMockServerCon
 	public void mockJwtWhenProvidingCustomAuthoritiesThenProducesJwtAuthentication() {
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockJwt()
-				.jwt((jwt) -> jwt.claim("scope", "ignored authorities"))
+				.jwt(jwt -> jwt.claim("scope", "ignored authorities"))
 				.authorities(this.authority1, this.authority2))
 			.get()
 			.exchange()
@@ -100,7 +100,7 @@ public class SecurityMockServerConfigurersJwtTests extends AbstractMockServerCon
 	@Test
 	public void mockJwtWhenProvidingScopedAuthoritiesThenProducesJwtAuthentication() {
 		this.client
-			.mutateWith(SecurityMockServerConfigurers.mockJwt().jwt((jwt) -> jwt.claim("scope", "scoped authorities")))
+			.mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.claim("scope", "scoped authorities")))
 			.get()
 			.exchange()
 			.expectStatus()
@@ -114,8 +114,8 @@ public class SecurityMockServerConfigurersJwtTests extends AbstractMockServerCon
 	public void mockJwtWhenProvidingGrantedAuthoritiesThenProducesJwtAuthentication() {
 		this.client
 			.mutateWith(SecurityMockServerConfigurers.mockJwt()
-				.jwt((jwt) -> jwt.claim("scope", "ignored authorities"))
-				.authorities((jwt) -> Arrays.asList(this.authority1)))
+				.jwt(jwt -> jwt.claim("scope", "ignored authorities"))
+				.authorities(jwt -> Arrays.asList(this.authority1)))
 			.get()
 			.exchange()
 			.expectStatus()

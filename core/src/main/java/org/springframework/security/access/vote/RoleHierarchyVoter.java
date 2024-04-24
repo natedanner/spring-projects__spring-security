@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
 @Deprecated
 public class RoleHierarchyVoter extends RoleVoter {
 
-	private RoleHierarchy roleHierarchy = null;
+	private RoleHierarchy roleHierarchy;
 
 	public RoleHierarchyVoter(RoleHierarchy roleHierarchy) {
 		Assert.notNull(roleHierarchy, "RoleHierarchy must not be null");

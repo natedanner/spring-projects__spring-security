@@ -102,8 +102,8 @@ public final class OAuth2AuthorizedClientArgumentResolver implements HandlerMeth
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> parameterType = parameter.getParameterType();
-		return (OAuth2AuthorizedClient.class.isAssignableFrom(parameterType) && (AnnotatedElementUtils
-			.findMergedAnnotation(parameter.getParameter(), RegisteredOAuth2AuthorizedClient.class) != null));
+		return OAuth2AuthorizedClient.class.isAssignableFrom(parameterType) && (AnnotatedElementUtils
+			.findMergedAnnotation(parameter.getParameter(), RegisteredOAuth2AuthorizedClient.class) != null);
 	}
 
 	@NonNull

@@ -97,7 +97,7 @@ public class OidcAuthorizationCodeReactiveAuthenticationManager implements React
 
 	private final ReactiveOAuth2UserService<OidcUserRequest, OidcUser> userService;
 
-	private GrantedAuthoritiesMapper authoritiesMapper = ((authorities) -> authorities);
+	private GrantedAuthoritiesMapper authoritiesMapper = authorities -> authorities;
 
 	private ReactiveJwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new ReactiveOidcIdTokenDecoderFactory();
 
@@ -143,11 +143,11 @@ public class OidcAuthorizationCodeReactiveAuthenticationManager implements React
 					authorizationCodeAuthentication.getClientRegistration(),
 					authorizationCodeAuthentication.getAuthorizationExchange());
 			return this.accessTokenResponseClient.getTokenResponse(authzRequest)
-				.flatMap((accessTokenResponse) -> authenticationResult(authorizationCodeAuthentication,
+				.flatMap(accessTokenResponse -> authenticationResult(authorizationCodeAuthentication,
 						accessTokenResponse))
 				.onErrorMap(OAuth2AuthorizationException.class,
-						(e) -> new OAuth2AuthenticationException(e.getError(), e.getError().toString(), e))
-				.onErrorMap(JwtException.class, (e) -> {
+						e -> new OAuth2AuthenticationException(e.getError(), e.getError().toString(), e))
+				.onErrorMap(JwtException.class, e -> {
 					OAuth2Error invalidIdTokenError = new OAuth2Error(INVALID_ID_TOKEN_ERROR_CODE, e.getMessage(),
 							null);
 					return new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), e);
@@ -196,10 +196,10 @@ public class OidcAuthorizationCodeReactiveAuthenticationManager implements React
 		}
 		// @formatter:off
 		return createOidcToken(clientRegistration, accessTokenResponse)
-				.doOnNext((idToken) -> validateNonce(authorizationCodeAuthentication, idToken))
-				.map((idToken) -> new OidcUserRequest(clientRegistration, accessToken, idToken, additionalParameters))
+				.doOnNext(idToken -> validateNonce(authorizationCodeAuthentication, idToken))
+				.map(idToken -> new OidcUserRequest(clientRegistration, accessToken, idToken, additionalParameters))
 				.flatMap(this.userService::loadUser)
-				.map((oauth2User) -> {
+				.map(oauth2User -> {
 					Collection<? extends GrantedAuthority> mappedAuthorities = this.authoritiesMapper
 							.mapAuthorities(oauth2User.getAuthorities());
 					return new OAuth2LoginAuthenticationToken(authorizationCodeAuthentication.getClientRegistration(),
@@ -215,7 +215,7 @@ public class OidcAuthorizationCodeReactiveAuthenticationManager implements React
 		String rawIdToken = (String) accessTokenResponse.getAdditionalParameters().get(OidcParameterNames.ID_TOKEN);
 		// @formatter:off
 		return jwtDecoder.decode(rawIdToken)
-				.map((jwt) ->
+				.map(jwt ->
 						new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims())
 				);
 		// @formatter:on

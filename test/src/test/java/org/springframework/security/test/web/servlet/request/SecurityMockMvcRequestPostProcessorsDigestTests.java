@@ -59,7 +59,7 @@ public class SecurityMockMvcRequestPostProcessorsDigestTests {
 		this.entryPoint.setRealmName("Spring Security");
 		this.filter = new DigestAuthenticationFilter();
 		this.filter.setUserDetailsService(
-				(username) -> new User(username, this.password, AuthorityUtils.createAuthorityList("ROLE_USER")));
+				username -> new User(username, this.password, AuthorityUtils.createAuthorityList("ROLE_USER")));
 		this.filter.setAuthenticationEntryPoint(this.entryPoint);
 		this.filter.afterPropertiesSet();
 	}
@@ -113,7 +113,7 @@ public class SecurityMockMvcRequestPostProcessorsDigestTests {
 			@Override
 			public void doFilter(ServletRequest request, ServletResponse response) {
 				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-				SecurityMockMvcRequestPostProcessorsDigestTests.this.username = (authentication != null)
+				SecurityMockMvcRequestPostProcessorsDigestTests.this.username = authentication != null
 						? authentication.getName() : null;
 			}
 		});

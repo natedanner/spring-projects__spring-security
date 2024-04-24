@@ -83,7 +83,7 @@ public class CorsSpecTests {
 	@Test
 	public void corsWhenEnabledInLambdaThenAccessControlAllowOriginAndSecurityHeaders() {
 		givenGetCorsConfigurationWillReturnWildcard();
-		this.http.cors((cors) -> cors.configurationSource(this.source));
+		this.http.cors(cors -> cors.configurationSource(this.source));
 		this.expectedHeaders.set("Access-Control-Allow-Origin", "*");
 		this.expectedHeaders.set("X-Frame-Options", "DENY");
 		assertHeaders();
@@ -112,7 +112,7 @@ public class CorsSpecTests {
 		// @formatter:off
 		FluxExchangeResult<String> response = client.get()
 				.uri("https://example.com/")
-				.headers((h) -> h.setOrigin("https://origin.example.com"))
+				.headers(h -> h.setOrigin("https://origin.example.com"))
 				.exchange()
 				.returnResult(String.class);
 		// @formatter:on

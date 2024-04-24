@@ -43,7 +43,7 @@ public class CsrfRequestDataValueProcessorTests {
 
 	private CsrfToken token;
 
-	private Map<String, String> expected = new HashMap<>();
+	private final Map<String, String> expected = new HashMap<>();
 
 	@BeforeEach
 	public void setup() {

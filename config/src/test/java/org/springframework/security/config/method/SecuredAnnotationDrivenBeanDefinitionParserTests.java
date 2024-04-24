@@ -113,8 +113,7 @@ public class SecuredAnnotationDrivenBeanDefinitionParserTests {
 		byte[] bytes = baos.toByteArray();
 		ByteArrayInputStream is = new ByteArrayInputStream(bytes);
 		ObjectInputStream ois = new ObjectInputStream(is);
-		Object o2 = ois.readObject();
-		return o2;
+		return ois.readObject();
 	}
 
 }

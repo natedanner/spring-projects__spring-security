@@ -107,9 +107,9 @@ import org.springframework.util.CollectionUtils;
 public final class SessionManagementConfigurer<H extends HttpSecurityBuilder<H>>
 		extends AbstractHttpConfigurer<SessionManagementConfigurer<H>, H> {
 
-	private final SessionAuthenticationStrategy DEFAULT_SESSION_FIXATION_STRATEGY = createDefaultSessionFixationProtectionStrategy();
+	private final SessionAuthenticationStrategy defaultSessionFixationStrategy = createDefaultSessionFixationProtectionStrategy();
 
-	private SessionAuthenticationStrategy sessionFixationAuthenticationStrategy = this.DEFAULT_SESSION_FIXATION_STRATEGY;
+	private SessionAuthenticationStrategy sessionFixationAuthenticationStrategy = this.defaultSessionFixationStrategy;
 
 	private SessionAuthenticationStrategy sessionAuthenticationStrategy;
 
@@ -119,7 +119,7 @@ public final class SessionManagementConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private SessionInformationExpiredStrategy expiredSessionStrategy;
 
-	private List<SessionAuthenticationStrategy> sessionAuthenticationStrategies = new ArrayList<>();
+	private final List<SessionAuthenticationStrategy> sessionAuthenticationStrategies = new ArrayList<>();
 
 	private SessionRegistry sessionRegistry;
 
@@ -139,7 +139,7 @@ public final class SessionManagementConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private AuthenticationFailureHandler sessionAuthenticationFailureHandler;
 
-	private Set<String> propertiesThatRequireImplicitAuthentication = new HashSet<>();
+	private final Set<String> propertiesThatRequireImplicitAuthentication = new HashSet<>();
 
 	private Boolean requireExplicitAuthenticationStrategy;
 
@@ -461,7 +461,7 @@ public final class SessionManagementConfigurer<H extends HttpSecurityBuilder<H>>
 	private ConcurrentSessionFilter createConcurrencyFilter(H http) {
 		SessionInformationExpiredStrategy expireStrategy = getExpiredSessionStrategy();
 		SessionRegistry sessionRegistry = getSessionRegistry(http);
-		ConcurrentSessionFilter concurrentSessionFilter = (expireStrategy != null)
+		ConcurrentSessionFilter concurrentSessionFilter = expireStrategy != null
 				? new ConcurrentSessionFilter(sessionRegistry, expireStrategy)
 				: new ConcurrentSessionFilter(sessionRegistry);
 		LogoutConfigurer<H> logoutConfigurer = http.getConfigurer(LogoutConfigurer.class);
@@ -524,7 +524,7 @@ public final class SessionManagementConfigurer<H extends HttpSecurityBuilder<H>>
 			return this.sessionPolicy;
 		}
 		SessionCreationPolicy sessionPolicy = getBuilder().getSharedObject(SessionCreationPolicy.class);
-		return (sessionPolicy != null) ? sessionPolicy : SessionCreationPolicy.IF_REQUIRED;
+		return sessionPolicy != null ? sessionPolicy : SessionCreationPolicy.IF_REQUIRED;
 	}
 
 	/**

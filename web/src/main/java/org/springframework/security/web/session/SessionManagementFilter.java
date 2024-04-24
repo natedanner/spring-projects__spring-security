@@ -63,7 +63,7 @@ public class SessionManagementFilter extends GenericFilterBean {
 
 	private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();
 
-	private InvalidSessionStrategy invalidSessionStrategy = null;
+	private InvalidSessionStrategy invalidSessionStrategy;
 
 	private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
 

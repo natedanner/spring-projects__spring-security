@@ -266,7 +266,7 @@ public class ExceptionTranslationFilter extends GenericFilterBean implements Mes
 		@Override
 		protected void initExtractorMap() {
 			super.initExtractorMap();
-			registerExtractor(ServletException.class, (throwable) -> {
+			registerExtractor(ServletException.class, throwable -> {
 				ThrowableAnalyzer.verifyThrowableHierarchy(throwable, ServletException.class);
 				return ((ServletException) throwable).getRootCause();
 			});

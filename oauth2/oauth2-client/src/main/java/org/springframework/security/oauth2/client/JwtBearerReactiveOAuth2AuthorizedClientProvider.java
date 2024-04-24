@@ -93,12 +93,12 @@ public final class JwtBearerReactiveOAuth2AuthorizedClientProvider implements Re
 
 		// @formatter:off
 		return this.jwtAssertionResolver.apply(context)
-				.map((jwt) -> new JwtBearerGrantRequest(clientRegistration, jwt))
+				.map(jwt -> new JwtBearerGrantRequest(clientRegistration, jwt))
 				.flatMap(this.accessTokenResponseClient::getTokenResponse)
 				.onErrorMap(OAuth2AuthorizationException.class,
-						(ex) -> new ClientAuthorizationException(ex.getError(), clientRegistration.getRegistrationId(),
+						ex -> new ClientAuthorizationException(ex.getError(), clientRegistration.getRegistrationId(),
 								ex))
-				.map((tokenResponse) -> new OAuth2AuthorizedClient(clientRegistration, context.getPrincipal().getName(),
+				.map(tokenResponse -> new OAuth2AuthorizedClient(clientRegistration, context.getPrincipal().getName(),
 						tokenResponse.getAccessToken()));
 		// @formatter:on
 	}
@@ -106,8 +106,8 @@ public final class JwtBearerReactiveOAuth2AuthorizedClientProvider implements Re
 	private Mono<Jwt> resolveJwtAssertion(OAuth2AuthorizationContext context) {
 		// @formatter:off
 		return Mono.just(context)
-				.map((ctx) -> ctx.getPrincipal().getPrincipal())
-				.filter((principal) -> principal instanceof Jwt)
+				.map(ctx -> ctx.getPrincipal().getPrincipal())
+				.filter(Jwt.class::isInstance)
 				.cast(Jwt.class);
 		// @formatter:on
 	}

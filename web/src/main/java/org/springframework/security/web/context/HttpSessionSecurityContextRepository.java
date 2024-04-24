@@ -103,7 +103,7 @@ public class HttpSessionSecurityContextRepository implements SecurityContextRepo
 
 	private boolean allowSessionCreation = true;
 
-	private boolean disableUrlRewriting = false;
+	private boolean disableUrlRewriting;
 
 	private String springSecurityContextKey = SPRING_SECURITY_CONTEXT_KEY;
 
@@ -418,7 +418,7 @@ public class HttpSessionSecurityContextRepository implements SecurityContextRepo
 				}
 				return;
 			}
-			httpSession = (httpSession != null) ? httpSession : createNewSessionIfAllowed(context);
+			httpSession = httpSession != null ? httpSession : createNewSessionIfAllowed(context);
 			// If HttpSession exists, store current SecurityContext but only if it has
 			// actually changed in this thread (see SEC-37, SEC-1307, SEC-1528)
 			if (httpSession != null) {

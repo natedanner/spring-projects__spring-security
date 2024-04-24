@@ -185,7 +185,7 @@ public final class HpkpHeaderWriter implements HeaderWriter {
 			this.logger.debug("Not injecting HPKP header since there aren't any pins");
 			return;
 		}
-		String headerName = (this.reportOnly) ? HPKP_RO_HEADER_NAME : HPKP_HEADER_NAME;
+		String headerName = this.reportOnly ? HPKP_RO_HEADER_NAME : HPKP_HEADER_NAME;
 		if (!response.containsHeader(headerName)) {
 			response.setHeader(headerName, this.hpkpHeaderValue);
 		}

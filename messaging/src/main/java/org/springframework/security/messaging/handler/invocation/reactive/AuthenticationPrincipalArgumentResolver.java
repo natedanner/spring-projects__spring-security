@@ -94,7 +94,7 @@ import org.springframework.util.StringUtils;
  */
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	private BeanResolver beanResolver;
 
@@ -129,10 +129,10 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
 		// @formatter:off
 		return ReactiveSecurityContextHolder.getContext()
 				.map(SecurityContext::getAuthentication)
-				.flatMap((a) -> {
+				.flatMap(a -> {
 					Object p = resolvePrincipal(parameter, a.getPrincipal());
 					Mono<Object> principal = Mono.justOrEmpty(p);
-					return (adapter != null) ? Mono.just(adapter.fromPublisher(principal)) : principal;
+					return adapter != null ? Mono.just(adapter.fromPublisher(principal)) : principal;
 				});
 		// @formatter:on
 	}

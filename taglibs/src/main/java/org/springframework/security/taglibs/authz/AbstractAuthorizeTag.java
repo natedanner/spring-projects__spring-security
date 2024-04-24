@@ -169,7 +169,7 @@ public abstract class AbstractAuthorizeTag {
 	}
 
 	public void setMethod(String method) {
-		this.method = (method != null) ? method.toUpperCase() : null;
+		this.method = method != null ? method.toUpperCase() : null;
 	}
 
 	private SecurityContext getContext() {

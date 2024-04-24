@@ -91,7 +91,7 @@ public class DefaultFiltersTests {
 		assertThat(filterChain.getFilters()).hasSize(1);
 		long filter = filterChain.getFilters()
 			.stream()
-			.filter((it) -> it instanceof UsernamePasswordAuthenticationFilter)
+			.filter(UsernamePasswordAuthenticationFilter.class::isInstance)
 			.count();
 		assertThat(filter).isEqualTo(1);
 	}
@@ -183,7 +183,7 @@ public class DefaultFiltersTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
-			return (web) -> web.ignoring().requestMatchers("/resources/**");
+			return web -> web.ignoring().requestMatchers("/resources/**");
 		}
 
 		@Bean

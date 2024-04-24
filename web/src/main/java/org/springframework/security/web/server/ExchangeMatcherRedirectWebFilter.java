@@ -63,7 +63,7 @@ public final class ExchangeMatcherRedirectWebFilter implements WebFilter {
 		return this.exchangeMatcher.matches(exchange)
 				.filter(MatchResult::isMatch)
 				.switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
-				.flatMap((result) -> this.redirectStrategy.sendRedirect(exchange, this.redirectUri));
+				.flatMap(result -> this.redirectStrategy.sendRedirect(exchange, this.redirectUri));
 		// @formatter:on
 	}
 

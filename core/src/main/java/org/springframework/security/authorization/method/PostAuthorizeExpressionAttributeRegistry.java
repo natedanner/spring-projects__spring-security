@@ -65,7 +65,7 @@ final class PostAuthorizeExpressionAttributeRegistry extends AbstractExpressionA
 
 	private PostAuthorize findPostAuthorizeAnnotation(Method method) {
 		PostAuthorize postAuthorize = AuthorizationAnnotationUtils.findUniqueAnnotation(method, PostAuthorize.class);
-		return (postAuthorize != null) ? postAuthorize
+		return postAuthorize != null ? postAuthorize
 				: AuthorizationAnnotationUtils.findUniqueAnnotation(method.getDeclaringClass(), PostAuthorize.class);
 	}
 

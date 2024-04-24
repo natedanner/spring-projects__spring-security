@@ -117,7 +117,7 @@ public class NamespaceHttpFormLoginTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
-			return (web) -> web.ignoring().requestMatchers("/resources/**");
+			return web -> web.ignoring().requestMatchers("/resources/**");
 		}
 
 		@Bean

@@ -44,7 +44,7 @@ public final class CookieClearingLogoutHandler implements LogoutHandler {
 		Assert.notNull(cookiesToClear, "List of cookies cannot be null");
 		List<Function<HttpServletRequest, Cookie>> cookieList = new ArrayList<>();
 		for (String cookieName : cookiesToClear) {
-			cookieList.add((request) -> {
+			cookieList.add(request -> {
 				Cookie cookie = new Cookie(cookieName, null);
 				String contextPath = request.getContextPath();
 				String cookiePath = StringUtils.hasText(contextPath) ? contextPath : "/";
@@ -66,14 +66,14 @@ public final class CookieClearingLogoutHandler implements LogoutHandler {
 		List<Function<HttpServletRequest, Cookie>> cookieList = new ArrayList<>();
 		for (Cookie cookie : cookiesToClear) {
 			Assert.isTrue(cookie.getMaxAge() == 0, "Cookie maxAge must be 0");
-			cookieList.add((request) -> cookie);
+			cookieList.add(request -> cookie);
 		}
 		this.cookiesToClear = cookieList;
 	}
 
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-		this.cookiesToClear.forEach((f) -> response.addCookie(f.apply(request)));
+		this.cookiesToClear.forEach(f -> response.addCookie(f.apply(request)));
 	}
 
 }

@@ -43,12 +43,9 @@ final class ObjectToListStringConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		if (targetType.getElementTypeDescriptor() == null
-				|| targetType.getElementTypeDescriptor().getType().equals(String.class) || sourceType == null
-				|| ClassUtils.isAssignable(sourceType.getType(), targetType.getElementTypeDescriptor().getType())) {
-			return true;
-		}
-		return false;
+		return targetType.getElementTypeDescriptor() == null
+			|| targetType.getElementTypeDescriptor().getType().equals(String.class) || sourceType == null
+			|| ClassUtils.isAssignable(sourceType.getType(), targetType.getElementTypeDescriptor().getType());
 	}
 
 	@Override

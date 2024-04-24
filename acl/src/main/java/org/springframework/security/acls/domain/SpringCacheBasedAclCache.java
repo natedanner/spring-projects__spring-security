@@ -43,9 +43,9 @@ public class SpringCacheBasedAclCache implements AclCache {
 
 	private final Cache cache;
 
-	private PermissionGrantingStrategy permissionGrantingStrategy;
+	private final PermissionGrantingStrategy permissionGrantingStrategy;
 
-	private AclAuthorizationStrategy aclAuthorizationStrategy;
+	private final AclAuthorizationStrategy aclAuthorizationStrategy;
 
 	public SpringCacheBasedAclCache(Cache cache, PermissionGrantingStrategy permissionGrantingStrategy,
 			AclAuthorizationStrategy aclAuthorizationStrategy) {

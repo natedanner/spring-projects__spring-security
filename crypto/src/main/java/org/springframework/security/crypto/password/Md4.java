@@ -81,7 +81,7 @@ class Md4 {
 		}
 		long bitCount = this.byteCount * 8;
 		for (int i = 0; i < 64; i += 8) {
-			this.buffer[this.bufferOffset++] = (byte) (bitCount >>> (i));
+			this.buffer[this.bufferOffset++] = (byte) (bitCount >>> i);
 		}
 		update(this.buffer, 0);
 		digest(buffer, offset);

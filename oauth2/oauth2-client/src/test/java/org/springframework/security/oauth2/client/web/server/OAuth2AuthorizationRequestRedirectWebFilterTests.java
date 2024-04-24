@@ -77,7 +77,7 @@ public class OAuth2AuthorizationRequestRedirectWebFilterTests {
 	public void setup() {
 		this.filter = new OAuth2AuthorizationRequestRedirectWebFilter(this.clientRepository);
 		this.filter.setAuthorizationRequestRepository(this.authzRequestRepository);
-		FilteringWebHandler webHandler = new FilteringWebHandler((e) -> e.getResponse().setComplete(),
+		FilteringWebHandler webHandler = new FilteringWebHandler(e -> e.getResponse().setComplete(),
 				Arrays.asList(this.filter));
 		this.client = WebTestClient.bindToWebHandler(webHandler).build();
 	}
@@ -161,7 +161,7 @@ public class OAuth2AuthorizationRequestRedirectWebFilterTests {
 			.willReturn(Mono.just(this.registration));
 		given(this.authzRequestRepository.saveAuthorizationRequest(any(), any())).willReturn(Mono.empty());
 		FilteringWebHandler webHandler = new FilteringWebHandler(
-				(e) -> Mono.error(new ClientAuthorizationRequiredException(this.registration.getRegistrationId())),
+				e -> Mono.error(new ClientAuthorizationRequiredException(this.registration.getRegistrationId())),
 				Arrays.asList(this.filter));
 		// @formatter:off
 		this.client = WebTestClient.bindToWebHandler(webHandler)
@@ -182,7 +182,7 @@ public class OAuth2AuthorizationRequestRedirectWebFilterTests {
 		this.filter.setRequestCache(this.requestCache);
 		given(this.requestCache.saveRequest(any())).willReturn(Mono.empty());
 		FilteringWebHandler webHandler = new FilteringWebHandler(
-				(e) -> Mono.error(new ClientAuthorizationRequiredException(this.registration.getRegistrationId())),
+				e -> Mono.error(new ClientAuthorizationRequiredException(this.registration.getRegistrationId())),
 				Arrays.asList(this.filter));
 		// @formatter:off
 		this.client = WebTestClient.bindToWebHandler(webHandler)
@@ -241,7 +241,7 @@ public class OAuth2AuthorizationRequestRedirectWebFilterTests {
 
 		// @formatter:off
 		StepVerifier.create(result.getResponseBody())
-				.assertNext((uri) -> {
+				.assertNext(uri -> {
 					URI location = URI.create(uri);
 
 					assertThat(location)

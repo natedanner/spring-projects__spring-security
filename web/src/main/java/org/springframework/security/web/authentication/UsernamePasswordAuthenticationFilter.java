@@ -71,13 +71,13 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		if (this.postOnly && !request.getMethod().equals("POST")) {
+		if (this.postOnly && !"POST".equals(request.getMethod())) {
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		}
 		String username = obtainUsername(request);
-		username = (username != null) ? username.trim() : "";
+		username = username != null ? username.trim() : "";
 		String password = obtainPassword(request);
-		password = (password != null) ? password : "";
+		password = password != null ? password : "";
 		UsernamePasswordAuthenticationToken authRequest = UsernamePasswordAuthenticationToken.unauthenticated(username,
 				password);
 		// Allow subclasses to set the "details" property

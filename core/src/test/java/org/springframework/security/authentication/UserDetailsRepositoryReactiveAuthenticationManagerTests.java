@@ -87,7 +87,7 @@ public class UserDetailsRepositoryReactiveAuthenticationManagerTests {
 
 	@Test
 	public void authenticateWhenCustomSchedulerThenUsed() {
-		given(this.scheduler.schedule(any())).willAnswer((a) -> {
+		given(this.scheduler.schedule(any())).willAnswer(a -> {
 			Runnable r = a.getArgument(0);
 			return Schedulers.immediate().schedule(r);
 		});

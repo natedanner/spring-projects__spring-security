@@ -176,7 +176,7 @@ public class WebSecurityTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer(HandlerMappingIntrospector introspector) {
-			return (web) -> web.ignoring().requestMatchers(new MvcRequestMatcher(introspector, "/path"));
+			return web -> web.ignoring().requestMatchers(new MvcRequestMatcher(introspector, "/path"));
 		}
 
 		@Bean
@@ -215,7 +215,7 @@ public class WebSecurityTests {
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer(HandlerMappingIntrospector introspector) {
 			MvcRequestMatcher.Builder builder = new MvcRequestMatcher.Builder(introspector).servletPath("/spring");
-			return (web) -> web.ignoring().requestMatchers(builder.pattern("/path")).requestMatchers("/notused");
+			return web -> web.ignoring().requestMatchers(builder.pattern("/path")).requestMatchers("/notused");
 		}
 
 		@Bean
@@ -263,7 +263,7 @@ public class WebSecurityTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
-			return (web) -> web
+			return web -> web
 				.requestRejectedHandler(new HttpStatusRequestRejectedHandler(HttpStatus.BAD_REQUEST.value()));
 		}
 

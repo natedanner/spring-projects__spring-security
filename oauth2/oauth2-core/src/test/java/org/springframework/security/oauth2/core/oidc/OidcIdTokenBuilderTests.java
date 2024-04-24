@@ -95,7 +95,7 @@ public class OidcIdTokenBuilderTests {
 		OidcIdToken.Builder idTokenBuilder = OidcIdToken.withTokenValue("token")
 				.claim("needs", "a claim");
 		OidcIdToken idToken = idTokenBuilder.subject("sub")
-				.claims((claims) -> claims.remove(IdTokenClaimNames.SUB))
+				.claims(claims -> claims.remove(IdTokenClaimNames.SUB))
 				.build();
 		// @formatter:on
 		assertThat(idToken.getSubject()).isNull();
@@ -108,7 +108,7 @@ public class OidcIdTokenBuilderTests {
 		String value = new String("value");
 		// @formatter:off
 		OidcIdToken idToken = idTokenBuilder
-				.claims((claims) -> claims.put(name, value))
+				.claims(claims -> claims.put(name, value))
 				.build();
 		// @formatter:on
 		assertThat(idToken.getClaims()).hasSize(1);

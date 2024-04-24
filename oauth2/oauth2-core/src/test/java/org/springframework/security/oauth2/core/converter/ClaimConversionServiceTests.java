@@ -109,7 +109,7 @@ public class ClaimConversionServiceTests {
 		Instant instant = Instant.now();
 		assertThat(this.conversionService.convert(String.valueOf(instant.getEpochSecond()), Instant.class))
 			.isEqualTo(instant.truncatedTo(ChronoUnit.SECONDS));
-		assertThat(this.conversionService.convert(String.valueOf(instant.toString()), Instant.class))
+		assertThat(this.conversionService.convert(instant.toString(), Instant.class))
 			.isEqualTo(instant);
 	}
 
@@ -206,33 +206,24 @@ public class ClaimConversionServiceTests {
 
 	@Test
 	public void convertMapStringObjectWhenMapStringObjectThenReturnNotSameButEqual() {
-		Map<String, Object> mapStringObject = new HashMap<String, Object>() {
-			{
-				put("key1", "value1");
-				put("key2", "value2");
-				put("key3", "value3");
-			}
-		};
+		Map<String, Object> mapStringObject = new HashMap<>();
+		mapStringObject.put("key1", "value1");
+		mapStringObject.put("key2", "value2");
+		mapStringObject.put("key3", "value3");
 		assertThat(this.conversionService.convert(mapStringObject, Map.class)).isNotSameAs(mapStringObject)
 			.isEqualTo(mapStringObject);
 	}
 
 	@Test
 	public void convertMapStringObjectWhenMapIntegerObjectThenConverts() {
-		Map<String, Object> mapStringObject = new HashMap<String, Object>() {
-			{
-				put("1", "value1");
-				put("2", "value2");
-				put("3", "value3");
-			}
-		};
-		Map<Integer, Object> mapIntegerObject = new HashMap<Integer, Object>() {
-			{
-				put(1, "value1");
-				put(2, "value2");
-				put(3, "value3");
-			}
-		};
+		Map<String, Object> mapStringObject = new HashMap<>();
+		mapStringObject.put("1", "value1");
+		mapStringObject.put("2", "value2");
+		mapStringObject.put("3", "value3");
+		Map<Integer, Object> mapIntegerObject = new HashMap<>();
+		mapIntegerObject.put(1, "value1");
+		mapIntegerObject.put(2, "value2");
+		mapIntegerObject.put(3, "value3");
 		assertThat(this.conversionService.convert(mapIntegerObject, Map.class)).isEqualTo(mapStringObject);
 	}
 
@@ -242,12 +233,9 @@ public class ClaimConversionServiceTests {
 		jsonObject.put("1", "value1");
 		jsonObject.put("2", "value2");
 
-		Map<String, Object> mapStringObject = new HashMap<String, Object>() {
-			{
-				put("1", "value1");
-				put("2", "value2");
-			}
-		};
+		Map<String, Object> mapStringObject = new HashMap<>();
+		mapStringObject.put("1", "value1");
+		mapStringObject.put("2", "value2");
 		assertThat(this.conversionService.convert(jsonObject, Map.class)).isNotInstanceOf(JSONObject.class)
 			.isEqualTo(mapStringObject);
 	}

@@ -67,10 +67,10 @@ public class TestLoginModule implements LoginModule {
 
 	@Override
 	public boolean login() throws LoginException {
-		if (!this.user.equals("user")) {
+		if (!"user".equals(this.user)) {
 			throw new LoginException("Bad User");
 		}
-		if (!this.password.equals("password")) {
+		if (!"password".equals(this.password)) {
 			throw new LoginException("Bad Password");
 		}
 		this.subject.getPrincipals().add(() -> "TEST_PRINCIPAL");

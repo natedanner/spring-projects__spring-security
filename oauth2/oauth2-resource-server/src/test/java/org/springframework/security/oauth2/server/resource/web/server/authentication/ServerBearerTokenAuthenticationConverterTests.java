@@ -88,7 +88,7 @@ public class ServerBearerTokenAuthenticationConverterTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> convertToToken(request))
-				.satisfies((ex) -> {
+				.satisfies(ex -> {
 					BearerTokenError error = (BearerTokenError) ex.getError();
 					assertThat(error.getErrorCode()).isEqualTo(BearerTokenErrorCodes.INVALID_TOKEN);
 					assertThat(error.getUri()).isEqualTo("https://tools.ietf.org/html/rfc6750#section-3.1");
@@ -129,7 +129,7 @@ public class ServerBearerTokenAuthenticationConverterTests {
 				.header(HttpHeaders.AUTHORIZATION, "Bearer ");
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> convertToToken(request))
-				.withMessageContaining(("Bearer token is malformed"));
+				.withMessageContaining("Bearer token is malformed");
 		// @formatter:on
 	}
 
@@ -140,7 +140,7 @@ public class ServerBearerTokenAuthenticationConverterTests {
 				.header(HttpHeaders.AUTHORIZATION, "Bearer an\"invalid\"token");
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> convertToToken(request))
-				.withMessageContaining(("Bearer token is malformed"));
+				.withMessageContaining("Bearer token is malformed");
 		// @formatter:on
 	}
 
@@ -185,7 +185,7 @@ public class ServerBearerTokenAuthenticationConverterTests {
 				.queryParam("access_token", "");
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> convertToToken(request))
-				.satisfies((ex) -> {
+				.satisfies(ex -> {
 					BearerTokenError error = (BearerTokenError) ex.getError();
 					assertThat(error.getErrorCode()).isEqualTo(BearerTokenErrorCodes.INVALID_TOKEN);
 					assertThat(error.getUri()).isEqualTo("https://tools.ietf.org/html/rfc6750#section-3.1");
@@ -208,7 +208,7 @@ public class ServerBearerTokenAuthenticationConverterTests {
 		MockServerHttpRequest.BaseBuilder<?> request = MockServerHttpRequest.get("/")
 			.queryParam("access_token", TEST_TOKEN, TEST_TOKEN);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class).isThrownBy(() -> convertToToken(request))
-			.satisfies((ex) -> {
+			.satisfies(ex -> {
 				BearerTokenError error = (BearerTokenError) ex.getError();
 				assertThat(error.getErrorCode()).isEqualTo(BearerTokenErrorCodes.INVALID_REQUEST);
 				assertThat(error.getUri()).isEqualTo("https://tools.ietf.org/html/rfc6750#section-3.1");

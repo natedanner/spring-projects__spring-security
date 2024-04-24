@@ -565,13 +565,13 @@ public class PrePostMethodSecurityConfigurationTests {
 	}
 
 	private static Consumer<ConfigurableWebApplicationContext> disallowBeanOverriding() {
-		return (context) -> ((AnnotationConfigWebApplicationContext) context).setAllowBeanDefinitionOverriding(false);
+		return context -> ((AnnotationConfigWebApplicationContext) context).setAllowBeanDefinitionOverriding(false);
 	}
 
 	private static Advisor returnAdvisor(int order) {
 		JdkRegexpMethodPointcut pointcut = new JdkRegexpMethodPointcut();
 		pointcut.setPattern(".*MethodSecurityServiceImpl.*");
-		MethodInterceptor interceptor = (mi) -> mi.getArguments()[0];
+		MethodInterceptor interceptor = mi -> mi.getArguments()[0];
 		DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(pointcut, interceptor);
 		advisor.setOrder(order);
 		return advisor;
@@ -712,7 +712,7 @@ public class PrePostMethodSecurityConfigurationTests {
 		Advisor customAfterAdvice(SecurityContextHolderStrategy strategy) {
 			JdkRegexpMethodPointcut pointcut = new JdkRegexpMethodPointcut();
 			pointcut.setPattern(".*MethodSecurityServiceImpl.*securedUser");
-			MethodInterceptor interceptor = (mi) -> {
+			MethodInterceptor interceptor = mi -> {
 				Authentication auth = strategy.getContext().getAuthentication();
 				if ("bob".equals(auth.getName())) {
 					return "granted";

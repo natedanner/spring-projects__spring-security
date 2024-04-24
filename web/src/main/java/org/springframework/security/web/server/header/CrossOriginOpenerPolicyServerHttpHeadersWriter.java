@@ -48,7 +48,7 @@ public final class CrossOriginOpenerPolicyServerHttpHeadersWriter implements Ser
 
 	@Override
 	public Mono<Void> writeHttpHeaders(ServerWebExchange exchange) {
-		return (this.delegate != null) ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
+		return this.delegate != null ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
 	}
 
 	private static ServerHttpHeadersWriter createDelegate(CrossOriginOpenerPolicy openerPolicy) {

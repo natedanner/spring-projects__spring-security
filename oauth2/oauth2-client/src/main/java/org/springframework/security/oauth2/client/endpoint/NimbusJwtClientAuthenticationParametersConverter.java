@@ -89,7 +89,7 @@ public final class NimbusJwtClientAuthenticationParametersConverter<T extends Ab
 
 	private final Map<String, JwsEncoderHolder> jwsEncoders = new ConcurrentHashMap<>();
 
-	private Consumer<JwtClientAuthenticationContext<T>> jwtClientAssertionCustomizer = (context) -> {
+	private Consumer<JwtClientAuthenticationContext<T>> jwtClientAssertionCustomizer = context -> {
 	};
 
 	/**

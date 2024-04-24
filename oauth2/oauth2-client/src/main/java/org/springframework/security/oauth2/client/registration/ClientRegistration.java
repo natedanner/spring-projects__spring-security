@@ -378,7 +378,7 @@ public final class ClientRegistration implements Serializable {
 			this.clientAuthenticationMethod = clientRegistration.clientAuthenticationMethod;
 			this.authorizationGrantType = clientRegistration.authorizationGrantType;
 			this.redirectUri = clientRegistration.redirectUri;
-			this.scopes = (clientRegistration.scopes != null) ? new HashSet<>(clientRegistration.scopes) : null;
+			this.scopes = clientRegistration.scopes != null ? new HashSet<>(clientRegistration.scopes) : null;
 			this.authorizationUri = clientRegistration.providerDetails.authorizationUri;
 			this.tokenUri = clientRegistration.providerDetails.tokenUri;
 			this.userInfoUri = clientRegistration.providerDetails.userInfoEndpoint.uri;
@@ -387,7 +387,7 @@ public final class ClientRegistration implements Serializable {
 			this.jwkSetUri = clientRegistration.providerDetails.jwkSetUri;
 			this.issuerUri = clientRegistration.providerDetails.issuerUri;
 			Map<String, Object> configurationMetadata = clientRegistration.providerDetails.configurationMetadata;
-			if (configurationMetadata != Collections.EMPTY_MAP) {
+			if (configurationMetadata != Collections.emptyMap()) {
 				this.configurationMetadata = new HashMap<>(configurationMetadata);
 			}
 			this.clientName = clientRegistration.clientName;
@@ -619,7 +619,7 @@ public final class ClientRegistration implements Serializable {
 			clientRegistration.registrationId = this.registrationId;
 			clientRegistration.clientId = this.clientId;
 			clientRegistration.clientSecret = StringUtils.hasText(this.clientSecret) ? this.clientSecret : "";
-			clientRegistration.clientAuthenticationMethod = (this.clientAuthenticationMethod != null)
+			clientRegistration.clientAuthenticationMethod = this.clientAuthenticationMethod != null
 					? this.clientAuthenticationMethod : deduceClientAuthenticationMethod(clientRegistration);
 			clientRegistration.authorizationGrantType = this.authorizationGrantType;
 			clientRegistration.redirectUri = this.redirectUri;
@@ -699,7 +699,7 @@ public final class ClientRegistration implements Serializable {
 
 		private static boolean validateScope(String scope) {
 			return scope == null || scope.chars()
-				.allMatch((c) -> withinTheRangeOf(c, 0x21, 0x21) || withinTheRangeOf(c, 0x23, 0x5B)
+				.allMatch(c -> withinTheRangeOf(c, 0x21, 0x21) || withinTheRangeOf(c, 0x23, 0x5B)
 						|| withinTheRangeOf(c, 0x5D, 0x7E));
 		}
 

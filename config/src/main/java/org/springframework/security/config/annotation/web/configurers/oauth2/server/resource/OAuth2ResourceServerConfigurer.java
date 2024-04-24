@@ -166,7 +166,7 @@ public final class OAuth2ResourceServerConfigurer<H extends HttpSecurityBuilder<
 
 	private AuthenticationEntryPoint authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
 
-	private BearerTokenRequestMatcher requestMatcher = new BearerTokenRequestMatcher();
+	private final BearerTokenRequestMatcher requestMatcher = new BearerTokenRequestMatcher();
 
 	public OAuth2ResourceServerConfigurer(ApplicationContext context) {
 		Assert.notNull(context, "context cannot be null");
@@ -274,7 +274,7 @@ public final class OAuth2ResourceServerConfigurer<H extends HttpSecurityBuilder<
 		AuthenticationManagerResolver resolver = this.authenticationManagerResolver;
 		if (resolver == null) {
 			AuthenticationManager authenticationManager = getAuthenticationManager(http);
-			resolver = (request) -> authenticationManager;
+			resolver = request -> authenticationManager;
 		}
 
 		BearerTokenAuthenticationFilter filter = new BearerTokenAuthenticationFilter(resolver);

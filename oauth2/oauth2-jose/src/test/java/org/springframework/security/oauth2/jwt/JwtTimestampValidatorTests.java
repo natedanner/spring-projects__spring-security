@@ -65,7 +65,7 @@ public class JwtTimestampValidatorTests {
 				.collect(Collectors.toList());
 		// @formatter:on
 		assertThat(messages).contains("Jwt expired at " + oneHourAgo);
-		assertThat(details).allMatch((error) -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
+		assertThat(details).allMatch(error -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class JwtTimestampValidatorTests {
 				.collect(Collectors.toList());
 		// @formatter:on
 		assertThat(messages).contains("Jwt used before " + oneHourFromNow);
-		assertThat(details).allMatch((error) -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
+		assertThat(details).allMatch(error -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
 	}
 
 	@Test
@@ -129,14 +129,14 @@ public class JwtTimestampValidatorTests {
 
 	@Test
 	public void validateWhenNeitherExpiryNorNotBeforeIsSpecifiedThenReturnsSuccessfulResult() {
-		Jwt jwt = TestJwts.jwt().claims((c) -> c.remove(JwtClaimNames.EXP)).build();
+		Jwt jwt = TestJwts.jwt().claims(c -> c.remove(JwtClaimNames.EXP)).build();
 		JwtTimestampValidator jwtValidator = new JwtTimestampValidator();
 		assertThat(jwtValidator.validate(jwt).hasErrors()).isFalse();
 	}
 
 	@Test
 	public void validateWhenNotBeforeIsValidAndExpiryIsNotSpecifiedThenReturnsSuccessfulResult() {
-		Jwt jwt = TestJwts.jwt().claims((c) -> c.remove(JwtClaimNames.EXP)).notBefore(Instant.MIN).build();
+		Jwt jwt = TestJwts.jwt().claims(c -> c.remove(JwtClaimNames.EXP)).notBefore(Instant.MIN).build();
 		JwtTimestampValidator jwtValidator = new JwtTimestampValidator();
 		assertThat(jwtValidator.validate(jwt).hasErrors()).isFalse();
 	}

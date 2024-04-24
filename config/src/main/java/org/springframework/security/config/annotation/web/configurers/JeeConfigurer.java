@@ -229,7 +229,7 @@ public final class JeeConfigurer<H extends HttpSecurityBuilder<H>> extends Abstr
 	 * @return the {@link AuthenticationUserDetailsService} to use
 	 */
 	private AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> getUserDetailsService() {
-		return (this.authenticationUserDetailsService != null) ? this.authenticationUserDetailsService
+		return this.authenticationUserDetailsService != null ? this.authenticationUserDetailsService
 				: new PreAuthenticatedGrantedAuthoritiesUserDetailsService();
 	}
 

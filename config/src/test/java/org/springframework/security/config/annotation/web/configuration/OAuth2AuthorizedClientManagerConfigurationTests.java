@@ -102,7 +102,7 @@ import static org.mockito.Mockito.verify;
  */
 public class OAuth2AuthorizedClientManagerConfigurationTests {
 
-	private static OAuth2AccessTokenResponseClient<? super AbstractOAuth2AuthorizationGrantRequest> MOCK_RESPONSE_CLIENT;
+	private static OAuth2AccessTokenResponseClient<? super AbstractOAuth2AuthorizationGrantRequest> mockResponseClient;
 
 	public final SpringTestContext spring = new SpringTestContext(this);
 
@@ -125,7 +125,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 	@BeforeEach
 	@SuppressWarnings("unchecked")
 	public void setUp() {
-		MOCK_RESPONSE_CLIENT = mock(OAuth2AccessTokenResponseClient.class);
+		mockResponseClient = mock(OAuth2AccessTokenResponseClient.class);
 		this.request = new MockHttpServletRequest();
 		this.response = new MockHttpServletResponse();
 	}
@@ -172,7 +172,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 	private void testRefreshTokenGrant() {
 		OAuth2AccessTokenResponse accessTokenResponse = TestOAuth2AccessTokenResponses.accessTokenResponse().build();
-		given(MOCK_RESPONSE_CLIENT.getTokenResponse(any(OAuth2RefreshTokenGrantRequest.class)))
+		given(mockResponseClient.getTokenResponse(any(OAuth2RefreshTokenGrantRequest.class)))
 			.willReturn(accessTokenResponse);
 
 		TestingAuthenticationToken authentication = new TestingAuthenticationToken("user", null);
@@ -194,7 +194,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		ArgumentCaptor<OAuth2RefreshTokenGrantRequest> grantRequestCaptor = ArgumentCaptor
 			.forClass(OAuth2RefreshTokenGrantRequest.class);
-		verify(MOCK_RESPONSE_CLIENT).getTokenResponse(grantRequestCaptor.capture());
+		verify(mockResponseClient).getTokenResponse(grantRequestCaptor.capture());
 
 		OAuth2RefreshTokenGrantRequest grantRequest = grantRequestCaptor.getValue();
 		assertThat(grantRequest.getClientRegistration().getRegistrationId())
@@ -218,7 +218,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 	private void testClientCredentialsGrant() {
 		OAuth2AccessTokenResponse accessTokenResponse = TestOAuth2AccessTokenResponses.accessTokenResponse().build();
-		given(MOCK_RESPONSE_CLIENT.getTokenResponse(any(OAuth2ClientCredentialsGrantRequest.class)))
+		given(mockResponseClient.getTokenResponse(any(OAuth2ClientCredentialsGrantRequest.class)))
 			.willReturn(accessTokenResponse);
 
 		TestingAuthenticationToken authentication = new TestingAuthenticationToken("user", null);
@@ -236,7 +236,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		ArgumentCaptor<OAuth2ClientCredentialsGrantRequest> grantRequestCaptor = ArgumentCaptor
 			.forClass(OAuth2ClientCredentialsGrantRequest.class);
-		verify(MOCK_RESPONSE_CLIENT).getTokenResponse(grantRequestCaptor.capture());
+		verify(mockResponseClient).getTokenResponse(grantRequestCaptor.capture());
 
 		OAuth2ClientCredentialsGrantRequest grantRequest = grantRequestCaptor.getValue();
 		assertThat(grantRequest.getClientRegistration().getRegistrationId())
@@ -258,7 +258,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 	private void testPasswordGrant() {
 		OAuth2AccessTokenResponse accessTokenResponse = TestOAuth2AccessTokenResponses.accessTokenResponse().build();
-		given(MOCK_RESPONSE_CLIENT.getTokenResponse(any(OAuth2PasswordGrantRequest.class)))
+		given(mockResponseClient.getTokenResponse(any(OAuth2PasswordGrantRequest.class)))
 			.willReturn(accessTokenResponse);
 
 		TestingAuthenticationToken authentication = new TestingAuthenticationToken("user", "password");
@@ -278,7 +278,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		ArgumentCaptor<OAuth2PasswordGrantRequest> grantRequestCaptor = ArgumentCaptor
 			.forClass(OAuth2PasswordGrantRequest.class);
-		verify(MOCK_RESPONSE_CLIENT).getTokenResponse(grantRequestCaptor.capture());
+		verify(mockResponseClient).getTokenResponse(grantRequestCaptor.capture());
 
 		OAuth2PasswordGrantRequest grantRequest = grantRequestCaptor.getValue();
 		assertThat(grantRequest.getClientRegistration().getRegistrationId())
@@ -302,7 +302,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 	private void testJwtBearerGrant() {
 		OAuth2AccessTokenResponse accessTokenResponse = TestOAuth2AccessTokenResponses.accessTokenResponse().build();
-		given(MOCK_RESPONSE_CLIENT.getTokenResponse(any(JwtBearerGrantRequest.class))).willReturn(accessTokenResponse);
+		given(mockResponseClient.getTokenResponse(any(JwtBearerGrantRequest.class))).willReturn(accessTokenResponse);
 
 		JwtAuthenticationToken authentication = new JwtAuthenticationToken(getJwt());
 		ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId("okta");
@@ -318,7 +318,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 		assertThat(authorizedClient).isNotNull();
 
 		ArgumentCaptor<JwtBearerGrantRequest> grantRequestCaptor = ArgumentCaptor.forClass(JwtBearerGrantRequest.class);
-		verify(MOCK_RESPONSE_CLIENT).getTokenResponse(grantRequestCaptor.capture());
+		verify(mockResponseClient).getTokenResponse(grantRequestCaptor.capture());
 
 		JwtBearerGrantRequest grantRequest = grantRequestCaptor.getValue();
 		assertThat(grantRequest.getClientRegistration().getRegistrationId())
@@ -433,7 +433,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 		SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 				.oauth2Login(Customizer.withDefaults())
 				.oauth2Client(Customizer.withDefaults());
 			return http.build();
@@ -474,8 +474,8 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		@Bean
 		Consumer<DefaultOAuth2AuthorizedClientManager> authorizedClientManagerConsumer() {
-			return (authorizedClientManager) -> authorizedClientManager
-				.setContextAttributesMapper((authorizeRequest) -> {
+			return authorizedClientManager -> authorizedClientManager
+				.setContextAttributesMapper(authorizeRequest -> {
 					HttpServletRequest request = Objects
 						.requireNonNull(authorizeRequest.getAttribute(HttpServletRequest.class.getName()));
 					String username = request.getParameter(OAuth2ParameterNames.USERNAME);
@@ -500,7 +500,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 		@Override
 		public OAuth2AccessTokenResponse getTokenResponse(
 				OAuth2AuthorizationCodeGrantRequest authorizationGrantRequest) {
-			return MOCK_RESPONSE_CLIENT.getTokenResponse(authorizationGrantRequest);
+			return mockResponseClient.getTokenResponse(authorizationGrantRequest);
 		}
 
 	}
@@ -510,7 +510,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		@Override
 		public OAuth2AccessTokenResponse getTokenResponse(OAuth2RefreshTokenGrantRequest authorizationGrantRequest) {
-			return MOCK_RESPONSE_CLIENT.getTokenResponse(authorizationGrantRequest);
+			return mockResponseClient.getTokenResponse(authorizationGrantRequest);
 		}
 
 	}
@@ -521,7 +521,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 		@Override
 		public OAuth2AccessTokenResponse getTokenResponse(
 				OAuth2ClientCredentialsGrantRequest authorizationGrantRequest) {
-			return MOCK_RESPONSE_CLIENT.getTokenResponse(authorizationGrantRequest);
+			return mockResponseClient.getTokenResponse(authorizationGrantRequest);
 		}
 
 	}
@@ -530,7 +530,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		@Override
 		public OAuth2AccessTokenResponse getTokenResponse(OAuth2PasswordGrantRequest authorizationGrantRequest) {
-			return MOCK_RESPONSE_CLIENT.getTokenResponse(authorizationGrantRequest);
+			return mockResponseClient.getTokenResponse(authorizationGrantRequest);
 		}
 
 	}
@@ -539,7 +539,7 @@ public class OAuth2AuthorizedClientManagerConfigurationTests {
 
 		@Override
 		public OAuth2AccessTokenResponse getTokenResponse(JwtBearerGrantRequest authorizationGrantRequest) {
-			return MOCK_RESPONSE_CLIENT.getTokenResponse(authorizationGrantRequest);
+			return mockResponseClient.getTokenResponse(authorizationGrantRequest);
 		}
 
 	}

@@ -39,9 +39,9 @@ import static org.assertj.core.api.Assertions.assertThatObject;
  */
 public class ClaimAccessorTests {
 
-	private Map<String, Object> claims = new HashMap<>();
+	private final Map<String, Object> claims = new HashMap<>();
 
-	private ClaimAccessor claimAccessor = (() -> this.claims);
+	private final ClaimAccessor claimAccessor = () -> this.claims;
 
 	@BeforeEach
 	public void setup() {

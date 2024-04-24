@@ -97,7 +97,7 @@ public class GlobalMethodSecurityConfiguration implements ImportAware, SmartInit
 
 	private static final Log logger = LogFactory.getLog(GlobalMethodSecurityConfiguration.class);
 
-	private ObjectPostProcessor<Object> objectPostProcessor = new ObjectPostProcessor<Object>() {
+	private ObjectPostProcessor<Object> objectPostProcessor = new ObjectPostProcessor<>() {
 
 		@Override
 		public <T> T postProcess(T object) {
@@ -324,7 +324,7 @@ public class GlobalMethodSecurityConfiguration implements ImportAware, SmartInit
 			this.auth = new AuthenticationManagerBuilder(this.objectPostProcessor);
 			this.auth.authenticationEventPublisher(eventPublisher);
 			configure(this.auth);
-			this.authenticationManager = (this.disableAuthenticationRegistry)
+			this.authenticationManager = this.disableAuthenticationRegistry
 					? getAuthenticationConfiguration().getAuthenticationManager() : this.auth.build();
 		}
 		return this.authenticationManager;

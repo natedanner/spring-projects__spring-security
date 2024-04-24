@@ -65,7 +65,7 @@ final class SupplierDeferredSecurityContext implements DeferredSecurityContext {
 		}
 
 		this.securityContext = this.supplier.get();
-		this.missingContext = (this.securityContext == null);
+		this.missingContext = this.securityContext == null;
 		if (this.missingContext) {
 			this.securityContext = this.strategy.createEmptyContext();
 			if (logger.isTraceEnabled()) {

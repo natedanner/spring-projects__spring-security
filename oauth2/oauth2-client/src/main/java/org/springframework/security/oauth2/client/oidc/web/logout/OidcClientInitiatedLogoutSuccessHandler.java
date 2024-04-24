@@ -71,7 +71,7 @@ public class OidcClientInitiatedLogoutSuccessHandler extends SimpleUrlLogoutSucc
 				targetUrl = endpointUri(endSessionEndpoint, idToken, postLogoutRedirectUri);
 			}
 		}
-		return (targetUrl != null) ? targetUrl : super.determineTargetUrl(request, response);
+		return targetUrl != null ? targetUrl : super.determineTargetUrl(request, response);
 	}
 
 	private URI endSessionEndpoint(ClientRegistration clientRegistration) {
@@ -103,17 +103,17 @@ public class OidcClientInitiatedLogoutSuccessHandler extends SimpleUrlLogoutSucc
 
 		Map<String, String> uriVariables = new HashMap<>();
 		String scheme = uriComponents.getScheme();
-		uriVariables.put("baseScheme", (scheme != null) ? scheme : "");
+		uriVariables.put("baseScheme", scheme != null ? scheme : "");
 		uriVariables.put("baseUrl", uriComponents.toUriString());
 
 		String host = uriComponents.getHost();
-		uriVariables.put("baseHost", (host != null) ? host : "");
+		uriVariables.put("baseHost", host != null ? host : "");
 
 		String path = uriComponents.getPath();
-		uriVariables.put("basePath", (path != null) ? path : "");
+		uriVariables.put("basePath", path != null ? path : "");
 
 		int port = uriComponents.getPort();
-		uriVariables.put("basePort", (port == -1) ? "" : ":" + port);
+		uriVariables.put("basePort", port == -1 ? "" : ":" + port);
 
 		uriVariables.put("registrationId", clientRegistration.getRegistrationId());
 

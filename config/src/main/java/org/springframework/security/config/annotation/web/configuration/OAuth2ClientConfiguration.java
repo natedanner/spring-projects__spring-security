@@ -369,7 +369,7 @@ final class OAuth2ClientConfiguration {
 			List<OAuth2AuthorizedClientProvider> additionalAuthorizedClientProviders = new ArrayList<>(
 					authorizedClientProviders);
 			additionalAuthorizedClientProviders
-				.removeIf((provider) -> KNOWN_AUTHORIZED_CLIENT_PROVIDERS.contains(provider.getClass()));
+				.removeIf(provider -> KNOWN_AUTHORIZED_CLIENT_PROVIDERS.contains(provider.getClass()));
 			return additionalAuthorizedClientProviders;
 		}
 

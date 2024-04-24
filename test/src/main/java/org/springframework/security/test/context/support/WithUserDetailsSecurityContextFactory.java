@@ -47,7 +47,7 @@ final class WithUserDetailsSecurityContextFactory implements WithSecurityContext
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private BeanFactory beans;
+	private final BeanFactory beans;
 
 	static {
 		reactorPresent = ClassUtils.isPresent("reactor.core.publisher.Mono",

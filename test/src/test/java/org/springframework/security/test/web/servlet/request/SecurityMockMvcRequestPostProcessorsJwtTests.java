@@ -108,7 +108,7 @@ public class SecurityMockMvcRequestPostProcessorsJwtTests {
 	@Test
 	public void jwtWhenProvidingBuilderConsumerThenProducesJwtAuthentication() {
 		String name = new String("user");
-		jwt().jwt((jwt) -> jwt.subject(name)).postProcessRequest(this.request);
+		jwt().jwt(jwt -> jwt.subject(name)).postProcessRequest(this.request);
 		verify(this.repository).saveContext(this.contextCaptor.capture(), eq(this.request),
 				any(HttpServletResponse.class));
 		SecurityContext context = this.contextCaptor.getValue();
@@ -119,7 +119,7 @@ public class SecurityMockMvcRequestPostProcessorsJwtTests {
 
 	@Test
 	public void jwtWhenProvidingCustomAuthoritiesThenProducesJwtAuthentication() {
-		jwt().jwt((jwt) -> jwt.claim("scope", "ignored authorities"))
+		jwt().jwt(jwt -> jwt.claim("scope", "ignored authorities"))
 			.authorities(this.authority1, this.authority2)
 			.postProcessRequest(this.request);
 		verify(this.repository).saveContext(this.contextCaptor.capture(), eq(this.request),
@@ -131,7 +131,7 @@ public class SecurityMockMvcRequestPostProcessorsJwtTests {
 
 	@Test
 	public void jwtWhenProvidingScopedAuthoritiesThenProducesJwtAuthentication() {
-		jwt().jwt((jwt) -> jwt.claim("scope", "scoped authorities")).postProcessRequest(this.request);
+		jwt().jwt(jwt -> jwt.claim("scope", "scoped authorities")).postProcessRequest(this.request);
 		verify(this.repository).saveContext(this.contextCaptor.capture(), eq(this.request),
 				any(HttpServletResponse.class));
 		SecurityContext context = this.contextCaptor.getValue();
@@ -141,8 +141,8 @@ public class SecurityMockMvcRequestPostProcessorsJwtTests {
 
 	@Test
 	public void jwtWhenProvidingGrantedAuthoritiesThenProducesJwtAuthentication() {
-		jwt().jwt((jwt) -> jwt.claim("scope", "ignored authorities"))
-			.authorities((jwt) -> Arrays.asList(this.authority1))
+		jwt().jwt(jwt -> jwt.claim("scope", "ignored authorities"))
+			.authorities(jwt -> Arrays.asList(this.authority1))
 			.postProcessRequest(this.request);
 		verify(this.repository).saveContext(this.contextCaptor.capture(), eq(this.request),
 				any(HttpServletResponse.class));

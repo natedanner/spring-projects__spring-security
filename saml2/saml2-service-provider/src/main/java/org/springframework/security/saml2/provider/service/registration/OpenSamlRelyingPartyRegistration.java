@@ -49,21 +49,21 @@ public final class OpenSamlRelyingPartyRegistration extends RelyingPartyRegistra
 		OpenSamlAssertingPartyDetails party = getAssertingPartyDetails();
 		return withAssertingPartyEntityDescriptor(party.getEntityDescriptor()).registrationId(getRegistrationId())
 			.entityId(getEntityId())
-			.signingX509Credentials((c) -> c.addAll(getSigningX509Credentials()))
-			.decryptionX509Credentials((c) -> c.addAll(getDecryptionX509Credentials()))
+			.signingX509Credentials(c -> c.addAll(getSigningX509Credentials()))
+			.decryptionX509Credentials(c -> c.addAll(getDecryptionX509Credentials()))
 			.assertionConsumerServiceLocation(getAssertionConsumerServiceLocation())
 			.assertionConsumerServiceBinding(getAssertionConsumerServiceBinding())
 			.singleLogoutServiceLocation(getSingleLogoutServiceLocation())
 			.singleLogoutServiceResponseLocation(getSingleLogoutServiceResponseLocation())
-			.singleLogoutServiceBindings((c) -> c.addAll(getSingleLogoutServiceBindings()))
+			.singleLogoutServiceBindings(c -> c.addAll(getSingleLogoutServiceBindings()))
 			.nameIdFormat(getNameIdFormat())
 			.authnRequestsSigned(isAuthnRequestsSigned())
-			.assertingPartyDetails((assertingParty) -> ((OpenSamlAssertingPartyDetails.Builder) assertingParty)
+			.assertingPartyDetails(assertingParty -> ((OpenSamlAssertingPartyDetails.Builder) assertingParty)
 				.entityId(party.getEntityId())
 				.wantAuthnRequestsSigned(party.getWantAuthnRequestsSigned())
-				.signingAlgorithms((algorithms) -> algorithms.addAll(party.getSigningAlgorithms()))
-				.verificationX509Credentials((c) -> c.addAll(party.getVerificationX509Credentials()))
-				.encryptionX509Credentials((c) -> c.addAll(party.getEncryptionX509Credentials()))
+				.signingAlgorithms(algorithms -> algorithms.addAll(party.getSigningAlgorithms()))
+				.verificationX509Credentials(c -> c.addAll(party.getVerificationX509Credentials()))
+				.encryptionX509Credentials(c -> c.addAll(party.getEncryptionX509Credentials()))
 				.singleSignOnServiceLocation(party.getSingleSignOnServiceLocation())
 				.singleSignOnServiceBinding(party.getSingleSignOnServiceBinding())
 				.singleLogoutServiceLocation(party.getSingleLogoutServiceLocation())
@@ -130,7 +130,7 @@ public final class OpenSamlRelyingPartyRegistration extends RelyingPartyRegistra
 
 		@Override
 		public Builder singleLogoutServiceBinding(Saml2MessageBinding singleLogoutServiceBinding) {
-			return singleLogoutServiceBindings((saml2MessageBindings) -> {
+			return singleLogoutServiceBindings(saml2MessageBindings -> {
 				saml2MessageBindings.clear();
 				saml2MessageBindings.add(singleLogoutServiceBinding);
 			});

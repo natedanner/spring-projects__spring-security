@@ -51,11 +51,11 @@ public abstract class AbstractLdapAuthenticator implements LdapAuthenticator, In
 	 * The attributes which will be retrieved from the directory. Null means all
 	 * attributes
 	 */
-	private String[] userAttributes = null;
+	private String[] userAttributes;
 
 	// private String[] userDnPattern = null;
 	/** Stores the patterns which are used as potential DN matches */
-	private MessageFormat[] userDnFormat = null;
+	private MessageFormat[] userDnFormat;
 
 	/**
 	 * Create an initialized instance with the {@link ContextSource} provided.

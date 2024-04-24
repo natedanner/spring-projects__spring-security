@@ -134,10 +134,10 @@ public class OAuth2AuthorizationRequestRedirectWebFilter implements WebFilter {
 		return this.authorizationRequestResolver.resolve(exchange)
 				.switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
 				.onErrorResume(ClientAuthorizationRequiredException.class,
-						(ex) -> this.requestCache.saveRequest(exchange).then(
+						ex -> this.requestCache.saveRequest(exchange).then(
 								this.authorizationRequestResolver.resolve(exchange, ex.getClientRegistrationId()))
 				)
-				.flatMap((clientRegistration) -> sendRedirectForAuthorization(exchange, clientRegistration));
+				.flatMap(clientRegistration -> sendRedirectForAuthorization(exchange, clientRegistration));
 		// @formatter:on
 	}
 

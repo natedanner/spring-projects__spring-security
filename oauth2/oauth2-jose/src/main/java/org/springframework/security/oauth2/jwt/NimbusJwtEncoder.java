@@ -243,7 +243,7 @@ public final class NimbusJwtEncoder implements JwtEncoder {
 		List<String> x509CertificateChain = headers.getX509CertificateChain();
 		if (!CollectionUtils.isEmpty(x509CertificateChain)) {
 			List<Base64> x5cList = new ArrayList<>();
-			x509CertificateChain.forEach((x5c) -> x5cList.add(new Base64(x5c)));
+			x509CertificateChain.forEach(x5c -> x5cList.add(new Base64(x5c)));
 			if (!x5cList.isEmpty()) {
 				builder.x509CertChain(x5cList);
 			}

@@ -81,7 +81,7 @@ public class RSocketMessageHandlerConnectionITests {
 		// @formatter:off
 		this.server = RSocketServer.create()
 				.payloadDecoder(PayloadDecoder.ZERO_COPY)
-				.interceptors((registry) ->
+				.interceptors(registry ->
 					registry.forSocketAcceptor(this.interceptor)
 				)
 				.acceptor(this.handler.responder())
@@ -173,7 +173,7 @@ public class RSocketMessageHandlerConnectionITests {
 						.retrieveMono(String.class)
 						.block()
 				)
-				.matches((ex) -> ex instanceof RejectedSetupException
+				.matches(ex -> ex instanceof RejectedSetupException
 						|| ex.getClass().toString().contains("ReactiveException"));
 		// @formatter:on
 		// FIXME: https://github.com/rsocket/rsocket-java/issues/686
@@ -192,7 +192,7 @@ public class RSocketMessageHandlerConnectionITests {
 						.retrieveMono(String.class)
 						.block()
 				)
-				.matches((ex) -> ex instanceof RejectedSetupException
+				.matches(ex -> ex instanceof RejectedSetupException
 						|| ex.getClass().toString().contains("ReactiveException"));
 		// @formatter:on
 		// FIXME: https://github.com/rsocket/rsocket-java/issues/686
@@ -294,7 +294,7 @@ public class RSocketMessageHandlerConnectionITests {
 		@Bean
 		PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
 			// @formatter:off
-			rsocket.authorizePayload((authorize) -> authorize
+			rsocket.authorizePayload(authorize -> authorize
 					.setup().hasRole("SETUP")
 					.route("secure.admin.*").hasRole("ADMIN")
 					.route("secure.**").hasRole("USER")

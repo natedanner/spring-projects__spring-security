@@ -75,7 +75,7 @@ public class ChannelSecurityInterceptorTests {
 
 	@BeforeEach
 	public void setup() {
-		this.attrs = Arrays.<ConfigAttribute>asList(new SecurityConfig("ROLE_USER"));
+		this.attrs = Arrays.asList(new SecurityConfig("ROLE_USER"));
 		this.interceptor = new ChannelSecurityInterceptor(this.source);
 		this.interceptor.setAccessDecisionManager(this.accessDecisionManager);
 		this.interceptor.setRunAsManager(this.runAsManager);

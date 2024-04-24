@@ -70,7 +70,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 
 	private ApplicationContext context;
 
-	private boolean anyRequestConfigured = false;
+	private boolean anyRequestConfigured;
 
 	static {
 		mvcPresent = ClassUtils.isPresent(HANDLER_MAPPING_INTROSPECTOR,
@@ -206,7 +206,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 		boolean isProgrammaticApiAvailable = isProgrammaticApiAvailable(servletContext);
 		List<RequestMatcher> matchers = new ArrayList<>();
 		for (String pattern : patterns) {
-			AntPathRequestMatcher ant = new AntPathRequestMatcher(pattern, (method != null) ? method.name() : null);
+			AntPathRequestMatcher ant = new AntPathRequestMatcher(pattern, method != null ? method.name() : null);
 			MvcRequestMatcher mvc = createMvcMatchers(method, pattern).get(0);
 			if (isProgrammaticApiAvailable) {
 				matchers.add(resolve(ant, mvc, servletContext));
@@ -216,7 +216,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 					.warn("The ServletRegistration API was not available at startup time. This may be due to a misconfiguration; "
 							+ "if you are using AbstractSecurityWebApplicationInitializer, please double-check the recommendations outlined in "
 							+ "https://docs.spring.io/spring-security/reference/servlet/configuration/java.html#abstractsecuritywebapplicationinitializer-with-spring-mvc");
-				matchers.add(new DeferredRequestMatcher((request) -> resolve(ant, mvc, request.getServletContext()),
+				matchers.add(new DeferredRequestMatcher(request -> resolve(ant, mvc, request.getServletContext()),
 						mvc, ant));
 			}
 		}
@@ -434,7 +434,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 		}
 
 		static RequestMatcher[] antMatchersAsArray(HttpMethod httpMethod, String... antPatterns) {
-			String method = (httpMethod != null) ? httpMethod.toString() : null;
+			String method = httpMethod != null ? httpMethod.toString() : null;
 			RequestMatcher[] matchers = new RequestMatcher[antPatterns.length];
 			for (int index = 0; index < antPatterns.length; index++) {
 				matchers[index] = new AntPathRequestMatcher(antPatterns[index], method);
@@ -451,7 +451,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 		 * @return a {@link List} of {@link RegexRequestMatcher} instances
 		 */
 		static List<RequestMatcher> regexMatchers(HttpMethod httpMethod, String... regexPatterns) {
-			String method = (httpMethod != null) ? httpMethod.toString() : null;
+			String method = httpMethod != null ? httpMethod.toString() : null;
 			List<RequestMatcher> matchers = new ArrayList<>();
 			for (String pattern : regexPatterns) {
 				matchers.add(new RegexRequestMatcher(pattern, method));
@@ -481,7 +481,7 @@ public abstract class AbstractRequestMatcherRegistry<C> {
 		volatile RequestMatcher requestMatcher;
 
 		DeferredRequestMatcher(Function<HttpServletRequest, RequestMatcher> resolver, RequestMatcher... candidates) {
-			this.requestMatcherFactory = (request) -> {
+			this.requestMatcherFactory = request -> {
 				if (this.requestMatcher == null) {
 					synchronized (this) {
 						if (this.requestMatcher == null) {

@@ -114,7 +114,7 @@ public final class ObservationFilterChainDecorator implements FilterChainProxy.F
 
 		private final int size;
 
-		private int currentPosition = 0;
+		private int currentPosition;
 
 		private VirtualFilterChain(FilterChain chain, List<ObservationFilter> additionalFilters) {
 			this.originalChain = chain;
@@ -209,7 +209,7 @@ public final class ObservationFilterChainDecorator implements FilterChainProxy.F
 
 		private String eventName(String className) {
 			String eventName = OBSERVATION_NAMES.get(className);
-			return (eventName != null) ? eventName : className;
+			return eventName != null ? eventName : className;
 		}
 
 		String getName() {
@@ -574,7 +574,7 @@ public final class ObservationFilterChainDecorator implements FilterChainProxy.F
 				.and(CHAIN_POSITION_NAME, String.valueOf(context.getChainPosition()))
 				.and(FILTER_SECTION_NAME, context.getFilterSection())
 				.and(FILTER_NAME,
-						(StringUtils.hasText(context.getFilterName())) ? context.getFilterName() : KeyValue.NONE_VALUE);
+						StringUtils.hasText(context.getFilterName()) ? context.getFilterName() : KeyValue.NONE_VALUE);
 		}
 
 		@Override

@@ -112,7 +112,7 @@ import org.springframework.security.rsocket.util.matcher.RoutePayloadExchangeMat
  */
 public class RSocketSecurity {
 
-	private List<PayloadInterceptor> payloadInterceptors = new ArrayList<>();
+	private final List<PayloadInterceptor> payloadInterceptors = new ArrayList<>();
 
 	private BasicAuthenticationSpec basicAuthSpec;
 

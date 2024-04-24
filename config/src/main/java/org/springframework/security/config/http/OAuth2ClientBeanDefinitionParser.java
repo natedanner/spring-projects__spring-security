@@ -92,7 +92,7 @@ final class OAuth2ClientBeanDefinitionParser implements BeanDefinitionParser {
 		BeanMetadataElement authorizationRedirectStrategy = getAuthorizationRedirectStrategy(authorizationCodeGrantElt);
 		BeanDefinitionBuilder authorizationRequestRedirectFilterBuilder = BeanDefinitionBuilder
 			.rootBeanDefinition(OAuth2AuthorizationRequestRedirectFilter.class);
-		String authorizationRequestResolverRef = (authorizationCodeGrantElt != null)
+		String authorizationRequestResolverRef = authorizationCodeGrantElt != null
 				? authorizationCodeGrantElt.getAttribute(ATT_AUTHORIZATION_REQUEST_RESOLVER_REF) : null;
 		if (StringUtils.hasLength(authorizationRequestResolverRef)) {
 			authorizationRequestRedirectFilterBuilder.addConstructorArgReference(authorizationRequestResolverRef);
@@ -123,7 +123,7 @@ final class OAuth2ClientBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private BeanMetadataElement getAuthorizationRequestRepository(Element element) {
-		String authorizationRequestRepositoryRef = (element != null)
+		String authorizationRequestRepositoryRef = element != null
 				? element.getAttribute(ATT_AUTHORIZATION_REQUEST_REPOSITORY_REF) : null;
 		if (StringUtils.hasLength(authorizationRequestRepositoryRef)) {
 			return new RuntimeBeanReference(authorizationRequestRepositoryRef);
@@ -135,7 +135,7 @@ final class OAuth2ClientBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private BeanMetadataElement getAuthorizationRedirectStrategy(Element element) {
-		String authorizationRedirectStrategyRef = (element != null)
+		String authorizationRedirectStrategyRef = element != null
 				? element.getAttribute(ATT_AUTHORIZATION_REDIRECT_STRATEGY_REF) : null;
 		if (StringUtils.hasText(authorizationRedirectStrategyRef)) {
 			return new RuntimeBeanReference(authorizationRedirectStrategyRef);
@@ -145,7 +145,7 @@ final class OAuth2ClientBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private BeanMetadataElement getAccessTokenResponseClient(Element element) {
-		String accessTokenResponseClientRef = (element != null)
+		String accessTokenResponseClientRef = element != null
 				? element.getAttribute(ATT_ACCESS_TOKEN_RESPONSE_CLIENT_REF) : null;
 		if (StringUtils.hasLength(accessTokenResponseClientRef)) {
 			return new RuntimeBeanReference(accessTokenResponseClientRef);

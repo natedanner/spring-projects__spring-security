@@ -53,9 +53,8 @@ public final class CsrfTokenArgumentResolver implements HandlerMethodArgumentRes
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-		CsrfToken token = (CsrfToken) webRequest.getAttribute(CsrfToken.class.getName(),
+		return (CsrfToken) webRequest.getAttribute(CsrfToken.class.getName(),
 				RequestAttributes.SCOPE_REQUEST);
-		return token;
 	}
 
 }

@@ -57,13 +57,13 @@ public class Saml2WebSsoAuthenticationFilterTests {
 
 	private Saml2WebSsoAuthenticationFilter filter;
 
-	private RelyingPartyRegistrationRepository repository = mock(RelyingPartyRegistrationRepository.class);
+	private final RelyingPartyRegistrationRepository repository = mock(RelyingPartyRegistrationRepository.class);
 
-	private MockHttpServletRequest request = new MockHttpServletRequest();
+	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
-	private HttpServletResponse response = new MockHttpServletResponse();
+	private final HttpServletResponse response = new MockHttpServletResponse();
 
-	private AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+	private final AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
 
 	@BeforeEach
 	public void setup() {
@@ -122,7 +122,7 @@ public class Saml2WebSsoAuthenticationFilterTests {
 		AuthenticationConverter authenticationConverter = mock(AuthenticationConverter.class);
 		given(authenticationConverter.convert(this.request)).willReturn(TestSaml2AuthenticationTokens.token());
 		this.filter = new Saml2WebSsoAuthenticationFilter(authenticationConverter, "/some/other/path/{registrationId}");
-		this.filter.setAuthenticationManager((authentication) -> null);
+		this.filter.setAuthenticationManager(authentication -> null);
 		this.request.setPathInfo("/some/other/path/idp-registration-id");
 		this.filter.setAuthenticationRequestRepository(authenticationRequestRepository);
 		this.filter.attemptAuthentication(this.request, this.response);
@@ -138,7 +138,7 @@ public class Saml2WebSsoAuthenticationFilterTests {
 		final WebAuthenticationDetails details = mock(WebAuthenticationDetails.class);
 		given(authenticationDetailsSource.buildDetails(this.request)).willReturn(details);
 		this.filter = new Saml2WebSsoAuthenticationFilter(authenticationConverter, "/some/other/path/{registrationId}");
-		this.filter.setAuthenticationManager((authentication) -> null);
+		this.filter.setAuthenticationManager(authentication -> null);
 		this.filter.setAuthenticationDetailsSource(authenticationDetailsSource);
 		this.request.setPathInfo("/some/other/path/idp-registration-id");
 		this.filter.attemptAuthentication(this.request, this.response);
@@ -152,7 +152,7 @@ public class Saml2WebSsoAuthenticationFilterTests {
 		given(authenticationConverter.convert(this.request)).willReturn(authenticationWithoutDetails);
 		final AuthenticationDetailsSource authenticationDetailsSource = mock(AuthenticationDetailsSource.class);
 		this.filter = new Saml2WebSsoAuthenticationFilter(authenticationConverter, "/some/other/path/{registrationId}");
-		this.filter.setAuthenticationManager((authentication) -> null);
+		this.filter.setAuthenticationManager(authentication -> null);
 		this.filter.setAuthenticationDetailsSource(authenticationDetailsSource);
 		this.request.setPathInfo("/some/other/path/idp-registration-id");
 		assertThatNoException().isThrownBy(() -> this.filter.attemptAuthentication(this.request, this.response));

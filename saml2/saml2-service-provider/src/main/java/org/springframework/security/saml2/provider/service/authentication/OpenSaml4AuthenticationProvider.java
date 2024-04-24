@@ -367,7 +367,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	 * @since 5.6
 	 */
 	public static Converter<ResponseToken, Saml2ResponseValidatorResult> createDefaultResponseValidator() {
-		return (responseToken) -> {
+		return responseToken -> {
 			Response response = responseToken.getResponse();
 			Saml2AuthenticationToken token = responseToken.getToken();
 			Saml2ResponseValidatorResult result = Saml2ResponseValidatorResult.success();
@@ -432,7 +432,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	public static Converter<AssertionToken, Saml2ResponseValidatorResult> createDefaultAssertionValidator() {
 
 		return createDefaultAssertionValidatorWithParameters(
-				(params) -> params.put(SAML2AssertionValidationParameters.CLOCK_SKEW, Duration.ofMinutes(5)));
+				params -> params.put(SAML2AssertionValidationParameters.CLOCK_SKEW, Duration.ofMinutes(5)));
 	}
 
 	/**
@@ -448,7 +448,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 			Converter<AssertionToken, ValidationContext> contextConverter) {
 
 		return createAssertionValidator(Saml2ErrorCodes.INVALID_ASSERTION,
-				(assertionToken) -> SAML20AssertionValidators.attributeValidator, contextConverter);
+				assertionToken -> SAML20AssertionValidators.attributeValidator, contextConverter);
 	}
 
 	/**
@@ -462,8 +462,8 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	public static Converter<AssertionToken, Saml2ResponseValidatorResult> createDefaultAssertionValidatorWithParameters(
 			Consumer<Map<String, Object>> validationContextParameters) {
 		return createAssertionValidator(Saml2ErrorCodes.INVALID_ASSERTION,
-				(assertionToken) -> SAML20AssertionValidators.attributeValidator,
-				(assertionToken) -> createValidationContext(assertionToken, validationContextParameters));
+				assertionToken -> SAML20AssertionValidators.attributeValidator,
+				assertionToken -> createValidationContext(assertionToken, validationContextParameters));
 	}
 
 	/**
@@ -472,7 +472,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	 * @return the default response authentication converter strategy
 	 */
 	public static Converter<ResponseToken, Saml2Authentication> createDefaultResponseAuthenticationConverter() {
-		return (responseToken) -> {
+		return responseToken -> {
 			Response response = responseToken.response;
 			Saml2AuthenticationToken token = responseToken.token;
 			Assertion assertion = CollectionUtils.firstElement(response.getAssertions());
@@ -591,7 +591,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	}
 
 	private Converter<ResponseToken, Saml2ResponseValidatorResult> createDefaultResponseSignatureValidator() {
-		return (responseToken) -> {
+		return responseToken -> {
 			Response response = responseToken.getResponse();
 			RelyingPartyRegistration registration = responseToken.getToken().getRelyingPartyRegistration();
 			if (response.isSigned()) {
@@ -602,7 +602,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	}
 
 	private Consumer<ResponseToken> createDefaultResponseElementsDecrypter() {
-		return (responseToken) -> {
+		return responseToken -> {
 			Response response = responseToken.getResponse();
 			RelyingPartyRegistration registration = responseToken.getToken().getRelyingPartyRegistration();
 			try {
@@ -625,16 +625,16 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	}
 
 	private Converter<AssertionToken, Saml2ResponseValidatorResult> createDefaultAssertionSignatureValidator() {
-		return createAssertionValidator(Saml2ErrorCodes.INVALID_SIGNATURE, (assertionToken) -> {
+		return createAssertionValidator(Saml2ErrorCodes.INVALID_SIGNATURE, assertionToken -> {
 			RelyingPartyRegistration registration = assertionToken.getToken().getRelyingPartyRegistration();
 			SignatureTrustEngine engine = OpenSamlVerificationUtils.trustEngine(registration);
 			return SAML20AssertionValidators.createSignatureValidator(engine);
-		}, (assertionToken) -> new ValidationContext(
+		}, assertionToken -> new ValidationContext(
 				Collections.singletonMap(SAML2AssertionValidationParameters.SIGNATURE_REQUIRED, false)));
 	}
 
 	private Consumer<AssertionToken> createDefaultAssertionElementsDecrypter() {
-		return (assertionToken) -> {
+		return assertionToken -> {
 			Assertion assertion = assertionToken.getAssertion();
 			RelyingPartyRegistration registration = assertionToken.getToken().getRelyingPartyRegistration();
 			try {
@@ -699,7 +699,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 		}
 		if (xmlObject instanceof XSBoolean) {
 			XSBooleanValue xsBooleanValue = ((XSBoolean) xmlObject).getValue();
-			return (xsBooleanValue != null) ? xsBooleanValue.getValue() : null;
+			return xsBooleanValue != null ? xsBooleanValue.getValue() : null;
 		}
 		if (xmlObject instanceof XSDateTime) {
 			return ((XSDateTime) xmlObject).getValue();
@@ -716,7 +716,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 			Converter<AssertionToken, SAML20AssertionValidator> validatorConverter,
 			Converter<AssertionToken, ValidationContext> contextConverter) {
 
-		return (assertionToken) -> {
+		return assertionToken -> {
 			Assertion assertion = assertionToken.assertion;
 			SAML20AssertionValidator validator = validatorConverter.convert(assertionToken);
 			ValidationContext context = contextConverter.convert(assertionToken);
@@ -774,7 +774,7 @@ public final class OpenSaml4AuthenticationProvider implements AuthenticationProv
 	}
 
 	private static String getAuthnRequestId(AbstractSaml2AuthenticationRequest serialized) {
-		return (serialized != null) ? serialized.getId() : null;
+		return serialized != null ? serialized.getId() : null;
 	}
 
 	private static class SAML20AssertionValidators {

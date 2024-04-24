@@ -182,7 +182,7 @@ final class OpenSamlLogoutResponseResolver {
 			if (request.getParameter(Saml2ParameterNames.RELAY_STATE) != null) {
 				partial.param(Saml2ParameterNames.RELAY_STATE, request.getParameter(Saml2ParameterNames.RELAY_STATE));
 			}
-			return result.parameters((params) -> params.putAll(partial.parameters())).build();
+			return result.parameters(params -> params.putAll(partial.parameters())).build();
 		}
 	}
 

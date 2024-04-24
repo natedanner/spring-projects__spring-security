@@ -70,7 +70,7 @@ public class AuthenticationConfigurationPublishTests {
 
 		@Bean
 		MockEventListener<AuthenticationSuccessEvent> eventListener() {
-			return new MockEventListener<AuthenticationSuccessEvent>() {
+			return new MockEventListener<>() {
 			};
 		}
 

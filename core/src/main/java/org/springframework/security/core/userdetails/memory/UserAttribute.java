@@ -76,7 +76,7 @@ public class UserAttribute {
 	}
 
 	public boolean isValid() {
-		return (this.password != null) && (this.authorities.size() > 0);
+		return (this.password != null) && (!this.authorities.isEmpty());
 	}
 
 	public void setEnabled(boolean enabled) {

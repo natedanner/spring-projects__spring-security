@@ -43,12 +43,12 @@ class DisableEncodeUrlFilterTests {
 
 	@Test
 	void doFilterDisablesEncodeURL() throws Exception {
-		verifyDoFilterDoesNotInteractWithResponse((httpResponse) -> httpResponse.encodeURL("/"));
+		verifyDoFilterDoesNotInteractWithResponse(httpResponse -> httpResponse.encodeURL("/"));
 	}
 
 	@Test
 	void doFilterDisablesEncodeRedirectURL() throws Exception {
-		verifyDoFilterDoesNotInteractWithResponse((httpResponse) -> httpResponse.encodeRedirectURL("/"));
+		verifyDoFilterDoesNotInteractWithResponse(httpResponse -> httpResponse.encodeRedirectURL("/"));
 	}
 
 	private void verifyDoFilterDoesNotInteractWithResponse(Consumer<HttpServletResponse> toInvoke) throws Exception {

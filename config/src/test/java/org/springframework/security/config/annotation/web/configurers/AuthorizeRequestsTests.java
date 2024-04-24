@@ -311,7 +311,7 @@ public class AuthorizeRequestsTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.POST.name())).denyAll()
 				);
@@ -441,7 +441,7 @@ public class AuthorizeRequestsTests {
 			// @formatter:off
 			http
 				.httpBasic(withDefaults())
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.requestMatchers("/path").denyAll()
 				);
@@ -513,7 +513,7 @@ public class AuthorizeRequestsTests {
 			// @formatter:off
 			http
 				.httpBasic(withDefaults())
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.requestMatchers(mvcMatcherBuilder.pattern("/path")).denyAll()
 				);
@@ -581,7 +581,7 @@ public class AuthorizeRequestsTests {
 			// @formatter:off
 			http
 				.httpBasic(withDefaults())
-				.authorizeRequests((authorizeRequests) ->
+				.authorizeRequests(authorizeRequests ->
 					authorizeRequests
 						.requestMatchers("/user/{userName}").access("#userName == 'user'")
 				);

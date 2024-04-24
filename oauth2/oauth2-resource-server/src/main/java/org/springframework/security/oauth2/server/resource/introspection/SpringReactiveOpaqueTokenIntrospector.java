@@ -57,7 +57,7 @@ public class SpringReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 
 	private static final String AUTHORITY_PREFIX = "SCOPE_";
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
 	private final URI introspectionUri;
@@ -78,7 +78,7 @@ public class SpringReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 		Assert.hasText(clientId, "clientId cannot be empty");
 		Assert.notNull(clientSecret, "clientSecret cannot be null");
 		this.introspectionUri = URI.create(introspectionUri);
-		this.webClient = WebClient.builder().defaultHeaders((h) -> h.setBasicAuth(clientId, clientSecret)).build();
+		this.webClient = WebClient.builder().defaultHeaders(h -> h.setBasicAuth(clientId, clientSecret)).build();
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class SpringReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 				.map(this::convertClaimsSet)
 				.flatMap(this.authenticationConverter::convert)
 				.cast(OAuth2AuthenticatedPrincipal.class)
-				.onErrorMap((e) -> !(e instanceof OAuth2IntrospectionException), this::onError);
+				.onErrorMap(e -> !(e instanceof OAuth2IntrospectionException), this::onError);
 		// @formatter:on
 	}
 
@@ -130,7 +130,7 @@ public class SpringReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 		// relying solely on the authorization server to validate this token (not checking
 		// 'exp', for example)
 		return responseEntity.bodyToMono(STRING_OBJECT_MAP)
-			.filter((body) -> (boolean) body.compute(OAuth2TokenIntrospectionClaimNames.ACTIVE, (k, v) -> {
+			.filter(body -> (boolean) body.compute(OAuth2TokenIntrospectionClaimNames.ACTIVE, (k, v) -> {
 				if (v instanceof String) {
 					return Boolean.parseBoolean((String) v);
 				}
@@ -176,7 +176,7 @@ public class SpringReactiveOpaqueTokenIntrospector implements ReactiveOpaqueToke
 		claims.computeIfPresent(OAuth2TokenIntrospectionClaimNames.NBF,
 				(k, v) -> Instant.ofEpochSecond(((Number) v).longValue()));
 		claims.computeIfPresent(OAuth2TokenIntrospectionClaimNames.SCOPE,
-				(k, v) -> (v instanceof String s) ? new ArrayListFromString(s.split(" ")) : v);
+				(k, v) -> v instanceof String s ? new ArrayListFromString(s.split(" ")) : v);
 		return () -> claims;
 	}
 

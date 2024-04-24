@@ -24,8 +24,8 @@ import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 
 public class MessageSecurityPostProcessorTests {
 
-	private WebSocketMessageBrokerSecurityBeanDefinitionParser.MessageSecurityPostProcessor postProcessor = new WebSocketMessageBrokerSecurityBeanDefinitionParser.MessageSecurityPostProcessor(
-			"id", false);
+	private final WebSocketMessageBrokerSecurityBeanDefinitionParser.MessageSecurityPostProcessor postProcessor = new WebSocketMessageBrokerSecurityBeanDefinitionParser.MessageSecurityPostProcessor(
+		"id", false);
 
 	@Test
 	public void handlesBeansWithoutClass() {

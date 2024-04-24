@@ -37,9 +37,9 @@ import static org.mockito.Mockito.verifyNoInteractions;
  */
 public class ObservationSecurityContextChangedListenerTests {
 
-	private SecurityContext one = new SecurityContextImpl(new TestingAuthenticationToken("user", "pass"));
+	private final SecurityContext one = new SecurityContextImpl(new TestingAuthenticationToken("user", "pass"));
 
-	private SecurityContext two = new SecurityContextImpl(new TestingAuthenticationToken("admin", "pass"));
+	private final SecurityContext two = new SecurityContextImpl(new TestingAuthenticationToken("admin", "pass"));
 
 	private ObservationRegistry observationRegistry;
 

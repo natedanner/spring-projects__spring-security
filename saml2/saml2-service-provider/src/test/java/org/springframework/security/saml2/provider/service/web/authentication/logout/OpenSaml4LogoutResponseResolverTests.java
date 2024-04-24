@@ -55,7 +55,7 @@ public class OpenSaml4LogoutResponseResolverTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		RelyingPartyRegistration registration = TestRelyingPartyRegistrations.relyingPartyRegistration()
 			.assertingPartyDetails(
-					(party) -> party.singleLogoutServiceResponseLocation("https://ap.example.com/logout"))
+					party -> party.singleLogoutServiceResponseLocation("https://ap.example.com/logout"))
 			.build();
 		Authentication authentication = new TestingAuthenticationToken("user", "password");
 		LogoutRequest logoutRequest = TestOpenSamlObjects.assertingPartyLogoutRequest(registration);

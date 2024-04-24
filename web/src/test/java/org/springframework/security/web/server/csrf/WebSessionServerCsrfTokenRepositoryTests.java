@@ -34,9 +34,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class WebSessionServerCsrfTokenRepositoryTests {
 
-	private WebSessionServerCsrfTokenRepository repository = new WebSessionServerCsrfTokenRepository();
+	private final WebSessionServerCsrfTokenRepository repository = new WebSessionServerCsrfTokenRepository();
 
-	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	@Test
 	public void generateTokenThenNoSession() {
@@ -55,7 +55,7 @@ public class WebSessionServerCsrfTokenRepositoryTests {
 	@Test
 	public void saveTokenWhenDefaultThenAddsToSession() {
 		Mono<CsrfToken> result = this.repository.generateToken(this.exchange)
-			.delayUntil((t) -> this.repository.saveToken(this.exchange, t));
+			.delayUntil(t -> this.repository.saveToken(this.exchange, t));
 		result.block();
 		WebSession session = this.exchange.getSession().block();
 		Map<String, Object> attributes = session.getAttributes();

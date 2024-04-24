@@ -57,17 +57,17 @@ public final class ConcurrentSessionControlServerAuthenticationSuccessHandler
 	@Override
 	public Mono<Void> onAuthenticationSuccess(WebFilterExchange exchange, Authentication authentication) {
 		return this.sessionLimit.apply(authentication)
-			.flatMap((maxSessions) -> handleConcurrency(exchange, authentication, maxSessions));
+			.flatMap(maxSessions -> handleConcurrency(exchange, authentication, maxSessions));
 	}
 
 	private Mono<Void> handleConcurrency(WebFilterExchange exchange, Authentication authentication,
 			Integer maximumSessions) {
 		return this.sessionRegistry.getAllSessions(authentication.getPrincipal(), false)
 			.collectList()
-			.flatMap((registeredSessions) -> exchange.getExchange()
+			.flatMap(registeredSessions -> exchange.getExchange()
 				.getSession()
-				.map((currentSession) -> Tuples.of(currentSession, registeredSessions)))
-			.flatMap((sessionTuple) -> {
+				.map(currentSession -> Tuples.of(currentSession, registeredSessions)))
+			.flatMap(sessionTuple -> {
 				WebSession currentSession = sessionTuple.getT1();
 				List<ReactiveSessionInformation> registeredSessions = sessionTuple.getT2();
 				int registeredSessionsCount = registeredSessions.size();

@@ -234,7 +234,7 @@ public class EnableAuthorizationManagerReactiveMethodSecurityTests {
 	public void fluxPreAuthorizeHasRoleWhenGrantedThenSuccess() {
 		given(this.delegate.fluxPreAuthorizeHasRoleFindById(1L)).willReturn(Flux.just("result"));
 		Flux<String> findById = this.messageService.fluxPreAuthorizeHasRoleFindById(1L).contextWrite(this.withAdmin);
-		StepVerifier.create(findById).consumeNextWith((s) -> assertThat(s).isEqualTo("result")).verifyComplete();
+		StepVerifier.create(findById).consumeNextWith(s -> assertThat(s).isEqualTo("result")).verifyComplete();
 	}
 
 	@Test
@@ -366,7 +366,7 @@ public class EnableAuthorizationManagerReactiveMethodSecurityTests {
 		given(this.delegate.publisherPreAuthorizeHasRoleFindById(1L)).willReturn(publisherJust("result"));
 		Publisher<String> findById = Flux.from(this.messageService.publisherPreAuthorizeHasRoleFindById(1L))
 			.contextWrite(this.withAdmin);
-		StepVerifier.create(findById).consumeNextWith((s) -> assertThat(s).isEqualTo("result")).verifyComplete();
+		StepVerifier.create(findById).consumeNextWith(s -> assertThat(s).isEqualTo("result")).verifyComplete();
 	}
 
 	@Test
@@ -458,7 +458,7 @@ public class EnableAuthorizationManagerReactiveMethodSecurityTests {
 	}
 
 	static <T> Publisher<T> publisher(Flux<T> flux) {
-		return (subscriber) -> flux.subscribe(subscriber);
+		return subscriber -> flux.subscribe(subscriber);
 	}
 
 	static <T> Publisher<T> publisherJust(T... data) {

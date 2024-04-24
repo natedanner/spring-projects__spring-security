@@ -250,7 +250,7 @@ final class OAuth2AuthorizedClientManagerRegistrar implements BeanDefinitionRegi
 		List<OAuth2AuthorizedClientProvider> additionalAuthorizedClientProviders = new ArrayList<>(
 				authorizedClientProviders);
 		additionalAuthorizedClientProviders
-			.removeIf((provider) -> KNOWN_AUTHORIZED_CLIENT_PROVIDERS.contains(provider.getClass()));
+			.removeIf(provider -> KNOWN_AUTHORIZED_CLIENT_PROVIDERS.contains(provider.getClass()));
 		return additionalAuthorizedClientProviders;
 	}
 

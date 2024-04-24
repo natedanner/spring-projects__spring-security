@@ -39,9 +39,9 @@ import static org.mockito.Mockito.verify;
  */
 public class AuthenticatedPrincipalOAuth2AuthorizedClientRepositoryTests {
 
-	private String registrationId = "registrationId";
+	private final String registrationId = "registrationId";
 
-	private String principalName = "principalName";
+	private final String principalName = "principalName";
 
 	private OAuth2AuthorizedClientService authorizedClientService;
 

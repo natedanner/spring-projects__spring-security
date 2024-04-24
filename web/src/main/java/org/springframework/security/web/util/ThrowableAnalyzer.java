@@ -48,7 +48,7 @@ public class ThrowableAnalyzer {
 	 *
 	 * @see InvocationTargetException#getTargetException()
 	 */
-	public static final ThrowableCauseExtractor INVOCATIONTARGET_EXTRACTOR = (throwable) -> {
+	public static final ThrowableCauseExtractor INVOCATIONTARGET_EXTRACTOR = throwable -> {
 		verifyThrowableHierarchy(throwable, InvocationTargetException.class);
 		return ((InvocationTargetException) throwable).getTargetException();
 	};

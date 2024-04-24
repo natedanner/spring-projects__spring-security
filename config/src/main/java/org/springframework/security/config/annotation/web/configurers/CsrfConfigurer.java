@@ -86,7 +86,7 @@ public final class CsrfConfigurer<H extends HttpSecurityBuilder<H>>
 
 	private RequestMatcher requireCsrfProtectionMatcher = CsrfFilter.DEFAULT_CSRF_MATCHER;
 
-	private List<RequestMatcher> ignoredCsrfProtectionMatchers = new ArrayList<>();
+	private final List<RequestMatcher> ignoredCsrfProtectionMatchers = new ArrayList<>();
 
 	private SessionAuthenticationStrategy sessionAuthenticationStrategy;
 

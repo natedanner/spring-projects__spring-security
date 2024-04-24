@@ -107,9 +107,9 @@ public class DigestAuthenticationFilter extends GenericFilterBean implements Mes
 
 	private UserDetailsService userDetailsService;
 
-	private boolean passwordAlreadyEncoded = false;
+	private boolean passwordAlreadyEncoded;
 
-	private boolean createAuthenticatedToken = false;
+	private boolean createAuthenticatedToken;
 
 	private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 

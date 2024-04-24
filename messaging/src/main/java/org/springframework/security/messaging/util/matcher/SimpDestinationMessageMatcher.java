@@ -38,7 +38,7 @@ import org.springframework.util.PathMatcher;
  */
 public final class SimpDestinationMessageMatcher implements MessageMatcher<Object> {
 
-	public static final MessageMatcher<Object> NULL_DESTINATION_MATCHER = (message) -> {
+	public static final MessageMatcher<Object> NULL_DESTINATION_MATCHER = message -> {
 		String destination = SimpMessageHeaderAccessor.getDestination(message.getHeaders());
 		return destination == null;
 	};
@@ -110,7 +110,7 @@ public final class SimpDestinationMessageMatcher implements MessageMatcher<Objec
 		Assert.isTrue(isTypeWithDestination(type),
 				() -> "SimpMessageType " + type + " does not contain a destination and so cannot be matched on.");
 		this.matcher = pathMatcher;
-		this.messageTypeMatcher = (type != null) ? new SimpMessageTypeMatcher(type) : ANY_MESSAGE;
+		this.messageTypeMatcher = type != null ? new SimpMessageTypeMatcher(type) : ANY_MESSAGE;
 		this.pattern = pattern;
 	}
 
@@ -125,7 +125,7 @@ public final class SimpDestinationMessageMatcher implements MessageMatcher<Objec
 
 	public Map<String, String> extractPathVariables(Message<?> message) {
 		final String destination = SimpMessageHeaderAccessor.getDestination(message.getHeaders());
-		return (destination != null) ? this.matcher.extractUriTemplateVariables(this.pattern, destination)
+		return destination != null ? this.matcher.extractUriTemplateVariables(this.pattern, destination)
 				: Collections.emptyMap();
 	}
 

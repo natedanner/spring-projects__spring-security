@@ -112,7 +112,7 @@ public final class SecurityMockServerConfigurers {
 
 			@Override
 			public void beforeServerCreated(WebHttpHandlerBuilder builder) {
-				builder.filters((filters) -> filters.add(0, new MutatorFilter()));
+				builder.filters(filters -> filters.add(0, new MutatorFilter()));
 			}
 
 		};
@@ -256,8 +256,8 @@ public final class SecurityMockServerConfigurers {
 		public void afterConfigurerAdded(WebTestClient.Builder builder,
 				@Nullable WebHttpHandlerBuilder httpHandlerBuilder, @Nullable ClientHttpConnector connector) {
 			CsrfWebFilter filter = new CsrfWebFilter();
-			filter.setRequireCsrfProtectionMatcher((e) -> ServerWebExchangeMatcher.MatchResult.notMatch());
-			httpHandlerBuilder.filters((filters) -> filters.add(0, filter));
+			filter.setRequireCsrfProtectionMatcher(e -> ServerWebExchangeMatcher.MatchResult.notMatch());
+			httpHandlerBuilder.filters(filters -> filters.add(0, filter));
 		}
 
 		@Override
@@ -402,7 +402,7 @@ public final class SecurityMockServerConfigurers {
 		}
 
 		private Consumer<List<WebFilter>> addSetupMutatorFilter() {
-			return (filters) -> filters.add(0, new SetupMutatorFilter(this.context));
+			return filters -> filters.add(0, new SetupMutatorFilter(this.context));
 		}
 
 	}
@@ -417,7 +417,7 @@ public final class SecurityMockServerConfigurers {
 
 		@Override
 		public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain webFilterChain) {
-			exchange.getAttributes().computeIfAbsent(MutatorFilter.ATTRIBUTE_NAME, (key) -> this.context);
+			exchange.getAttributes().computeIfAbsent(MutatorFilter.ATTRIBUTE_NAME, key -> this.context);
 			return webFilterChain.filter(exchange);
 		}
 
@@ -455,7 +455,7 @@ public final class SecurityMockServerConfigurers {
 		private Converter<Jwt, Collection<GrantedAuthority>> authoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
 		private JwtMutator() {
-			jwt((jwt) -> {
+			jwt(jwt -> {
 			});
 		}
 
@@ -499,7 +499,7 @@ public final class SecurityMockServerConfigurers {
 		 */
 		public JwtMutator authorities(Collection<GrantedAuthority> authorities) {
 			Assert.notNull(authorities, "authorities cannot be null");
-			this.authoritiesConverter = (jwt) -> authorities;
+			this.authoritiesConverter = jwt -> authorities;
 			return this;
 		}
 
@@ -510,7 +510,7 @@ public final class SecurityMockServerConfigurers {
 		 */
 		public JwtMutator authorities(GrantedAuthority... authorities) {
 			Assert.notNull(authorities, "authorities cannot be null");
-			this.authoritiesConverter = (jwt) -> Arrays.asList(authorities);
+			this.authoritiesConverter = jwt -> Arrays.asList(authorities);
 			return this;
 		}
 
@@ -678,7 +678,7 @@ public final class SecurityMockServerConfigurers {
 
 		private Collection<GrantedAuthority> getAuthorities(Collection<?> scopes) {
 			return scopes.stream()
-				.map((scope) -> new SimpleGrantedAuthority("SCOPE_" + scope))
+				.map(scope -> new SimpleGrantedAuthority("SCOPE_" + scope))
 				.collect(Collectors.toList());
 		}
 
@@ -1048,7 +1048,7 @@ public final class SecurityMockServerConfigurers {
 
 		private OAuth2ClientMutator(String registrationId) {
 			this.registrationId = registrationId;
-			clientRegistration((c) -> {
+			clientRegistration(c -> {
 			});
 		}
 
@@ -1119,7 +1119,7 @@ public final class SecurityMockServerConfigurers {
 
 		private Consumer<List<WebFilter>> addAuthorizedClientFilter() {
 			OAuth2AuthorizedClient client = getClient();
-			return (filters) -> filters.add(0, (exchange, chain) -> {
+			return filters -> filters.add(0, (exchange, chain) -> {
 				ServerOAuth2AuthorizedClientRepository authorizedClientRepository = OAuth2ClientServerTestUtils
 					.getAuthorizedClientRepository(exchange);
 				if (!(authorizedClientRepository instanceof TestOAuth2AuthorizedClientRepository)) {
@@ -1292,7 +1292,7 @@ public final class SecurityMockServerConfigurers {
 				OAuth2AuthorizedClientArgumentResolver resolver = findResolver(exchange,
 						OAuth2AuthorizedClientArgumentResolver.class);
 				if (resolver == null) {
-					return (authorizeRequest) -> DEFAULT_CLIENT_REPO.loadAuthorizedClient(
+					return authorizeRequest -> DEFAULT_CLIENT_REPO.loadAuthorizedClient(
 							authorizeRequest.getClientRegistrationId(), authorizeRequest.getPrincipal(), exchange);
 				}
 				return (ReactiveOAuth2AuthorizedClientManager) ReflectionTestUtils.getField(resolver,

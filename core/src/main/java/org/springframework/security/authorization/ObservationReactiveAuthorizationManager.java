@@ -49,21 +49,21 @@ public final class ObservationReactiveAuthorizationManager<T> implements Reactiv
 	@Override
 	public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, T object) {
 		AuthorizationObservationContext<T> context = new AuthorizationObservationContext<>(object);
-		Mono<Authentication> wrapped = authentication.map((auth) -> {
+		Mono<Authentication> wrapped = authentication.map(auth -> {
 			context.setAuthentication(auth);
 			return context.getAuthentication();
 		});
-		return Mono.deferContextual((contextView) -> {
+		return Mono.deferContextual(contextView -> {
 			Observation observation = Observation.createNotStarted(this.convention, () -> context, this.registry)
 				.parentObservation(contextView.getOrDefault(ObservationThreadLocalAccessor.KEY, null))
 				.start();
-			return this.delegate.check(wrapped, object).doOnSuccess((decision) -> {
+			return this.delegate.check(wrapped, object).doOnSuccess(decision -> {
 				context.setDecision(decision);
 				if (decision == null || !decision.isGranted()) {
 					observation.error(new AccessDeniedException("Access Denied"));
 				}
 				observation.stop();
-			}).doOnCancel(observation::stop).doOnError((t) -> {
+			}).doOnCancel(observation::stop).doOnError(t -> {
 				observation.error(t);
 				observation.stop();
 			});

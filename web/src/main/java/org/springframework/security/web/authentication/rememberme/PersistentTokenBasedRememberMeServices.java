@@ -62,7 +62,7 @@ public class PersistentTokenBasedRememberMeServices extends AbstractRememberMeSe
 
 	private PersistentTokenRepository tokenRepository = new InMemoryTokenRepositoryImpl();
 
-	private SecureRandom random;
+	private final SecureRandom random;
 
 	public static final int DEFAULT_SERIES_LENGTH = 16;
 

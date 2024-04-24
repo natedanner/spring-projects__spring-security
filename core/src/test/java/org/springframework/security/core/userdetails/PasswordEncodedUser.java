@@ -53,7 +53,7 @@ public class PasswordEncodedUser {
 	}
 
 	private static Function<String, String> passwordEncoder() {
-		return (rawPassword) -> "{noop}" + rawPassword;
+		return rawPassword -> "{noop}" + rawPassword;
 	}
 
 	protected PasswordEncodedUser() {

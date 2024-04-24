@@ -73,10 +73,10 @@ public class CookieServerRequestCache implements ServerRequestCache {
 	@Override
 	public Mono<Void> saveRequest(ServerWebExchange exchange) {
 		return this.saveRequestMatcher.matches(exchange)
-			.filter((m) -> m.isMatch())
-			.map((m) -> exchange.getResponse())
+			.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
+			.map(m -> exchange.getResponse())
 			.map(ServerHttpResponse::getCookies)
-			.doOnNext((cookies) -> {
+			.doOnNext(cookies -> {
 				ResponseCookie redirectUriCookie = createRedirectUriCookie(exchange.getRequest());
 				cookies.add(REDIRECT_URI_COOKIE_NAME, redirectUriCookie);
 				logger.debug(LogMessage.format("Request added to Cookie: %s", redirectUriCookie));
@@ -90,7 +90,7 @@ public class CookieServerRequestCache implements ServerRequestCache {
 		return Mono.justOrEmpty(cookieMap.getFirst(REDIRECT_URI_COOKIE_NAME))
 			.map(HttpCookie::getValue)
 			.map(CookieServerRequestCache::decodeCookie)
-			.onErrorResume(IllegalArgumentException.class, (ex) -> Mono.empty())
+			.onErrorResume(IllegalArgumentException.class, ex -> Mono.empty())
 			.map(URI::create);
 	}
 
@@ -98,7 +98,7 @@ public class CookieServerRequestCache implements ServerRequestCache {
 	public Mono<ServerHttpRequest> removeMatchingRequest(ServerWebExchange exchange) {
 		return Mono.just(exchange.getResponse())
 			.map(ServerHttpResponse::getCookies)
-			.doOnNext((cookies) -> cookies.add(REDIRECT_URI_COOKIE_NAME,
+			.doOnNext(cookies -> cookies.add(REDIRECT_URI_COOKIE_NAME,
 					invalidateRedirectUriCookie(exchange.getRequest())))
 			.thenReturn(exchange.getRequest());
 	}
@@ -106,7 +106,7 @@ public class CookieServerRequestCache implements ServerRequestCache {
 	private static ResponseCookie createRedirectUriCookie(ServerHttpRequest request) {
 		String path = request.getPath().pathWithinApplication().value();
 		String query = request.getURI().getRawQuery();
-		String redirectUri = path + ((query != null) ? "?" + query : "");
+		String redirectUri = path + (query != null ? "?" + query : "");
 		return createResponseCookie(request, encodeCookie(redirectUri), COOKIE_MAX_AGE);
 	}
 

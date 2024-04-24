@@ -191,8 +191,7 @@ public class FilterSecurityInterceptorTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setServletPath("/secure/page.html");
 		FilterChain chain = mock(FilterChain.class);
-		FilterInvocation fi = new FilterInvocation(request, response, chain);
-		return fi;
+		return new FilterInvocation(request, response, chain);
 	}
 
 }

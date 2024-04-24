@@ -31,7 +31,7 @@ public class LogoutPageGeneratingWebFilterTests {
 		LogoutPageGeneratingWebFilter filter = new LogoutPageGeneratingWebFilter();
 		MockServerWebExchange exchange = MockServerWebExchange
 			.from(MockServerHttpRequest.get("/test/logout").contextPath("/test"));
-		filter.filter(exchange, (e) -> Mono.empty()).block();
+		filter.filter(exchange, e -> Mono.empty()).block();
 		assertThat(exchange.getResponse().getBodyAsString().block()).contains("action=\"/test/logout\"");
 	}
 
@@ -39,7 +39,7 @@ public class LogoutPageGeneratingWebFilterTests {
 	public void filterWhenLogoutWithNoContextPathThenActionDoesNotContainsContextPath() throws Exception {
 		LogoutPageGeneratingWebFilter filter = new LogoutPageGeneratingWebFilter();
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/logout"));
-		filter.filter(exchange, (e) -> Mono.empty()).block();
+		filter.filter(exchange, e -> Mono.empty()).block();
 		assertThat(exchange.getResponse().getBodyAsString().block()).contains("action=\"/logout\"");
 	}
 

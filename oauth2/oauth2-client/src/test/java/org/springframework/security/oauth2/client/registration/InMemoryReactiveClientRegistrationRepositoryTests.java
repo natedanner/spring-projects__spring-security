@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class InMemoryReactiveClientRegistrationRepositoryTests {
 
-	private ClientRegistration registration = TestClientRegistrations.clientRegistration().build();
+	private final ClientRegistration registration = TestClientRegistrations.clientRegistration().build();
 
 	private InMemoryReactiveClientRegistrationRepository repository;
 

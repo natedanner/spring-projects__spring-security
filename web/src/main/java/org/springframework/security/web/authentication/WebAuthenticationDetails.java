@@ -60,7 +60,7 @@ public class WebAuthenticationDetails implements Serializable {
 
 	private static String extractSessionId(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		return (session != null) ? session.getId() : null;
+		return session != null ? session.getId() : null;
 	}
 
 	/**

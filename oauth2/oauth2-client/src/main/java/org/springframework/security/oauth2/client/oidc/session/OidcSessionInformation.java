@@ -43,7 +43,7 @@ public class OidcSessionInformation extends SessionInformation {
 	 */
 	public OidcSessionInformation(String sessionId, Map<String, String> authorities, OidcUser user) {
 		super(user, sessionId, new Date());
-		this.authorities = (authorities != null) ? new LinkedHashMap<>(authorities) : Collections.emptyMap();
+		this.authorities = authorities != null ? new LinkedHashMap<>(authorities) : Collections.emptyMap();
 	}
 
 	/**

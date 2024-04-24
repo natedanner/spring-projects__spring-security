@@ -54,7 +54,7 @@ public final class ReactiveSecurityContextHolder {
 	}
 
 	private static Mono<SecurityContext> getSecurityContext(Context context) {
-		return context.<Mono<SecurityContext>>get(SECURITY_CONTEXT_KEY);
+		return context.get(SECURITY_CONTEXT_KEY);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public final class ReactiveSecurityContextHolder {
 	 * from clearing the context.
 	 */
 	public static Function<Context, Context> clearContext() {
-		return (context) -> context.delete(SECURITY_CONTEXT_KEY);
+		return context -> context.delete(SECURITY_CONTEXT_KEY);
 	}
 
 	/**

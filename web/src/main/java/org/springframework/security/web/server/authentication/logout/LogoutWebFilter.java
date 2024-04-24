@@ -46,8 +46,8 @@ public class LogoutWebFilter implements WebFilter {
 
 	private static final Log logger = LogFactory.getLog(LogoutWebFilter.class);
 
-	private AnonymousAuthenticationToken anonymousAuthenticationToken = new AnonymousAuthenticationToken("key",
-			"anonymous", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
+	private final AnonymousAuthenticationToken anonymousAuthenticationToken = new AnonymousAuthenticationToken("key",
+		"anonymous", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
 
 	private ServerLogoutHandler logoutHandler = new SecurityContextServerLogoutHandler();
 
@@ -59,11 +59,11 @@ public class LogoutWebFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return this.requiresLogout.matches(exchange)
-			.filter((result) -> result.isMatch())
+			.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
 			.switchIfEmpty(chain.filter(exchange).then(Mono.empty()))
-			.map((result) -> exchange)
+			.map(result -> exchange)
 			.flatMap(this::flatMapAuthentication)
-			.flatMap((authentication) -> {
+			.flatMap(authentication -> {
 				WebFilterExchange webFilterExchange = new WebFilterExchange(exchange, chain);
 				return logout(webFilterExchange, authentication);
 			});

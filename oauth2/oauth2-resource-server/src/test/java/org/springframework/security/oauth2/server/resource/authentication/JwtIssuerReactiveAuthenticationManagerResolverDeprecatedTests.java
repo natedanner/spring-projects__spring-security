@@ -137,7 +137,7 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 				.setHeader("Content-Type", "application/json")
 				.setBody(JWK_SET));
 			TrustedIssuerJwtAuthenticationManagerResolver resolver = new TrustedIssuerJwtAuthenticationManagerResolver(
-					(iss) -> iss.equals(issuer));
+					iss -> iss.equals(issuer));
 			ReactiveAuthenticationManager authenticationManager = resolver.resolve(issuer).block();
 			ReactiveAuthenticationManager cachedAuthenticationManager = resolver.resolve(issuer).block();
 			assertThat(authenticationManager).isSameAs(cachedAuthenticationManager);
@@ -152,7 +152,7 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-						.flatMap((authenticationManager) -> authenticationManager.authenticate(token))
+						.flatMap(authenticationManager -> authenticationManager.authenticate(token))
 						.block())
 				.withMessageContaining("Invalid issuer");
 		// @formatter:on
@@ -164,8 +164,8 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		ReactiveAuthenticationManager authenticationManager = mock(ReactiveAuthenticationManager.class);
 		given(authenticationManager.authenticate(token)).willReturn(Mono.empty());
 		JwtIssuerReactiveAuthenticationManagerResolver authenticationManagerResolver = new JwtIssuerReactiveAuthenticationManagerResolver(
-				(issuer) -> Mono.just(authenticationManager));
-		authenticationManagerResolver.resolve(null).flatMap((manager) -> manager.authenticate(token)).block();
+				issuer -> Mono.just(authenticationManager));
+		authenticationManagerResolver.resolve(null).flatMap(manager -> manager.authenticate(token)).block();
 		verify(authenticationManager).authenticate(any());
 	}
 
@@ -174,22 +174,22 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		Authentication token = withBearerToken(this.jwt);
 		Map<String, ReactiveAuthenticationManager> authenticationManagers = new HashMap<>();
 		JwtIssuerReactiveAuthenticationManagerResolver authenticationManagerResolver = new JwtIssuerReactiveAuthenticationManagerResolver(
-				(issuer) -> Mono.justOrEmpty(authenticationManagers.get(issuer)));
+				issuer -> Mono.justOrEmpty(authenticationManagers.get(issuer)));
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-				.flatMap((manager) -> manager.authenticate(token))
+				.flatMap(manager -> manager.authenticate(token))
 				.block())
 			.withMessageContaining("Invalid issuer");
 		ReactiveAuthenticationManager authenticationManager = mock(ReactiveAuthenticationManager.class);
 		given(authenticationManager.authenticate(token)).willReturn(Mono.empty());
 		authenticationManagers.put("trusted", authenticationManager);
-		authenticationManagerResolver.resolve(null).flatMap((manager) -> manager.authenticate(token)).block();
+		authenticationManagerResolver.resolve(null).flatMap(manager -> manager.authenticate(token)).block();
 		verify(authenticationManager).authenticate(token);
 		authenticationManagers.clear();
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-						.flatMap((manager) -> manager.authenticate(token))
+						.flatMap(manager -> manager.authenticate(token))
 						.block())
 				.withMessageContaining("Invalid issuer");
 		// @formatter:on
@@ -203,7 +203,7 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-						.flatMap((manager) -> manager.authenticate(token))
+						.flatMap(manager -> manager.authenticate(token))
 						.block())
 				.withMessageNotContaining("Invalid issuer");
 		// @formatter:on
@@ -216,7 +216,7 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		Authentication token = withBearerToken(this.noIssuer);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-				.flatMap((manager) -> manager.authenticate(token))
+				.flatMap(manager -> manager.authenticate(token))
 				.block())
 			.withMessageContaining("Missing issuer");
 	}
@@ -229,7 +229,7 @@ public class JwtIssuerReactiveAuthenticationManagerResolverDeprecatedTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> authenticationManagerResolver.resolve(null)
-						.flatMap((manager) -> manager.authenticate(token))
+						.flatMap(manager -> manager.authenticate(token))
 						.block())
 				.withMessage("Invalid token");
 		// @formatter:on

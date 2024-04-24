@@ -57,7 +57,7 @@ public class CsrfTokenRequestAttributeHandler implements CsrfTokenRequestHandler
 		request.setAttribute(HttpServletResponse.class.getName(), response);
 		CsrfToken csrfToken = new SupplierCsrfToken(deferredCsrfToken);
 		request.setAttribute(CsrfToken.class.getName(), csrfToken);
-		String csrfAttrName = (this.csrfRequestAttributeName != null) ? this.csrfRequestAttributeName
+		String csrfAttrName = this.csrfRequestAttributeName != null ? this.csrfRequestAttributeName
 				: csrfToken.getParameterName();
 		request.setAttribute(csrfAttrName, csrfToken);
 	}

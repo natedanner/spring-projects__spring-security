@@ -95,7 +95,7 @@ public class RequestMatcherDelegatingAuthorizationManagerTests {
 	@Test
 	public void checkWhenMultipleMappingsConfiguredWithConsumerThenDelegatesMatchingManager() {
 		RequestMatcherDelegatingAuthorizationManager manager = RequestMatcherDelegatingAuthorizationManager.builder()
-			.mappings((m) -> {
+			.mappings(m -> {
 				m.add(new RequestMatcherEntry<>(new MvcRequestMatcher(null, "/grant"),
 						(a, o) -> new AuthorizationDecision(true)));
 				m.add(new RequestMatcherEntry<>(AnyRequestMatcher.INSTANCE,
@@ -134,7 +134,7 @@ public class RequestMatcherDelegatingAuthorizationManagerTests {
 			.isThrownBy(() -> RequestMatcherDelegatingAuthorizationManager.builder()
 				.anyRequest()
 				.authenticated()
-				.mappings((m) -> m.add(new RequestMatcherEntry<>(AnyRequestMatcher.INSTANCE,
+				.mappings(m -> m.add(new RequestMatcherEntry<>(AnyRequestMatcher.INSTANCE,
 						AuthenticatedAuthorizationManager.authenticated()))))
 			.withMessage("Can't configure mappings after anyRequest");
 	}

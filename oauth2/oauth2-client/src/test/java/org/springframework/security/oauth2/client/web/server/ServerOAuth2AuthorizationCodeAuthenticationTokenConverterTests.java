@@ -97,7 +97,7 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverterTests {
 	@Test
 	public void applyWhenAuthorizationRequestEmptyThenOAuth2AuthorizationException() {
 		given(this.authorizationRequestRepository.removeAuthorizationRequest(any())).willReturn(Mono.empty());
-		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(() -> applyConverter());
+		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(this::applyConverter);
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverterTests {
 		this.authorizationRequest.attributes(Map::clear);
 		given(this.authorizationRequestRepository.removeAuthorizationRequest(any()))
 			.willReturn(Mono.just(this.authorizationRequest.build()));
-		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(() -> applyConverter())
+		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(this::applyConverter)
 			.withMessageContaining(
 					ServerOAuth2AuthorizationCodeAuthenticationTokenConverter.CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);
 	}
@@ -115,7 +115,7 @@ public class ServerOAuth2AuthorizationCodeAuthenticationTokenConverterTests {
 		given(this.authorizationRequestRepository.removeAuthorizationRequest(any()))
 			.willReturn(Mono.just(this.authorizationRequest.build()));
 		given(this.clientRegistrationRepository.findByRegistrationId(any())).willReturn(Mono.empty());
-		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(() -> applyConverter())
+		assertThatExceptionOfType(OAuth2AuthorizationException.class).isThrownBy(this::applyConverter)
 			.withMessageContaining(
 					ServerOAuth2AuthorizationCodeAuthenticationTokenConverter.CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);
 	}

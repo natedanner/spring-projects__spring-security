@@ -60,7 +60,7 @@ public class DelegatingOAuth2UserService<R extends OAuth2UserRequest, U extends 
 		Assert.notNull(userRequest, "userRequest cannot be null");
 		// @formatter:off
 		return this.userServices.stream()
-				.map((userService) -> userService.loadUser(userRequest))
+				.map(userService -> userService.loadUser(userRequest))
 				.filter(Objects::nonNull)
 				.findFirst()
 				.orElse(null);

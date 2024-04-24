@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 public class RequestWrapperTests {
 
-	private static Map<String, String> testPaths = new LinkedHashMap<>();
+	private static final Map<String, String> testPaths = new LinkedHashMap<>();
 
 	@BeforeAll
 	// Some of these may be unrealistic values, but we can't be sure because of the

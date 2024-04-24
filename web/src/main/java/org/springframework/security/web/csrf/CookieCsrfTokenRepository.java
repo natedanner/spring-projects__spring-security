@@ -65,7 +65,7 @@ public final class CookieCsrfTokenRepository implements CsrfTokenRepository {
 
 	private int cookieMaxAge = -1;
 
-	private Consumer<ResponseCookie.ResponseCookieBuilder> cookieCustomizer = (builder) -> {
+	private Consumer<ResponseCookie.ResponseCookieBuilder> cookieCustomizer = builder -> {
 	};
 
 	/**
@@ -86,12 +86,12 @@ public final class CookieCsrfTokenRepository implements CsrfTokenRepository {
 
 	@Override
 	public void saveToken(CsrfToken token, HttpServletRequest request, HttpServletResponse response) {
-		String tokenValue = (token != null) ? token.getToken() : "";
+		String tokenValue = token != null ? token.getToken() : "";
 
 		ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from(this.cookieName, tokenValue)
-			.secure((this.secure != null) ? this.secure : request.isSecure())
+			.secure(this.secure != null ? this.secure : request.isSecure())
 			.path(StringUtils.hasLength(this.cookiePath) ? this.cookiePath : this.getRequestContext(request))
-			.maxAge((token != null) ? this.cookieMaxAge : 0)
+			.maxAge(token != null ? this.cookieMaxAge : 0)
 			.httpOnly(this.cookieHttpOnly)
 			.domain(this.cookieDomain);
 
@@ -168,7 +168,7 @@ public final class CookieCsrfTokenRepository implements CsrfTokenRepository {
 
 	private String getRequestContext(HttpServletRequest request) {
 		String contextPath = request.getContextPath();
-		return (contextPath.length() > 0) ? contextPath : "/";
+		return contextPath.length() > 0 ? contextPath : "/";
 	}
 
 	/**

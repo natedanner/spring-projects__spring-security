@@ -37,7 +37,7 @@ import org.springframework.security.util.InMemoryResource;
 public class ReactiveUserDetailsServiceResourceFactoryBean
 		implements ResourceLoaderAware, FactoryBean<MapReactiveUserDetailsService> {
 
-	private UserDetailsResourceFactoryBean userDetails = new UserDetailsResourceFactoryBean();
+	private final UserDetailsResourceFactoryBean userDetails = new UserDetailsResourceFactoryBean();
 
 	@Override
 	public MapReactiveUserDetailsService getObject() throws Exception {

@@ -79,20 +79,20 @@ public final class SecuredAuthorizationManager implements AuthorizationManager<M
 	private Set<String> getAuthorities(MethodInvocation methodInvocation) {
 		Method method = methodInvocation.getMethod();
 		Object target = methodInvocation.getThis();
-		Class<?> targetClass = (target != null) ? target.getClass() : null;
+		Class<?> targetClass = target != null ? target.getClass() : null;
 		MethodClassKey cacheKey = new MethodClassKey(method, targetClass);
-		return this.cachedAuthorities.computeIfAbsent(cacheKey, (k) -> resolveAuthorities(method, targetClass));
+		return this.cachedAuthorities.computeIfAbsent(cacheKey, k -> resolveAuthorities(method, targetClass));
 	}
 
 	private Set<String> resolveAuthorities(Method method, Class<?> targetClass) {
 		Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 		Secured secured = findSecuredAnnotation(specificMethod);
-		return (secured != null) ? Set.of(secured.value()) : Collections.emptySet();
+		return secured != null ? Set.of(secured.value()) : Collections.emptySet();
 	}
 
 	private Secured findSecuredAnnotation(Method method) {
 		Secured secured = AuthorizationAnnotationUtils.findUniqueAnnotation(method, Secured.class);
-		return (secured != null) ? secured
+		return secured != null ? secured
 				: AuthorizationAnnotationUtils.findUniqueAnnotation(method.getDeclaringClass(), Secured.class);
 	}
 

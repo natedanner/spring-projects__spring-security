@@ -43,7 +43,7 @@ public class UnboundIdContainer
 
 	private InMemoryDirectoryServer directoryServer;
 
-	private String defaultPartitionSuffix;
+	private final String defaultPartitionSuffix;
 
 	private int port = 53389;
 
@@ -51,7 +51,7 @@ public class UnboundIdContainer
 
 	private boolean running;
 
-	private String ldif;
+	private final String ldif;
 
 	public UnboundIdContainer(String defaultPartitionSuffix, String ldif) {
 		this.defaultPartitionSuffix = defaultPartitionSuffix;

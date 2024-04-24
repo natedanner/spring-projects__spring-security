@@ -180,9 +180,9 @@ public final class JwtIssuerReactiveAuthenticationManagerResolver
 					"Authentication must be of type BearerTokenAuthenticationToken");
 			BearerTokenAuthenticationToken token = (BearerTokenAuthenticationToken) authentication;
 			return this.issuerConverter.convert(token)
-				.flatMap((issuer) -> this.issuerAuthenticationManagerResolver.resolve(issuer)
+				.flatMap(issuer -> this.issuerAuthenticationManagerResolver.resolve(issuer)
 					.switchIfEmpty(Mono.error(() -> new InvalidBearerTokenException("Invalid issuer " + issuer))))
-				.flatMap((manager) -> manager.authenticate(authentication));
+				.flatMap(manager -> manager.authenticate(authentication));
 		}
 
 	}
@@ -226,10 +226,10 @@ public final class JwtIssuerReactiveAuthenticationManagerResolver
 			}
 			// @formatter:off
 			return this.authenticationManagers.computeIfAbsent(issuer,
-					(k) -> Mono.<ReactiveAuthenticationManager>fromCallable(() -> new JwtReactiveAuthenticationManager(ReactiveJwtDecoders.fromIssuerLocation(k)))
-							.doOnNext((manager) -> this.logger.debug(LogMessage.format("Resolved AuthenticationManager for issuer '%s'", issuer)))
+					k -> Mono.<ReactiveAuthenticationManager>fromCallable(() -> new JwtReactiveAuthenticationManager(ReactiveJwtDecoders.fromIssuerLocation(k)))
+							.doOnNext(manager -> this.logger.debug(LogMessage.format("Resolved AuthenticationManager for issuer '%s'", issuer)))
 							.subscribeOn(Schedulers.boundedElastic())
-							.cache((manager) -> Duration.ofMillis(Long.MAX_VALUE), (ex) -> Duration.ZERO, () -> Duration.ZERO)
+							.cache(manager -> Duration.ofMillis(Long.MAX_VALUE), ex -> Duration.ZERO, () -> Duration.ZERO)
 			);
 			// @formatter:on
 		}

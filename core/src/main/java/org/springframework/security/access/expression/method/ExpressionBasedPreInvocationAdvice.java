@@ -52,7 +52,7 @@ public class ExpressionBasedPreInvocationAdvice implements PreInvocationAuthoriz
 			Object filterTarget = findFilterTarget(preAttr.getFilterTarget(), ctx, mi);
 			this.expressionHandler.filter(filterTarget, preFilter, ctx);
 		}
-		return (preAuthorize != null) ? ExpressionUtils.evaluateAsBoolean(preAuthorize, ctx) : true;
+		return preAuthorize != null ? ExpressionUtils.evaluateAsBoolean(preAuthorize, ctx) : true;
 	}
 
 	private Object findFilterTarget(String filterTargetName, EvaluationContext ctx, MethodInvocation invocation) {

@@ -147,7 +147,7 @@ final class TestSaml2JsonPayloads {
 		return Saml2PostAuthenticationRequest
 			.withRelyingPartyRegistration(TestRelyingPartyRegistrations.full()
 				.registrationId(RELYINGPARTY_REGISTRATION_ID)
-				.assertingPartyDetails((party) -> party.singleSignOnServiceLocation(AUTHENTICATION_REQUEST_URI))
+				.assertingPartyDetails(party -> party.singleSignOnServiceLocation(AUTHENTICATION_REQUEST_URI))
 				.build())
 			.samlRequest(SAML_REQUEST)
 			.relayState(RELAY_STATE)
@@ -159,7 +159,7 @@ final class TestSaml2JsonPayloads {
 		return Saml2RedirectAuthenticationRequest
 			.withRelyingPartyRegistration(TestRelyingPartyRegistrations.full()
 				.registrationId(RELYINGPARTY_REGISTRATION_ID)
-				.assertingPartyDetails((party) -> party.singleSignOnServiceLocation(AUTHENTICATION_REQUEST_URI))
+				.assertingPartyDetails(party -> party.singleSignOnServiceLocation(AUTHENTICATION_REQUEST_URI))
 				.build())
 			.samlRequest(SAML_REQUEST)
 			.relayState(RELAY_STATE)
@@ -173,13 +173,13 @@ final class TestSaml2JsonPayloads {
 		return Saml2LogoutRequest
 			.withRelyingPartyRegistration(TestRelyingPartyRegistrations.full()
 				.registrationId(RELYINGPARTY_REGISTRATION_ID)
-				.assertingPartyDetails((party) -> party.singleLogoutServiceLocation(LOCATION)
+				.assertingPartyDetails(party -> party.singleLogoutServiceLocation(LOCATION)
 					.singleLogoutServiceBinding(Saml2MessageBinding.REDIRECT))
 				.build())
 			.id(ID)
 			.samlRequest(SAML_REQUEST)
 			.relayState(RELAY_STATE)
-			.parameters((params) -> params.put("AdditionalParam", ADDITIONAL_PARAM))
+			.parameters(params -> params.put("AdditionalParam", ADDITIONAL_PARAM))
 			.build();
 	}
 

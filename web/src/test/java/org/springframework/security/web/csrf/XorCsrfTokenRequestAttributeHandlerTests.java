@@ -217,7 +217,7 @@ public class XorCsrfTokenRequestAttributeHandlerTests {
 	}
 
 	private static Answer<Void> fillByteArray() {
-		return (invocation) -> {
+		return invocation -> {
 			byte[] bytes = invocation.getArgument(0);
 			Arrays.fill(bytes, (byte) 1);
 			return null;

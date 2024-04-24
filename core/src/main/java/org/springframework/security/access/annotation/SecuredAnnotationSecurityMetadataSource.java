@@ -78,7 +78,7 @@ public class SecuredAnnotationSecurityMetadataSource extends AbstractFallbackMet
 	}
 
 	private Collection<ConfigAttribute> processAnnotation(Annotation annotation) {
-		return (annotation != null) ? this.annotationExtractor.extractAttributes(annotation) : null;
+		return annotation != null ? this.annotationExtractor.extractAttributes(annotation) : null;
 	}
 
 	static class SecuredAnnotationMetadataExtractor implements AnnotationMetadataExtractor<Secured> {

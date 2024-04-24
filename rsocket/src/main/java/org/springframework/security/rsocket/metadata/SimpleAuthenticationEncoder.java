@@ -45,7 +45,7 @@ public class SimpleAuthenticationEncoder extends AbstractEncoder<UsernamePasswor
 	private static final MimeType AUTHENTICATION_MIME_TYPE = MimeTypeUtils
 		.parseMimeType("message/x.rsocket.authentication.v0");
 
-	private NettyDataBufferFactory defaultBufferFactory = new NettyDataBufferFactory(ByteBufAllocator.DEFAULT);
+	private final NettyDataBufferFactory defaultBufferFactory = new NettyDataBufferFactory(ByteBufAllocator.DEFAULT);
 
 	public SimpleAuthenticationEncoder() {
 		super(AUTHENTICATION_MIME_TYPE);
@@ -55,7 +55,7 @@ public class SimpleAuthenticationEncoder extends AbstractEncoder<UsernamePasswor
 	public Flux<DataBuffer> encode(Publisher<? extends UsernamePasswordMetadata> inputStream,
 			DataBufferFactory bufferFactory, ResolvableType elementType, MimeType mimeType, Map<String, Object> hints) {
 		return Flux.from(inputStream)
-			.map((credentials) -> encodeValue(credentials, bufferFactory, elementType, mimeType, hints));
+			.map(credentials -> encodeValue(credentials, bufferFactory, elementType, mimeType, hints));
 	}
 
 	@Override

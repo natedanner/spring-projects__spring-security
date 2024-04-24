@@ -56,7 +56,7 @@ public final class PasswordComparisonAuthenticator extends AbstractLdapAuthentic
 
 	private String passwordAttributeName = "userPassword";
 
-	private boolean usePasswordAttrCompare = false;
+	private boolean usePasswordAttrCompare;
 
 	public PasswordComparisonAuthenticator(BaseLdapPathContextSource contextSource) {
 		super(contextSource);

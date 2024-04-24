@@ -30,8 +30,8 @@ public class SpringTestParentApplicationContextExecutionListener implements Test
 	public void beforeTestMethod(TestContext testContext) throws Exception {
 		ApplicationContext parent = testContext.getApplicationContext();
 		Object testInstance = testContext.getTestInstance();
-		getContexts(testInstance).forEach((springTestContext) -> springTestContext
-			.postProcessor((applicationContext) -> applicationContext.setParent(parent)));
+		getContexts(testInstance).forEach(springTestContext -> springTestContext
+			.postProcessor(applicationContext -> applicationContext.setParent(parent)));
 	}
 
 	private static List<SpringTestContext> getContexts(Object test) throws IllegalAccessException {

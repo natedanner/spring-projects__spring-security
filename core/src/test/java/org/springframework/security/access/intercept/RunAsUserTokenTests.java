@@ -61,7 +61,7 @@ public class RunAsUserTokenTests {
 		RunAsUserToken token = new RunAsUserToken("my_password", "Test", "Password",
 				AuthorityUtils.createAuthorityList("ROLE_ONE", "ROLE_TWO"), UsernamePasswordAuthenticationToken.class);
 		assertThat(token.toString()
-			.lastIndexOf("Original Class: " + UsernamePasswordAuthenticationToken.class.getName().toString()) != -1)
+			.lastIndexOf("Original Class: " + UsernamePasswordAuthenticationToken.class.getName()) != -1)
 			.isTrue();
 	}
 

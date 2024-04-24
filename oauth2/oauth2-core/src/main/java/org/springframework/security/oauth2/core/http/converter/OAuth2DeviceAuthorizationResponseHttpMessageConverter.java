@@ -164,7 +164,7 @@ public class OAuth2DeviceAuthorizationResponseHttpMessageConverter
 
 		private static String getParameterValue(Map<String, Object> parameters, String parameterName) {
 			Object obj = parameters.get(parameterName);
-			return (obj != null) ? obj.toString() : null;
+			return obj != null ? obj.toString() : null;
 		}
 
 		private static long getParameterValue(Map<String, Object> parameters, String parameterName, long defaultValue) {
@@ -220,7 +220,7 @@ public class OAuth2DeviceAuthorizationResponseHttpMessageConverter
 
 		private static long getExpiresIn(OAuth2DeviceAuthorizationResponse deviceAuthorizationResponse) {
 			if (deviceAuthorizationResponse.getDeviceCode().getExpiresAt() != null) {
-				Instant issuedAt = (deviceAuthorizationResponse.getDeviceCode().getIssuedAt() != null)
+				Instant issuedAt = deviceAuthorizationResponse.getDeviceCode().getIssuedAt() != null
 						? deviceAuthorizationResponse.getDeviceCode().getIssuedAt() : Instant.now();
 				return ChronoUnit.SECONDS.between(issuedAt, deviceAuthorizationResponse.getDeviceCode().getExpiresAt());
 			}

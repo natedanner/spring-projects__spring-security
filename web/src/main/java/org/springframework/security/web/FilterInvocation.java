@@ -94,10 +94,10 @@ public class FilterInvocation {
 	public FilterInvocation(String contextPath, String servletPath, String pathInfo, String query, String method,
 			ServletContext servletContext) {
 		DummyRequest request = new DummyRequest();
-		contextPath = (contextPath != null) ? contextPath : "/cp";
+		contextPath = contextPath != null ? contextPath : "/cp";
 		request.setContextPath(contextPath);
 		request.setServletPath(servletPath);
-		request.setRequestURI(contextPath + servletPath + ((pathInfo != null) ? pathInfo : ""));
+		request.setRequestURI(contextPath + servletPath + (pathInfo != null ? pathInfo : ""));
 		request.setPathInfo(pathInfo);
 		request.setQueryString(query);
 		request.setMethod(method);
@@ -286,7 +286,7 @@ public class FilterInvocation {
 		@Override
 		public String getParameter(String name) {
 			String[] array = this.parameters.get(name);
-			return (array != null && array.length > 0) ? array[0] : null;
+			return array != null && array.length > 0 ? array[0] : null;
 		}
 
 		@Override

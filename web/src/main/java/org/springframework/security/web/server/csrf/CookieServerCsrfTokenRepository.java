@@ -62,7 +62,7 @@ public final class CookieServerCsrfTokenRepository implements ServerCsrfTokenRep
 
 	private int cookieMaxAge = -1;
 
-	private Consumer<ResponseCookie.ResponseCookieBuilder> cookieCustomizer = (builder) -> {
+	private Consumer<ResponseCookie.ResponseCookieBuilder> cookieCustomizer = builder -> {
 	};
 
 	/**
@@ -84,7 +84,7 @@ public final class CookieServerCsrfTokenRepository implements ServerCsrfTokenRep
 	 */
 	public static CookieServerCsrfTokenRepository withHttpOnlyFalse() {
 		CookieServerCsrfTokenRepository result = new CookieServerCsrfTokenRepository();
-		result.setCookieCustomizer((cookie) -> cookie.httpOnly(false));
+		result.setCookieCustomizer(cookie -> cookie.httpOnly(false));
 		return result;
 	}
 
@@ -96,15 +96,15 @@ public final class CookieServerCsrfTokenRepository implements ServerCsrfTokenRep
 	@Override
 	public Mono<Void> saveToken(ServerWebExchange exchange, CsrfToken token) {
 		return Mono.fromRunnable(() -> {
-			String tokenValue = (token != null) ? token.getToken() : "";
+			String tokenValue = token != null ? token.getToken() : "";
 			// @formatter:off
 			ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie
 					.from(this.cookieName, tokenValue)
 					.domain(this.cookieDomain)
 					.httpOnly(this.cookieHttpOnly)
-					.maxAge(!tokenValue.isEmpty() ? this.cookieMaxAge : 0)
-					.path((this.cookiePath != null) ? this.cookiePath : getRequestContext(exchange.getRequest()))
-					.secure((this.secure != null) ? this.secure : (exchange.getRequest().getSslInfo() != null));
+					.maxAge(tokenValue.isEmpty() ? 0 : this.cookieMaxAge)
+					.path(this.cookiePath != null ? this.cookiePath : getRequestContext(exchange.getRequest()))
+					.secure(this.secure != null ? this.secure : (exchange.getRequest().getSslInfo() != null));
 
 			this.cookieCustomizer.accept(cookieBuilder);
 

@@ -39,7 +39,7 @@ public class AbstractSecurityExpressionHandlerTests {
 
 	@BeforeEach
 	public void setUp() {
-		this.handler = new AbstractSecurityExpressionHandler<Object>() {
+		this.handler = new AbstractSecurityExpressionHandler<>() {
 			@Override
 			protected SecurityExpressionOperations createSecurityExpressionRoot(Authentication authentication,
 					Object o) {

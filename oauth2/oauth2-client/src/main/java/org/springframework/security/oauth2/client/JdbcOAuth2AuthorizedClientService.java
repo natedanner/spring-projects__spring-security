@@ -159,7 +159,7 @@ public class JdbcOAuth2AuthorizedClientService implements OAuth2AuthorizedClient
 		PreparedStatementSetter pss = new ArgumentPreparedStatementSetter(parameters);
 		List<OAuth2AuthorizedClient> result = this.jdbcOperations.query(LOAD_AUTHORIZED_CLIENT_SQL, pss,
 				this.authorizedClientRowMapper);
-		return !result.isEmpty() ? (T) result.get(0) : null;
+		return result.isEmpty() ? null : (T) result.get(0);
 	}
 
 	@Override

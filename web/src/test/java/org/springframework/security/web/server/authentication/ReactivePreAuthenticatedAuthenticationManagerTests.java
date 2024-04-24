@@ -43,10 +43,10 @@ import static org.mockito.Mockito.mock;
  */
 public class ReactivePreAuthenticatedAuthenticationManagerTests {
 
-	private ReactiveUserDetailsService mockUserDetailsService = mock(ReactiveUserDetailsService.class);
+	private final ReactiveUserDetailsService mockUserDetailsService = mock(ReactiveUserDetailsService.class);
 
-	private ReactivePreAuthenticatedAuthenticationManager manager = new ReactivePreAuthenticatedAuthenticationManager(
-			this.mockUserDetailsService);
+	private final ReactivePreAuthenticatedAuthenticationManager manager = new ReactivePreAuthenticatedAuthenticationManager(
+		this.mockUserDetailsService);
 
 	private final User validAccount = new User("valid", "", Collections.emptySet());
 

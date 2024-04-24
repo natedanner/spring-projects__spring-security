@@ -81,7 +81,7 @@ public class NamespaceHttpFirewallTests {
 
 		@Bean
 		WebSecurityCustomizer webSecurityCustomizer() {
-			return (web) -> web.httpFirewall(new CustomHttpFirewall());
+			return web -> web.httpFirewall(new CustomHttpFirewall());
 		}
 
 	}

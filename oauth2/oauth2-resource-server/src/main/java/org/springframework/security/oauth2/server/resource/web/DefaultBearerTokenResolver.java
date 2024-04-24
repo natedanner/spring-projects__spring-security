@@ -44,9 +44,9 @@ public final class DefaultBearerTokenResolver implements BearerTokenResolver {
 	private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$",
 			Pattern.CASE_INSENSITIVE);
 
-	private boolean allowFormEncodedBodyParameter = false;
+	private boolean allowFormEncodedBodyParameter;
 
-	private boolean allowUriQueryParameter = false;
+	private boolean allowUriQueryParameter;
 
 	private String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
 
@@ -146,8 +146,8 @@ public final class DefaultBearerTokenResolver implements BearerTokenResolver {
 	}
 
 	private boolean isParameterTokenEnabledForRequest(HttpServletRequest request) {
-		return ((this.allowFormEncodedBodyParameter && isFormEncodedRequest(request) && !isGetRequest(request)
-				&& !hasAccessTokenInQueryString(request)) || (this.allowUriQueryParameter && isGetRequest(request)));
+		return (this.allowFormEncodedBodyParameter && isFormEncodedRequest(request) && !isGetRequest(request)
+				&& !hasAccessTokenInQueryString(request)) || (this.allowUriQueryParameter && isGetRequest(request));
 	}
 
 }

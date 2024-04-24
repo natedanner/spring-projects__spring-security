@@ -127,7 +127,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 		@Override
 		public int compareTo(Item item) {
 			if (item == null) {
-				return (value == 0) ? 0 : 1; // 1.0 == 1, 1.1 > 1
+				return value == 0 ? 0 : 1; // 1.0 == 1, 1.1 > 1
 			}
 
 			return switch (item.getType()) {
@@ -191,7 +191,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 		@Override
 		public int compareTo(Item item) {
 			if (item == null) {
-				return (value == 0) ? 0 : 1; // 1.0 == 1, 1.1 > 1
+				return value == 0 ? 0 : 1; // 1.0 == 1, 1.1 > 1
 			}
 
 			return switch (item.getType()) {
@@ -338,7 +338,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 
 		@Override
 		public boolean isNull() {
-			return (comparableQualifier(value).compareTo(RELEASE_VERSION_INDEX) == 0);
+			return comparableQualifier(value).compareTo(RELEASE_VERSION_INDEX) == 0;
 		}
 
 		/**
@@ -414,7 +414,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 
 		@Override
 		public boolean isNull() {
-			return (size() == 0);
+			return isEmpty();
 		}
 
 		void normalize() {
@@ -434,7 +434,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 		@Override
 		public int compareTo(Item item) {
 			if (item == null) {
-				if (size() == 0) {
+				if (isEmpty()) {
 					return 0; // 1-0 = 1- (normalize) = 1
 				}
 				Item first = get(0);
@@ -468,7 +468,7 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 			StringBuilder buffer = new StringBuilder();
 			for (Item item : this) {
 				if (buffer.length() > 0) {
-					buffer.append((item instanceof ListItem) ? '-' : '.');
+					buffer.append(item instanceof ListItem ? '-' : '.');
 				}
 				buffer.append(item);
 			}
@@ -641,11 +641,11 @@ class ComparableVersion implements Comparable<ComparableVersion> {
 
 			if (prev != null) {
 				int compare = prev.compareTo(c);
-				System.out.println("   " + prev.toString() + ' ' + ((compare == 0) ? "==" : ((compare < 0) ? "<" : ">"))
+				System.out.println("   " + prev.toString() + ' ' + (compare == 0 ? "==" : (compare < 0 ? "<" : ">"))
 						+ ' ' + version);
 			}
 
-			System.out.println(String.valueOf(i++) + ". " + version + " == " + c.getCanonical());
+			System.out.println(i++ + ". " + version + " == " + c.getCanonical());
 
 			prev = c;
 		}

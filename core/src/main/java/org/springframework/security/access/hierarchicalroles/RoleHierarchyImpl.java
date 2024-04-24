@@ -86,7 +86,7 @@ public class RoleHierarchyImpl implements RoleHierarchy {
 	 * {@code rolesReachableInOneOrMoreStepsMap} is a Map that under the key of a specific
 	 * role name contains a set of all roles reachable from this role in 1 or more steps
 	 */
-	private Map<String, Set<GrantedAuthority>> rolesReachableInOneOrMoreStepsMap = null;
+	private Map<String, Set<GrantedAuthority>> rolesReachableInOneOrMoreStepsMap;
 
 	/**
 	 * @deprecated Use {@link RoleHierarchyImpl#fromHierarchy} instead

@@ -111,7 +111,7 @@ public final class WebSecurity extends AbstractConfiguredSecurityBuilder<Filter,
 
 	private HttpServletRequestTransformer privilegeEvaluatorRequestTransformer;
 
-	private DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+	private final DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
 
 	private SecurityExpressionHandler<FilterInvocation> expressionHandler = this.defaultWebSecurityExpressionHandler;
 

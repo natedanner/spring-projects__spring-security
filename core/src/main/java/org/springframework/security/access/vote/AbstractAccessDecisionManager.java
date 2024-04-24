@@ -53,7 +53,7 @@ public abstract class AbstractAccessDecisionManager
 
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
-	private boolean allowIfAllAbstainDecisions = false;
+	private boolean allowIfAllAbstainDecisions;
 
 	protected AbstractAccessDecisionManager(List<AccessDecisionVoter<?>> decisionVoters) {
 		Assert.notEmpty(decisionVoters, "A list of AccessDecisionVoters is required");

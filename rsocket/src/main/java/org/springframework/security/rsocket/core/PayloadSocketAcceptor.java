@@ -70,8 +70,8 @@ class PayloadSocketAcceptor implements SocketAcceptor {
 		Assert.notNull(metadataMimeType, "No `metadataMimeType` in ConnectionSetupPayload and no default value");
 		// FIXME do we want to make the sendingSocket available in the PayloadExchange
 		return intercept(setup, dataMimeType, metadataMimeType)
-			.flatMap((ctx) -> this.delegate.accept(setup, sendingSocket)
-				.map((acceptingSocket) -> new PayloadInterceptorRSocket(acceptingSocket, this.interceptors,
+			.flatMap(ctx -> this.delegate.accept(setup, sendingSocket)
+				.map(acceptingSocket -> new PayloadInterceptorRSocket(acceptingSocket, this.interceptors,
 						metadataMimeType, dataMimeType, ctx))
 				.contextWrite(ctx));
 	}

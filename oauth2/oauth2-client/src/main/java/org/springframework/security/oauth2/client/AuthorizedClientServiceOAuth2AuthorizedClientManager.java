@@ -167,7 +167,7 @@ public final class AuthorizedClientServiceOAuth2AuthorizedClientManager implemen
 			Authentication principal, OAuth2AuthorizationContext.Builder contextBuilder) {
 		// @formatter:off
 		return contextBuilder.principal(principal)
-				.attributes((attributes) -> {
+				.attributes(attributes -> {
 					Map<String, Object> contextAttributes = this.contextAttributesMapper.apply(authorizeRequest);
 					if (!CollectionUtils.isEmpty(contextAttributes)) {
 						attributes.putAll(contextAttributes);

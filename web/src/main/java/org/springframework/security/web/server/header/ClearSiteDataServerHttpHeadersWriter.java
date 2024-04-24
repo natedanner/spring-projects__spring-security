@@ -104,7 +104,7 @@ public final class ClearSiteDataServerHttpHeadersWriter implements ServerHttpHea
 
 	private boolean isSecure(ServerWebExchange exchange) {
 		String scheme = exchange.getRequest().getURI().getScheme();
-		return scheme != null && scheme.equalsIgnoreCase("https");
+		return"https".equalsIgnoreCase(scheme);
 	}
 
 }

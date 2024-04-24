@@ -64,7 +64,7 @@ public class ReactivePreAuthenticatedAuthenticationManager implements ReactiveAu
 			.flatMap(this.userDetailsService::findByUsername)
 			.switchIfEmpty(Mono.error(() -> new UsernameNotFoundException("User not found")))
 			.doOnNext(this.userDetailsChecker::check)
-			.map((userDetails) -> {
+			.map(userDetails -> {
 				PreAuthenticatedAuthenticationToken result = new PreAuthenticatedAuthenticationToken(userDetails,
 						authentication.getCredentials(), userDetails.getAuthorities());
 				result.setDetails(authentication.getDetails());

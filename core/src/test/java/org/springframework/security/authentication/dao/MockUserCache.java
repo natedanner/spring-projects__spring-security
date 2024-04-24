@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MockUserCache implements UserCache {
 
-	private Map<String, UserDetails> cache = new HashMap<>();
+	private final Map<String, UserDetails> cache = new HashMap<>();
 
 	@Override
 	public UserDetails getUserFromCache(String username) {

@@ -36,7 +36,7 @@ public class RememberMeAuthenticationProvider implements AuthenticationProvider,
 
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
-	private String key;
+	private final String key;
 
 	public RememberMeAuthenticationProvider(String key) {
 		Assert.hasLength(key, "key must have a length");
@@ -71,7 +71,7 @@ public class RememberMeAuthenticationProvider implements AuthenticationProvider,
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return (RememberMeAuthenticationToken.class.isAssignableFrom(authentication));
+		return RememberMeAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 
 }

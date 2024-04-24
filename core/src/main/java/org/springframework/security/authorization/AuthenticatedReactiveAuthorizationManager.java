@@ -32,7 +32,7 @@ import org.springframework.security.core.Authentication;
  */
 public class AuthenticatedReactiveAuthorizationManager<T> implements ReactiveAuthorizationManager<T> {
 
-	private AuthenticationTrustResolver authTrustResolver = new AuthenticationTrustResolverImpl();
+	private final AuthenticationTrustResolver authTrustResolver = new AuthenticationTrustResolverImpl();
 
 	AuthenticatedReactiveAuthorizationManager() {
 	}

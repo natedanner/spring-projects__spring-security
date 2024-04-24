@@ -44,9 +44,9 @@ public class SpringCacheBasedUserCache implements UserCache {
 
 	@Override
 	public UserDetails getUserFromCache(String username) {
-		Cache.ValueWrapper element = (username != null) ? this.cache.get(username) : null;
+		Cache.ValueWrapper element = username != null ? this.cache.get(username) : null;
 		logger.debug(LogMessage.of(() -> "Cache hit: " + (element != null) + "; username: " + username));
-		return (element != null) ? (UserDetails) element.get() : null;
+		return element != null ? (UserDetails) element.get() : null;
 	}
 
 	@Override

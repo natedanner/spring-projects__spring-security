@@ -91,7 +91,7 @@ public class SpringSecurityLdapTemplate extends LdapTemplate {
 	 */
 	public boolean compare(String dn, String attributeName, Object value) {
 		String comparisonFilter = "(" + attributeName + "={0})";
-		return executeReadOnly((ctx) -> {
+		return executeReadOnly(ctx -> {
 			SearchControls searchControls = new SearchControls();
 			searchControls.setReturningAttributes(NO_ATTRS);
 			searchControls.setSearchScope(SearchControls.OBJECT_SCOPE);
@@ -111,7 +111,7 @@ public class SpringSecurityLdapTemplate extends LdapTemplate {
 	 * @return the object created by the mapper
 	 */
 	public DirContextOperations retrieveEntry(final String dn, final String[] attributesToRetrieve) {
-		return (DirContextOperations) executeReadOnly((ContextExecutor) (ctx) -> {
+		return (DirContextOperations) executeReadOnly((ContextExecutor) ctx -> {
 			Attributes attrs = ctx.getAttributes(dn, attributesToRetrieve);
 			return new DirContextAdapter(attrs, new DistinguishedName(dn),
 					new DistinguishedName(ctx.getNameInNamespace()));
@@ -168,7 +168,7 @@ public class SpringSecurityLdapTemplate extends LdapTemplate {
 		String formattedFilter = MessageFormat.format(filter, encodedParams);
 		logger.trace(LogMessage.format("Using filter: %s", formattedFilter));
 		HashSet<Map<String, List<String>>> result = new HashSet<>();
-		ContextMapper roleMapper = (ctx) -> {
+		ContextMapper roleMapper = ctx -> {
 			DirContextAdapter adapter = (DirContextAdapter) ctx;
 			Map<String, List<String>> record = new HashMap<>();
 			if (ObjectUtils.isEmpty(attributeNames)) {
@@ -193,7 +193,7 @@ public class SpringSecurityLdapTemplate extends LdapTemplate {
 		};
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(this.searchControls.getSearchScope());
-		ctls.setReturningAttributes((attributeNames != null && attributeNames.length > 0) ? attributeNames : null);
+		ctls.setReturningAttributes(attributeNames != null && attributeNames.length > 0 ? attributeNames : null);
 		search(base, formattedFilter, ctls, roleMapper);
 		return result;
 	}
@@ -257,7 +257,7 @@ public class SpringSecurityLdapTemplate extends LdapTemplate {
 	 * search returns more than one result.
 	 */
 	public DirContextOperations searchForSingleEntry(String base, String filter, Object[] params) {
-		return (DirContextOperations) executeReadOnly((ContextExecutor) (ctx) -> searchForSingleEntryInternal(ctx,
+		return (DirContextOperations) executeReadOnly((ContextExecutor) ctx -> searchForSingleEntryInternal(ctx,
 				this.searchControls, base, filter, params));
 	}
 

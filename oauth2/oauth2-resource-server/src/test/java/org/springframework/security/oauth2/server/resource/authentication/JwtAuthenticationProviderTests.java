@@ -91,7 +91,7 @@ public class JwtAuthenticationProviderTests {
 		// @formatter:off
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 				.isThrownBy(() -> this.provider.authenticate(token))
-				.satisfies((ex) -> assertThat(ex).hasFieldOrPropertyWithValue("error.description", "Invalid token"));
+				.satisfies(ex -> assertThat(ex).hasFieldOrPropertyWithValue("error.description", "Invalid token"));
 		// @formatter:on
 	}
 
@@ -162,7 +162,7 @@ public class JwtAuthenticationProviderTests {
 	}
 
 	private Predicate<? super Throwable> errorCode(String errorCode) {
-		return (failed) -> ((OAuth2AuthenticationException) failed).getError().getErrorCode() == errorCode;
+		return failed -> ((OAuth2AuthenticationException) failed).getError().getErrorCode() == errorCode;
 	}
 
 }

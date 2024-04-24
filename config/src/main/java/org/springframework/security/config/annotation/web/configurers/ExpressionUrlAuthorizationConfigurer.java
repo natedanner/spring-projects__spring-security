@@ -97,7 +97,7 @@ public final class ExpressionUrlAuthorizationConfigurer<H extends HttpSecurityBu
 
 	private final String rolePrefix;
 
-	private final ExpressionInterceptUrlRegistry REGISTRY;
+	private final ExpressionInterceptUrlRegistry registry;
 
 	private SecurityExpressionHandler<FilterInvocation> expressionHandler;
 
@@ -115,11 +115,11 @@ public final class ExpressionUrlAuthorizationConfigurer<H extends HttpSecurityBu
 		else {
 			this.rolePrefix = "ROLE_";
 		}
-		this.REGISTRY = new ExpressionInterceptUrlRegistry(context);
+		this.registry = new ExpressionInterceptUrlRegistry(context);
 	}
 
 	public ExpressionInterceptUrlRegistry getRegistry() {
-		return this.REGISTRY;
+		return this.registry;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public final class ExpressionUrlAuthorizationConfigurer<H extends HttpSecurityBu
 	private void interceptUrl(Iterable<? extends RequestMatcher> requestMatchers,
 			Collection<ConfigAttribute> configAttributes) {
 		for (RequestMatcher requestMatcher : requestMatchers) {
-			this.REGISTRY.addMapping(
+			this.registry.addMapping(
 					new AbstractConfigAttributeRequestMatcherRegistry.UrlMapping(requestMatcher, configAttributes));
 		}
 	}
@@ -150,7 +150,7 @@ public final class ExpressionUrlAuthorizationConfigurer<H extends HttpSecurityBu
 
 	@Override
 	ExpressionBasedFilterInvocationSecurityMetadataSource createMetadataSource(H http) {
-		LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = this.REGISTRY.createRequestMap();
+		LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = this.registry.createRequestMap();
 		Assert.state(!requestMap.isEmpty(),
 				"At least one mapping is required (i.e. authorizeRequests().anyRequest().authenticated())");
 		return new ExpressionBasedFilterInvocationSecurityMetadataSource(requestMap, getExpressionHandler(http));
@@ -413,7 +413,7 @@ public final class ExpressionUrlAuthorizationConfigurer<H extends HttpSecurityBu
 				attribute = "!" + attribute;
 			}
 			interceptUrl(this.requestMatchers, SecurityConfig.createList(attribute));
-			return ExpressionUrlAuthorizationConfigurer.this.REGISTRY;
+			return ExpressionUrlAuthorizationConfigurer.this.registry;
 		}
 
 	}

@@ -53,7 +53,7 @@ public final class JwtReactiveAuthenticationManager implements ReactiveAuthentic
 	public Mono<Authentication> authenticate(Authentication authentication) {
 		// @formatter:off
 		return Mono.justOrEmpty(authentication)
-				.filter((a) -> a instanceof BearerTokenAuthenticationToken)
+				.filter(BearerTokenAuthenticationToken.class::isInstance)
 				.cast(BearerTokenAuthenticationToken.class)
 				.map(BearerTokenAuthenticationToken::getToken)
 				.flatMap(this.jwtDecoder::decode)

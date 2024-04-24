@@ -89,7 +89,7 @@ final class HtmlUnitWebTestClient {
 
 	private MultiValueMap<String, String> formData(List<NameValuePair> params) {
 		MultiValueMap<String, String> result = new LinkedMultiValueMap<>(params.size());
-		params.forEach((pair) -> result.add(pair.getName(), pair.getValue()));
+		params.forEach(pair -> result.add(pair.getName(), pair.getValue()));
 		return result;
 	}
 
@@ -101,7 +101,7 @@ final class HtmlUnitWebTestClient {
 				contentType = encodingType.getName();
 			}
 		}
-		MediaType mediaType = (contentType != null) ? MediaType.parseMediaType(contentType) : MediaType.ALL;
+		MediaType mediaType = contentType != null ? MediaType.parseMediaType(contentType) : MediaType.ALL;
 		request.contentType(mediaType);
 	}
 
@@ -129,7 +129,7 @@ final class HtmlUnitWebTestClient {
 	}
 
 	private void headers(WebTestClient.RequestBodySpec request, WebRequest webRequest) {
-		webRequest.getAdditionalHeaders().forEach((name, value) -> request.header(name, value));
+		webRequest.getAdditionalHeaders().forEach(request::header);
 	}
 
 	private HttpMethod httpMethod(WebRequest webRequest) {
@@ -146,7 +146,7 @@ final class HtmlUnitWebTestClient {
 
 		@Override
 		public Mono<ClientResponse> filter(ClientRequest request, ExchangeFunction next) {
-			return next.exchange(request).flatMap((response) -> redirectIfNecessary(request, next, response));
+			return next.exchange(request).flatMap(response -> redirectIfNecessary(request, next, response));
 		}
 
 		private Mono<ClientResponse> redirectIfNecessary(ClientRequest request, ExchangeFunction next,
@@ -161,12 +161,12 @@ final class HtmlUnitWebTestClient {
 				}
 				// @formatter:off
 				ClientRequest redirect = ClientRequest.method(HttpMethod.GET, URI.create(redirectUrl))
-						.headers((headers) -> headers.addAll(request.headers()))
-						.cookies((cookies) -> cookies.addAll(request.cookies()))
-						.attributes((attributes) -> attributes.putAll(request.attributes()))
+						.headers(headers -> headers.addAll(request.headers()))
+						.cookies(cookies -> cookies.addAll(request.cookies()))
+						.attributes(attributes -> attributes.putAll(request.attributes()))
 						.build();
 				// @formatter:on
-				return next.exchange(redirect).flatMap((r) -> redirectIfNecessary(request, next, r));
+				return next.exchange(redirect).flatMap(r -> redirectIfNecessary(request, next, r));
 			}
 			return Mono.just(response);
 		}
@@ -179,9 +179,9 @@ final class HtmlUnitWebTestClient {
 
 		@Override
 		public Mono<ClientResponse> filter(ClientRequest request, ExchangeFunction next) {
-			return next.exchange(withClientCookies(request)).doOnSuccess((response) -> {
-				response.cookies().values().forEach((cookies) -> {
-					cookies.forEach((cookie) -> {
+			return next.exchange(withClientCookies(request)).doOnSuccess(response ->
+				response.cookies().values().forEach(cookies -> {
+					cookies.forEach(cookie -> {
 						if (cookie.getMaxAge().isZero()) {
 							this.cookies.remove(cookie.getName());
 						}
@@ -189,17 +189,16 @@ final class HtmlUnitWebTestClient {
 							this.cookies.put(cookie.getName(), cookie);
 						}
 					});
-				});
-			});
+				}));
 		}
 
 		private ClientRequest withClientCookies(ClientRequest request) {
-			return ClientRequest.from(request).cookies((c) -> c.addAll(clientCookies())).build();
+			return ClientRequest.from(request).cookies(c -> c.addAll(clientCookies())).build();
 		}
 
 		private MultiValueMap<String, String> clientCookies() {
 			MultiValueMap<String, String> result = new LinkedMultiValueMap<>(this.cookies.size());
-			this.cookies.values().forEach((cookie) -> result.add(cookie.getName(), cookie.getValue()));
+			this.cookies.values().forEach(cookie -> result.add(cookie.getName(), cookie.getValue()));
 			return result;
 		}
 

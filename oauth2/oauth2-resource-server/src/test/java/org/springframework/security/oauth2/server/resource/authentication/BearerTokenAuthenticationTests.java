@@ -50,7 +50,7 @@ public class BearerTokenAuthenticationTests {
 
 	private final String name = "sub";
 
-	private Map<String, Object> attributesMap = new HashMap<>();
+	private final Map<String, Object> attributesMap = new HashMap<>();
 
 	private DefaultOAuth2AuthenticatedPrincipal principal;
 

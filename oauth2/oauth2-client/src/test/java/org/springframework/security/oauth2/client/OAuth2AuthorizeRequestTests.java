@@ -36,13 +36,13 @@ import static org.assertj.core.api.Assertions.entry;
  */
 public class OAuth2AuthorizeRequestTests {
 
-	private ClientRegistration clientRegistration = TestClientRegistrations.clientRegistration().build();
+	private final ClientRegistration clientRegistration = TestClientRegistrations.clientRegistration().build();
 
-	private Authentication principal = new TestingAuthenticationToken("principal", "password");
+	private final Authentication principal = new TestingAuthenticationToken("principal", "password");
 
-	private OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(this.clientRegistration,
-			this.principal.getName(), TestOAuth2AccessTokens.scopes("read", "write"),
-			TestOAuth2RefreshTokens.refreshToken());
+	private final OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(this.clientRegistration,
+		this.principal.getName(), TestOAuth2AccessTokens.scopes("read", "write"),
+		TestOAuth2RefreshTokens.refreshToken());
 
 	@Test
 	public void withClientRegistrationIdWhenClientRegistrationIdIsNullThenThrowIllegalArgumentException() {
@@ -80,7 +80,7 @@ public class OAuth2AuthorizeRequestTests {
 		OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
 			.withClientRegistrationId(this.clientRegistration.getRegistrationId())
 			.principal(this.principal)
-			.attributes((attrs) -> {
+			.attributes(attrs -> {
 				attrs.put("name1", "value1");
 				attrs.put("name2", "value2");
 			})
@@ -95,7 +95,7 @@ public class OAuth2AuthorizeRequestTests {
 	public void withAuthorizedClientWhenAllValuesProvidedThenAllValuesAreSet() {
 		OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withAuthorizedClient(this.authorizedClient)
 			.principal(this.principal)
-			.attributes((attrs) -> {
+			.attributes(attrs -> {
 				attrs.put("name1", "value1");
 				attrs.put("name2", "value2");
 			})

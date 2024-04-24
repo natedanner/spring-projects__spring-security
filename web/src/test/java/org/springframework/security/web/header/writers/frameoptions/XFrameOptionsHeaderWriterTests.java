@@ -33,9 +33,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class XFrameOptionsHeaderWriterTests {
 
-	private MockHttpServletRequest request = new MockHttpServletRequest();
+	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
-	private MockHttpServletResponse response = new MockHttpServletResponse();
+	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
 	private static final String XFRAME_OPTIONS_HEADER = "X-Frame-Options";
 

@@ -112,7 +112,7 @@ class SavedRequestAwareWrapper extends HttpServletRequestWrapper {
 	@Override
 	public int getIntHeader(String name) {
 		String value = getHeader(name);
-		return (value != null) ? Integer.parseInt(value) : -1;
+		return value != null ? Integer.parseInt(value) : -1;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public final class XorCsrfChannelInterceptor implements ChannelInterceptor {
 			return message;
 		}
 		Map<String, Object> sessionAttributes = SimpMessageHeaderAccessor.getSessionAttributes(message.getHeaders());
-		CsrfToken expectedToken = (sessionAttributes != null)
+		CsrfToken expectedToken = sessionAttributes != null
 				? (CsrfToken) sessionAttributes.get(CsrfToken.class.getName()) : null;
 		if (expectedToken == null) {
 			throw new MissingCsrfTokenException(null);

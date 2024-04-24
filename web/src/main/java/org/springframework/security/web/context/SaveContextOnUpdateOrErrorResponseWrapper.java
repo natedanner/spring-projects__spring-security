@@ -51,7 +51,7 @@ public abstract class SaveContextOnUpdateOrErrorResponseWrapper extends OnCommit
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private boolean contextSaved = false;
+	private boolean contextSaved;
 
 	// See SEC-1052
 	private final boolean disableUrlRewriting;

@@ -41,8 +41,8 @@ public final class TagLibConfig {
 		String db = System.getProperty("spring.security.disableUISecurity");
 		String prefix = System.getProperty("spring.security.securedUIPrefix");
 		String suffix = System.getProperty("spring.security.securedUISuffix");
-		SECURED_UI_PREFIX = (prefix != null) ? prefix : "<span class=\"securityHiddenUI\">";
-		SECURED_UI_SUFFIX = (suffix != null) ? suffix : "</span>";
+		SECURED_UI_PREFIX = prefix != null ? prefix : "<span class=\"securityHiddenUI\">";
+		SECURED_UI_SUFFIX = suffix != null ? suffix : "</span>";
 		DISABLE_UI_SECURITY = "true".equals(db);
 		if (DISABLE_UI_SECURITY) {
 			logger.warn("***** UI security is disabled. All unauthorized content will be displayed *****");
@@ -58,7 +58,7 @@ public final class TagLibConfig {
 	 * @param authorized whether the user is authorized to see the content or not
 	 */
 	public static int evalOrSkip(boolean authorized) {
-		return (authorized || DISABLE_UI_SECURITY) ? Tag.EVAL_BODY_INCLUDE : Tag.SKIP_BODY;
+		return authorized || DISABLE_UI_SECURITY ? Tag.EVAL_BODY_INCLUDE : Tag.SKIP_BODY;
 	}
 
 	public static boolean isUiSecurityDisabled() {

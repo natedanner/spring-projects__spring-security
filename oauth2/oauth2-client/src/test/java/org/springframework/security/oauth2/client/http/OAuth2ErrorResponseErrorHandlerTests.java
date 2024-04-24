@@ -43,7 +43,7 @@ import static org.mockito.Mockito.verify;
  */
 public class OAuth2ErrorResponseErrorHandlerTests {
 
-	private OAuth2ErrorResponseErrorHandler errorHandler = new OAuth2ErrorResponseErrorHandler();
+	private final OAuth2ErrorResponseErrorHandler errorHandler = new OAuth2ErrorResponseErrorHandler();
 
 	@Test
 	public void handleErrorWhenErrorResponseBodyThenHandled() {
@@ -129,7 +129,7 @@ public class OAuth2ErrorResponseErrorHandlerTests {
 		@Override
 		public String getStatusText() throws IOException {
 			HttpStatus httpStatus = HttpStatus.resolve(this.statusCode);
-			return (httpStatus != null) ? httpStatus.getReasonPhrase() : "";
+			return httpStatus != null ? httpStatus.getReasonPhrase() : "";
 		}
 
 		@Override

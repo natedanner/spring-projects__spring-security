@@ -150,7 +150,7 @@ public class X509ConfigurerTests {
 		X509Certificate certificate = loadCert("rodatexampledotcom.cer");
 		// @formatter:off
 		this.mvc.perform(get("/").with(x509(certificate)))
-				.andExpect((result) -> assertThat(result.getRequest().getSession(false)).isNull())
+				.andExpect(result -> assertThat(result.getRequest().getSession(false)).isNull())
 				.andExpect(authenticated().withUsername("rod"));
 		// @formatter:on
 	}
@@ -257,7 +257,7 @@ public class X509ConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.x509((x509) ->
+				.x509(x509 ->
 					x509
 						.subjectPrincipalRegex("CN=(.*?)@example.com(?:,|$)")
 				);
@@ -319,7 +319,7 @@ public class X509ConfigurerTests {
 							.roles("USER", "ADMIN")
 							.build());
 			http
-				.x509((x509) -> x509
+				.x509(x509 -> x509
 					.userDetailsService(customUserDetailsService)
 				);
 			// @formatter:on
@@ -342,8 +342,8 @@ public class X509ConfigurerTests {
 		SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.x509((x509) -> x509.subjectPrincipalRegex("CN=(.*?)@example.com(?:,|$)"));
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.x509(x509 -> x509.subjectPrincipalRegex("CN=(.*?)@example.com(?:,|$)"));
 			// @formatter:on
 			return http.build();
 		}

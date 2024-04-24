@@ -25,7 +25,7 @@ package org.springframework.security.crypto.keygen;
  */
 final class SharedKeyGenerator implements BytesKeyGenerator {
 
-	private byte[] sharedKey;
+	private final byte[] sharedKey;
 
 	SharedKeyGenerator(byte[] sharedKey) {
 		this.sharedKey = sharedKey;

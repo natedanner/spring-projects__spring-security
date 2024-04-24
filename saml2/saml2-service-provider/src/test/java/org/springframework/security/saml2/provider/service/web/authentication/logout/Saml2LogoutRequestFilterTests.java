@@ -97,7 +97,7 @@ public class Saml2LogoutRequestFilterTests {
 	@Test
 	public void doFilterWhenSamlRequestThenPosts() throws Exception {
 		RelyingPartyRegistration registration = TestRelyingPartyRegistrations.full()
-			.assertingPartyDetails((party) -> party.singleLogoutServiceBinding(Saml2MessageBinding.POST))
+			.assertingPartyDetails(party -> party.singleLogoutServiceBinding(Saml2MessageBinding.POST))
 			.build();
 		Authentication authentication = new TestingAuthenticationToken("user", "password");
 		given(this.securityContextHolderStrategy.getContext()).willReturn(new SecurityContextImpl(authentication));

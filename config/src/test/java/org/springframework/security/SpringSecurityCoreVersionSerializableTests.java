@@ -120,102 +120,102 @@ class SpringSecurityCoreVersionSerializableTests {
 		ClientRegistration clientRegistration = clientRegistrationBuilder.build();
 		UserDetails user = TestAuthentication.user();
 		WebAuthenticationDetails details = new WebAuthenticationDetails("remote", "sessionId");
-		generatorByClassName.put(DefaultOAuth2User.class, (r) -> TestOAuth2Users.create());
-		generatorByClassName.put(ClientRegistration.class, (r) -> clientRegistration);
+		generatorByClassName.put(DefaultOAuth2User.class, r -> TestOAuth2Users.create());
+		generatorByClassName.put(ClientRegistration.class, r -> clientRegistration);
 		generatorByClassName.put(ClientRegistration.ProviderDetails.class,
-				(r) -> clientRegistration.getProviderDetails());
+				r -> clientRegistration.getProviderDetails());
 		generatorByClassName.put(ClientRegistration.ProviderDetails.UserInfoEndpoint.class,
-				(r) -> clientRegistration.getProviderDetails().getUserInfoEndpoint());
-		generatorByClassName.put(ClientRegistration.Builder.class, (r) -> clientRegistrationBuilder);
+				r -> clientRegistration.getProviderDetails().getUserInfoEndpoint());
+		generatorByClassName.put(ClientRegistration.Builder.class, r -> clientRegistrationBuilder);
 		generatorByClassName.put(OAuth2AuthorizationRequest.class,
-				(r) -> TestOAuth2AuthorizationRequests.request().build());
+				r -> TestOAuth2AuthorizationRequests.request().build());
 		generatorByClassName.put(OAuth2AuthorizationResponse.class,
-				(r) -> TestOAuth2AuthorizationResponses.success().build());
+				r -> TestOAuth2AuthorizationResponses.success().build());
 		generatorByClassName.put(OAuth2AuthorizedClient.class,
-				(r) -> new OAuth2AuthorizedClient(clientRegistration, "principal", TestOAuth2AccessTokens.noScopes()));
-		generatorByClassName.put(OAuth2UserAuthority.class, (r) -> new OAuth2UserAuthority(Map.of("username", "user")));
-		generatorByClassName.put(OAuth2AuthorizationExchange.class, (r) -> TestOAuth2AuthorizationExchanges.success());
-		generatorByClassName.put(OidcUserInfo.class, (r) -> OidcUserInfo.builder().email("email@example.com").build());
+				r -> new OAuth2AuthorizedClient(clientRegistration, "principal", TestOAuth2AccessTokens.noScopes()));
+		generatorByClassName.put(OAuth2UserAuthority.class, r -> new OAuth2UserAuthority(Map.of("username", "user")));
+		generatorByClassName.put(OAuth2AuthorizationExchange.class, r -> TestOAuth2AuthorizationExchanges.success());
+		generatorByClassName.put(OidcUserInfo.class, r -> OidcUserInfo.builder().email("email@example.com").build());
 		generatorByClassName.put(SessionInformation.class,
-				(r) -> new SessionInformation(user, r.alphanumeric(4), new Date(1704378933936L)));
-		generatorByClassName.put(OAuth2LoginAuthenticationToken.class, (r) -> {
+				r -> new SessionInformation(user, r.alphanumeric(4), new Date(1704378933936L)));
+		generatorByClassName.put(OAuth2LoginAuthenticationToken.class, r -> {
 			var token = new OAuth2LoginAuthenticationToken(clientRegistration,
 					TestOAuth2AuthorizationExchanges.success());
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(OAuth2AuthorizationCodeAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(OAuth2AuthorizationCodeAuthenticationToken.class, r -> {
 			var token = TestOAuth2AuthorizationCodeAuthenticationTokens.authenticated();
 			token.setDetails(details);
 			return token;
 		});
 		generatorByClassName
-			.put(org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken.class, (r) -> {
+			.put(org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken.class, r -> {
 				var token = new org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken(
 						"token");
 				token.setDetails(details);
 				return token;
 			});
-		generatorByClassName.put(BearerTokenAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(BearerTokenAuthenticationToken.class, r -> {
 			var token = new BearerTokenAuthenticationToken("token");
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(BearerTokenAuthentication.class, (r) -> {
+		generatorByClassName.put(BearerTokenAuthentication.class, r -> {
 			var token = new BearerTokenAuthentication(TestOAuth2AuthenticatedPrincipals.active(),
 					TestOAuth2AccessTokens.noScopes(), user.getAuthorities());
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(OAuth2AuthenticationToken.class, (r) -> {
+		generatorByClassName.put(OAuth2AuthenticationToken.class, r -> {
 			var token = TestOAuth2AuthenticationTokens.authenticated();
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(JwtAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(JwtAuthenticationToken.class, r -> {
 			var token = new JwtAuthenticationToken(TestJwts.user());
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(RunAsUserToken.class, (r) -> {
+		generatorByClassName.put(RunAsUserToken.class, r -> {
 			RunAsUserToken token = new RunAsUserToken("key", user, "creds", user.getAuthorities(),
 					AnonymousAuthenticationToken.class);
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(CasServiceTicketAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(CasServiceTicketAuthenticationToken.class, r -> {
 			CasServiceTicketAuthenticationToken token = CasServiceTicketAuthenticationToken.stateless("creds");
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(CasAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(CasAuthenticationToken.class, r -> {
 			var token = new CasAuthenticationToken("key", user, "Password", user.getAuthorities(), user,
 					new AssertionImpl("test"));
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(CasAssertionAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(CasAssertionAuthenticationToken.class, r -> {
 			var token = new CasAssertionAuthenticationToken(new AssertionImpl("test"), "ticket");
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(RememberMeAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(RememberMeAuthenticationToken.class, r -> {
 			RememberMeAuthenticationToken token = new RememberMeAuthenticationToken("key", user, user.getAuthorities());
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(PreAuthenticatedAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(PreAuthenticatedAuthenticationToken.class, r -> {
 			PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(user, "creds",
 					user.getAuthorities());
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(UsernamePasswordAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(UsernamePasswordAuthenticationToken.class, r -> {
 			var token = UsernamePasswordAuthenticationToken.unauthenticated(user, "creds");
 			token.setDetails(details);
 			return token;
 		});
-		generatorByClassName.put(JaasAuthenticationToken.class, (r) -> {
+		generatorByClassName.put(JaasAuthenticationToken.class, r -> {
 			var token = new JaasAuthenticationToken(user, "creds", null);
 			token.setDetails(details);
 			return token;

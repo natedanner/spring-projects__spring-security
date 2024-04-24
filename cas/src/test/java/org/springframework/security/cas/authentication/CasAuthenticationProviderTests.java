@@ -233,7 +233,7 @@ public class CasAuthenticationProviderTests {
 		cap.setStatelessTicketCache(new MockStatelessTicketCache());
 		cap.setTicketValidator(new MockTicketValidator(true));
 		cap.setServiceProperties(makeServiceProperties());
-		assertThatIllegalArgumentException().isThrownBy(() -> cap.afterPropertiesSet());
+		assertThatIllegalArgumentException().isThrownBy(cap::afterPropertiesSet);
 	}
 
 	@Test
@@ -243,7 +243,7 @@ public class CasAuthenticationProviderTests {
 		cap.setStatelessTicketCache(new MockStatelessTicketCache());
 		cap.setTicketValidator(new MockTicketValidator(true));
 		cap.setServiceProperties(makeServiceProperties());
-		assertThatIllegalArgumentException().isThrownBy(() -> cap.afterPropertiesSet());
+		assertThatIllegalArgumentException().isThrownBy(cap::afterPropertiesSet);
 	}
 
 	@Test
@@ -255,7 +255,7 @@ public class CasAuthenticationProviderTests {
 		cap.setKey("qwerty");
 		cap.setTicketValidator(new MockTicketValidator(true));
 		cap.setServiceProperties(makeServiceProperties());
-		assertThatIllegalArgumentException().isThrownBy(() -> cap.afterPropertiesSet());
+		assertThatIllegalArgumentException().isThrownBy(cap::afterPropertiesSet);
 	}
 
 	@Test
@@ -265,7 +265,7 @@ public class CasAuthenticationProviderTests {
 		cap.setKey("qwerty");
 		cap.setStatelessTicketCache(new MockStatelessTicketCache());
 		cap.setServiceProperties(makeServiceProperties());
-		assertThatIllegalArgumentException().isThrownBy(() -> cap.afterPropertiesSet());
+		assertThatIllegalArgumentException().isThrownBy(cap::afterPropertiesSet);
 	}
 
 	@Test

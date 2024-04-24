@@ -43,7 +43,7 @@ public final class ContentSecurityPolicyServerHttpHeadersWriter implements Serve
 
 	@Override
 	public Mono<Void> writeHttpHeaders(ServerWebExchange exchange) {
-		return (this.delegate != null) ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
+		return this.delegate != null ? this.delegate.writeHttpHeaders(exchange) : Mono.empty();
 	}
 
 	/**

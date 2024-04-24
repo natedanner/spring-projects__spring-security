@@ -106,7 +106,7 @@ public class SecurityReactorContextConfigurationTests {
 	@Test
 	public void createSubscriberIfNecessaryWhenSubscriberContextContainsSecurityContextAttributesThenReturnOriginalSubscriber() {
 		Context context = Context.of(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES, new HashMap<>());
-		BaseSubscriber<Object> originalSubscriber = new BaseSubscriber<Object>() {
+		BaseSubscriber<Object> originalSubscriber = new BaseSubscriber<>() {
 			@Override
 			public Context currentContext() {
 				return context;
@@ -124,7 +124,7 @@ public class SecurityReactorContextConfigurationTests {
 		SecurityContextHolder.getContext().setAuthentication(this.authentication);
 		String testKey = "test_key";
 		String testValue = "test_value";
-		BaseSubscriber<Object> parent = new BaseSubscriber<Object>() {
+		BaseSubscriber<Object> parent = new BaseSubscriber<>() {
 			@Override
 			public Context currentContext() {
 				return Context.of(testKey, testValue);
@@ -148,7 +148,7 @@ public class SecurityReactorContextConfigurationTests {
 		SecurityContextHolder.getContext().setAuthentication(this.authentication);
 		Context parentContext = Context.of(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES,
 				new HashMap<>());
-		BaseSubscriber<Object> parent = new BaseSubscriber<Object>() {
+		BaseSubscriber<Object> parent = new BaseSubscriber<>() {
 			@Override
 			public Context currentContext() {
 				return parentContext;
@@ -216,10 +216,10 @@ public class SecurityReactorContextConfigurationTests {
 		ClientResponse clientResponseOk = ClientResponse.create(HttpStatus.OK).build();
 		// @formatter:off
 		ExchangeFilterFunction filter = (req, next) -> Mono.deferContextual(Mono::just)
-				.filter((ctx) -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
-				.map((ctx) -> ctx.get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.filter(ctx -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.map(ctx -> ctx.get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
 				.cast(Map.class)
-				.map((attributes) -> {
+				.map(attributes -> {
 					if (attributes.containsKey(HttpServletRequest.class)
 							&& attributes.containsKey(HttpServletResponse.class)
 							&& attributes.containsKey(Authentication.class)) {
@@ -237,7 +237,7 @@ public class SecurityReactorContextConfigurationTests {
 		expectedContextAttributes.put(HttpServletResponse.class, this.servletResponse);
 		expectedContextAttributes.put(Authentication.class, this.authentication);
 		Mono<ClientResponse> clientResponseMono = filter.filter(clientRequest, exchange)
-			.flatMap((response) -> filter.filter(clientRequest, exchange));
+			.flatMap(response -> filter.filter(clientRequest, exchange));
 		// @formatter:off
 		StepVerifier.create(clientResponseMono)
 				.expectAccessibleContext()
@@ -256,10 +256,10 @@ public class SecurityReactorContextConfigurationTests {
 		ClientResponse clientResponseOk = ClientResponse.create(HttpStatus.OK).build();
 		// @formatter:off
 		ExchangeFilterFunction filter = (req, next) -> Mono.deferContextual(Mono::just)
-				.filter((ctx) -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
-				.map((ctx) -> ctx.get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.filter(ctx -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.map(ctx -> ctx.get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
 				.cast(Map.class)
-				.map((attributes) -> clientResponseOk);
+				.map(attributes -> clientResponseOk);
 		// @formatter:on
 		ClientRequest clientRequest = ClientRequest.create(HttpMethod.GET, URI.create("https://example.com")).build();
 		MockExchangeFunction exchange = new MockExchangeFunction();
@@ -268,7 +268,7 @@ public class SecurityReactorContextConfigurationTests {
 		expectedContextAttributes.put(HttpServletResponse.class, null);
 		expectedContextAttributes.put(Authentication.class, this.authentication);
 		Mono<ClientResponse> clientResponseMono = filter.filter(clientRequest, exchange)
-			.flatMap((response) -> filter.filter(clientRequest, exchange));
+			.flatMap(response -> filter.filter(clientRequest, exchange));
 		// @formatter:off
 		StepVerifier.create(clientResponseMono)
 				.expectAccessibleContext()
@@ -319,13 +319,13 @@ public class SecurityReactorContextConfigurationTests {
 
 		// @formatter:off
 		return Mono.deferContextual(Mono::just)
-				.filter((ctx) -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
-				.map((ctx) -> ctx.<Map<Object, Object>>get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
-				.map((attributes) -> {
+				.filter(ctx -> ctx.hasKey(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.map(ctx -> ctx.<Map<Object, Object>>get(SecurityReactorContextSubscriber.SECURITY_CONTEXT_ATTRIBUTES))
+				.map(attributes -> {
 					Map<Object, Object> map = new HashMap<>();
 					// Copy over items from lazily loaded map
 					Arrays.asList(HttpServletRequest.class, HttpServletResponse.class, Authentication.class)
-							.forEach((key) -> map.put(key, attributes.get(key)));
+							.forEach(key -> map.put(key, attributes.get(key)));
 					return map;
 				})
 				.block();

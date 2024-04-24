@@ -64,7 +64,7 @@ public class AuthorizationWebFilterTests {
 	public void filterWhenNoAuthenticationThenThrowsAccessDenied() {
 		given(this.chain.filter(this.exchange)).willReturn(this.chainResult.mono());
 		AuthorizationWebFilter filter = new AuthorizationWebFilter(
-				(a, e) -> a.flatMap((auth) -> Mono.error(new AccessDeniedException("Denied"))));
+				(a, e) -> a.flatMap(auth -> Mono.error(new AccessDeniedException("Denied"))));
 		Mono<Void> result = filter.filter(this.exchange, this.chain)
 			.contextWrite(ReactiveSecurityContextHolder.withSecurityContext(Mono.just(new SecurityContextImpl())));
 		StepVerifier.create(result).expectError(AccessDeniedException.class).verify();
@@ -114,7 +114,7 @@ public class AuthorizationWebFilterTests {
 		PublisherProbe<SecurityContext> context = PublisherProbe.empty();
 		given(this.chain.filter(this.exchange)).willReturn(this.chainResult.mono());
 		AuthorizationWebFilter filter = new AuthorizationWebFilter((a,
-				e) -> a.map((auth) -> new AuthorizationDecision(true)).defaultIfEmpty(new AuthorizationDecision(true)));
+				e) -> a.map(auth -> new AuthorizationDecision(true)).defaultIfEmpty(new AuthorizationDecision(true)));
 		Mono<Void> result = filter.filter(this.exchange, this.chain)
 			.contextWrite(ReactiveSecurityContextHolder.withSecurityContext(context.mono()));
 		StepVerifier.create(result).verifyComplete();

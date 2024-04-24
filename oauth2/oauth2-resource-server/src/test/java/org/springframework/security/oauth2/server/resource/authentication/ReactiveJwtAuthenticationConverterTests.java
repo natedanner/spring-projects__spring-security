@@ -61,7 +61,7 @@ public class ReactiveJwtAuthenticationConverterTests {
 	@Test
 	public void convertWithOverriddenGrantedAuthoritiesConverter() {
 		Jwt jwt = TestJwts.jwt().claim("scope", "message:read message:write").build();
-		Converter<Jwt, Flux<GrantedAuthority>> grantedAuthoritiesConverter = (token) -> Flux
+		Converter<Jwt, Flux<GrantedAuthority>> grantedAuthoritiesConverter = token -> Flux
 			.just(new SimpleGrantedAuthority("blah"));
 		this.jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
 		AbstractAuthenticationToken authentication = this.jwtAuthenticationConverter.convert(jwt).block();

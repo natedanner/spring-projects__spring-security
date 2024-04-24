@@ -233,7 +233,7 @@ public class TokenBasedRememberMeServices extends AbstractRememberMeServices {
 		int tokenLifetime = calculateLoginLifetime(request, successfulAuthentication);
 		long expiryTime = System.currentTimeMillis();
 		// SEC-949
-		expiryTime += 1000L * ((tokenLifetime < 0) ? TWO_WEEKS_S : tokenLifetime);
+		expiryTime += 1000L * (tokenLifetime < 0 ? TWO_WEEKS_S : tokenLifetime);
 		String signatureValue = makeTokenSignature(expiryTime, username, password, this.encodingAlgorithm);
 		setCookie(new String[] { username, Long.toString(expiryTime), this.encodingAlgorithm.name(), signatureValue },
 				tokenLifetime, request, response);
@@ -303,7 +303,7 @@ public class TokenBasedRememberMeServices extends AbstractRememberMeServices {
 	}
 
 	private static byte[] bytesUtf8(String s) {
-		return (s != null) ? Utf8.encode(s) : null;
+		return s != null ? Utf8.encode(s) : null;
 	}
 
 	public enum RememberMeTokenAlgorithm {

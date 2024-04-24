@@ -61,7 +61,7 @@ public class SpringOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private static final String AUTHORITY_PREFIX = "SCOPE_";
 
-	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
+	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
 	};
 
 	private final Log logger = LogFactory.getLog(getClass());
@@ -103,7 +103,7 @@ public class SpringOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 	}
 
 	private Converter<String, RequestEntity<?>> defaultRequestEntityConverter(URI introspectionUri) {
-		return (token) -> {
+		return token -> {
 			HttpHeaders headers = requestHeaders();
 			MultiValueMap<String, String> body = requestBody(token);
 			return new RequestEntity<>(body, headers, HttpMethod.POST, introspectionUri);
@@ -216,7 +216,7 @@ public class SpringOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 		claims.computeIfPresent(OAuth2TokenIntrospectionClaimNames.NBF,
 				(k, v) -> Instant.ofEpochSecond(((Number) v).longValue()));
 		claims.computeIfPresent(OAuth2TokenIntrospectionClaimNames.SCOPE,
-				(k, v) -> (v instanceof String s) ? new ArrayListFromString(s.split(" ")) : v);
+				(k, v) -> v instanceof String s ? new ArrayListFromString(s.split(" ")) : v);
 		return () -> claims;
 	}
 

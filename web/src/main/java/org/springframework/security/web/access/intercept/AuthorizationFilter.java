@@ -57,7 +57,7 @@ public class AuthorizationFilter extends GenericFilterBean {
 
 	private AuthorizationEventPublisher eventPublisher = AuthorizationFilter::noPublish;
 
-	private boolean observeOncePerRequest = false;
+	private boolean observeOncePerRequest;
 
 	private boolean filterErrorDispatch = true;
 
@@ -108,10 +108,7 @@ public class AuthorizationFilter extends GenericFilterBean {
 		if (DispatcherType.ERROR.equals(request.getDispatcherType()) && !this.filterErrorDispatch) {
 			return true;
 		}
-		if (DispatcherType.ASYNC.equals(request.getDispatcherType()) && !this.filterAsyncDispatch) {
-			return true;
-		}
-		return false;
+		return DispatcherType.ASYNC.equals(request.getDispatcherType()) && !this.filterAsyncDispatch;
 	}
 
 	private boolean isApplied(HttpServletRequest request) {

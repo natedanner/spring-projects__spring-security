@@ -39,9 +39,9 @@ public final class SimpleAuthorityMapper implements GrantedAuthoritiesMapper, In
 
 	private String prefix = "ROLE_";
 
-	private boolean convertToUpperCase = false;
+	private boolean convertToUpperCase;
 
-	private boolean convertToLowerCase = false;
+	private boolean convertToLowerCase;
 
 	@Override
 	public void afterPropertiesSet() {

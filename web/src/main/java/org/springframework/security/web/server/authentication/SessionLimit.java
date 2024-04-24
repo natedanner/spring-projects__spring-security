@@ -36,7 +36,7 @@ public interface SessionLimit extends Function<Authentication, Mono<Integer>> {
 	 * Represents unlimited sessions. This is just a shortcut to return
 	 * {@link Mono#empty()} for any user.
 	 */
-	SessionLimit UNLIMITED = (authentication) -> Mono.empty();
+	SessionLimit UNLIMITED = authentication -> Mono.empty();
 
 	/**
 	 * Creates a {@link SessionLimit} that always returns the given value for any user
@@ -44,7 +44,7 @@ public interface SessionLimit extends Function<Authentication, Mono<Integer>> {
 	 * @return a {@link SessionLimit} instance that returns the given value.
 	 */
 	static SessionLimit of(int maxSessions) {
-		return (authentication) -> Mono.just(maxSessions);
+		return authentication -> Mono.just(maxSessions);
 	}
 
 }

@@ -209,7 +209,7 @@ public class NamespaceGlobalMethodSecurityTests {
 	public void methodSecurityWhenCustomRunAsManagerThenRunAsWrapsAuthentication() {
 		this.spring.register(CustomRunAsManagerConfig.class, MethodSecurityServiceConfig.class).autowire();
 		assertThat(this.service.runAs().getAuthorities())
-			.anyMatch((authority) -> "ROLE_RUN_AS_SUPER".equals(authority.getAuthority()));
+			.anyMatch(authority -> "ROLE_RUN_AS_SUPER".equals(authority.getAuthority()));
 	}
 
 	@Test
@@ -314,7 +314,7 @@ public class NamespaceGlobalMethodSecurityTests {
 
 		@Override
 		protected AuthenticationManager authenticationManager() {
-			return (authentication) -> {
+			return authentication -> {
 				throw new UnsupportedOperationException();
 			};
 		}

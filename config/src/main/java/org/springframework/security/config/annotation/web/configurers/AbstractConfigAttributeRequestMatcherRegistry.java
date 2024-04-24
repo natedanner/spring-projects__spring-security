@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
  */
 public abstract class AbstractConfigAttributeRequestMatcherRegistry<C> extends AbstractRequestMatcherRegistry<C> {
 
-	private List<UrlMapping> urlMappings = new ArrayList<>();
+	private final List<UrlMapping> urlMappings = new ArrayList<>();
 
 	private List<RequestMatcher> unmappedMatchers;
 

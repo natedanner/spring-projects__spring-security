@@ -64,7 +64,7 @@ public class SecurityContextLoginModule implements LoginModule {
 
 	private Subject subject;
 
-	private boolean ignoreMissingAuthentication = false;
+	private boolean ignoreMissingAuthentication;
 
 	/**
 	 * Abort the authentication process by forgetting the Spring Security

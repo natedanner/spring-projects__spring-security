@@ -44,7 +44,7 @@ public final class RegisterSessionServerAuthenticationSuccessHandler implements 
 	public Mono<Void> onAuthenticationSuccess(WebFilterExchange exchange, Authentication authentication) {
 		return exchange.getExchange()
 			.getSession()
-			.map((session) -> new ReactiveSessionInformation(authentication.getPrincipal(), session.getId(),
+			.map(session -> new ReactiveSessionInformation(authentication.getPrincipal(), session.getId(),
 					session.getLastAccessTime()))
 			.flatMap(this.sessionRegistry::saveSessionInformation);
 	}

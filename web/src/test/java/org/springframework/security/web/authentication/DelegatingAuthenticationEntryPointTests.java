@@ -46,7 +46,7 @@ public class DelegatingAuthenticationEntryPointTests {
 
 	private AuthenticationEntryPoint defaultEntryPoint;
 
-	private HttpServletRequest request = new MockHttpServletRequest();
+	private final HttpServletRequest request = new MockHttpServletRequest();
 
 	@BeforeEach
 	public void before() {

@@ -51,8 +51,8 @@ import static org.mockito.Mockito.verify;
 public class ReactiveOidcIdTokenDecoderFactoryTests {
 
 	// @formatter:off
-	private ClientRegistration.Builder registration = TestClientRegistrations.clientRegistration()
-			.scope("openid");
+	private final ClientRegistration.Builder registration = TestClientRegistrations.clientRegistration()
+		.scope("openid");
 	// @formatter:on
 
 	private ReactiveOidcIdTokenDecoderFactory idTokenDecoderFactory;
@@ -110,7 +110,7 @@ public class ReactiveOidcIdTokenDecoderFactoryTests {
 
 	@Test
 	public void createDecoderWhenJwsAlgorithmEcAndJwkSetUriEmptyThenThrowOAuth2AuthenticationException() {
-		this.idTokenDecoderFactory.setJwsAlgorithmResolver((clientRegistration) -> SignatureAlgorithm.ES256);
+		this.idTokenDecoderFactory.setJwsAlgorithmResolver(clientRegistration -> SignatureAlgorithm.ES256);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.idTokenDecoderFactory.createDecoder(this.registration.jwkSetUri(null).build()))
 			.withMessage("[missing_signature_verifier] Failed to find a Signature Verifier "
@@ -120,7 +120,7 @@ public class ReactiveOidcIdTokenDecoderFactoryTests {
 
 	@Test
 	public void createDecoderWhenJwsAlgorithmHmacAndClientSecretNullThenThrowOAuth2AuthenticationException() {
-		this.idTokenDecoderFactory.setJwsAlgorithmResolver((clientRegistration) -> MacAlgorithm.HS256);
+		this.idTokenDecoderFactory.setJwsAlgorithmResolver(clientRegistration -> MacAlgorithm.HS256);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.idTokenDecoderFactory.createDecoder(this.registration.clientSecret(null).build()))
 			.withMessage("[missing_signature_verifier] Failed to find a Signature Verifier "
@@ -130,7 +130,7 @@ public class ReactiveOidcIdTokenDecoderFactoryTests {
 
 	@Test
 	public void createDecoderWhenJwsAlgorithmNullThenThrowOAuth2AuthenticationException() {
-		this.idTokenDecoderFactory.setJwsAlgorithmResolver((clientRegistration) -> null);
+		this.idTokenDecoderFactory.setJwsAlgorithmResolver(clientRegistration -> null);
 		assertThatExceptionOfType(OAuth2AuthenticationException.class)
 			.isThrownBy(() -> this.idTokenDecoderFactory.createDecoder(this.registration.build()))
 			.withMessage("[missing_signature_verifier] Failed to find a Signature Verifier "

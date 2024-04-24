@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AuthenticationPrincipalArgumentResolverTests {
 
-	private AuthenticationPrincipalArgumentResolver resolver = new AuthenticationPrincipalArgumentResolver();
+	private final AuthenticationPrincipalArgumentResolver resolver = new AuthenticationPrincipalArgumentResolver();
 
 	@Test
 	public void supportsParameterWhenAuthenticationPrincipalThenTrue() {

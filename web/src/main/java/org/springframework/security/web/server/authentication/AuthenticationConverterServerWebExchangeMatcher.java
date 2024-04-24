@@ -44,8 +44,8 @@ public final class AuthenticationConverterServerWebExchangeMatcher implements Se
 	@Override
 	public Mono<MatchResult> matches(ServerWebExchange exchange) {
 		return this.serverAuthenticationConverter.convert(exchange)
-			.flatMap((a) -> MatchResult.match())
-			.onErrorResume((ex) -> MatchResult.notMatch())
+			.flatMap(a -> MatchResult.match())
+			.onErrorResume(ex -> MatchResult.notMatch())
 			.switchIfEmpty(MatchResult.notMatch());
 	}
 

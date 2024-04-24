@@ -237,7 +237,7 @@ class SecurityReactorContextConfiguration {
 				throw new IllegalArgumentException(
 						"This map only supports the following keys: " + this.loaders.keySet());
 			}
-			return this.loaded.computeIfAbsent((K) key, (k) -> this.loaders.get(k).get());
+			return this.loaded.computeIfAbsent((K) key, k -> this.loaders.get(k).get());
 		}
 
 		@Override

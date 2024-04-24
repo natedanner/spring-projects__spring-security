@@ -65,13 +65,13 @@ import static org.mockito.Mockito.verify;
  */
 public class WebClientReactivePasswordTokenResponseClientTests {
 
-	private WebClientReactivePasswordTokenResponseClient tokenResponseClient = new WebClientReactivePasswordTokenResponseClient();
+	private final WebClientReactivePasswordTokenResponseClient tokenResponseClient = new WebClientReactivePasswordTokenResponseClient();
 
 	private ClientRegistration.Builder clientRegistrationBuilder;
 
-	private String username = "user1";
+	private final String username = "user1";
 
-	private String password = "password";
+	private final String password = "password";
 
 	private MockWebServer server;
 
@@ -214,7 +214,7 @@ public class WebClientReactivePasswordTokenResponseClientTests {
 		SecretKeySpec secretKey = new SecretKeySpec(
 				clientRegistration.getClientSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 		JWK jwk = TestJwks.jwk(secretKey).build();
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2PasswordGrantRequest passwordGrantRequest = new OAuth2PasswordGrantRequest(clientRegistration,
@@ -246,7 +246,7 @@ public class WebClientReactivePasswordTokenResponseClientTests {
 
 		// Configure Jwt client authentication converter
 		JWK jwk = TestJwks.DEFAULT_RSA_JWK;
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2PasswordGrantRequest passwordGrantRequest = new OAuth2PasswordGrantRequest(clientRegistration,
@@ -279,7 +279,7 @@ public class WebClientReactivePasswordTokenResponseClientTests {
 				this.clientRegistrationBuilder.build(), this.username, this.password);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.tokenResponseClient.getTokenResponse(passwordGrantRequest).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessageContaining("[invalid_token_response]")
 			.withMessageContaining("An error occurred parsing the Access Token response")
 			.withCauseInstanceOf(Throwable.class);
@@ -318,7 +318,7 @@ public class WebClientReactivePasswordTokenResponseClientTests {
 				this.clientRegistrationBuilder.build(), this.username, this.password);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.tokenResponseClient.getTokenResponse(passwordGrantRequest).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("unauthorized_client"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("unauthorized_client"))
 			.withMessageContaining("[unauthorized_client]");
 	}
 
@@ -329,7 +329,7 @@ public class WebClientReactivePasswordTokenResponseClientTests {
 				this.clientRegistrationBuilder.build(), this.username, this.password);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.tokenResponseClient.getTokenResponse(passwordGrantRequest).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessageContaining("[invalid_token_response]")
 			.withMessageContaining("Empty OAuth 2.0 Access Token Response");
 	}

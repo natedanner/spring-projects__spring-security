@@ -86,7 +86,7 @@ public class FilterChainProxyTests {
 	public void setup() throws Exception {
 		this.matcher = mock(RequestMatcher.class);
 		this.filter = mock(Filter.class);
-		willAnswer((Answer<Object>) (inv) -> {
+		willAnswer((Answer<Object>) inv -> {
 			Object[] args = inv.getArguments();
 			FilterChain fc = (FilterChain) args[2];
 			HttpServletRequestWrapper extraWrapper = new HttpServletRequestWrapper((HttpServletRequest) args[0]);
@@ -199,7 +199,7 @@ public class FilterChainProxyTests {
 	@Test
 	public void doFilterClearsSecurityContextHolder() throws Exception {
 		given(this.matcher.matches(any(HttpServletRequest.class))).willReturn(true);
-		willAnswer((Answer<Object>) (inv) -> {
+		willAnswer((Answer<Object>) inv -> {
 			SecurityContextHolder.getContext()
 				.setAuthentication(new TestingAuthenticationToken("username", "password"));
 			return null;
@@ -221,7 +221,7 @@ public class FilterChainProxyTests {
 	@Test
 	public void doFilterClearsSecurityContextHolderWithException() throws Exception {
 		given(this.matcher.matches(any(HttpServletRequest.class))).willReturn(true);
-		willAnswer((Answer<Object>) (inv) -> {
+		willAnswer((Answer<Object>) inv -> {
 			SecurityContextHolder.getContext()
 				.setAuthentication(new TestingAuthenticationToken("username", "password"));
 			throw new ServletException("oops");
@@ -237,10 +237,10 @@ public class FilterChainProxyTests {
 	public void doFilterClearsSecurityContextHolderOnceOnForwards() throws Exception {
 		final FilterChain innerChain = mock(FilterChain.class);
 		given(this.matcher.matches(any(HttpServletRequest.class))).willReturn(true);
-		willAnswer((Answer<Object>) (inv) -> {
+		willAnswer((Answer<Object>) inv -> {
 			TestingAuthenticationToken expected = new TestingAuthenticationToken("username", "password");
 			SecurityContextHolder.getContext().setAuthentication(expected);
-			willAnswer((Answer<Object>) (inv1) -> {
+			willAnswer((Answer<Object>) inv1 -> {
 				innerChain.doFilter(this.request, this.response);
 				return null;
 			}).given(this.filter)
@@ -269,7 +269,7 @@ public class FilterChainProxyTests {
 		RequestRejectedException requestRejectedException = new RequestRejectedException("Contains illegal chars");
 		given(fw.getFirewalledRequest(this.request)).willThrow(requestRejectedException);
 		this.fcp.doFilter(this.request, this.response, this.chain);
-		verify(rjh).handle(eq(this.request), eq(this.response), eq((requestRejectedException)));
+		verify(rjh).handle(eq(this.request), eq(this.response), eq(requestRejectedException));
 	}
 
 	@Test
@@ -283,7 +283,7 @@ public class FilterChainProxyTests {
 		given(fw.getFirewalledRequest(this.request)).willReturn(new MockFirewalledRequest(this.request));
 		willThrow(servletException).given(this.chain).doFilter(any(), any());
 		this.fcp.doFilter(this.request, this.response, this.chain);
-		verify(rjh).handle(eq(this.request), eq(this.response), eq((requestRejectedException)));
+		verify(rjh).handle(eq(this.request), eq(this.response), eq(requestRejectedException));
 	}
 
 	@Test
@@ -447,7 +447,7 @@ public class FilterChainProxyTests {
 
 	static Filter mockFilter() throws Exception {
 		Filter filter = mock(Filter.class);
-		willAnswer((invocation) -> {
+		willAnswer(invocation -> {
 			HttpServletRequest request = invocation.getArgument(0, HttpServletRequest.class);
 			HttpServletResponse response = invocation.getArgument(1, HttpServletResponse.class);
 			FilterChain chain = invocation.getArgument(2, FilterChain.class);

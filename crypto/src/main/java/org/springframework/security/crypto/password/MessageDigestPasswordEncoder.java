@@ -146,7 +146,7 @@ public class MessageDigestPasswordEncoder implements PasswordEncoder {
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
 		String salt = extractSalt(encodedPassword);
 		String rawPasswordEncoded = digest(salt, rawPassword);
-		return PasswordEncoderUtils.equals(encodedPassword.toString(), rawPasswordEncoded);
+		return PasswordEncoderUtils.equals(encodedPassword, rawPasswordEncoded);
 	}
 
 	/**

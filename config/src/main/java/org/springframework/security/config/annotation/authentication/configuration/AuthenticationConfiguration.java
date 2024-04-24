@@ -171,7 +171,7 @@ public class AuthenticationConfiguration {
 			return beanNamesForType[0];
 		}
 		List<String> primaryBeanNames = getPrimaryBeanNames(beanNamesForType);
-		Assert.isTrue(primaryBeanNames.size() != 0, () -> "Found " + beanNamesForType.length + " beans for type "
+		Assert.isTrue(!primaryBeanNames.isEmpty(), () -> "Found " + beanNamesForType.length + " beans for type "
 				+ interfaceName + ", but none marked as primary");
 		Assert.isTrue(primaryBeanNames.size() == 1,
 				() -> "Found " + primaryBeanNames.size() + " beans for type " + interfaceName + " marked as primary");

@@ -48,7 +48,7 @@ import org.springframework.web.server.ServerWebExchange;
  */
 public class CurrentSecurityContextArgumentResolver extends HandlerMethodArgumentResolverSupport {
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	private BeanResolver beanResolver;
 
@@ -78,9 +78,9 @@ public class CurrentSecurityContextArgumentResolver extends HandlerMethodArgumen
 		if (reactiveSecurityContext == null) {
 			return null;
 		}
-		return reactiveSecurityContext.flatMap((securityContext) -> {
+		return reactiveSecurityContext.flatMap(securityContext -> {
 			Mono<Object> resolvedSecurityContext = Mono.justOrEmpty(resolveSecurityContext(parameter, securityContext));
-			return (adapter != null) ? Mono.just(adapter.fromPublisher(resolvedSecurityContext))
+			return adapter != null ? Mono.just(adapter.fromPublisher(resolvedSecurityContext))
 					: resolvedSecurityContext;
 		});
 

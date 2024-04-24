@@ -90,7 +90,7 @@ public final class AuthenticationPrincipalArgumentResolver implements HandlerMet
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {

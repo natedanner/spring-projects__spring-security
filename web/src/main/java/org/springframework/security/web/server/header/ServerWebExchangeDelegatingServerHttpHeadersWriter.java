@@ -65,7 +65,7 @@ public final class ServerWebExchangeDelegatingServerHttpHeadersWriter implements
 		return this.headersWriter.getMatcher()
 			.matches(exchange)
 			.filter(ServerWebExchangeMatcher.MatchResult::isMatch)
-			.flatMap((matchResult) -> this.headersWriter.getEntry().writeHttpHeaders(exchange));
+			.flatMap(matchResult -> this.headersWriter.getEntry().writeHttpHeaders(exchange));
 	}
 
 }

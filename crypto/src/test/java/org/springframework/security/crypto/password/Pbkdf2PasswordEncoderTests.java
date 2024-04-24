@@ -28,11 +28,11 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 public class Pbkdf2PasswordEncoderTests {
 
-	private Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("secret", 8, 185000, 256);
+	private final Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("secret", 8, 185000, 256);
 
-	private Pbkdf2PasswordEncoder encoderSalt16 = new Pbkdf2PasswordEncoder("", 16, 185000, 256);
+	private final Pbkdf2PasswordEncoder encoderSalt16 = new Pbkdf2PasswordEncoder("", 16, 185000, 256);
 
-	private Pbkdf2PasswordEncoder[] encoders = new Pbkdf2PasswordEncoder[] { this.encoder, this.encoderSalt16 };
+	private final Pbkdf2PasswordEncoder[] encoders = new Pbkdf2PasswordEncoder[]{this.encoder, this.encoderSalt16};
 
 	@Test
 	public void encodedLengthSuccess() {
@@ -46,14 +46,14 @@ public class Pbkdf2PasswordEncoderTests {
 	@Test
 	public void matches() {
 		String result = this.encoder.encode("password");
-		assertThat(result.equals("password")).isFalse();
+		assertThat("password".equals(result)).isFalse();
 		assertThat(this.encoder.matches("password", result)).isTrue();
 	}
 
 	@Test
 	public void matchesWhenCustomSaltLengthThenSuccess() {
 		String result = this.encoderSalt16.encode("password");
-		assertThat(result.equals("password")).isFalse();
+		assertThat("password".equals(result)).isFalse();
 		assertThat(this.encoderSalt16.matches("password", result)).isTrue();
 	}
 
@@ -140,7 +140,7 @@ public class Pbkdf2PasswordEncoderTests {
 
 	@Test
 	public void encodeWhenBase64ThenBase64DecodeSuccess() {
-		assertThat(this.encoders).allSatisfy((pe) -> {
+		assertThat(this.encoders).allSatisfy(pe -> {
 			pe.setEncodeHashAsBase64(true);
 			String encodedPassword = pe.encode("password");
 			// validate can decode as Base64
@@ -217,9 +217,9 @@ public class Pbkdf2PasswordEncoderTests {
 	}
 
 	private void run(int iterations, int count) {
-		long HALF_SECOND = 500L;
+		long halfSecond = 500L;
 		long avg = 0;
-		while (avg < HALF_SECOND) {
+		while (avg < halfSecond) {
 			iterations += 10000;
 			Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("", 8, iterations, 256);
 			String encoded = encoder.encode("password");

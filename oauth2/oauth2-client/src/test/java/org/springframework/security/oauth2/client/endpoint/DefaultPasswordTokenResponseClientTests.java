@@ -57,9 +57,9 @@ public class DefaultPasswordTokenResponseClientTests {
 
 	private ClientRegistration.Builder clientRegistration;
 
-	private String username = "user1";
+	private final String username = "user1";
 
-	private String password = "password";
+	private final String password = "password";
 
 	private MockWebServer server;
 
@@ -177,7 +177,7 @@ public class DefaultPasswordTokenResponseClientTests {
 		SecretKeySpec secretKey = new SecretKeySpec(
 				clientRegistration.getClientSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 		JWK jwk = TestJwks.jwk(secretKey).build();
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2PasswordGrantRequest passwordGrantRequest = new OAuth2PasswordGrantRequest(clientRegistration,
@@ -210,7 +210,7 @@ public class DefaultPasswordTokenResponseClientTests {
 
 		// Configure Jwt client authentication converter
 		JWK jwk = TestJwks.DEFAULT_RSA_JWK;
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2PasswordGrantRequest passwordGrantRequest = new OAuth2PasswordGrantRequest(clientRegistration,

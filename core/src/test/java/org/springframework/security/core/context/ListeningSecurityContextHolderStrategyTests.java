@@ -70,7 +70,7 @@ public class ListeningSecurityContextHolderStrategyTests {
 		Supplier<SecurityContext> context = mock(Supplier.class);
 		ArgumentCaptor<SecurityContextChangedEvent> event = ArgumentCaptor.forClass(SecurityContextChangedEvent.class);
 		given(delegate.getDeferredContext()).willReturn(context);
-		given(delegate.getContext()).willAnswer((invocation) -> context.get());
+		given(delegate.getContext()).willAnswer(invocation -> context.get());
 		strategy.clearContext();
 		verifyNoInteractions(context);
 		verify(listener).securityContextChanged(event.capture());
@@ -123,7 +123,7 @@ public class ListeningSecurityContextHolderStrategyTests {
 	@Test
 	public void constructorWhenNullDelegateThenIllegalArgument() {
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(
-				() -> new ListeningSecurityContextHolderStrategy((SecurityContextHolderStrategy) null, (event) -> {
+				() -> new ListeningSecurityContextHolderStrategy((SecurityContextHolderStrategy) null, event -> {
 				}));
 	}
 

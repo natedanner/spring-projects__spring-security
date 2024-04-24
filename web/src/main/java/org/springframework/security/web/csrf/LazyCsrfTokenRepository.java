@@ -217,7 +217,7 @@ public final class LazyCsrfTokenRepository implements CsrfTokenRepository {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((this.delegate == null) ? 0 : this.delegate.hashCode());
+			result = prime * result + (this.delegate == null ? 0 : this.delegate.hashCode());
 			return result;
 		}
 

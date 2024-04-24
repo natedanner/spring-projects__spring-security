@@ -62,7 +62,7 @@ public final class InMemoryOidcSessionRegistry implements OidcSessionRegistry {
 		String issuer = token.getIssuer().toString();
 		String subject = token.getSubject();
 		String providerSessionId = token.getSessionId();
-		Predicate<OidcSessionInformation> matcher = (providerSessionId != null)
+		Predicate<OidcSessionInformation> matcher = providerSessionId != null
 				? sessionIdMatcher(audience, issuer, providerSessionId) : subjectMatcher(audience, issuer, subject);
 		if (this.logger.isTraceEnabled()) {
 			String message = "Looking up sessions by issuer [%s] and %s [%s]";
@@ -75,7 +75,7 @@ public final class InMemoryOidcSessionRegistry implements OidcSessionRegistry {
 		}
 		int size = this.sessions.size();
 		Set<OidcSessionInformation> infos = new HashSet<>();
-		this.sessions.values().removeIf((info) -> {
+		this.sessions.values().removeIf(info -> {
 			boolean result = matcher.test(info);
 			if (result) {
 				infos.add(info);
@@ -94,7 +94,7 @@ public final class InMemoryOidcSessionRegistry implements OidcSessionRegistry {
 
 	private static Predicate<OidcSessionInformation> sessionIdMatcher(List<String> audience, String issuer,
 			String sessionId) {
-		return (session) -> {
+		return session -> {
 			List<String> thatAudience = session.getPrincipal().getAudience();
 			String thatIssuer = session.getPrincipal().getIssuer().toString();
 			String thatSessionId = session.getPrincipal().getClaimAsString(LogoutTokenClaimNames.SID);
@@ -108,7 +108,7 @@ public final class InMemoryOidcSessionRegistry implements OidcSessionRegistry {
 
 	private static Predicate<OidcSessionInformation> subjectMatcher(List<String> audience, String issuer,
 			String subject) {
-		return (session) -> {
+		return session -> {
 			List<String> thatAudience = session.getPrincipal().getAudience();
 			String thatIssuer = session.getPrincipal().getIssuer().toString();
 			String thatSubject = session.getPrincipal().getSubject();

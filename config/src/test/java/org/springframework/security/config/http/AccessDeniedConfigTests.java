@@ -62,7 +62,7 @@ public class AccessDeniedConfigTests {
 		 *
 		 * See https://github.com/spring-projects/spring-framework/issues/25162.
 		 */
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> context.autowire())
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::autowire)
 			.havingRootCause()
 			.withMessageContaining("Property 'errorPage' threw exception");
 	}
@@ -77,7 +77,7 @@ public class AccessDeniedConfigTests {
 	@Test
 	public void configureWhenAccessDeniedHandlerUsesPathAndRefThenException() {
 		SpringTestContext context = this.spring.configLocations(this.xml("UsesPathAndRef"));
-		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() -> context.autowire())
+		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(context::autowire)
 			.withMessageContaining("attribute error-page cannot be used together with the 'ref' attribute");
 	}
 

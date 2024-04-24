@@ -201,7 +201,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 	@Override
 	public void createUser(final UserDetails user) {
 		validateUserDetails(user);
-		getJdbcTemplate().update(this.createUserSql, (ps) -> {
+		getJdbcTemplate().update(this.createUserSql, ps -> {
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
 			ps.setBoolean(3, user.isEnabled());
@@ -221,7 +221,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 	@Override
 	public void updateUser(final UserDetails user) {
 		validateUserDetails(user);
-		getJdbcTemplate().update(this.updateUserSql, (ps) -> {
+		getJdbcTemplate().update(this.updateUserSql, ps -> {
 			ps.setString(1, user.getPassword());
 			ps.setBoolean(2, user.isEnabled());
 			int paramCount = ps.getParameterMetaData().getParameterCount();
@@ -330,7 +330,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		int groupId = findGroupId(groupName);
 		for (GrantedAuthority a : authorities) {
 			String authority = a.getAuthority();
-			getJdbcTemplate().update(this.insertGroupAuthoritySql, (ps) -> {
+			getJdbcTemplate().update(this.insertGroupAuthoritySql, ps -> {
 				ps.setInt(1, groupId);
 				ps.setString(2, authority);
 			});
@@ -342,7 +342,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		this.logger.debug("Deleting group '" + groupName + "'");
 		Assert.hasText(groupName, "groupName should have text");
 		int id = findGroupId(groupName);
-		PreparedStatementSetter groupIdPSS = (ps) -> ps.setInt(1, id);
+		PreparedStatementSetter groupIdPSS = ps -> ps.setInt(1, id);
 		getJdbcTemplate().update(this.deleteGroupMembersSql, groupIdPSS);
 		getJdbcTemplate().update(this.deleteGroupAuthoritiesSql, groupIdPSS);
 		getJdbcTemplate().update(this.deleteGroupSql, groupIdPSS);
@@ -362,7 +362,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		Assert.hasText(username, "username should have text");
 		Assert.hasText(groupName, "groupName should have text");
 		int id = findGroupId(groupName);
-		getJdbcTemplate().update(this.insertGroupMemberSql, (ps) -> {
+		getJdbcTemplate().update(this.insertGroupMemberSql, ps -> {
 			ps.setInt(1, id);
 			ps.setString(2, username);
 		});
@@ -375,7 +375,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		Assert.hasText(username, "username should have text");
 		Assert.hasText(groupName, "groupName should have text");
 		int id = findGroupId(groupName);
-		getJdbcTemplate().update(this.deleteGroupMemberSql, (ps) -> {
+		getJdbcTemplate().update(this.deleteGroupMemberSql, ps -> {
 			ps.setInt(1, id);
 			ps.setString(2, username);
 		});
@@ -401,7 +401,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		Assert.hasText(groupName, "groupName should have text");
 		Assert.notNull(authority, "authority cannot be null");
 		int id = findGroupId(groupName);
-		getJdbcTemplate().update(this.deleteGroupAuthoritySql, (ps) -> {
+		getJdbcTemplate().update(this.deleteGroupAuthoritySql, ps -> {
 			ps.setInt(1, id);
 			ps.setString(2, authority.getAuthority());
 		});
@@ -413,7 +413,7 @@ public class JdbcUserDetailsManager extends JdbcDaoImpl implements UserDetailsMa
 		Assert.hasText(groupName, "groupName should have text");
 		Assert.notNull(authority, "authority cannot be null");
 		int id = findGroupId(groupName);
-		getJdbcTemplate().update(this.insertGroupAuthoritySql, (ps) -> {
+		getJdbcTemplate().update(this.insertGroupAuthoritySql, ps -> {
 			ps.setInt(1, id);
 			ps.setString(2, authority.getAuthority());
 		});

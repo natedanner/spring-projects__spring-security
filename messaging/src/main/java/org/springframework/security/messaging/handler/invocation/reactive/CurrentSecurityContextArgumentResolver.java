@@ -92,7 +92,7 @@ import org.springframework.util.StringUtils;
  */
 public class CurrentSecurityContextArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
 	private BeanResolver beanResolver;
 
@@ -126,10 +126,10 @@ public class CurrentSecurityContextArgumentResolver implements HandlerMethodArgu
 		ReactiveAdapter adapter = this.adapterRegistry.getAdapter(parameter.getParameterType());
 		// @formatter:off
 		return ReactiveSecurityContextHolder.getContext()
-				.flatMap((securityContext) -> {
+				.flatMap(securityContext -> {
 					Object sc = resolveSecurityContext(parameter, securityContext);
 					Mono<Object> result = Mono.justOrEmpty(sc);
-					return (adapter != null) ? Mono.just(adapter.fromPublisher(result)) : result;
+					return adapter != null ? Mono.just(adapter.fromPublisher(result)) : result;
 				});
 		// @formatter:on
 	}

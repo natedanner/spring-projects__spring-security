@@ -186,13 +186,13 @@ public abstract class OnCommittedResponseWrapper extends HttpServletResponseWrap
 
 	private void trackContentLength(byte[] content) {
 		if (!this.disableOnCommitted) {
-			checkContentLength((content != null) ? content.length : 0);
+			checkContentLength(content != null ? content.length : 0);
 		}
 	}
 
 	private void trackContentLength(char[] content) {
 		if (!this.disableOnCommitted) {
-			checkContentLength((content != null) ? content.length : 0);
+			checkContentLength(content != null ? content.length : 0);
 		}
 	}
 
@@ -222,7 +222,7 @@ public abstract class OnCommittedResponseWrapper extends HttpServletResponseWrap
 
 	private void trackContentLength(String content) {
 		if (!this.disableOnCommitted) {
-			int contentLength = (content != null) ? content.length() : 4;
+			int contentLength = content != null ? content.length() : 4;
 			checkContentLength(contentLength);
 		}
 	}

@@ -43,24 +43,24 @@ import static org.mockito.Mockito.mock;
  */
 public class InMemoryOAuth2AuthorizedClientServiceTests {
 
-	private String principalName1 = "principal-1";
+	private final String principalName1 = "principal-1";
 
-	private String principalName2 = "principal-2";
+	private final String principalName2 = "principal-2";
 
-	private ClientRegistration registration1 = TestClientRegistrations.clientRegistration().build();
+	private final ClientRegistration registration1 = TestClientRegistrations.clientRegistration().build();
 
-	private ClientRegistration registration2 = TestClientRegistrations.clientRegistration2().build();
+	private final ClientRegistration registration2 = TestClientRegistrations.clientRegistration2().build();
 
-	private ClientRegistration registration3 = TestClientRegistrations.clientRegistration()
+	private final ClientRegistration registration3 = TestClientRegistrations.clientRegistration()
 		.clientId("client-3")
 		.registrationId("registration-3")
 		.build();
 
-	private ClientRegistrationRepository clientRegistrationRepository = new InMemoryClientRegistrationRepository(
-			this.registration1, this.registration2, this.registration3);
+	private final ClientRegistrationRepository clientRegistrationRepository = new InMemoryClientRegistrationRepository(
+		this.registration1, this.registration2, this.registration3);
 
-	private InMemoryOAuth2AuthorizedClientService authorizedClientService = new InMemoryOAuth2AuthorizedClientService(
-			this.clientRegistrationRepository);
+	private final InMemoryOAuth2AuthorizedClientService authorizedClientService = new InMemoryOAuth2AuthorizedClientService(
+		this.clientRegistrationRepository);
 
 	@Test
 	public void constructorWhenClientRegistrationRepositoryIsNullThenThrowIllegalArgumentException() {

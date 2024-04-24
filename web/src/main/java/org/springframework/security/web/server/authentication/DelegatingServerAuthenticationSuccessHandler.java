@@ -55,7 +55,7 @@ public class DelegatingServerAuthenticationSuccessHandler implements ServerAuthe
 	@Override
 	public Mono<Void> onAuthenticationSuccess(WebFilterExchange exchange, Authentication authentication) {
 		return Flux.fromIterable(this.delegates)
-			.concatMap((delegate) -> delegate.onAuthenticationSuccess(exchange, authentication))
+			.concatMap(delegate -> delegate.onAuthenticationSuccess(exchange, authentication))
 			.then();
 	}
 

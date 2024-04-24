@@ -80,7 +80,7 @@ import org.springframework.util.Assert;
 public class HeadersConfigurer<H extends HttpSecurityBuilder<H>>
 		extends AbstractHttpConfigurer<HeadersConfigurer<H>, H> {
 
-	private List<HeaderWriter> headerWriters = new ArrayList<>();
+	private final List<HeaderWriter> headerWriters = new ArrayList<>();
 
 	private final ContentTypeOptionsConfig contentTypeOptions = new ContentTypeOptionsConfig();
 

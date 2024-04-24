@@ -68,10 +68,10 @@ public final class PostAuthorizeReactiveAuthorizationManager
 		MethodSecurityExpressionHandler expressionHandler = this.registry.getExpressionHandler();
 		// @formatter:off
 		return authentication
-				.map((auth) -> expressionHandler.createEvaluationContext(auth, mi))
-				.doOnNext((ctx) -> expressionHandler.setReturnObject(result.getResult(), ctx))
-				.flatMap((ctx) -> ReactiveExpressionUtils.evaluateAsBoolean(attribute.getExpression(), ctx))
-				.map((granted) -> new ExpressionAttributeAuthorizationDecision(granted, attribute));
+				.map(auth -> expressionHandler.createEvaluationContext(auth, mi))
+				.doOnNext(ctx -> expressionHandler.setReturnObject(result.getResult(), ctx))
+				.flatMap(ctx -> ReactiveExpressionUtils.evaluateAsBoolean(attribute.getExpression(), ctx))
+				.map(granted -> new ExpressionAttributeAuthorizationDecision(granted, attribute));
 		// @formatter:on
 	}
 

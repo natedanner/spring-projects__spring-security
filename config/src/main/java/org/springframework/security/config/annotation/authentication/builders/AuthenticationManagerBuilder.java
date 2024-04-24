@@ -57,7 +57,7 @@ public class AuthenticationManagerBuilder
 
 	private AuthenticationManager parentAuthenticationManager;
 
-	private List<AuthenticationProvider> authenticationProviders = new ArrayList<>();
+	private final List<AuthenticationProvider> authenticationProviders = new ArrayList<>();
 
 	private UserDetailsService defaultUserDetailsService;
 

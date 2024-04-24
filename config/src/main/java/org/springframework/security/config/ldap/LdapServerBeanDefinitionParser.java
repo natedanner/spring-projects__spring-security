@@ -204,7 +204,7 @@ public class LdapServerBeanDefinitionParser implements BeanDefinitionParser {
 
 	private String getPort(Element element) {
 		String port = element.getAttribute(ATT_PORT);
-		return (StringUtils.hasText(port) ? port : getDefaultPort());
+		return StringUtils.hasText(port) ? port : getDefaultPort();
 	}
 
 	private String getDefaultPort() {

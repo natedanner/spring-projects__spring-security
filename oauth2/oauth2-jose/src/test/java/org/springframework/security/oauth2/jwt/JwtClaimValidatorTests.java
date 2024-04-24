@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class JwtClaimValidatorTests {
 
-	private static final Predicate<String> test = (claim) -> claim.equals("http://test");
+	private static final Predicate<String> test = "http://test"::equals;
 
 	private final JwtClaimValidator<String> validator = new JwtClaimValidator<>(JwtClaimNames.ISS, test);
 
@@ -51,7 +51,7 @@ public class JwtClaimValidatorTests {
 		Jwt jwt = TestJwts.jwt().claim(JwtClaimNames.ISS, "http://abc").build();
 		Collection<OAuth2Error> details = this.validator.validate(jwt).getErrors();
 		assertThat(this.validator.validate(jwt).getErrors()).isNotEmpty();
-		assertThat(details).allMatch((error) -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
+		assertThat(details).allMatch(error -> Objects.equals(error.getErrorCode(), OAuth2ErrorCodes.INVALID_TOKEN));
 	}
 
 	@Test

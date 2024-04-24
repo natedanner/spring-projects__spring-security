@@ -62,12 +62,12 @@ public final class FastHttpDateFormat {
 	/**
 	 * Instant on which the currentDate object was generated.
 	 */
-	protected static long currentDateGenerated = 0L;
+	protected static long currentDateGenerated;
 
 	/**
 	 * Current formatted date.
 	 */
-	protected static String currentDate = null;
+	protected static String currentDate;
 
 	/**
 	 * Formatter cache.
@@ -187,7 +187,7 @@ public final class FastHttpDateFormat {
 				updateCache(parseCache, value, date);
 			}
 		}
-		return (date != null) ? date : -1L;
+		return date != null ? date : -1L;
 	}
 
 	/**

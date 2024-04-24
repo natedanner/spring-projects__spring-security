@@ -75,7 +75,7 @@ public class AnonymousAuthenticationToken extends AbstractAuthenticationToken im
 			return false;
 		}
 		if (obj instanceof AnonymousAuthenticationToken test) {
-			return (this.getKeyHash() == test.getKeyHash());
+			return this.getKeyHash() == test.getKeyHash();
 		}
 		return false;
 	}

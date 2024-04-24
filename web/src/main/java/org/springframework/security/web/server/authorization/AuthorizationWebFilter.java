@@ -38,7 +38,7 @@ public class AuthorizationWebFilter implements WebFilter {
 
 	private static final Log logger = LogFactory.getLog(AuthorizationWebFilter.class);
 
-	private ReactiveAuthorizationManager<? super ServerWebExchange> authorizationManager;
+	private final ReactiveAuthorizationManager<? super ServerWebExchange> authorizationManager;
 
 	public AuthorizationWebFilter(ReactiveAuthorizationManager<? super ServerWebExchange> authorizationManager) {
 		this.authorizationManager = authorizationManager;
@@ -47,12 +47,12 @@ public class AuthorizationWebFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		return ReactiveSecurityContextHolder.getContext()
-			.filter((c) -> c.getAuthentication() != null)
+			.filter(c -> c.getAuthentication() != null)
 			.map(SecurityContext::getAuthentication)
-			.as((authentication) -> this.authorizationManager.verify(authentication, exchange))
-			.doOnSuccess((it) -> logger.debug("Authorization successful"))
+			.as(authentication -> this.authorizationManager.verify(authentication, exchange))
+			.doOnSuccess(it -> logger.debug("Authorization successful"))
 			.doOnError(AccessDeniedException.class,
-					(ex) -> logger.debug(LogMessage.format("Authorization failed: %s", ex.getMessage())))
+					ex -> logger.debug(LogMessage.format("Authorization failed: %s", ex.getMessage())))
 			.switchIfEmpty(chain.filter(exchange));
 	}
 

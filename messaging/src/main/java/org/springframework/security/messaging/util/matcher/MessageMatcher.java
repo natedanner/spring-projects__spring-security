@@ -29,7 +29,7 @@ public interface MessageMatcher<T> {
 	/**
 	 * Matches every {@link Message}
 	 */
-	MessageMatcher<Object> ANY_MESSAGE = new MessageMatcher<Object>() {
+	MessageMatcher<Object> ANY_MESSAGE = new MessageMatcher<>() {
 
 		@Override
 		public boolean matches(Message<?> message) {

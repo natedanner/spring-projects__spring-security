@@ -295,8 +295,8 @@ public class NimbusReactiveOpaqueTokenIntrospectorTests {
 				String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 				// @formatter:off
 				return Optional.ofNullable(authorization)
-						.filter((a) -> isAuthorized(authorization, username, password))
-						.map((a) -> ok(response))
+						.filter(a -> isAuthorized(authorization, username, password))
+						.map(a -> ok(response))
 						.orElse(unauthorized());
 				// @formatter:on
 			}

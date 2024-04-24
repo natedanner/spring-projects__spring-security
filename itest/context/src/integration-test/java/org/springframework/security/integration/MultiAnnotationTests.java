@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @ExtendWith(SpringExtension.class)
 public class MultiAnnotationTests {
 
-	private final TestingAuthenticationToken joe_a = new TestingAuthenticationToken("joe", "pass", "ROLE_A");
+	private final TestingAuthenticationToken joeA = new TestingAuthenticationToken("joe", "pass", "ROLE_A");
 
-	private final TestingAuthenticationToken joe_b = new TestingAuthenticationToken("joe", "pass", "ROLE_B");
+	private final TestingAuthenticationToken joeB = new TestingAuthenticationToken("joe", "pass", "ROLE_B");
 
 	@Autowired
 	MultiAnnotationService service;
@@ -61,49 +61,49 @@ public class MultiAnnotationTests {
 
 	@Test
 	public void preAuthorizeDeniedIsDenied() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_a);
+		SecurityContextHolder.getContext().setAuthentication(this.joeA);
 		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(this.service::preAuthorizeDenyAllMethod);
 	}
 
 	@Test
 	public void preAuthorizeRoleAIsDeniedIfRoleMissing() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_b);
+		SecurityContextHolder.getContext().setAuthentication(this.joeB);
 		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(this.service::preAuthorizeHasRoleAMethod);
 	}
 
 	@Test
 	public void preAuthorizeRoleAIsAllowedIfRolePresent() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_a);
+		SecurityContextHolder.getContext().setAuthentication(this.joeA);
 		this.service.preAuthorizeHasRoleAMethod();
 	}
 
 	@Test
 	public void securedAnonymousIsAllowed() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_a);
+		SecurityContextHolder.getContext().setAuthentication(this.joeA);
 		this.service.securedAnonymousMethod();
 	}
 
 	@Test
 	public void securedRoleAIsDeniedIfRoleMissing() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_b);
+		SecurityContextHolder.getContext().setAuthentication(this.joeB);
 		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(this.service::securedRoleAMethod);
 	}
 
 	@Test
 	public void securedRoleAIsAllowedIfRolePresent() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_a);
+		SecurityContextHolder.getContext().setAuthentication(this.joeA);
 		this.service.securedRoleAMethod();
 	}
 
 	@Test
 	public void preAuthorizedOnlyServiceDeniesIfRoleMissing() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_b);
+		SecurityContextHolder.getContext().setAuthentication(this.joeB);
 		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(this.preService::preAuthorizedMethod);
 	}
 
 	@Test
 	public void securedOnlyRoleAServiceDeniesIfRoleMissing() {
-		SecurityContextHolder.getContext().setAuthentication(this.joe_b);
+		SecurityContextHolder.getContext().setAuthentication(this.joeB);
 		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(this.secService::securedMethod);
 	}
 

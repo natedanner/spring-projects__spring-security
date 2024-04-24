@@ -86,7 +86,7 @@ public class LdapAuthority implements GrantedAuthority {
 		if (this.attributes != null) {
 			result = this.attributes.get(name);
 		}
-		return (result != null) ? result : Collections.emptyList();
+		return result != null ? result : Collections.emptyList();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class LdapAuthority implements GrantedAuthority {
 	 */
 	public String getFirstAttributeValue(String name) {
 		List<String> result = getAttributeValues(name);
-		return (!result.isEmpty()) ? result.get(0) : null;
+		return !result.isEmpty() ? result.get(0) : null;
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class LdapAuthority implements GrantedAuthority {
 	@Override
 	public int hashCode() {
 		int result = this.dn.hashCode();
-		result = 31 * result + ((this.role != null) ? this.role.hashCode() : 0);
+		result = 31 * result + (this.role != null ? this.role.hashCode() : 0);
 		return result;
 	}
 

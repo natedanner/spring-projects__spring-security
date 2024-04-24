@@ -154,7 +154,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 		for (String certificateLocation : verificationCertificateLocations) {
 			verificationCredentials.add(getSaml2VerificationCredential(certificateLocation));
 		}
-		builder.verificationX509Credentials((credentials) -> credentials.addAll(verificationCredentials));
+		builder.verificationX509Credentials(credentials -> credentials.addAll(verificationCredentials));
 	}
 
 	private static void addEncryptionCredentials(Map<String, Object> assertingParty,
@@ -164,7 +164,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 		for (String certificateLocation : encryptionCertificateLocations) {
 			encryptionCredentials.add(getSaml2EncryptionCredential(certificateLocation));
 		}
-		builder.encryptionX509Credentials((credentials) -> credentials.addAll(encryptionCredentials));
+		builder.encryptionX509Credentials(credentials -> credentials.addAll(encryptionCredentials));
 	}
 
 	private static void addVerificationCredentials(Element assertingPartyElt, Map<String, Object> assertingParty) {
@@ -215,7 +215,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 		}
 		else {
 			builder = RelyingPartyRegistration.withRegistrationId(registrationId)
-				.assertingPartyDetails((apBuilder) -> buildAssertingParty(relyingPartyRegistrationElt, assertingParties,
+				.assertingPartyDetails(apBuilder -> buildAssertingParty(relyingPartyRegistrationElt, assertingParties,
 						apBuilder, parserContext));
 		}
 		addRemainingProperties(relyingPartyRegistrationElt, builder);
@@ -292,7 +292,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 		String signingAlgorithmsAttr = getAsString(assertingParty, ATT_SIGNING_ALGORITHMS);
 		if (StringUtils.hasText(signingAlgorithmsAttr)) {
 			List<String> signingAlgorithms = Arrays.asList(signingAlgorithmsAttr.split(","));
-			builder.signingAlgorithms((s) -> s.addAll(signingAlgorithms));
+			builder.signingAlgorithms(s -> s.addAll(signingAlgorithms));
 		}
 	}
 
@@ -304,7 +304,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 			String privateKeyLocation = credentialElt.getAttribute(ATT_PRIVATE_KEY_LOCATION);
 			String certificateLocation = credentialElt.getAttribute(ATT_CERTIFICATE_LOCATION);
 			builder.signingX509Credentials(
-					(c) -> c.add(getSaml2SigningCredential(privateKeyLocation, certificateLocation)));
+					c -> c.add(getSaml2SigningCredential(privateKeyLocation, certificateLocation)));
 		}
 	}
 
@@ -316,7 +316,7 @@ public final class RelyingPartyRegistrationsBeanDefinitionParser implements Bean
 			String privateKeyLocation = credentialElt.getAttribute(ATT_PRIVATE_KEY_LOCATION);
 			String certificateLocation = credentialElt.getAttribute(ATT_CERTIFICATE_LOCATION);
 			Saml2X509Credential credential = getSaml2DecryptionCredential(privateKeyLocation, certificateLocation);
-			builder.decryptionX509Credentials((c) -> c.add(credential));
+			builder.decryptionX509Credentials(c -> c.add(credential));
 		}
 	}
 

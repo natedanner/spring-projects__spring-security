@@ -29,7 +29,7 @@ class ELRequestMatcherContext {
 	}
 
 	public boolean hasIpAddress(String ipAddress) {
-		return (new IpAddressMatcher(ipAddress).matches(this.request));
+		return new IpAddressMatcher(ipAddress).matches(this.request);
 	}
 
 	public boolean hasHeader(String headerName, String value) {

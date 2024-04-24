@@ -98,8 +98,8 @@ public class Saml2MetadataFilterTests {
 	public void doFilterWhenRelyingPartyRegistrationFoundThenInvokesMetadataResolver() throws Exception {
 		this.request.setPathInfo("/saml2/service-provider-metadata/validRegistration");
 		RelyingPartyRegistration validRegistration = TestRelyingPartyRegistrations.noCredentials()
-			.assertingPartyDetails((party) -> party
-				.verificationX509Credentials((c) -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
+			.assertingPartyDetails(party -> party
+				.verificationX509Credentials(c -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())))
 			.build();
 		String generatedMetadata = "<xml>test</xml>";
 		given(this.resolver.resolve(validRegistration)).willReturn(generatedMetadata);
@@ -142,7 +142,7 @@ public class Saml2MetadataFilterTests {
 		given(this.repository.findByRegistrationId("registration-id")).willReturn(registration);
 		given(this.resolver.resolve(any(RelyingPartyRegistration.class))).willReturn("metadata");
 		RelyingPartyRegistrationResolver resolver = new DefaultRelyingPartyRegistrationResolver(
-				(id) -> this.repository.findByRegistrationId("registration-id"));
+				id -> this.repository.findByRegistrationId("registration-id"));
 		this.filter = new Saml2MetadataFilter(resolver, this.resolver);
 		this.filter.setRequestMatcher(new AntPathRequestMatcher("/metadata"));
 		this.request.setPathInfo("/metadata");
@@ -156,7 +156,7 @@ public class Saml2MetadataFilterTests {
 		RelyingPartyRegistration registration = TestRelyingPartyRegistrations.full().build();
 		given(this.repository.findByRegistrationId("registration-id")).willReturn(registration);
 		given(this.resolver.resolve(any(RelyingPartyRegistration.class))).willReturn("metadata");
-		this.filter = new Saml2MetadataFilter((id) -> this.repository.findByRegistrationId("registration-id"),
+		this.filter = new Saml2MetadataFilter(id -> this.repository.findByRegistrationId("registration-id"),
 				this.resolver);
 		this.filter.setRequestMatcher(new AntPathRequestMatcher("/metadata"));
 		this.request.setPathInfo("/metadata");

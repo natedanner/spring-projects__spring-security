@@ -134,11 +134,11 @@ public final class AuthorizationManagerBeforeReactiveMethodInterceptor
 		if (isMultiValue(type, adapter)) {
 			Publisher<?> publisher = Flux.defer(() -> ReactiveMethodInvocationUtils.proceed(mi));
 			Flux<?> result = preAuthorize.thenMany(publisher);
-			return (adapter != null) ? adapter.fromPublisher(result) : result;
+			return adapter != null ? adapter.fromPublisher(result) : result;
 		}
 		Mono<?> publisher = Mono.defer(() -> ReactiveMethodInvocationUtils.proceed(mi));
 		Mono<?> result = preAuthorize.then(publisher);
-		return (adapter != null) ? adapter.fromPublisher(result) : result;
+		return adapter != null ? adapter.fromPublisher(result) : result;
 	}
 
 	private boolean isMultiValue(Class<?> returnType, ReactiveAdapter adapter) {

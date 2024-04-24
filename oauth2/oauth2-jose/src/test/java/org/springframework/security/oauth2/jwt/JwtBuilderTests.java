@@ -111,7 +111,7 @@ public class JwtBuilderTests {
 				.claim("needs", "a claim")
 				.header("needs", "a header");
 		Jwt jwt = jwtBuilder.subject("sub")
-				.claims((claims) -> claims.remove(JwtClaimNames.SUB))
+				.claims(claims -> claims.remove(JwtClaimNames.SUB))
 				.build();
 		// @formatter:on
 		assertThat(jwt.getSubject()).isNull();
@@ -125,7 +125,7 @@ public class JwtBuilderTests {
 		// @formatter:on
 		String name = new String("name");
 		String value = new String("value");
-		Jwt jwt = jwtBuilder.claims((claims) -> claims.put(name, value)).build();
+		Jwt jwt = jwtBuilder.claims(claims -> claims.put(name, value)).build();
 		assertThat(jwt.getClaims()).hasSize(1);
 		assertThat(jwt.getClaims().get(name)).isSameAs(value);
 	}
@@ -137,7 +137,7 @@ public class JwtBuilderTests {
 				.claim("needs", "a claim")
 				.header("needs", "a header");
 		Jwt jwt = jwtBuilder.header("alg", "none")
-				.headers((headers) -> headers.remove("alg"))
+				.headers(headers -> headers.remove("alg"))
 				.build();
 		// @formatter:on
 		assertThat(jwt.getHeaders().get("alg")).isNull();
@@ -152,7 +152,7 @@ public class JwtBuilderTests {
 		String name = new String("name");
 		String value = new String("value");
 		// @formatter:off
-		Jwt jwt = jwtBuilder.headers((headers) -> headers.put(name, value))
+		Jwt jwt = jwtBuilder.headers(headers -> headers.put(name, value))
 				.build();
 		// @formatter:on
 		assertThat(jwt.getHeaders()).hasSize(1);

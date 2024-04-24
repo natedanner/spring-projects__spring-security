@@ -152,7 +152,7 @@ public class AuthenticationTag extends TagSupport {
 
 	protected void writeMessage(String msg) throws JspException {
 		try {
-			this.pageContext.getOut().write(String.valueOf(msg));
+			this.pageContext.getOut().write(msg);
 		}
 		catch (IOException ioe) {
 			throw new JspException(ioe);

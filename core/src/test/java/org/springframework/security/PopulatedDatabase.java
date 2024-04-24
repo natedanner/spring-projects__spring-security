@@ -28,7 +28,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public final class PopulatedDatabase {
 
-	private static TestDataSource dataSource = null;
+	private static TestDataSource dataSource;
 
 	private PopulatedDatabase() {
 	}

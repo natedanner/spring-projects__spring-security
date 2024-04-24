@@ -190,11 +190,11 @@ public final class OpenSamlLogoutRequestValidatorParametersResolver
 			.relayState(request.getParameter(Saml2ParameterNames.RELAY_STATE))
 			.binding(saml2MessageBinding)
 			.location(registration.getSingleLogoutServiceLocation())
-			.parameters((params) -> params.put(Saml2ParameterNames.SIG_ALG,
+			.parameters(params -> params.put(Saml2ParameterNames.SIG_ALG,
 					request.getParameter(Saml2ParameterNames.SIG_ALG)))
-			.parameters((params) -> params.put(Saml2ParameterNames.SIGNATURE,
+			.parameters(params -> params.put(Saml2ParameterNames.SIGNATURE,
 					request.getParameter(Saml2ParameterNames.SIGNATURE)))
-			.parametersQuery((params) -> request.getQueryString())
+			.parametersQuery(params -> request.getQueryString())
 			.build();
 		return new Saml2LogoutRequestValidatorParameters(logoutRequest, registration, authentication);
 	}

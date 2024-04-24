@@ -363,7 +363,7 @@ public class MiscHttpConfigTests {
 		this.spring.configLocations(xml("CustomFilters")).autowire();
 		List<Filter> filters = getFilters("/");
 		Class<?> userFilterClass = this.spring.getContext().getBean("userFilter").getClass();
-		assertThat(filters).extracting((Extractor<Filter, Class<?>>) (filter) -> filter.getClass())
+		assertThat(filters).extracting((Extractor<Filter, Class<?>>) filter -> filter.getClass())
 			.containsSubsequence(userFilterClass, userFilterClass, SecurityContextHolderFilter.class,
 					LogoutFilter.class, userFilterClass);
 	}
@@ -377,7 +377,7 @@ public class MiscHttpConfigTests {
 	@Test
 	public void configureWhenUsingX509ThenAddsX509FilterCorrectly() {
 		this.spring.configLocations(xml("X509")).autowire();
-		assertThat(getFilters("/")).extracting((Extractor<Filter, Class<?>>) (filter) -> filter.getClass())
+		assertThat(getFilters("/")).extracting((Extractor<Filter, Class<?>>) filter -> filter.getClass())
 			.containsSubsequence(CsrfFilter.class, X509AuthenticationFilter.class, ExceptionTranslationFilter.class);
 	}
 
@@ -418,7 +418,7 @@ public class MiscHttpConfigTests {
 		MvcResult result = this.mvc.perform(post("/logout").with(csrf())).andReturn();
 		List<String> values = result.getResponse().getHeaders("Set-Cookie");
 		assertThat(values).hasSize(2);
-		assertThat(values).extracting((value) -> value.split("=")[0]).contains("JSESSIONID", "mycookie");
+		assertThat(values).extracting(value -> value.split("=")[0]).contains("JSESSIONID", "mycookie");
 	}
 
 	@Test
@@ -671,7 +671,7 @@ public class MiscHttpConfigTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder rolesRequest = get("/roles")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("admin");
 					request.addUserRole("user");
 					request.addUserRole("unmapped");
@@ -690,7 +690,7 @@ public class MiscHttpConfigTests {
 		// @formatter:off
 		MockHttpServletRequestBuilder rolesRequest = get("/roles")
 				.principal(user)
-				.with((request) -> {
+				.with(request -> {
 					request.addUserRole("admin");
 					request.addUserRole("user");
 					request.addUserRole("unmapped");
@@ -829,7 +829,7 @@ public class MiscHttpConfigTests {
 	}
 
 	private Answer<ILoggingEvent> writeTo(OutputStream os) {
-		return (invocation) -> {
+		return invocation -> {
 			os.write(invocation.getArgument(0).toString().getBytes());
 			return null;
 		};
@@ -938,7 +938,7 @@ public class MiscHttpConfigTests {
 
 		@GetMapping("/name")
 		Callable<String> name(Authentication authentication) {
-			return () -> authentication.getName();
+			return authentication::getName;
 		}
 
 	}

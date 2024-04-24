@@ -104,7 +104,7 @@ final class DigestAuthUtils {
 			String httpMethod, String uri, String qop, String nonce, String nc, String cnonce)
 			throws IllegalArgumentException {
 		String a2 = httpMethod + ":" + uri;
-		String a1Md5 = (!passwordAlreadyEncoded) ? DigestAuthUtils.encodePasswordInA1Format(username, realm, password)
+		String a1Md5 = !passwordAlreadyEncoded ? DigestAuthUtils.encodePasswordInA1Format(username, realm, password)
 				: password;
 		String a2Md5 = md5Hex(a2);
 		if (qop == null) {
@@ -141,7 +141,7 @@ final class DigestAuthUtils {
 		}
 		Map<String, String> map = new HashMap<>();
 		for (String s : array) {
-			String postRemove = (removeCharacters != null) ? StringUtils.replace(s, removeCharacters, "") : s;
+			String postRemove = removeCharacters != null ? StringUtils.replace(s, removeCharacters, "") : s;
 			String[] splitThisArrayElement = split(postRemove, delimiter);
 			if (splitThisArrayElement == null) {
 				continue;

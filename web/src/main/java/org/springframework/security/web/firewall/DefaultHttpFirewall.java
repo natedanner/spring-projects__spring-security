@@ -54,7 +54,7 @@ public class DefaultHttpFirewall implements HttpFirewall {
 		if (!isNormalized(firewalledRequest.getServletPath()) || !isNormalized(firewalledRequest.getPathInfo())) {
 			throw new RequestRejectedException(
 					"Un-normalized paths are not supported: " + firewalledRequest.getServletPath()
-							+ ((firewalledRequest.getPathInfo() != null) ? firewalledRequest.getPathInfo() : ""));
+							+ (firewalledRequest.getPathInfo() != null ? firewalledRequest.getPathInfo() : ""));
 		}
 		String requestURI = firewalledRequest.getRequestURI();
 		if (containsInvalidUrlEncodedSlash(requestURI)) {
@@ -87,10 +87,7 @@ public class DefaultHttpFirewall implements HttpFirewall {
 		if (this.allowUrlEncodedSlash || uri == null) {
 			return false;
 		}
-		if (uri.contains("%2f") || uri.contains("%2F")) {
-			return true;
-		}
-		return false;
+		return uri.contains("%2f") || uri.contains("%2F");
 	}
 
 	/**

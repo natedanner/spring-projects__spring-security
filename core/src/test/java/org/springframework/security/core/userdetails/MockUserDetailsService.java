@@ -32,9 +32,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
  */
 public class MockUserDetailsService implements UserDetailsService {
 
-	private Map<String, User> users = new HashMap<>();
+	private final Map<String, User> users = new HashMap<>();
 
-	private List<GrantedAuthority> auths = AuthorityUtils.createAuthorityList("ROLE_USER");
+	private final List<GrantedAuthority> auths = AuthorityUtils.createAuthorityList("ROLE_USER");
 
 	public MockUserDetailsService() {
 		this.users.put("valid", new User("valid", "", true, true, true, true, this.auths));

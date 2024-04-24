@@ -68,7 +68,7 @@ import static org.mockito.Mockito.verify;
  */
 public class WebClientReactiveRefreshTokenTokenResponseClientTests {
 
-	private WebClientReactiveRefreshTokenTokenResponseClient tokenResponseClient = new WebClientReactiveRefreshTokenTokenResponseClient();
+	private final WebClientReactiveRefreshTokenTokenResponseClient tokenResponseClient = new WebClientReactiveRefreshTokenTokenResponseClient();
 
 	private ClientRegistration.Builder clientRegistrationBuilder;
 
@@ -182,7 +182,7 @@ public class WebClientReactiveRefreshTokenTokenResponseClientTests {
 		SecretKeySpec secretKey = new SecretKeySpec(
 				clientRegistration.getClientSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 		JWK jwk = TestJwks.jwk(secretKey).build();
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest = new OAuth2RefreshTokenGrantRequest(clientRegistration,
@@ -214,7 +214,7 @@ public class WebClientReactiveRefreshTokenTokenResponseClientTests {
 
 		// Configure Jwt client authentication converter
 		JWK jwk = TestJwks.DEFAULT_RSA_JWK;
-		Function<ClientRegistration, JWK> jwkResolver = (registration) -> jwk;
+		Function<ClientRegistration, JWK> jwkResolver = registration -> jwk;
 		configureJwtClientAuthenticationConverter(jwkResolver);
 
 		OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest = new OAuth2RefreshTokenGrantRequest(clientRegistration,
@@ -287,7 +287,7 @@ public class WebClientReactiveRefreshTokenTokenResponseClientTests {
 				this.clientRegistrationBuilder.build(), this.accessToken, this.refreshToken);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.tokenResponseClient.getTokenResponse(refreshTokenGrantRequest).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("unauthorized_client"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("unauthorized_client"))
 			.withMessageContaining("[unauthorized_client]");
 	}
 
@@ -298,7 +298,7 @@ public class WebClientReactiveRefreshTokenTokenResponseClientTests {
 				this.clientRegistrationBuilder.build(), this.accessToken, this.refreshToken);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.tokenResponseClient.getTokenResponse(refreshTokenGrantRequest).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessageContaining("[invalid_token_response]")
 			.withMessageContaining("Empty OAuth 2.0 Access Token Response");
 	}

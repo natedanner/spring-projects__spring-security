@@ -78,7 +78,7 @@ class OpenSamlAuthenticationRequestResolver {
 	private RequestMatcher requestMatcher = new AntPathRequestMatcher(
 			Saml2AuthenticationRequestResolver.DEFAULT_AUTHENTICATION_REQUEST_URI);
 
-	private Converter<HttpServletRequest, String> relayStateResolver = (request) -> UUID.randomUUID().toString();
+	private Converter<HttpServletRequest, String> relayStateResolver = request -> UUID.randomUUID().toString();
 
 	/**
 	 * Construct a {@link OpenSamlAuthenticationRequestResolver} using the provided

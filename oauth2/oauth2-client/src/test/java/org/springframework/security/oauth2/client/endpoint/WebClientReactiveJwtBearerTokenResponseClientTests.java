@@ -133,7 +133,7 @@ public class WebClientReactiveJwtBearerTokenResponseClientTests {
 		JwtBearerGrantRequest request = new JwtBearerGrantRequest(registration, this.jwtAssertion);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.client.getTokenResponse(request).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessage("[invalid_token_response] Empty OAuth 2.0 Access Token Response");
 	}
 
@@ -144,7 +144,7 @@ public class WebClientReactiveJwtBearerTokenResponseClientTests {
 		JwtBearerGrantRequest request = new JwtBearerGrantRequest(registration, this.jwtAssertion);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.client.getTokenResponse(request).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo(OAuth2ErrorCodes.SERVER_ERROR))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo(OAuth2ErrorCodes.SERVER_ERROR))
 			.withMessageContaining("[server_error]");
 	}
 
@@ -160,7 +160,7 @@ public class WebClientReactiveJwtBearerTokenResponseClientTests {
 		JwtBearerGrantRequest request = new JwtBearerGrantRequest(registration, this.jwtAssertion);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.client.getTokenResponse(request).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo(OAuth2ErrorCodes.INVALID_GRANT))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo(OAuth2ErrorCodes.INVALID_GRANT))
 			.withMessageContaining("[invalid_grant]");
 	}
 
@@ -178,7 +178,7 @@ public class WebClientReactiveJwtBearerTokenResponseClientTests {
 		JwtBearerGrantRequest request = new JwtBearerGrantRequest(registration, this.jwtAssertion);
 		assertThatExceptionOfType(OAuth2AuthorizationException.class)
 			.isThrownBy(() -> this.client.getTokenResponse(request).block())
-			.satisfies((ex) -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
+			.satisfies(ex -> assertThat(ex.getError().getErrorCode()).isEqualTo("invalid_token_response"))
 			.withMessageContaining("[invalid_token_response] An error occurred parsing the Access Token response")
 			.withMessageContaining("Unsupported token_type: not-bearer");
 	}

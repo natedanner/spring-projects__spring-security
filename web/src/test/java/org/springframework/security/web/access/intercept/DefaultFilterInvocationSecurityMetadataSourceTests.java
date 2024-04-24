@@ -42,7 +42,7 @@ public class DefaultFilterInvocationSecurityMetadataSourceTests {
 
 	private DefaultFilterInvocationSecurityMetadataSource fids;
 
-	private Collection<ConfigAttribute> def = SecurityConfig.createList("ROLE_ONE");
+	private final Collection<ConfigAttribute> def = SecurityConfig.createList("ROLE_ONE");
 
 	private void createFids(String pattern, String method) {
 		LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();

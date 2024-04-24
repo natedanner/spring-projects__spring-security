@@ -120,11 +120,11 @@ public class CsrfWebFilter implements WebFilter {
 		}
 		return this.requireCsrfProtectionMatcher.matches(exchange)
 			.filter(MatchResult::isMatch)
-			.filter((matchResult) -> !exchange.getAttributes().containsKey(CsrfToken.class.getName()))
-			.flatMap((m) -> validateToken(exchange))
-			.flatMap((m) -> continueFilterChain(exchange, chain))
+			.filter(matchResult -> !exchange.getAttributes().containsKey(CsrfToken.class.getName()))
+			.flatMap(m -> validateToken(exchange))
+			.flatMap(m -> continueFilterChain(exchange, chain))
 			.switchIfEmpty(continueFilterChain(exchange, chain).then(Mono.empty()))
-			.onErrorResume(CsrfException.class, (ex) -> this.accessDeniedHandler.handle(exchange, ex));
+			.onErrorResume(CsrfException.class, ex -> this.accessDeniedHandler.handle(exchange, ex));
 	}
 
 	public static void skipExchange(ServerWebExchange exchange) {
@@ -134,14 +134,14 @@ public class CsrfWebFilter implements WebFilter {
 	private Mono<Void> validateToken(ServerWebExchange exchange) {
 		return this.csrfTokenRepository.loadToken(exchange)
 			.switchIfEmpty(Mono.defer(() -> Mono.error(new CsrfException("An expected CSRF token cannot be found"))))
-			.filterWhen((expected) -> containsValidCsrfToken(exchange, expected))
+			.filterWhen(expected -> containsValidCsrfToken(exchange, expected))
 			.switchIfEmpty(Mono.defer(() -> Mono.error(new CsrfException("Invalid CSRF Token"))))
 			.then();
 	}
 
 	private Mono<Boolean> containsValidCsrfToken(ServerWebExchange exchange, CsrfToken expected) {
 		return this.requestHandler.resolveCsrfTokenValue(exchange, expected)
-			.map((actual) -> equalsConstantTime(actual, expected.getToken()));
+			.map(actual -> equalsConstantTime(actual, expected.getToken()));
 	}
 
 	private Mono<Void> continueFilterChain(ServerWebExchange exchange, WebFilterChain chain) {
@@ -177,7 +177,7 @@ public class CsrfWebFilter implements WebFilter {
 
 	private Mono<CsrfToken> generateToken(ServerWebExchange exchange) {
 		return this.csrfTokenRepository.generateToken(exchange)
-			.delayUntil((token) -> this.csrfTokenRepository.saveToken(exchange, token))
+			.delayUntil(token -> this.csrfTokenRepository.saveToken(exchange, token))
 			.cache();
 	}
 
@@ -189,9 +189,9 @@ public class CsrfWebFilter implements WebFilter {
 		@Override
 		public Mono<MatchResult> matches(ServerWebExchange exchange) {
 			return Mono.just(exchange.getRequest())
-				.flatMap((r) -> Mono.justOrEmpty(r.getMethod()))
+				.flatMap(r -> Mono.justOrEmpty(r.getMethod()))
 				.filter(ALLOWED_METHODS::contains)
-				.flatMap((m) -> MatchResult.notMatch())
+				.flatMap(m -> MatchResult.notMatch())
 				.switchIfEmpty(MatchResult.match());
 		}
 

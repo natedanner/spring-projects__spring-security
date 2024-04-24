@@ -79,16 +79,16 @@ final class OidcBackChannelServerLogoutHandler implements ServerLogoutHandler {
 		}
 		AtomicInteger totalCount = new AtomicInteger(0);
 		AtomicInteger invalidatedCount = new AtomicInteger(0);
-		return this.sessionRegistry.removeSessionInformation(token.getPrincipal()).concatMap((session) -> {
+		return this.sessionRegistry.removeSessionInformation(token.getPrincipal()).concatMap(session -> {
 			totalCount.incrementAndGet();
-			return eachLogout(exchange, session).flatMap((response) -> {
+			return eachLogout(exchange, session).flatMap(response -> {
 				invalidatedCount.incrementAndGet();
 				return Mono.empty();
-			}).onErrorResume((ex) -> {
+			}).onErrorResume(ex -> {
 				this.logger.debug("Failed to invalidate session", ex);
 				return this.sessionRegistry.saveSessionInformation(session).then(Mono.just(ex.getMessage()));
 			});
-		}).collectList().flatMap((list) -> {
+		}).collectList().flatMap(list -> {
 			if (this.logger.isTraceEnabled()) {
 				this.logger.trace(String.format("Invalidated %d out of %d sessions", invalidatedCount.intValue(),
 						totalCount.intValue()));
@@ -113,7 +113,7 @@ final class OidcBackChannelServerLogoutHandler implements ServerLogoutHandler {
 			.replacePath(this.logoutEndpointName)
 			.build()
 			.toUriString();
-		return this.web.post().uri(logout).headers((h) -> h.putAll(headers)).retrieve().toBodilessEntity();
+		return this.web.post().uri(logout).headers(h -> h.putAll(headers)).retrieve().toBodilessEntity();
 	}
 
 	private OAuth2Error oauth2Error(Collection<?> errors) {

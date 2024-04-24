@@ -77,7 +77,7 @@ public class OpenSamlLogoutRequestValidatorTests {
 	@Test
 	public void handleWhenRedirectBindingThenValidatesSignatureParameter() {
 		RelyingPartyRegistration registration = registration()
-			.assertingPartyDetails((party) -> party.singleLogoutServiceBinding(Saml2MessageBinding.REDIRECT))
+			.assertingPartyDetails(party -> party.singleLogoutServiceBinding(Saml2MessageBinding.REDIRECT))
 			.build();
 		LogoutRequest logoutRequest = TestOpenSamlObjects.assertingPartyLogoutRequest(registration);
 		Saml2LogoutRequest request = redirect(logoutRequest, registration, OpenSamlSigningUtils.sign(registration));
@@ -164,26 +164,26 @@ public class OpenSamlLogoutRequestValidatorTests {
 
 	private RelyingPartyRegistration.Builder registration() {
 		return signing(verifying(TestRelyingPartyRegistrations.noCredentials()))
-			.assertingPartyDetails((party) -> party.singleLogoutServiceBinding(Saml2MessageBinding.POST));
+			.assertingPartyDetails(party -> party.singleLogoutServiceBinding(Saml2MessageBinding.POST));
 	}
 
 	private RelyingPartyRegistration.Builder decrypting(RelyingPartyRegistration.Builder builder) {
 		return builder
-			.decryptionX509Credentials((c) -> c.add(TestSaml2X509Credentials.relyingPartyDecryptingCredential()));
+			.decryptionX509Credentials(c -> c.add(TestSaml2X509Credentials.relyingPartyDecryptingCredential()));
 	}
 
 	private RelyingPartyRegistration.Builder encrypting(RelyingPartyRegistration.Builder builder) {
-		return builder.assertingPartyDetails((party) -> party
-			.encryptionX509Credentials((c) -> c.add(TestSaml2X509Credentials.assertingPartyEncryptingCredential())));
+		return builder.assertingPartyDetails(party -> party
+			.encryptionX509Credentials(c -> c.add(TestSaml2X509Credentials.assertingPartyEncryptingCredential())));
 	}
 
 	private RelyingPartyRegistration.Builder verifying(RelyingPartyRegistration.Builder builder) {
-		return builder.assertingPartyDetails((party) -> party
-			.verificationX509Credentials((c) -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())));
+		return builder.assertingPartyDetails(party -> party
+			.verificationX509Credentials(c -> c.add(TestSaml2X509Credentials.relyingPartyVerifyingCredential())));
 	}
 
 	private RelyingPartyRegistration.Builder signing(RelyingPartyRegistration.Builder builder) {
-		return builder.signingX509Credentials((c) -> c.add(TestSaml2X509Credentials.assertingPartySigningCredential()));
+		return builder.signingX509Credentials(c -> c.add(TestSaml2X509Credentials.assertingPartySigningCredential()));
 	}
 
 	private Authentication authentication(RelyingPartyRegistration registration) {
@@ -204,7 +204,7 @@ public class OpenSamlLogoutRequestValidatorTests {
 		Map<String, String> parameters = partial.param(Saml2ParameterNames.SAML_REQUEST, serialized).parameters();
 		return Saml2LogoutRequest.withRelyingPartyRegistration(registration)
 			.samlRequest(serialized)
-			.parameters((params) -> params.putAll(parameters))
+			.parameters(params -> params.putAll(parameters))
 			.build();
 	}
 

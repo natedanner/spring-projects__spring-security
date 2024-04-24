@@ -43,7 +43,7 @@ public final class OpenSaml4LogoutRequestResolver implements Saml2LogoutRequestR
 
 	private final OpenSamlLogoutRequestResolver logoutRequestResolver;
 
-	private Consumer<LogoutRequestParameters> parametersConsumer = (parameters) -> {
+	private Consumer<LogoutRequestParameters> parametersConsumer = parameters -> {
 	};
 
 	private Clock clock = Clock.systemUTC();

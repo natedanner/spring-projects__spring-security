@@ -18,7 +18,9 @@ package org.springframework.security.config.annotation.web.builders;
 
 import java.util.List;
 
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.DefaultLoginPageConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public final class TestHttpSecurity {
@@ -30,16 +32,16 @@ public final class TestHttpSecurity {
 	public static void disableDefaults(HttpSecurity http) throws Exception {
 		List<Object> orderedFilters = (List<Object>) ReflectionTestUtils.getField(http, "filters");
 		orderedFilters.clear();
-		http.csrf((c) -> c.disable())
-			.exceptionHandling((c) -> c.disable())
-			.headers((c) -> c.disable())
-			.sessionManagement((c) -> c.disable())
-			.securityContext((c) -> c.disable())
-			.requestCache((c) -> c.disable())
-			.anonymous((c) -> c.disable())
-			.servletApi((c) -> c.disable())
+		http.csrf(AbstractHttpConfigurer::disable)
+			.exceptionHandling(AbstractHttpConfigurer::disable)
+			.headers(AbstractHttpConfigurer::disable)
+			.sessionManagement(AbstractHttpConfigurer::disable)
+			.securityContext(AbstractHttpConfigurer::disable)
+			.requestCache(RequestCacheConfigurer::disable)
+			.anonymous(AbstractHttpConfigurer::disable)
+			.servletApi(AbstractHttpConfigurer::disable)
 			.removeConfigurer(DefaultLoginPageConfigurer.class);
-		http.logout((c) -> c.disable());
+		http.logout(AbstractHttpConfigurer::disable);
 	}
 
 }
